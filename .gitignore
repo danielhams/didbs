@@ -39,3 +39,6 @@ inc/
 
 # MacOS annoyances
 .DS_Store
+
+# temporary files
+tmp
