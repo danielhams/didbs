@@ -42,3 +42,6 @@ inc/
 
 # temporary files
 tmp
+
+# local config cache
+bootstrap.conf
