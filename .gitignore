@@ -33,3 +33,9 @@ inc/
 /MANIFEST.bak
 /pm_to_blib
 /*.zip
+
+# Emacs temp files
+*~
+
+# MacOS annoyances
+.DS_Store
