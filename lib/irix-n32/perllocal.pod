@@ -1,0 +1,44 @@
+=head2 Sat Jun  2 11:21:55 2018: C<Module> L<Cwd|Cwd>
+
+=over 4
+
+=item *
+
+C<installed into: ../../lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 3.2701>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sat Jun  2 11:22:06 2018: C<Module> L<Getopt::ArgvFile|Getopt::ArgvFile>
+
+=over 4
+
+=item *
+
+C<installed into: ../../lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.04>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
