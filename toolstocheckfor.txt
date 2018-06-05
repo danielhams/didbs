@@ -1,0 +1,4 @@
+perl
+7.4.4m
+curl
+gtar (e.g. tar from nekoware)

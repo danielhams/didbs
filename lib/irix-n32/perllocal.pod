@@ -42,3 +42,25 @@ C<EXE_FILES: >
 
 =back
 
+=head2 Sun Jun  3 23:37:24 2018: C<Module> L<Digest::SHA256>
+
+=over 4
+
+=item *
+
+C<installed into: /usr/people/dan/Sources/GitClones/didbs/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.01>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+

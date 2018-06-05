@@ -3,30 +3,25 @@ use File::Basename qw/basename/;
 use FindBin;
 use lib "$FindBin::Bin/lib";
 
+# Packages specific to the tooling
+use DidbsPackage;
+use DidbsExtractor;
 
 (my $configfile = basename($0)) =~ s/^(.*?)(?:\..*)?$/$1.conf/;
 my $scriptlocation = $FindBin::Bin;
 #print "Script location is $scriptlocation\n";
 #print "Configfile is $configfile\n";
 
+my $usingfoundconf = 0;
+
 if( -e "$scriptlocation/$configfile")
 {
-    print "Adding found config. To start fresh, rm $scriptlocation/$configfile\n";
+    $usingfoundconf = 1;
     unshift(@ARGV, '@'.$scriptlocation."/".$configfile);
 }
 
-#foreach $v (@ARGV)
-#{
-#    print "1Have an arg $v\n";
-#}
-
 use Getopt::ArgvFile qw(argvFile);
 argvFile();
-
-#foreach $v (@ARGV)
-#{
-#    print "2Have an arg $v\n";
-#}
 
 use Getopt::Long;
 
@@ -34,6 +29,25 @@ my $packagedir = undef;
 my $builddir = undef;
 my $installdir = undef;
 my $verbose = false;
+
+sub getdefaultenv
+{
+    my $scriptdir = shift;
+    open CFG, "<".$scriptdir."defaultenv.vars" || die $!;
+    my @envvars = <CFG>;
+    close CFG;
+
+    my %values;
+    foreach (@envvars) {
+	chomp;
+	s|#.+||;
+	s|@(.+?)@|$1|g;
+	s|\s||;
+	my($key, $val) = split(/=/);
+        $values{$key} = $val;
+    }
+    return %values;
+}
 
 sub usage
 {
@@ -50,7 +64,7 @@ sub writeconfig
     my $cfname = "$scriptlocation/$configfile";
 #    print "Will write config to $cfname\n";
     open(FH, '>'.$cfname) || die $!;
-    print "Would try and write out config of $hash \n";
+#    print "Would try and write out config of $hash \n";
     foreach my $key (keys %hash)
     {
 	if( $key eq "packagedir" ||
@@ -76,8 +90,13 @@ sub writeconfig
 }
 
 print "didbs bootstrapper script\n";
+print"\n";
 
-print "TODO: Check for build prerequisites (7.4.4m, sed etc)\n";
+if( $usingfoundconf == 1 )
+{
+    print "Adding found config.\n To start fresh, rm $scriptlocation/$configfile\n";
+}
+print "TODO: Check for build prerequisites (7.4.4m, sed etc - see toolstocheckfor.txt)\n";
 
 my %options = ();
 
@@ -98,7 +117,8 @@ $options{"builddir"} = $builddir;
 $options{"installdir"} = $installdir;
 $options{"verbose"} = $verbose;
 
-print "Going ahead with: \n";
+print"\n";
+print "Used config: \n";
 foreach $key (keys %options)
 {
     print " $key \t=> $options{$key}\n";
@@ -106,3 +126,58 @@ foreach $key (keys %options)
 
 # Write our config back out
 writeconfig(\%options);
+
+print"\n";
+my(%envvars) = getdefaultenv($DIR);
+foreach $var (keys %envvars)
+{
+    my $val = $envvars{$var};
+    print " setting $var=$val\n";
+    $ENV{$var} = $val;
+}
+print "Modify the above in defaultenv.vars\n";
+print"\n";
+
+my($packageid) = "tar";
+#my($packageid) = "make";
+
+my $firstpackage = DidbsPackage->new($packageid);
+$firstpackage->readPackageDef($scriptlocation);
+$firstpackage->debug();
+
+# lets assume some dependency resolution occurs here
+# so we end up with just one package in our dependency tree.
+
+# At this point, we will:
+# Check the package has been extracted (and when)
+# Check the package has been patched (and when)
+# Check the package has been configured (and when)
+# Check the package has been built (and when)
+# Check the package has been (manually) tested (and when)
+# Check the package has been installed (and when)
+
+my $firstpackageextractor = DidbsExtractor->new( $scriptlocation,
+						 $packageid,
+						 $packagedir,
+						 $firstpackage );
+
+$firstpackageextractor->debug();
+
+if( !$firstpackageextractor->extractionSuccess() )
+{
+    if( !$firstpackageextractor->extractit() )
+    {
+	print "Unable to extract $firstpackage->{packageId}\n";
+	exit(-1);
+    }
+}
+
+print "WARN: Missing any patch functionality\n";
+
+my $firstpackageconfigurator = DidbsConfigurator->new( $scriptlocation,
+						       $packageid,
+						       $packagedir,
+						       $firstpackage,
+						       $firstpackageextractor );
+
+exit(0);

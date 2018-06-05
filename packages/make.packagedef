@@ -1,0 +1,10 @@
+packageSource=http://ftp.gnu.org/gnu/make/make-4.2.1.tar.bz2
+packageChecksum=blahblah
+packageExtraction=/usr/nekoware/bin/tar xf
+packageDir=make-4.2.1
+expectedToolList=sed
+dependenciesList=
+envModifs=
+configureRecipe=make.configureit
+buildRecipe=make.buildit
+passesChecksIndicator=0
