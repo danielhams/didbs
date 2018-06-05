@@ -2,12 +2,14 @@ package DidbsExtractor;
 
 use DidbsUtils;
 
+use File::Path qw/rmtree/;
+
 # Contents set up from values from the dbibsPackage
 #
 # downloadSuccessFilePath
 # 
 
-use constant FETCHSTATE => qw(UNFETCHED FETCHED SIGCHECKED EXTRACTED);
+use constant FETCHSTATE => qw(UNFETCHED FETCHED SIGCHECKED EXTRACTED, PATCHED);
 
 #{
 #    UNFETCHED   => 'Unfetched',
@@ -37,7 +39,7 @@ sub new
 sub setupExtractionState
 {
     my $self = shift;
-    $self->{extractionstate} = UNFETCHED;
+    $self->setState(UNFETCHED);
 }
 
 sub extractionSuccess
@@ -102,12 +104,14 @@ sub extractit
 
 	# File is good
 	print "Checksum match.\n";
-	$self->{extractionState} = SIGCHECKED;
+	$self->setState(SIGCHECKED);
     }
 
     if( $self->{extractionState} == SIGCHECKED )
     {
 	my $extractdir = $self->{packageDir}."/".$self->{packageId};
+	print "Removing any existing content at $extractdir\n";
+	rmtree $extractdir || die $!;
 	mkdirp( $extractdir );
 	my $extractor = $self->{didbsPackage}->{packageExtraction};
 	my $fullpathext = $self->{scriptLocation}."/".$extractor;
@@ -116,7 +120,7 @@ sub extractit
 	print "Command is $cmd\n";
 	system($cmd) == 0 || die $!;
 
-	$self->{extractionState} = EXTRACTED;
+	$self->setState(EXTRACTED);
     }
 
     return $self->{extractionState} == EXTRACTED;
@@ -139,6 +143,14 @@ sub debug
 {
     my $self = shift;
     print "DibsExtractor constructed for $self->{packageId}\n";
+}
+
+sub setState
+{
+    my $self = shift;
+    my $newstate = shift;
+    $self->{extractionState} = $newstate;
+    print "Package $self->{packageId} is now $newstate\n";
 }
 
 1;

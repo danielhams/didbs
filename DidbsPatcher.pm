@@ -1,5 +1,7 @@
 package DidbsPatcher;
 
+use File::Copy qw/cp/;
+
 sub new
 {
     my $self = bless {}, shift;
@@ -16,6 +18,24 @@ sub new
     $self->{didbsExtractor} = $didbsExtractor;
 
     return $self;
+}
+
+sub patchit
+{
+    my $self = shift;
+
+    my $sl = $self->{scriptLocation};
+    my $patchfn = $self->{didbsPackage}->{packagePatch};
+    my $fullpathpatch = "$sl/packages/$patchfn";
+    my $patchdest = "$self->{packageDir}/$self->{packageId}";
+    print "Copying patch file $fullpathpatch to $patchdest\n";
+    cp($fullpathpatch,$patchdest) || die $!;
+
+    my $patchcmd = "$sl/patchhelper.sh $patchdest $patchfn";
+    print "patch command is $patchcmd\n";
+    system($patchcmd) == 0 || die $!;
+
+    return 1;
 }
 
 sub debug

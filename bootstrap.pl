@@ -8,6 +8,7 @@ use DidbsPackage;
 use DidbsExtractor;
 use DidbsPatcher;
 use DidbsConfigurator;
+use DidbsBuilder;
 
 (my $configfile = basename($0)) =~ s/^(.*?)(?:\..*)?$/$1.conf/;
 my $scriptlocation = $FindBin::Bin;
@@ -170,26 +171,49 @@ if( !$curpkgextractor->extractionSuccess() )
     if( !$curpkgextractor->extractit() )
     {
 	print "Unable to extract $curpkg->{packageId}\n";
-	exit(-1);
+	exit -1;
     }
 }
 
 my $curpkgpatcher = undef;
-if( defined($curpkg->{packagePatch}) )
+if( defined($curpkg->{packagePatch}) &&
+    $curpkgextractor->{extractionState} ne PATCHED)
 {
-    print "WARN: Missing any patch functionality\n";
     $curpkgpatcher = DidbsPatcher->new( $scriptlocation,
 					$packageid,
 					$packagedir,
 					$curpkg,
 					$curpkgextractor );
+
+    if( !$curpkgpatcher->patchit() )
+    {
+	print "Failed to patch $curpkg->{packageId}\n";
+	exit -1;
+    }
+    $curpkgextractor->setState(PATCHED);
 }
 
 my $curpkgconfigurator = DidbsConfigurator->new( $scriptlocation,
 						 $packageid,
 						 $packagedir,
+						 $installdir,
 						 $curpkg,
 						 $curpkgextractor,
 						 $curpkgpatcher );
+
+if( !$curpkgconfigurator->configureit() )
+{
+    print "Failed during configure stage.\n";
+    exit -1;
+}
+
+my $curpkgbuilder = DidbsBuilder->new( $scriptlocation,
+				       $packageid,
+				       $packagedir,
+				       $installdir,
+				       $curpkg,
+				       $curpkgextractor,
+				       $curpkgpatcher,
+				       $curpkgconfigurator );
 
 exit(0);

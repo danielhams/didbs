@@ -1,16 +1,16 @@
-diff -ur tar-1.30-mypatch/tests/checkseekhole.c tar-1.30/tests/checkseekhole.c
---- tar-1.30-mypatch/tests/checkseekhole.c	Tue Jun 05 13:00:09 2018
-+++ tar-1.30/tests/checkseekhole.c	Mon Jan 02 12:43:50 2017
+diff -ur tar-1.30/tests/checkseekhole.c tar-1.30-patched/tests/checkseekhole.c
+--- tar-1.30/tests/checkseekhole.c	Mon Jan 02 12:43:50 2017
++++ tar-1.30-patched/tests/checkseekhole.c	Tue Jun 05 15:43:37 2018
 @@ -27,9 +27,9 @@
  #include <fcntl.h>
  
  enum {
--    MY_EX_OK = 0,    /* SEEK_HOLE support */
--    MY_EX_FAIL,      /* test failed - no SEEK_HOLE support */
--    MY_EX_BAD,       /* test is not relevant */
-+    EX_OK = 0,    /* SEEK_HOLE support */
-+    EX_FAIL,      /* test failed - no SEEK_HOLE support */
-+    EX_BAD,       /* test is not relevant */
+-    EX_OK = 0,    /* SEEK_HOLE support */
+-    EX_FAIL,      /* test failed - no SEEK_HOLE support */
+-    EX_BAD,       /* test is not relevant */
++    MY_EX_OK = 0,    /* SEEK_HOLE support */
++    MY_EX_FAIL,      /* test failed - no SEEK_HOLE support */
++    MY_EX_BAD,       /* test is not relevant */
  };
  
  int
@@ -18,43 +18,43 @@ diff -ur tar-1.30-mypatch/tests/checkseekhole.c tar-1.30/tests/checkseekhole.c
  
    /* hole of 100MB */
    if (lseek (fd, 100*1024*1024, SEEK_END) < 0)
--    return MY_EX_BAD;
-+    return EX_BAD;
+-    return EX_BAD;
++    return MY_EX_BAD;
  
    /* piece of data */
    if (write (fd, "data\n", 5) != 5)
--    return MY_EX_BAD;
-+    return EX_BAD;
+-    return EX_BAD;
++    return MY_EX_BAD;
  
    /* another hole */
    if (lseek (fd, 100*1024*1024, SEEK_END) < 0)
--    return MY_EX_BAD;
-+    return EX_BAD;
+-    return EX_BAD;
++    return MY_EX_BAD;
  
    /* piece of data */
    if (write (fd, "data\n", 5) != 5)
--    return MY_EX_BAD;
-+    return EX_BAD;
+-    return EX_BAD;
++    return MY_EX_BAD;
  
    if (fstat (fd, &stat))
--    return MY_EX_BAD;
-+    return EX_BAD;
+-    return EX_BAD;
++    return MY_EX_BAD;
  
    offset = lseek (fd, 0, SEEK_DATA);
    if (offset == (off_t)-1)
--    return MY_EX_FAIL;
-+    return EX_FAIL;
+-    return EX_FAIL;
++    return MY_EX_FAIL;
  
    offset = lseek (fd, offset, SEEK_HOLE);
    if (offset == (off_t)-1 || offset == stat.st_size)
--    return MY_EX_FAIL;
-+    return EX_FAIL;
+-    return EX_FAIL;
++    return MY_EX_FAIL;
  
--  return MY_EX_OK;
-+  return EX_OK;
+-  return EX_OK;
++  return MY_EX_OK;
  #else
--  return MY_EX_BAD;
-+  return EX_BAD;
+-  return EX_BAD;
++  return MY_EX_BAD;
  #endif
  }
  
@@ -62,8 +62,8 @@ diff -ur tar-1.30-mypatch/tests/checkseekhole.c tar-1.30/tests/checkseekhole.c
    char template[] = "testseekhole-XXXXXX";
    int fd = mkstemp (template);
    if (fd == -1)
--    return MY_EX_BAD;
-+    return EX_BAD;
+-    return EX_BAD;
++    return MY_EX_BAD;
    rc = check_seek_hole (fd);
    close (fd);
    unlink (template);
@@ -71,7 +71,7 @@ diff -ur tar-1.30-mypatch/tests/checkseekhole.c tar-1.30/tests/checkseekhole.c
  
    return rc;
  #else
--  return MY_EX_FAIL;
-+  return EX_FAIL;
+-  return EX_FAIL;
++  return MY_EX_FAIL;
  #endif
  }
