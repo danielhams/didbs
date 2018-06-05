@@ -10,6 +10,7 @@ use DidbsUtils;
 # packageChecksum (a least a little signature check)
 # packageExtraction (how to extract)
 # packageDir (what directory gets created by extraction)
+# packagePatch (patch to apply)
 # expectedToolsList (can show which "sed" we use)
 # dependenciesList (which other bootstrapped packages we depend on)
 # envModifs (which env vars have to be set)
@@ -34,6 +35,7 @@ sub debug
     printf " packageChecksum:      \t=> ".$self->{packageChecksum}."\n";
     printf " packageExtraction:    \t=> ".$self->{packageExtraction}."\n";
     printf " packageDir:           \t=> ".$self->{packageDir}."\n";
+    printf " packagePatch:         \t=> ".$self->{packagePatch}."\n";
     printf " expectedToolList:     \t=> ".$self->{expectedToolList}."\n";
     printf " dependenciesList:     \t=> ".$self->{dependenciesList}."\n";
     printf " envModifs:            \t=> ".$self->{envModifs}."\n";
@@ -72,6 +74,7 @@ sub readPackageDef
     $self->{packageChecksum} = $values{"packageChecksum"};
     $self->{packageExtraction} = $values{"packageExtraction"};
     $self->{packageDir} = $values{"packageDir"};
+    $self->{packagePatch} = $values{"packagePatch"};
     $self->{expectedToolList} = $values{"expectedToolList"};
     $self->{dependenciesList} = $values{"dependenciesList"};
     $self->{envModifs} = $values{"envModifs"};

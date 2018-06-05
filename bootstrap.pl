@@ -6,6 +6,8 @@ use lib "$FindBin::Bin/lib";
 # Packages specific to the tooling
 use DidbsPackage;
 use DidbsExtractor;
+use DidbsPatcher;
+use DidbsConfigurator;
 
 (my $configfile = basename($0)) =~ s/^(.*?)(?:\..*)?$/$1.conf/;
 my $scriptlocation = $FindBin::Bin;
@@ -141,9 +143,9 @@ print"\n";
 my($packageid) = "tar";
 #my($packageid) = "make";
 
-my $firstpackage = DidbsPackage->new($packageid);
-$firstpackage->readPackageDef($scriptlocation);
-$firstpackage->debug();
+my $curpkg = DidbsPackage->new($packageid);
+$curpkg->readPackageDef($scriptlocation);
+$curpkg->debug();
 
 # lets assume some dependency resolution occurs here
 # so we end up with just one package in our dependency tree.
@@ -156,28 +158,38 @@ $firstpackage->debug();
 # Check the package has been (manually) tested (and when)
 # Check the package has been installed (and when)
 
-my $firstpackageextractor = DidbsExtractor->new( $scriptlocation,
-						 $packageid,
-						 $packagedir,
-						 $firstpackage );
+my $curpkgextractor = DidbsExtractor->new( $scriptlocation,
+					   $packageid,
+					   $packagedir,
+					   $curpkg );
 
-$firstpackageextractor->debug();
+$curpkgextractor->debug();
 
-if( !$firstpackageextractor->extractionSuccess() )
+if( !$curpkgextractor->extractionSuccess() )
 {
-    if( !$firstpackageextractor->extractit() )
+    if( !$curpkgextractor->extractit() )
     {
-	print "Unable to extract $firstpackage->{packageId}\n";
+	print "Unable to extract $curpkg->{packageId}\n";
 	exit(-1);
     }
 }
 
-print "WARN: Missing any patch functionality\n";
+my $curpkgpatcher = undef;
+if( defined($curpkg->{packagePatch}) )
+{
+    print "WARN: Missing any patch functionality\n";
+    $curpkgpatcher = DidbsPatcher->new( $scriptlocation,
+					$packageid,
+					$packagedir,
+					$curpkg,
+					$curpkgextractor );
+}
 
-my $firstpackageconfigurator = DidbsConfigurator->new( $scriptlocation,
-						       $packageid,
-						       $packagedir,
-						       $firstpackage,
-						       $firstpackageextractor );
+my $curpkgconfigurator = DidbsConfigurator->new( $scriptlocation,
+						 $packageid,
+						 $packagedir,
+						 $curpkg,
+						 $curpkgextractor,
+						 $curpkgpatcher );
 
 exit(0);
