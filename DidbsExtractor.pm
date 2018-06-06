@@ -1,6 +1,7 @@
 package DidbsExtractor;
 
 use DidbsUtils;
+use DibsPackageState;
 
 use File::Path qw/rmtree/;
 
@@ -8,15 +9,6 @@ use File::Path qw/rmtree/;
 #
 # downloadSuccessFilePath
 # 
-
-use constant FETCHSTATE => qw(UNFETCHED FETCHED SIGCHECKED EXTRACTED, PATCHED);
-
-#{
-#    UNFETCHED   => 'Unfetched',
-#    FETCHED     => 'Fetched',
-#    SIGCHECKED  => 'SigChecked',
-#    EXTRACTED   => 'Extracted',
-#};
 
 sub new
 {
@@ -46,7 +38,7 @@ sub extractionSuccess
 {
     my $self = shift;
 
-    return 0;
+    return $self->{packageState} eq EXTRACTED;
 }
 
 sub extractit
@@ -143,14 +135,6 @@ sub debug
 {
     my $self = shift;
     print "DibsExtractor constructed for $self->{packageId}\n";
-}
-
-sub setState
-{
-    my $self = shift;
-    my $newstate = shift;
-    $self->{extractionState} = $newstate;
-    print "Package $self->{packageId} is now $newstate\n";
 }
 
 1;

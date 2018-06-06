@@ -25,8 +25,9 @@ sub new
 sub buildit
 {
     my $self = shift;
+    print "Building $self->{packageId}\n";
 
-    
+    return 1;
 }
 
 sub debug

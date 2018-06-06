@@ -5,6 +5,7 @@ use lib "$FindBin::Bin/lib";
 
 # Packages specific to the tooling
 use DidbsPackage;
+use DidbsPackageState;
 use DidbsExtractor;
 use DidbsPatcher;
 use DidbsConfigurator;
@@ -148,6 +149,11 @@ my $curpkg = DidbsPackage->new($packageid);
 $curpkg->readPackageDef($scriptlocation);
 $curpkg->debug();
 
+my $curpkgstate = DidbsPackageState->new($scriptlocation,
+					 $packageId,
+					 $packageDir,
+					 $didbsPackage);
+
 # lets assume some dependency resolution occurs here
 # so we end up with just one package in our dependency tree.
 
@@ -215,5 +221,12 @@ my $curpkgbuilder = DidbsBuilder->new( $scriptlocation,
 				       $curpkgextractor,
 				       $curpkgpatcher,
 				       $curpkgconfigurator );
+if( !$curpkgbuilder->buildit() )
+{
+    print "Failed during build step.\n";
+    exit -1;
+}
+
+print "All done.\n";
 
 exit(0);

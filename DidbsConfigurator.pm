@@ -38,7 +38,7 @@ sub configureit
     print "About to execute $cmd\n";
     system($cmd) == 0 || die $!;
 
-    return 0;
+    return 1;
 }
 
 sub debug
