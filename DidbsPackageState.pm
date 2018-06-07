@@ -15,7 +15,10 @@ sub new
     $self->{packageDir} = $packageDir;
     $self->{didbsPackage} = $didbsPackage;
 
-    $self->{packageState} = UNCHECKED;
+    $self->{stateString} = UNCHECKED;
+
+    # Quick hack, always fetch
+    $self->{stateString} = UNFETCHED;
 
     return $self;
 }
@@ -23,15 +26,20 @@ sub new
 sub debug
 {
     my $self = shift;
-    print "DidbsPackageState for $self->{packageId} is $self->{packageState}\n";
+    print "DidbsPackageState for $self->{packageId} is $self->{stateString}\n";
 }
 
 sub setState
 {
     my $self = shift;
     my $newstate = shift;
-    $self->{packageState} = $newstate;
+    $self->{stateString} = $newstate;
     print "Package $self->{packageId} is now in state $newstate\n";
 }
 
+sub getState
+{
+    my $self = shift;
+    return $self->{stateString};
+}
 1;

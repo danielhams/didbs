@@ -1,7 +1,7 @@
 package DidbsExtractor;
 
 use DidbsUtils;
-use DibsPackageState;
+use DidbsPackageState;
 
 use File::Path qw/rmtree/;
 
@@ -17,28 +17,37 @@ sub new
     my $packageId = shift;
     my $packageDir = shift;
     my $didbsPackage = shift;
+    my $packageState = shift;
 
     $self->{scriptLocation} = $scriptLocation;
     $self->{packageId} = $packageId;
     $self->{packageDir} = $packageDir;
     $self->{didbsPackage} = $didbsPackage;
+    $self->{packageState} = $packageState;
 
-    $self->setupExtractionState();
+    print "oops " .$self->{packageState}->debug()."\n";
 
     return $self;
 }
 
-sub setupExtractionState
+sub getState
 {
     my $self = shift;
-    $self->setState(UNFETCHED);
+    return $self->{packageState}->getState();
+}
+
+sub setState
+{
+    my $self = shift;
+    my $newState = shift;
+    $self->{packageState}->setState($newState);
 }
 
 sub extractionSuccess
 {
     my $self = shift;
 
-    return $self->{packageState} eq EXTRACTED;
+    return $self->getState() eq EXTRACTED;
 }
 
 sub extractit
@@ -50,72 +59,73 @@ sub extractit
     my $destfile = $self->{didbsPackage}->{packageFile};
     my $fulldestfile = $destdir."/".$destfile;
 
-    if( $self->{extractionState} eq UNFETCHED )
+    if( $self->getState() eq UNFETCHED )
     {
-	my $destdir = $self->{packageDir}."/srcballs";
-	mkdirp($destdir);
-	my $destfile = $self->{didbsPackage}->{packageFile};
-	my $fulldestfile = $destdir."/".$destfile;
+        print "Unfetched package. Fetching.\n";
+        my $destdir = $self->{packageDir}."/srcballs";
+        mkdirp($destdir);
+        my $destfile = $self->{didbsPackage}->{packageFile};
+        my $fulldestfile = $destdir."/".$destfile;
 
-	my $sourceurl = $self->{didbsPackage}->{packageSource};
-	my $checksum = $self->{didbsPackage}->{packageChecksum};
+        my $sourceurl = $self->{didbsPackage}->{packageSource};
+        my $checksum = $self->{didbsPackage}->{packageChecksum};
 
-	print "Package needs fetching from $sourceurl\n";
-	my $fetchcmd = $self->{scriptLocation}."/curlhelper.sh $destdir $sourceurl";
+        print "Package needs fetching from $sourceurl\n";
+        my $fetchcmd = $self->{scriptLocation}."/curlhelper.sh $destdir $sourceurl";
 
-	# If the file exists check the signature
-	my $fileexistsgood = 0;
-	if( -e $fulldestfile )
-	{
-	    if(!verifyChecksum($self,$fulldestfile,$checksum))
-	    {
-		print "Stale download at $fulldestfile.\n";
-		print "Removing is commented out.\n";
-		exit -1;
-		unlink $fulldestfile;
-	    }
-	    else
-	    {
-		$fileexistsgood = 1;
-	    }
-	}
+        # If the file exists check the signature
+        my $fileexistsgood = 0;
+        if( -e $fulldestfile )
+        {
+            if(!verifyChecksum($self,$fulldestfile,$checksum))
+            {
+                print "Stale download at $fulldestfile.\n";
+                print "Removing is commented out.\n";
+                exit -1;
+                unlink $fulldestfile;
+            }
+            else
+            {
+                $fileexistsgood = 1;
+            }
+        }
 
-	if(!$fileexistsgood)
-	{
-	    print "Fetching...\n";
-	    print "\n\n";
+        if(!$fileexistsgood)
+        {
+            print "Fetching...\n";
+            print "\n\n";
 
-	    system($fetchcmd) ==0 || die $!;
-	    $self->{extractionState} = FETCHED;
-	    if(!verifyChecksum($self,$fulldestfile,$checksum))
-	    {
-		print "Second download attempt failed.\n";
-		exit -1;
-	    }
-	}
+            system($fetchcmd) ==0 || die $!;
+            $self->setState( FETCHED );
+            if(!verifyChecksum($self,$fulldestfile,$checksum))
+            {
+                print "Second download attempt failed.\n";
+                exit -1;
+            }
+        }
 
-	# File is good
-	print "Checksum match.\n";
-	$self->setState(SIGCHECKED);
+        # File is good
+        print "Checksum match.\n";
+        $self->setState(SIGCHECKED);
     }
 
-    if( $self->{extractionState} == SIGCHECKED )
+    if( $self->getState() == SIGCHECKED )
     {
-	my $extractdir = $self->{packageDir}."/".$self->{packageId};
-	print "Removing any existing content at $extractdir\n";
-	rmtree $extractdir || die $!;
-	mkdirp( $extractdir );
-	my $extractor = $self->{didbsPackage}->{packageExtraction};
-	my $fullpathext = $self->{scriptLocation}."/".$extractor;
-	print "Extracting to $extractdir using $fullpathext\n";
-	my $cmd = "$fullpathext $extractdir $fulldestfile";
-	print "Command is $cmd\n";
-	system($cmd) == 0 || die $!;
+        my $extractdir = $self->{packageDir}."/".$self->{packageId};
+        print "Removing any existing content at $extractdir\n";
+        rmtree $extractdir || die $!;
+        mkdirp( $extractdir );
+        my $extractor = $self->{didbsPackage}->{packageExtraction};
+        my $fullpathext = $self->{scriptLocation}."/".$extractor;
+        print "Extracting to $extractdir using $fullpathext\n";
+        my $cmd = "$fullpathext $extractdir $fulldestfile";
+        print "Command is $cmd\n";
+        system($cmd) == 0 || die $!;
 
-	$self->setState(EXTRACTED);
+        $self->setState(EXTRACTED);
     }
 
-    return $self->{extractionState} == EXTRACTED;
+    return $self->getState() == EXTRACTED;
 }
 
 sub verifyChecksum
@@ -123,9 +133,9 @@ sub verifyChecksum
     my $self=shift;
     my $filename=shift;
     my $checksum=shift;
-#    print "Verifying checksum of $filename\n";
+    #    print "Verifying checksum of $filename\n";
     
-    my $calcchecksum = sha256file($filename);
+    my $calcchecksum = sumfile($filename);
     print "Expected($checksum) - received($calcchecksum)\n";
 
     return $calcchecksum eq $checksum;

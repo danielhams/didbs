@@ -1,6 +1,7 @@
 #!/usr/bin/perl
 use File::Basename qw/basename/;
 use FindBin;
+use lib ".";
 use lib "$FindBin::Bin/lib";
 
 # Packages specific to the tooling
@@ -29,9 +30,9 @@ argvFile();
 
 use Getopt::Long;
 
-my $packagedir = undef;
-my $builddir = undef;
-my $installdir = undef;
+my $packageDir = undef;
+my $buildDir = undef;
+my $installDir = undef;
 my $verbose = false;
 
 sub getdefaultenv
@@ -43,11 +44,11 @@ sub getdefaultenv
 
     my %values;
     foreach (@envvars) {
-	chomp;
-	s|#.+||;
-	s|@(.+?)@|$1|g;
-	s|\s||;
-	my($key, $val) = split(/=/);
+        chomp;
+        s|#.+||;
+        s|@(.+?)@|$1|g;
+        s|\s||;
+        my($key, $val) = split(/=/);
         $values{$key} = $val;
     }
     return %values;
@@ -66,29 +67,29 @@ sub writeconfig
     my %hash = %{ $hash_ref };
 
     my $cfname = "$scriptlocation/$configfile";
-#    print "Will write config to $cfname\n";
+    #    print "Will write config to $cfname\n";
     open(FH, '>'.$cfname) || die $!;
-#    print "Would try and write out config of $hash \n";
+    #    print "Would try and write out config of $hash \n";
     foreach my $key (keys %hash)
     {
-	if( $key eq "packagedir" ||
-	    $key eq "builddir" ||
-	    $key eq "installdir" )
-	{
-	    printf FH "--".$key . " " . $hash{$key} . "\n";
-	}
-	elsif( $key eq "verbose" )
-	{
-	    if( $hash{$key} eq 1 )
-	    {
-		printf FH "--verbose\n";
-	    }
-	}
-	else
-	{
-	    print "Unhandled option: $key\n";
-	    exit(-1);
-	}
+        if( $key eq "packagedir" ||
+            $key eq "builddir" ||
+            $key eq "installdir" )
+        {
+            printf FH "--".$key . " " . $hash{$key} . "\n";
+        }
+        elsif( $key eq "verbose" )
+        {
+            if( $hash{$key} eq 1 )
+            {
+                printf FH "--verbose\n";
+            }
+        }
+        else
+        {
+            print "Unhandled option: $key\n";
+            exit(-1);
+        }
     }
     close(FH);
 }
@@ -105,20 +106,20 @@ print "TODO: Check for build prerequisites (7.4.4m, sed etc - see toolstocheckfo
 my %options = ();
 
 GetOptions(\%options,
-           "packagedir|p=s" => \$packagedir,
-	   "builddir|b=s" => \$builddir,
-	   "installdir|i=s" => \$installdir,
-	   "verbose|v" => \$verbose)
+           "packagedir|p=s" => \$packageDir,
+           "builddir|b=s" => \$buildDir,
+           "installdir|i=s" => \$installDir,
+           "verbose|v" => \$verbose)
     or usage(true);
 
-if( !defined($packagedir) || !defined($builddir))
+if( !defined($packageDir) || !defined($buildDir) || !defined($installDir))
 {
     usage(true);
 }
 
-$options{"packagedir"} = $packagedir;
-$options{"builddir"} = $builddir;
-$options{"installdir"} = $installdir;
+$options{"packagedir"} = $packageDir;
+$options{"builddir"} = $buildDir;
+$options{"installdir"} = $installDir;
 $options{"verbose"} = $verbose;
 
 print"\n";
@@ -142,17 +143,19 @@ foreach $var (keys %envvars)
 print "Modify the above in defaultenv.vars\n";
 print"\n";
 
-my($packageid) = "tar";
-#my($packageid) = "make";
+my($packageId) = "tar";
+#my($packageId) = "make";
 
-my $curpkg = DidbsPackage->new($packageid);
+my $curpkg = DidbsPackage->new($packageId);
 $curpkg->readPackageDef($scriptlocation);
 $curpkg->debug();
 
 my $curpkgstate = DidbsPackageState->new($scriptlocation,
-					 $packageId,
-					 $packageDir,
-					 $didbsPackage);
+                                         $packageId,
+                                         $packageDir,
+                                         $didbsPackage);
+
+print "Here2 ".$curpkgstate->debug()."\n";
 
 # lets assume some dependency resolution occurs here
 # so we end up with just one package in our dependency tree.
@@ -166,46 +169,48 @@ my $curpkgstate = DidbsPackageState->new($scriptlocation,
 # Check the package has been installed (and when)
 
 my $curpkgextractor = DidbsExtractor->new( $scriptlocation,
-					   $packageid,
-					   $packagedir,
-					   $curpkg );
+                                           $packageId,
+                                           $packageDir,
+                                           $curpkg,
+                                           $curpkgstate);
 
 $curpkgextractor->debug();
 
 if( !$curpkgextractor->extractionSuccess() )
 {
+    print "Package extraction not known.\n";
     if( !$curpkgextractor->extractit() )
     {
-	print "Unable to extract $curpkg->{packageId}\n";
-	exit -1;
+        print "Unable to extract $curpkg->{packageId}\n";
+        exit -1;
     }
 }
 
 my $curpkgpatcher = undef;
 if( defined($curpkg->{packagePatch}) &&
-    $curpkgextractor->{extractionState} ne PATCHED)
+    $curpkgextractor->getState() ne PATCHED)
 {
     $curpkgpatcher = DidbsPatcher->new( $scriptlocation,
-					$packageid,
-					$packagedir,
-					$curpkg,
-					$curpkgextractor );
+                                        $packageId,
+                                        $packageDir,
+                                        $curpkg,
+                                        $curpkgextractor );
 
     if( !$curpkgpatcher->patchit() )
     {
-	print "Failed to patch $curpkg->{packageId}\n";
-	exit -1;
+        print "Failed to patch $curpkg->{packageId}\n";
+        exit -1;
     }
     $curpkgextractor->setState(PATCHED);
 }
 
 my $curpkgconfigurator = DidbsConfigurator->new( $scriptlocation,
-						 $packageid,
-						 $packagedir,
-						 $installdir,
-						 $curpkg,
-						 $curpkgextractor,
-						 $curpkgpatcher );
+                                                 $packageId,
+                                                 $packageDir,
+                                                 $installDir,
+                                                 $curpkg,
+                                                 $curpkgextractor,
+                                                 $curpkgpatcher );
 
 if( !$curpkgconfigurator->configureit() )
 {
@@ -214,13 +219,13 @@ if( !$curpkgconfigurator->configureit() )
 }
 
 my $curpkgbuilder = DidbsBuilder->new( $scriptlocation,
-				       $packageid,
-				       $packagedir,
-				       $installdir,
-				       $curpkg,
-				       $curpkgextractor,
-				       $curpkgpatcher,
-				       $curpkgconfigurator );
+                                       $packageId,
+                                       $packageDir,
+                                       $installDir,
+                                       $curpkg,
+                                       $curpkgextractor,
+                                       $curpkgpatcher,
+                                       $curpkgconfigurator );
 if( !$curpkgbuilder->buildit() )
 {
     print "Failed during build step.\n";

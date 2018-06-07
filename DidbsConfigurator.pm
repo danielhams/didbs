@@ -29,13 +29,14 @@ sub configureit
 
     my $builddir = "$self->{packageDir}/$self->{packageId}/$self->{didbsPackage}->{packageDir}";
     print "Would build in $builddir\n";
-    my $prefix = $installdir;
+    my $prefix = $self->{installDir};
     my $extraargs = "";
     print "WARN missing args processing\n";
 
     my $confhelperfp = "$self->{scriptLocation}/configurehelper.sh";
     my $cmd = "$confhelperfp $builddir $prefix $extraargs";
     print "About to execute $cmd\n";
+    exit-1;
     system($cmd) == 0 || die $!;
 
     return 1;

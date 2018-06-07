@@ -1,10 +1,9 @@
 package DidbsUtils;
 use Exporter;
 @ISA = ('Exporter');
-@EXPORT=('mkdirp','sha256file');
+@EXPORT=('mkdirp','sumfile');
 
 use File::Basename;
-use Digest::SHA256;
 
 sub mkdirp($)
 {
@@ -14,21 +13,13 @@ sub mkdirp($)
     mkdir $dir, 0755 || die $!;
 }
 
-sub sha256file($)
+sub sumfile($)
 {
     my $filename=shift;
-    open CF, "<".$filename;
 
-    # NB this is not "real" sha256, but it's good enough for
-    # bootstrapping
-    my $context = Digest::SHA256::new(256);
-    $context->reset();
-    $context->addfile(CF);
+    my $digest = `sum $filename`;
 
-    my $digest = $context->hexdigest();
-
-    close CF;
-
+    print "Got back a sum of $digest\n";
     $digest =~ s/\s//g;
 
     return $digest;
