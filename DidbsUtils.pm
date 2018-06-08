@@ -16,13 +16,17 @@ sub mkdirp($)
 sub sumfile($)
 {
     my $filename=shift;
+    $dsum = $ENV{"DSUM"};
+#    print "DSUM is $dsum\n";
 
-    my $digest = `sum $filename`;
+    my $digest = `$dsum $filename`;
+    chomp($digest);
 
-    print "Got back a sum of $digest\n";
-    $digest =~ s/\s//g;
+#    print "Digest result is $digest\n";
+    (my $extracteddigest = $digest ) =~ s/^(\S+)\s+.*$/$1/g;
+#    print "Pulled out $extracteddigest\n";
 
-    return $digest;
+    return $extracteddigest;
 }
 
 1;

@@ -36,7 +36,6 @@ sub configureit
     my $confhelperfp = "$self->{scriptLocation}/configurehelper.sh";
     my $cmd = "$confhelperfp $builddir $prefix $extraargs";
     print "About to execute $cmd\n";
-    exit-1;
     system($cmd) == 0 || die $!;
 
     return 1;

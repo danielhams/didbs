@@ -48,6 +48,7 @@ sub getdefaultenv
         s|#.+||;
         s|@(.+?)@|$1|g;
         s|\s||;
+	next if $_ eq "";
         my($key, $val) = split(/=/);
         $values{$key} = $val;
     }
