@@ -33,7 +33,8 @@ use Getopt::Long;
 my $packageDir = undef;
 my $buildDir = undef;
 my $installDir = undef;
-my $verbose = false;
+my $verbose = 0;
+my $clean = 0;
 
 sub getdefaultenv
 {
@@ -110,12 +111,56 @@ GetOptions(\%options,
            "packagedir|p=s" => \$packageDir,
            "builddir|b=s" => \$buildDir,
            "installdir|i=s" => \$installDir,
-           "verbose|v" => \$verbose)
+           "verbose|v" => \$verbose,
+           "clean" => \$clean)
     or usage(true);
 
 if( !defined($packageDir) || !defined($buildDir) || !defined($installDir))
 {
     usage(true);
+}
+
+sub prompt
+{
+    my( $query ) = @_;
+    local $| = 1;
+    print $query;
+    chomp(my $answer = <STDIN>);
+    return $answer;
+}
+
+sub prompt_yn
+{
+    my( $query ) = @_;
+    my $answer = prompt("$query (y/n): ");
+    return lc($answer) eq 'y';
+}
+
+sub prompt_before_delete
+{
+    my( $dirtodelete ) = @_;
+    if( $dirtodelete ne "" && $dirtodelete ne "/")
+    {
+	print "About to delete $dirtodelete/*\n";
+	if( prompt_yn("Are you sure") )
+	{
+	    system("rm -rf $dirtodelete/*");
+#	    print "rm -rf $dirtodelete/*";
+	}
+	else
+	{
+	    exit 0;
+	}
+    }
+}
+
+if( $clean )
+{
+    print "This will delete all content...\n";
+    prompt_before_delete($packageDir);
+    prompt_before_delete($buildDir);
+    prompt_before_delete($installDir);
+    exit 0;
 }
 
 $options{"packagedir"} = $packageDir;
@@ -144,8 +189,8 @@ foreach $var (keys %envvars)
 print "Modify the above in defaultenv.vars\n";
 print"\n";
 
-my($packageId) = "tar";
-#my($packageId) = "make";
+#my($packageId) = "tar";
+my($packageId) = "make";
 
 my $curpkg = DidbsPackage->new($packageId);
 $curpkg->readPackageDef($scriptlocation);
