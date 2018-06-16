@@ -1,7 +1,7 @@
-packageSource=http://ftp.gnu.org/gnu/make/make-4.2.1.tar.bz2
-packageFile=make-4.2.1.tar.bz2
-packageChecksum=15b012617e7c44c0ed482721629577ac
-packageExtraction=nekowaretarhelper.sh
+packageSource=http://ftp.gnu.org/gnu/make/make-4.2.1.tar.gz
+packageFile=make-4.2.1.tar.gz
+packageChecksum=7d0dcb6c474b258aab4d54098f2cf5a7
+packageExtraction=guntarsystemhelper.sh
 packageDir=make-4.2.1
 expectedToolList=sed
 dependenciesList=

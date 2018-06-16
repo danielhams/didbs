@@ -5,6 +5,7 @@ use lib ".";
 use lib "$FindBin::Bin/lib";
 
 # Packages specific to the tooling
+use DidbsDependencyEngine;
 use DidbsPackage;
 use DidbsPackageState;
 use DidbsExtractor;
@@ -13,16 +14,16 @@ use DidbsConfigurator;
 use DidbsBuilder;
 
 (my $configfile = basename($0)) =~ s/^(.*?)(?:\..*)?$/$1.conf/;
-my $scriptlocation = $FindBin::Bin;
-#print "Script location is $scriptlocation\n";
+my $scriptLocation = $FindBin::Bin;
+#print "Script location is $scriptLocation\n";
 #print "Configfile is $configfile\n";
 
 my $usingfoundconf = 0;
 
-if( -e "$scriptlocation/$configfile")
+if( -e "$scriptLocation/$configfile")
 {
     $usingfoundconf = 1;
-    unshift(@ARGV, '@'.$scriptlocation."/".$configfile);
+    unshift(@ARGV, '@'.$scriptLocation."/".$configfile);
 }
 
 use Getopt::ArgvFile qw(argvFile);
@@ -48,7 +49,8 @@ sub getdefaultenv
         chomp;
         s|#.+||;
         s|@(.+?)@|$1|g;
-        s|\s||;
+# this eats values with spaces in there....
+#        s|\s||;
 	next if $_ eq "";
         my($key, $val) = split(/=/);
         $values{$key} = $val;
@@ -68,7 +70,7 @@ sub writeconfig
     my $hash_ref = shift;
     my %hash = %{ $hash_ref };
 
-    my $cfname = "$scriptlocation/$configfile";
+    my $cfname = "$scriptLocation/$configfile";
     #    print "Will write config to $cfname\n";
     open(FH, '>'.$cfname) || die $!;
     #    print "Would try and write out config of $hash \n";
@@ -101,7 +103,7 @@ print"\n";
 
 if( $usingfoundconf == 1 )
 {
-    print "Adding found config.\n To start fresh, rm $scriptlocation/$configfile\n";
+    print "Adding found config.\n To start fresh, rm $scriptLocation/$configfile\n";
 }
 print "TODO: Check for build prerequisites (7.4.4m, sed etc - see toolstocheckfor.txt)\n";
 
@@ -189,14 +191,34 @@ foreach $var (keys %envvars)
 print "Modify the above in defaultenv.vars\n";
 print"\n";
 
-#my($packageId) = "tar";
-my($packageId) = "make";
+my $packageDefsDir = "$scriptLocation/packages";
+
+sub banana
+{
+my $pkgDependencyEngine = DidbsDependencyEngine->new($scriptLocation,
+						     $packageDefsDir );
+
+my @foundPackages = $pkgDependencyEngine->listPackages();
+
+
+foreach $pkg (@foundPackages)
+{
+    my $pkgid = $pkd->{packageId};
+    print "Found a package '$pkgid'\n";
+}
+
+exit 0;
+}
+
+# make first, tar second, sed third
+#my($packageId) = "make";
+my($packageId) = "tar";
 
 my $curpkg = DidbsPackage->new($packageId);
-$curpkg->readPackageDef($scriptlocation);
+$curpkg->readPackageDef($scriptLocation);
 $curpkg->debug();
 
-my $curpkgstate = DidbsPackageState->new($scriptlocation,
+my $curpkgstate = DidbsPackageState->new($scriptLocation,
                                          $packageId,
                                          $packageDir,
                                          $didbsPackage);
@@ -214,7 +236,7 @@ print "Here2 ".$curpkgstate->debug()."\n";
 # Check the package has been (manually) tested (and when)
 # Check the package has been installed (and when)
 
-my $curpkgextractor = DidbsExtractor->new( $scriptlocation,
+my $curpkgextractor = DidbsExtractor->new( $scriptLocation,
                                            $packageId,
                                            $packageDir,
                                            $curpkg,
@@ -236,7 +258,7 @@ my $curpkgpatcher = undef;
 if( defined($curpkg->{packagePatch}) &&
     $curpkgextractor->getState() ne PATCHED)
 {
-    $curpkgpatcher = DidbsPatcher->new( $scriptlocation,
+    $curpkgpatcher = DidbsPatcher->new( $scriptLocation,
                                         $packageId,
                                         $packageDir,
                                         $curpkg,
@@ -250,7 +272,7 @@ if( defined($curpkg->{packagePatch}) &&
     $curpkgextractor->setState(PATCHED);
 }
 
-my $curpkgconfigurator = DidbsConfigurator->new( $scriptlocation,
+my $curpkgconfigurator = DidbsConfigurator->new( $scriptLocation,
                                                  $packageId,
                                                  $packageDir,
                                                  $installDir,
@@ -264,7 +286,7 @@ if( !$curpkgconfigurator->configureit() )
     exit -1;
 }
 
-my $curpkgbuilder = DidbsBuilder->new( $scriptlocation,
+my $curpkgbuilder = DidbsBuilder->new( $scriptLocation,
                                        $packageId,
                                        $packageDir,
                                        $installDir,

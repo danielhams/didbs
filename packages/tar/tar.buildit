@@ -1,0 +1,10 @@
+#!/bin/sh
+
+BUILDDIR=$1
+EXTRAARGS=$2
+echo $BUILDDIR
+echo $EXTRAARGS
+cd $BUILDDIR || exit -1
+make -j 3|| exit -1
+make install || exit -1
+exit 0

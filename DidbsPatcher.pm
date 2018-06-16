@@ -26,7 +26,7 @@ sub patchit
 
     my $sl = $self->{scriptLocation};
     my $patchfn = $self->{didbsPackage}->{packagePatch};
-    my $fullpathpatch = "$sl/packages/$patchfn";
+    my $fullpathpatch = "$sl/packages/$self->{packageId}/$patchfn";
     my $patchdest = "$self->{packageDir}/$self->{packageId}";
     print "Copying patch file $fullpathpatch to $patchdest\n";
     cp($fullpathpatch,$patchdest) || die $!;
