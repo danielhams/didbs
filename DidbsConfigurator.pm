@@ -29,12 +29,12 @@ sub configureit
 
     my $builddir = "$self->{packageDir}/$self->{packageId}/$self->{didbsPackage}->{packageDir}";
     print "Would configure in $builddir\n";
-    my $prefix = $self->{installDir};
+    my $installdir = $self->{installDir};
     my $extraargs = "";
     print "WARN missing args processing\n";
 
     my $configureRecipe = "$self->{scriptLocation}/packages/$self->{packageId}/$self->{didbsPackage}->{configureRecipe}";
-    my $cmd = "$configureRecipe $builddir $prefix $extraargs";
+    my $cmd = "$configureRecipe $builddir $installdir $extraargs";
     print "About to execute $cmd\n";
     system($cmd) == 0 || die $!;
 

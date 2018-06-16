@@ -1,15 +1,15 @@
 #!/bin/sh
 
 BUILDDIR=$1
-PREFIX=$2
+INSTALLDIR=$2
 EXTRAARGS=$3
 echo $BUILDDIR
-echo $PREFIX
+echo $INSTALLDIR
 echo $EXTRAARGS
 CC=c99
-CFLAGS="-mips4 -O3"
-LDFLAGS=
+CFLAGS="$DIDBS_ARCH_CFLAGS -O3"
+LDFLAGS="$DIDBS_ARCH_LDFLAGS"
 export CC CFLAGS LDFLAGS
 cd $BUILDDIR || exit -1
-./configure --prefix=$PREFIX $EXTRAARGS || exit -1
+./configure --prefix=$INSTALLDIR $EXTRAARGS || exit -1
 exit 0

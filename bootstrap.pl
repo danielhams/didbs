@@ -212,7 +212,9 @@ exit 0;
 
 # make first, tar second, sed third
 #my($packageId) = "make";
-my($packageId) = "tar";
+#my($packageId) = "tar";
+#my($packageId) = "gzip";
+my($packageId) = "bzip";
 
 my $curpkg = DidbsPackage->new($packageId);
 $curpkg->readPackageDef($scriptLocation);

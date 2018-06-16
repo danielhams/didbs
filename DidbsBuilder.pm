@@ -30,12 +30,13 @@ sub buildit
     print "Building $self->{packageId}\n";
 
     my $builddir = "$self->{packageDir}/$self->{packageId}/$self->{didbsPackage}->{packageDir}";
+    my $installdir = $self->{installDir};
     print "Would build in $builddir\n";
     my $extraargs = "";
     print "WARN missing args processing\n";
 
     my $buildRecipe = "$self->{scriptLocation}/packages/$self->{packageId}/$self->{didbsPackage}->{buildRecipe}";
-    my $cmd = "$buildRecipe $builddir $extraargs";
+    my $cmd = "$buildRecipe $builddir $installdir $extraargs";
     print "About to execute $cmd\n";
     system($cmd) == 0 || die $!;
 

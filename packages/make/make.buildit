@@ -1,8 +1,10 @@
 #!/bin/sh
 
 BUILDDIR=$1
-EXTRAARGS=$2
+INSTALLDIR=$2
+EXTRAARGS=$3
 echo $BUILDDIR
+echo $INSTALLDIR
 echo $EXTRAARGS
 cd $BUILDDIR || exit -1
 make || exit -1
