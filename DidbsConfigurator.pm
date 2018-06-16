@@ -28,13 +28,13 @@ sub configureit
     print "Configuring $self->{packageId}\n";
 
     my $builddir = "$self->{packageDir}/$self->{packageId}/$self->{didbsPackage}->{packageDir}";
-    print "Would build in $builddir\n";
+    print "Would configure in $builddir\n";
     my $prefix = $self->{installDir};
     my $extraargs = "";
     print "WARN missing args processing\n";
 
-    my $confhelperfp = "$self->{scriptLocation}/configurehelper.sh";
-    my $cmd = "$confhelperfp $builddir $prefix $extraargs";
+    my $configureRecipe = "$self->{scriptLocation}/packages/$self->{packageId}/$self->{didbsPackage}->{configureRecipe}";
+    my $cmd = "$configureRecipe $builddir $prefix $extraargs";
     print "About to execute $cmd\n";
     system($cmd) == 0 || die $!;
 
