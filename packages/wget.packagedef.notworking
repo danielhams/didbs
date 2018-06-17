@@ -1,0 +1,11 @@
+packageSource=http://ftp.gnu.org/gnu/wget/wget-1.19.5.tar.gz
+packageFile=wget-1.19.5.tar.gz
+packageChecksum=2db6f03d655041f82eb64b8c8a1fa7da
+packageExtraction=guntarsystemhelper.sh
+packageDir=wget-1.19.5
+expectedToolList=
+dependenciesList=make,pkgconfig,gnutls
+envModifs=
+configureRecipe=configureit
+buildRecipe=buildit
+passesChecksIndicator=0

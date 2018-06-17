@@ -72,11 +72,11 @@ sub flattenAndSortDeps
 			      $donepRef,
 			      $pkgref );
 
-	print "One done.\n";
-	foreach $pkgid (keys %{$donepRef})
-	{
-	    print "Done package: $pkgid\n";
-	}
+#	print "One done.\n";
+#	foreach $pkgid (keys %{$donepRef})
+#	{
+#	    print "Done package: $pkgid\n";
+#	}
     }
 
     # Sort
@@ -109,14 +109,14 @@ sub recursiveFlattenDeps
     # Check if already handled
     if( ${$donepRef}{$curPkgId} ne "" )
     {
-	print "Package $curPkgId is already complete.\n";
+#	print "Package $curPkgId is already complete.\n";
 	return $curPkg->{sequenceNo};
     }
     
     # For each dependency, find an add ref
     my $deps = $curPkg->{dependenciesList};
 
-    print "For package $curPkgId dependencies are $deps\n";
+#    print "For package $curPkgId dependencies are $deps\n";
 
     my @depIds = split(',',$deps);
     my $sequenceNo = 0;
@@ -145,7 +145,7 @@ sub recursiveFlattenDeps
     $curPkg->{sequenceNo} = $sequenceNo;
 
     ${$donepRef}{$curPkgId} = "done";
-    print "Setting package $curPkgId as done\n";
+#    print "Setting package $curPkgId as done\n";
 
     return $curPkg->{sequenceNo};
 }
