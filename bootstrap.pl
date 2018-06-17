@@ -135,6 +135,7 @@ sub prompt_yn
 {
     my( $query ) = @_;
     my $answer = prompt("$query (y/n): ");
+    print "\n";
     return lc($answer) eq 'y';
 }
 
@@ -159,7 +160,8 @@ sub prompt_before_delete
 if( $clean )
 {
     print "This will delete all content...\n";
-    prompt_before_delete($packageDir);
+    # For now leave the packages there
+#    prompt_before_delete($packageDir);
     prompt_before_delete($buildDir);
     prompt_before_delete($installDir);
     exit 0;
@@ -188,6 +190,7 @@ foreach $var (keys %envvars)
     print " setting $var=$val\n";
     $ENV{$var} = $val;
 }
+$ENV{"DIDSB_INSTALL_DIR"} = $installDir;
 print "Modify the above in defaultenv.vars\n";
 print"\n";
 
@@ -204,10 +207,10 @@ foreach $pkg (@{$foundPackagesRef})
     my $pkgid = $curpkg->{packageId};
     print "Checking package '$pkgid'...\n";
 
-#    if( $pkgid eq "make" )
-#    {
+    if( $pkgid eq "sed" )
+    {
 	doPackage( $pkg, $scriptLocation, $packageDir, $buildDir, $installDir );
-#    }
+    }
 }
 
 exit 0;
