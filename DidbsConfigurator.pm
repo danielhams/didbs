@@ -6,6 +6,7 @@ sub new
     my $scriptLocation = shift;
     my $packageId = shift;
     my $packageDir = shift;
+    my $buildDir = shift;
     my $installDir = shift;
     my $didbsPackage = shift;
     my $didbsExtractor = shift;
@@ -14,6 +15,7 @@ sub new
     $self->{scriptLocation} = $scriptLocation;
     $self->{packageId} = $packageId;
     $self->{packageDir} = $packageDir;
+    $self->{buildDir} = $buildDir;
     $self->{installDir} = $installDir;
     $self->{didbsPackage} = $didbsPackage;
     $self->{didbsExtractor} = $didbsExtractor;
@@ -27,7 +29,7 @@ sub configureit
     my $self = shift;
     print "Configuring $self->{packageId}\n";
 
-    my $builddir = "$self->{packageDir}/$self->{packageId}/$self->{didbsPackage}->{packageDir}";
+    my $builddir = "$self->{buildDir}/$self->{packageId}/$self->{didbsPackage}->{packageDir}";
     print "Would configure in $builddir\n";
     my $installdir = $self->{installDir};
     my $extraargs = "";

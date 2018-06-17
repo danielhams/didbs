@@ -16,12 +16,14 @@ sub new
     my $scriptLocation = shift;
     my $packageId = shift;
     my $packageDir = shift;
+    my $buildDir = shift;
     my $didbsPackage = shift;
     my $packageState = shift;
 
     $self->{scriptLocation} = $scriptLocation;
     $self->{packageId} = $packageId;
     $self->{packageDir} = $packageDir;
+    $self->{buildDir} = $buildDir;
     $self->{didbsPackage} = $didbsPackage;
     $self->{packageState} = $packageState;
 
@@ -62,7 +64,6 @@ sub extractit
     if( $self->getState() eq UNFETCHED )
     {
         print "Unfetched package. Fetching.\n";
-        my $destdir = $self->{packageDir}."/srcballs";
         mkdirp($destdir);
         my $destfile = $self->{didbsPackage}->{packageFile};
         my $fulldestfile = $destdir."/".$destfile;
@@ -111,7 +112,7 @@ sub extractit
 
     if( $self->getState() == SIGCHECKED )
     {
-        my $extractdir = $self->{packageDir}."/".$self->{packageId};
+        my $extractdir = $self->{buildDir}."/".$self->{packageId};
         print "Removing any existing content at $extractdir\n";
         rmtree $extractdir || die $!;
         mkdirp( $extractdir );

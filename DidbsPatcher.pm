@@ -8,12 +8,14 @@ sub new
     my $scriptLocation = shift;
     my $packageId = shift;
     my $packageDir = shift;
+    my $buildDir = shift;
     my $didbsPackage = shift;
     my $didbsExtractor = shift;
 
     $self->{scriptLocation} = $scriptLocation;
     $self->{packageId} = $packageId;
     $self->{packageDir} = $packageDir;
+    $self->{buildDir} = $buildDir;
     $self->{didbsPackage} = $didbsPackage;
     $self->{didbsExtractor} = $didbsExtractor;
 
@@ -27,7 +29,7 @@ sub patchit
     my $sl = $self->{scriptLocation};
     my $patchfn = $self->{didbsPackage}->{packagePatch};
     my $fullpathpatch = "$sl/packages/$self->{packageId}/$patchfn";
-    my $patchdest = "$self->{packageDir}/$self->{packageId}";
+    my $patchdest = "$self->{buildDir}/$self->{packageId}";
     print "Copying patch file $fullpathpatch to $patchdest\n";
     cp($fullpathpatch,$patchdest) || die $!;
 

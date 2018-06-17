@@ -6,6 +6,7 @@ sub new
     my $scriptLocation = shift;
     my $packageId = shift;
     my $packageDir = shift;
+    my $buildDir = shift;
     my $installDir = shift;
     my $didbsPackage = shift;
     my $didbsExtractor = shift;
@@ -15,6 +16,7 @@ sub new
     $self->{scriptLocation} = $scriptLocation;
     $self->{packageId} = $packageId;
     $self->{packageDir} = $packageDir;
+    $self->{buildDir} = $buildDir;
     $self->{installDir} = $installDir;
     $self->{didbsPackage} = $didbsPackage;
     $self->{didbsExtractor} = $didbsExtractor;
@@ -29,7 +31,7 @@ sub buildit
     my $self = shift;
     print "Building $self->{packageId}\n";
 
-    my $builddir = "$self->{packageDir}/$self->{packageId}/$self->{didbsPackage}->{packageDir}";
+    my $builddir = "$self->{buildDir}/$self->{packageId}/$self->{didbsPackage}->{packageDir}";
     my $installdir = $self->{installDir};
     print "Would build in $builddir\n";
     my $extraargs = "";

@@ -198,29 +198,26 @@ my $pkgDependencyEngine = DidbsDependencyEngine->new($scriptLocation,
 
 my $foundPackagesRef = $pkgDependencyEngine->listPackages();
 
-
 foreach $pkg (@{$foundPackagesRef})
 {
     my $curpkg = ${$pkg};
     my $pkgid = $curpkg->{packageId};
-    print "Found a package '$pkgid'\n";
+    print "Checking package '$pkgid'...\n";
 
-    doPackage( $pkg );
+#    if( $pkgid eq "make" )
+#    {
+	doPackage( $pkg, $scriptLocation, $packageDir, $buildDir, $installDir );
+#    }
 }
 
 exit 0;
 
 sub doPackage
 {
-    my( $pkgRef ) = @_;
+    my( $pkgRef, $scriptLocation, $packageDir, $buildDir, $installDir ) = @_;
     my $pkg = ${$pkgRef};
 
-    # make first, tar second, sed third
-    #my($packageId) = "make";
-    #my($packageId) = "tar";
-    #my($packageId) = "gzip";
     my($packageId) = $pkg->{packageId};
-    my($packageDir) = $pkg->{packageDir};
     my($curpkg) = $pkg;
 
     my $curpkgstate = DidbsPackageState->new($scriptLocation,
@@ -242,8 +239,10 @@ sub doPackage
     my $curpkgextractor = DidbsExtractor->new( $scriptLocation,
 					       $packageId,
 					       $packageDir,
+					       $buildDir,
 					       $curpkg,
 					       $curpkgstate);
+
 
     $curpkgextractor->debug();
 
@@ -264,6 +263,7 @@ sub doPackage
 	$curpkgpatcher = DidbsPatcher->new( $scriptLocation,
 					    $packageId,
 					    $packageDir,
+					    $buildDir,
 					    $curpkg,
 					    $curpkgextractor );
 
@@ -278,6 +278,7 @@ sub doPackage
     my $curpkgconfigurator = DidbsConfigurator->new( $scriptLocation,
 						     $packageId,
 						     $packageDir,
+						     $buildDir,
 						     $installDir,
 						     $curpkg,
 						     $curpkgextractor,
@@ -292,6 +293,7 @@ sub doPackage
     my $curpkgbuilder = DidbsBuilder->new( $scriptLocation,
 					   $packageId,
 					   $packageDir,
+					   $buildDir,
 					   $installDir,
 					   $curpkg,
 					   $curpkgextractor,
@@ -302,6 +304,5 @@ sub doPackage
 	print "Failed during build step.\n";
 	exit -1;
     }
-    print "Package complete.\n";
-    exit 0;
+    print "Package $packageId complete.\n";
 }
