@@ -42,6 +42,7 @@ sub debug
     printf " configureRecipe:      \t=> ".$self->{configureRecipe}."\n";
     printf " buildRecipe:          \t=> ".$self->{buildRecipe}."\n";
     printf " passesChecksIndicator:\t=> ".$self->{passesChecksIndicator}."\n";
+    printf " sequenceNo:           \t=> ".$self->{sequenceNo}."\n";
 }
 
 sub readPackageDef
