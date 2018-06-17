@@ -190,6 +190,8 @@ foreach $var (keys %envvars)
     print " setting $var=$val\n";
     $ENV{$var} = $val;
 }
+my $origpath = $ENV{"PATH"};
+$ENV{"PATH"} = "$installDir/bin:$origpath";
 $ENV{"DIDSB_INSTALL_DIR"} = $installDir;
 print "Modify the above in defaultenv.vars\n";
 print"\n";
@@ -207,10 +209,10 @@ foreach $pkg (@{$foundPackagesRef})
     my $pkgid = $curpkg->{packageId};
     print "Checking package '$pkgid'...\n";
 
-    if( $pkgid eq "sed" )
-    {
+#    if( $pkgid eq "make" )
+#    {
 	doPackage( $pkg, $scriptLocation, $packageDir, $buildDir, $installDir );
-    }
+#    }
 }
 
 exit 0;
@@ -226,86 +228,81 @@ sub doPackage
     my $curpkgstate = DidbsPackageState->new($scriptLocation,
 					     $packageId,
 					     $packageDir,
+					     $buildDir,
+					     $installDir,
 					     $curpkg);
 
-    # lets assume some dependency resolution occurs here
-    # so we end up with just one package in our dependency tree.
+    if( $curpkgstate->getState() ne INSTALLED )
+    {
+	my $curpkgextractor = DidbsExtractor->new( $scriptLocation,
+						   $packageId,
+						   $packageDir,
+						   $buildDir,
+						   $curpkg,
+						   $curpkgstate);
 
-    # At this point, we will:
-    # Check the package has been extracted (and when)
-    # Check the package has been patched (and when)
-    # Check the package has been configured (and when)
-    # Check the package has been built (and when)
-    # Check the package has been (manually) tested (and when)
-    # Check the package has been installed (and when)
 
-    my $curpkgextractor = DidbsExtractor->new( $scriptLocation,
+	$curpkgextractor->debug();
+
+	if( !$curpkgextractor->extractionSuccess() )
+	{
+	    print "Package extraction not known.\n";
+	    if( !$curpkgextractor->extractit() )
+	    {
+		print "Unable to extract $curpkg->{packageId}\n";
+		exit -1;
+	    }
+	}
+
+	my $curpkgpatcher = undef;
+	if( defined($curpkg->{packagePatch}) &&
+	    $curpkgextractor->getState() ne PATCHED)
+	{
+	    $curpkgpatcher = DidbsPatcher->new( $scriptLocation,
+						$packageId,
+						$packageDir,
+						$buildDir,
+						$curpkg,
+						$curpkgextractor );
+
+	    if( !$curpkgpatcher->patchit() )
+	    {
+		print "Failed to patch $curpkg->{packageId}\n";
+		exit -1;
+	    }
+	    $curpkgextractor->setState(PATCHED);
+	}
+
+	my $curpkgconfigurator = DidbsConfigurator->new( $scriptLocation,
+							 $packageId,
+							 $packageDir,
+							 $buildDir,
+							 $installDir,
+							 $curpkg,
+							 $curpkgextractor,
+							 $curpkgpatcher );
+
+	if( !$curpkgconfigurator->configureit() )
+	{
+	    print "Failed during configure stage.\n";
+	    exit -1;
+	}
+
+	my $curpkgbuilder = DidbsBuilder->new( $scriptLocation,
 					       $packageId,
 					       $packageDir,
 					       $buildDir,
+					       $installDir,
 					       $curpkg,
-					       $curpkgstate);
-
-
-    $curpkgextractor->debug();
-
-    if( !$curpkgextractor->extractionSuccess() )
-    {
-	print "Package extraction not known.\n";
-	if( !$curpkgextractor->extractit() )
+					       $curpkgextractor,
+					       $curpkgpatcher,
+					       $curpkgconfigurator );
+	if( !$curpkgbuilder->buildit() )
 	{
-	    print "Unable to extract $curpkg->{packageId}\n";
+	    print "Failed during build step.\n";
 	    exit -1;
 	}
+	print "Package $packageId complete.\n";
+	$curpkgstate->setState(INSTALLED);
     }
-
-    my $curpkgpatcher = undef;
-    if( defined($curpkg->{packagePatch}) &&
-	$curpkgextractor->getState() ne PATCHED)
-    {
-	$curpkgpatcher = DidbsPatcher->new( $scriptLocation,
-					    $packageId,
-					    $packageDir,
-					    $buildDir,
-					    $curpkg,
-					    $curpkgextractor );
-
-	if( !$curpkgpatcher->patchit() )
-	{
-	    print "Failed to patch $curpkg->{packageId}\n";
-	    exit -1;
-	}
-	$curpkgextractor->setState(PATCHED);
-    }
-
-    my $curpkgconfigurator = DidbsConfigurator->new( $scriptLocation,
-						     $packageId,
-						     $packageDir,
-						     $buildDir,
-						     $installDir,
-						     $curpkg,
-						     $curpkgextractor,
-						     $curpkgpatcher );
-
-    if( !$curpkgconfigurator->configureit() )
-    {
-	print "Failed during configure stage.\n";
-	exit -1;
-    }
-
-    my $curpkgbuilder = DidbsBuilder->new( $scriptLocation,
-					   $packageId,
-					   $packageDir,
-					   $buildDir,
-					   $installDir,
-					   $curpkg,
-					   $curpkgextractor,
-					   $curpkgpatcher,
-					   $curpkgconfigurator );
-    if( !$curpkgbuilder->buildit() )
-    {
-	print "Failed during build step.\n";
-	exit -1;
-    }
-    print "Package $packageId complete.\n";
 }
