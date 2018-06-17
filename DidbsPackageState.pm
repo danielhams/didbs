@@ -8,19 +8,67 @@ sub new
     my $scriptLocation = shift;
     my $packageId = shift;
     my $packageDir = shift;
+    my $buildDir = shift;
+    my $installDir = shift;
     my $didbsPackage = shift;
 
     $self->{scriptLocation} = $scriptLocation;
     $self->{packageId} = $packageId;
     $self->{packageDir} = $packageDir;
+    $self->{buildDir} = $buildDir;
+    $self->{installDir} = $installDir;
     $self->{didbsPackage} = $didbsPackage;
 
     $self->{stateString} = UNCHECKED;
 
-    # Quick hack, always fetch
-    $self->{stateString} = UNFETCHED;
+    my $packageDefFile = "$scriptLocation/packages/$packageId.packagedef";
+
+    my $packageDefDate = lastModTimestamp( $packageDefFile );
+
+    my $installedFile = "$buildDir/$packageId.installed";
+    $self->{installedFileName} = $installedFile;
+
+    my $installedDate = lastModTimestampOrZero( $installedFile );
+
+    print "Package def date is $packageDefDate\n";
+    print "Package installed date is $installedDate\n";
+
+    if( $installedDate lt $packageDefDate )
+    {
+	$self->{stateString} = UNFETCHED;
+    }
+    else
+    {
+	print "Package $packageId is up to date.\n";
+	$self->{stateString} = INSTALLED;
+    }
 
     return $self;
+}
+
+sub lastModTimestamp
+{
+    ( my $fn ) = (@_);
+
+    if( ! -e $fn )
+    {
+	print "Expected file $fn missing.\n";
+	exit 1;
+    }
+
+    return (stat($fn))[9];
+}
+
+sub lastModTimestampOrZero
+{
+    ( my $fn ) = (@_);
+
+    if( ! -e $fn )
+    {
+	return 0;
+    }
+
+    return lastModTimestamp( $fn );
 }
 
 sub debug
@@ -35,6 +83,13 @@ sub setState
     my $newstate = shift;
     $self->{stateString} = $newstate;
     print "Package $self->{packageId} is now in state $newstate\n";
+
+    if( $newstate eq INSTALLED )
+    {
+	$cmd = "touch $self->{installedFileName}";
+	`$cmd`;
+    }
+
 }
 
 sub getState
