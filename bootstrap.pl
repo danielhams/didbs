@@ -36,6 +36,7 @@ my $buildDir = undef;
 my $installDir = undef;
 my $verbose = 0;
 my $clean = 0;
+my $stoponuntested = 0;
 
 sub getdefaultenv
 {
@@ -61,7 +62,7 @@ sub getdefaultenv
 sub usage
 {
     my $error = shift;
-    print("bootstrap.pl --packagedir /path/for/packages --buildir /path/forbuilding --installdir /path/for/install --verbose=true\n");
+    print("bootstrap.pl --packagedir /path/for/packages --buildir /path/forbuilding --installdir /path/for/install --verbose --stoponuntested\n");
     exit( $error ? -1 : 0 );
 }
 
@@ -114,7 +115,8 @@ GetOptions(\%options,
            "builddir|b=s" => \$buildDir,
            "installdir|i=s" => \$installDir,
            "verbose|v" => \$verbose,
-           "clean" => \$clean)
+           "clean" => \$clean,
+           "stoponuntested" => \$stoponuntested )
     or usage(true);
 
 if( !defined($packageDir) || !defined($buildDir) || !defined($installDir))
@@ -234,6 +236,14 @@ sub doPackage
 					     $installDir,
 					     $curpkg);
 
+#    print "$curpkg->{passesChecksIndicator} $stoponuntested\n";
+
+    if( !$curpkg->{passesChecksIndicator} && !$stoponuntested)
+    {
+	print "Skipping untested package: $packageId\n";
+	return;
+    }
+
     if( $curpkgstate->getState() ne INSTALLED )
     {
 	my $curpkgextractor = DidbsExtractor->new( $scriptLocation,
@@ -284,6 +294,7 @@ sub doPackage
 							 $curpkgextractor,
 							 $curpkgpatcher );
 
+
 	if( !$curpkgconfigurator->configureit() )
 	{
 	    print "Failed during configure stage.\n";
@@ -305,6 +316,15 @@ sub doPackage
 	    exit -1;
 	}
 	print "Package $packageId complete.\n";
-	$curpkgstate->setState(INSTALLED);
+
+#	if( $stoponuntested && !($curpkg->{passesChecksIndicator}) )
+#	{
+#	    print "This package is marked untested, please do the tests.\n";
+#	    exit 0;
+#	}
+#	else
+#	{
+	    $curpkgstate->setState(INSTALLED);
+#	}
     }
 }
