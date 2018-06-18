@@ -86,8 +86,11 @@ sub setState
 
     if( $newstate eq INSTALLED )
     {
-	$cmd = "touch $self->{installedFileName}";
-	`$cmd`;
+	my $installedFileName = $self->{installedFileName};
+	print "Creating installed file: $installedFileName";
+	open IFN, ">$installedFileName" || die $!;
+	printf IFN "$self->{didbsPackage}->{packageDir}\n";
+	close IFN;
     }
 
 }

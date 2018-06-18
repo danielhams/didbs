@@ -192,6 +192,8 @@ foreach $var (keys %envvars)
 }
 my $origpath = $ENV{"PATH"};
 $ENV{"PATH"} = "$installDir/bin:$origpath";
+my $origPkgCpath = $ENV{"PKG_CONFIG_PATH"};
+$ENV{"PKG_CONFIG_PATH"} = "$pkgConfigPath/lib/pkgconfig:$origPkgCpath";
 $ENV{"DIDSB_INSTALL_DIR"} = $installDir;
 print "Modify the above in defaultenv.vars\n";
 print"\n";
