@@ -241,7 +241,7 @@ sub doPackage
     if( !$curpkg->{passesChecksIndicator} && !$stoponuntested)
     {
 	print "Skipping untested package: $packageId\n";
-	return;
+#	return;
     }
 
     if( $curpkgstate->getState() ne INSTALLED )
@@ -317,14 +317,14 @@ sub doPackage
 	}
 	print "Package $packageId complete.\n";
 
-#	if( $stoponuntested && !($curpkg->{passesChecksIndicator}) )
-#	{
-#	    print "This package is marked untested, please do the tests.\n";
-#	    exit 0;
-#	}
-#	else
-#	{
+	if( $stoponuntested && !($curpkg->{passesChecksIndicator}) )
+	{
+	    print "This package is marked untested, please do the tests.\n";
+	    exit 0;
+	}
+	else
+	{
 	    $curpkgstate->setState(INSTALLED);
-#	}
+	}
     }
 }
