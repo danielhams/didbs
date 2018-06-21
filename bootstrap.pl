@@ -13,6 +13,9 @@ use DidbsPatcher;
 use DidbsConfigurator;
 use DidbsBuilder;
 
+my $argc = ($#ARGV + 1);
+my $version = "0.0.1alpha1";
+
 (my $configfile = basename($0)) =~ s/^(.*?)(?:\..*)?$/$1.conf/;
 my $scriptLocation = $FindBin::Bin;
 #print "Script location is $scriptLocation\n";
@@ -62,7 +65,32 @@ sub getdefaultenv
 sub usage
 {
     my $error = shift;
-    print("bootstrap.pl --packagedir /path/for/packages --buildir /path/forbuilding --installdir /path/for/install --verbose --stoponuntested\n");
+    print <<EOUSAGE
+Setup: bootstrap.pl [maintenance options]
+Run  : bootstrap.pl
+Maintenance Options:
+\t-p /pathforpackages\t--packagedir /pathforpackages
+\t-b /pathforbuilding\t--builddir /pathforbuilding
+\t-i /pathforinstall \t--installdir /pathforinstall
+\t-v                 \t--verbose
+\t                   \t--clean
+\t                   \t--stoponuntested
+
+On first run you must provide the package, build and installation directories
+that this bootstrapper will use.
+
+When running the script without arguments, the script will attempt to determine
+and build currently missing packages. Using the --stoponuntested flag will halt
+the bootstrap process on packages that have not yet been marked as passing
+their built in checks.
+
+The first run of the script will involve bootstrapping a minimum set of
+packages from which the installation packages may be built.
+
+Configuration specified on the command line gets stored in the bootstrap.conf
+file - this can be overridden by specifying the parameters a second time.
+EOUSAGE
+;
     exit( $error ? -1 : 0 );
 }
 
@@ -99,7 +127,7 @@ sub writeconfig
     close(FH);
 }
 
-print "didbs bootstrapper script\n";
+print "didbs bootstrapper script version $version\n";
 print"\n";
 
 if( $usingfoundconf == 1 )
@@ -121,6 +149,9 @@ GetOptions(\%options,
 
 if( !defined($packageDir) || !defined($buildDir) || !defined($installDir))
 {
+    print "packageDir=$packageDir\n";
+    print "buildDir=$buildDir\n";
+    print "installDir=$installDir\n";
     usage(true);
 }
 
@@ -183,6 +214,13 @@ foreach $key (keys %options)
 
 # Write our config back out
 writeconfig(\%options);
+
+if( $usingfoundconf eq 0 || $argc >= 1 )
+{
+    print "\n";
+    print "Parameters updated. Now try running bootstrap.pl alone.\n";
+    exit 0;
+}
 
 print"\n";
 my(%envvars) = getdefaultenv($DIR);
