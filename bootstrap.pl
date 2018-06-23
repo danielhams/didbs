@@ -291,14 +291,15 @@ foreach $pkg (@{$foundPackagesRef})
 {
     my $curpkg = ${$pkg};
     my $pkgid = $curpkg->{packageId};
-    print "Checking package '$pkgid'...\n";
+    print "Treating package '$pkgid'...\n";
 
 #    if( $pkgid eq "make" )
 #    {
         my $sapd = $stageChecker->getStageAdjustedPackageDir();
         my $sabd = $stageChecker->getStageAdjustedBuildDir();
         my $said = $stageChecker->getStageAdjustedInstallDir();
-	doPackage( $pkg, $scriptLocation, $sapd, $sabd, $said );
+	doPackage( $pkg, $scriptLocation, $packageDefsDir,
+		   $sapd, $sabd, $said );
 #    }
 }
 
@@ -306,13 +307,15 @@ exit 0;
 
 sub doPackage
 {
-    my( $pkgRef, $scriptLocation, $packageDir, $buildDir, $installDir ) = @_;
+    my( $pkgRef, $scriptLocation, $packageDefsDir,
+	$packageDir, $buildDir, $installDir ) = @_;
     my $pkg = ${$pkgRef};
 
     my($packageId) = $pkg->{packageId};
     my($curpkg) = $pkg;
 
     my $curpkgstate = DidbsPackageState->new($scriptLocation,
+					     $packageDefsDir,
 					     $packageId,
 					     $packageDir,
 					     $buildDir,
@@ -321,11 +324,11 @@ sub doPackage
 
 #    print "$curpkg->{passesChecksIndicator} $stoponuntested\n";
 
-    if( !$curpkg->{passesChecksIndicator} && !$stoponuntested)
-    {
-	print "Skipping untested package: $packageId\n";
+#    if( !$curpkg->{passesChecksIndicator} && !$stoponuntested)
+#    {
+#	print "Skipping untested package: $packageId\n";
 #	return;
-    }
+#    }
 
     if( $curpkgstate->getState() ne INSTALLED )
     {
@@ -354,6 +357,7 @@ sub doPackage
 	    $curpkgextractor->getState() ne PATCHED)
 	{
 	    $curpkgpatcher = DidbsPatcher->new( $scriptLocation,
+						$packageDefsDir,
 						$packageId,
 						$packageDir,
 						$buildDir,
@@ -369,6 +373,7 @@ sub doPackage
 	}
 
 	my $curpkgconfigurator = DidbsConfigurator->new( $scriptLocation,
+							 $packageDefsDir,
 							 $packageId,
 							 $packageDir,
 							 $buildDir,
@@ -385,6 +390,7 @@ sub doPackage
 	}
 
 	my $curpkgbuilder = DidbsBuilder->new( $scriptLocation,
+					       $packageDefsDir,
 					       $packageId,
 					       $packageDir,
 					       $buildDir,

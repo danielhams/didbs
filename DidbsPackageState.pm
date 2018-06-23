@@ -6,6 +6,7 @@ sub new
 {
     my $self = bless {}, shift;
     my $scriptLocation = shift;
+    my $packageDefsDir = shift;
     my $packageId = shift;
     my $packageDir = shift;
     my $buildDir = shift;
@@ -21,7 +22,7 @@ sub new
 
     $self->{stateString} = UNCHECKED;
 
-    my $packageDefFile = "$scriptLocation/packages/$packageId.packagedef";
+    my $packageDefFile = "$packageDefsDir/$packageId.packagedef";
 
     my $packageDefDate = lastModTimestamp( $packageDefFile );
 

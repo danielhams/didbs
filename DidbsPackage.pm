@@ -48,8 +48,9 @@ sub debug
 sub readPackageDef
 {
     my $self = shift;
-    my $packageDir = shift;
-    my $packageDef = $packageDir ."/packages/".$self->{packageId}.".packagedef";
+    my $scriptLocation = shift;
+    my $packageDefDir = shift;
+    my $packageDef = $packageDefDir ."/".$self->{packageId}.".packagedef";
     if( !( -e $packageDef ) )
     {
 	die "No such package definition: $packageDef\n";
