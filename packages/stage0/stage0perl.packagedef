@@ -1,0 +1,11 @@
+packageSource=ftp://ftp.cpan.org/pub/CPAN/src/perl-5.26.2.tar.gz
+packageFile=perl-5.26.2.tar.gz
+packageChecksum=dc0fea097f3992a8cd53f8ac0810d523
+packageExtraction=tarxfsystemhelper.sh
+packageDir=perl-5.26.2
+expectedToolList=
+dependenciesList=stage0make,stage0tar,stage0gzip,stage0sed,stage0grep
+envModifs=
+configureRecipe=configureit
+buildRecipe=buildit
+passesChecksIndicator=0

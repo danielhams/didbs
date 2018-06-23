@@ -18,10 +18,20 @@ sub findPackages
 {
     my $self = shift;
     my $packageLocation = "$self->{packageDefsDir}";
+    if( ! -e $packageLocation )
+    {
+	print "Unable to find packages at $packageLocation\n";
+	exit 1;
+    }
     print "Looking for packages in $packageLocation\n";
 
     my @FOUNDPKGS = `ls $packageLocation/*.packagedef`;
     chomp(@FOUNDPKGS);
+    if( length(@FOUNDPKGS) == 0 )
+    {
+	print "Unable to find packages at $packageLocation\n";
+	exit 1;
+    }
     print "Have @FOUNDPKGS\n";
     my @knownPackages = ();
 
