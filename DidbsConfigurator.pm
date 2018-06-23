@@ -4,6 +4,7 @@ sub new
 {
     my $self = bless {}, shift;
     my $scriptLocation = shift;
+    my $packageDefsDir = shift;
     my $packageId = shift;
     my $packageDir = shift;
     my $buildDir = shift;
@@ -13,6 +14,7 @@ sub new
     my $didbsPatcher = shift;
 
     $self->{scriptLocation} = $scriptLocation;
+    $self->{packageDefsDir} = $packageDefsDir;
     $self->{packageId} = $packageId;
     $self->{packageDir} = $packageDir;
     $self->{buildDir} = $buildDir;
@@ -35,7 +37,7 @@ sub configureit
     my $extraargs = "";
     print "WARN missing args processing\n";
 
-    my $configureRecipe = "$self->{scriptLocation}/packages/$self->{packageId}/$self->{didbsPackage}->{configureRecipe}";
+    my $configureRecipe = "$self->{packageDefsDir}/$self->{packageId}/$self->{didbsPackage}->{configureRecipe}";
     my $cmd = "$configureRecipe $builddir $installdir $extraargs";
     print "About to execute $cmd\n";
     system($cmd) == 0 || die $!;

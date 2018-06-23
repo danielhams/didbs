@@ -5,6 +5,7 @@ use lib ".";
 use lib "$FindBin::Bin/lib";
 
 # Packages specific to the tooling
+use DidbsStageChecker;
 use DidbsDependencyEngine;
 use DidbsPackage;
 use DidbsPackageState;
@@ -212,16 +213,37 @@ foreach $key (keys %options)
     print " $key \t=> $options{$key}\n";
 }
 
-# Write our config back out
-writeconfig(\%options);
+my $parametersUpdated = $userfoundconf eq 0 || $argc >= 1;
 
-if( $usingfoundconf eq 0 || $argc >= 1 )
+my $shouldWriteConfig = 0;
+if( -e "$scriptLocation/$configfile" &&
+    $parametersUpdated &&
+    !defined($ENV{"DIDBS_STAGE"}) )
+{
+    if( prompt_yn("This will overwrite existing config - are you sure?") )
+    {
+	$shouldWriteConfig = 1;
+    }
+    else
+    {
+	exit 0;
+    }
+}
+
+if( $shouldWriteConfig )
+{
+    # Write our config back out
+    writeconfig(\%options);
+}
+
+if( $parametersUpdated )
 {
     print "\n";
     print "Parameters updated. Now try running bootstrap.pl alone.\n";
     exit 0;
 }
 
+# Default environment vars
 print"\n";
 my(%envvars) = getdefaultenv($DIR);
 foreach $var (keys %envvars)
@@ -230,6 +252,26 @@ foreach $var (keys %envvars)
     print " setting $var=$val\n";
     $ENV{$var} = $val;
 }
+
+# Check if the stage0 (stage1?) builds
+# are already complete
+my $stageChecker = DidbsStageChecker->new( $scriptLocation,
+					   $packageDir,
+					   $buildDir,
+					   $installDir );
+
+if( $stageChecker->stagesMissing() )
+{
+    print "Needed stages are missing..\n";
+    $stageChecker->callMissingStage();
+    exit 0;
+}
+else
+{
+    print "Modifying current path for this stage..\n";
+    $stageChecker->modifyPathForCurrentStage();
+}
+
 my $origpath = $ENV{"PATH"};
 $ENV{"PATH"} = "$installDir/bin:$origpath";
 my $origPkgCpath = $ENV{"PKG_CONFIG_PATH"};
@@ -238,7 +280,7 @@ $ENV{"DIDSB_INSTALL_DIR"} = $installDir;
 print "Modify the above in defaultenv.vars\n";
 print"\n";
 
-my $packageDefsDir = "$scriptLocation/packages";
+my $packageDefsDir = $stageChecker->getStageAdjustedPackageDefDir();
 
 my $pkgDependencyEngine = DidbsDependencyEngine->new($scriptLocation,
 						     $packageDefsDir );
@@ -249,11 +291,15 @@ foreach $pkg (@{$foundPackagesRef})
 {
     my $curpkg = ${$pkg};
     my $pkgid = $curpkg->{packageId};
-    print "Checking package '$pkgid'...\n";
+    print "Treating package '$pkgid'...\n";
 
 #    if( $pkgid eq "make" )
 #    {
-	doPackage( $pkg, $scriptLocation, $packageDir, $buildDir, $installDir );
+        my $sapd = $stageChecker->getStageAdjustedPackageDir();
+        my $sabd = $stageChecker->getStageAdjustedBuildDir();
+        my $said = $stageChecker->getStageAdjustedInstallDir();
+	doPackage( $pkg, $scriptLocation, $packageDefsDir,
+		   $sapd, $sabd, $said );
 #    }
 }
 
@@ -261,13 +307,15 @@ exit 0;
 
 sub doPackage
 {
-    my( $pkgRef, $scriptLocation, $packageDir, $buildDir, $installDir ) = @_;
+    my( $pkgRef, $scriptLocation, $packageDefsDir,
+	$packageDir, $buildDir, $installDir ) = @_;
     my $pkg = ${$pkgRef};
 
     my($packageId) = $pkg->{packageId};
     my($curpkg) = $pkg;
 
     my $curpkgstate = DidbsPackageState->new($scriptLocation,
+					     $packageDefsDir,
 					     $packageId,
 					     $packageDir,
 					     $buildDir,
@@ -276,11 +324,11 @@ sub doPackage
 
 #    print "$curpkg->{passesChecksIndicator} $stoponuntested\n";
 
-    if( !$curpkg->{passesChecksIndicator} && !$stoponuntested)
-    {
-	print "Skipping untested package: $packageId\n";
+#    if( !$curpkg->{passesChecksIndicator} && !$stoponuntested)
+#    {
+#	print "Skipping untested package: $packageId\n";
 #	return;
-    }
+#    }
 
     if( $curpkgstate->getState() ne INSTALLED )
     {
@@ -309,6 +357,7 @@ sub doPackage
 	    $curpkgextractor->getState() ne PATCHED)
 	{
 	    $curpkgpatcher = DidbsPatcher->new( $scriptLocation,
+						$packageDefsDir,
 						$packageId,
 						$packageDir,
 						$buildDir,
@@ -324,6 +373,7 @@ sub doPackage
 	}
 
 	my $curpkgconfigurator = DidbsConfigurator->new( $scriptLocation,
+							 $packageDefsDir,
 							 $packageId,
 							 $packageDir,
 							 $buildDir,
@@ -340,6 +390,7 @@ sub doPackage
 	}
 
 	my $curpkgbuilder = DidbsBuilder->new( $scriptLocation,
+					       $packageDefsDir,
 					       $packageId,
 					       $packageDir,
 					       $buildDir,
