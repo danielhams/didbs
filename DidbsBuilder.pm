@@ -1,5 +1,7 @@
 package DidbsBuilder;
 
+use DidbsUtils;
+
 sub new
 {
     my $self = bless {}, shift;
@@ -9,6 +11,7 @@ sub new
     my $packageDir = shift;
     my $buildDir = shift;
     my $installDir = shift;
+    my $pathToStage0Root = shift;
     my $didbsPackage = shift;
     my $didbsExtractor = shift;
     my $didbsPatcher = shift;
@@ -20,6 +23,7 @@ sub new
     $self->{packageDir} = $packageDir;
     $self->{buildDir} = $buildDir;
     $self->{installDir} = $installDir;
+    $self->{pathToStage0Root} = $pathToStage0Root;
     $self->{didbsPackage} = $didbsPackage;
     $self->{didbsExtractor} = $didbsExtractor;
     $self->{didbsPatcher} = $didbsPatcher;
@@ -31,13 +35,21 @@ sub new
 sub buildit
 {
     my $self = shift;
-    print "Building $self->{packageId}\n";
+    my $packageId = $self->{packageId};
+    print "Building $packageId\n";
 
     my $builddir = "$self->{buildDir}/$self->{packageId}/$self->{didbsPackage}->{packageDir}";
     my $installdir = $self->{installDir};
     print "Would build in $builddir\n";
-    my $extraargs = "";
-    print "WARN missing args processing\n";
+    my $extraargs;
+    if( begins_with($packageId,"stage1") )
+    {
+	$extraargs=$self->{pathToStage0Root};
+    }
+    else
+    {
+	$extraargs="";
+    }
 
     my $buildRecipe = "$self->{packageDefsDir}/$self->{packageId}/$self->{didbsPackage}->{buildRecipe}";
     my $cmd = "$buildRecipe $builddir $installdir $extraargs";

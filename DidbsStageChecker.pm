@@ -72,6 +72,19 @@ sub getStageAdjustedPackageDefDir()
     }
 }
 
+sub getPathToStage0Root
+{
+    my $self = shift;
+    if( $self->{stageString} eq STAGE0 )
+    {
+	return "";
+    }
+    else
+    {
+	return "$self->{buildDir}/stage0/install";
+    }
+}
+
 sub calcMissingStage
 {
     my $self = shift;

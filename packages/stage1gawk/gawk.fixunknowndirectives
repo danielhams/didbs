@@ -1,0 +1,63 @@
+Only in gawk-4.2.1-patched/awklib: Makefile
+Only in gawk-4.2.1-patched/awklib: .deps
+Only in gawk-4.2.1-patched: config.h
+Only in gawk-4.2.1-patched: config.log
+Only in gawk-4.2.1-patched: config.status
+Only in gawk-4.2.1-patched/doc: Makefile
+Only in gawk-4.2.1-patched/extension: config.h
+Only in gawk-4.2.1-patched/extension: config.log
+Only in gawk-4.2.1-patched/extension: config.status
+Only in gawk-4.2.1-patched/extension: libtool
+Only in gawk-4.2.1-patched/extension: Makefile
+Only in gawk-4.2.1-patched/extension: stamp-h1
+Only in gawk-4.2.1-patched/extension: .deps
+Only in gawk-4.2.1-patched/extras: Makefile
+Only in gawk-4.2.1-patched: Makefile
+Only in gawk-4.2.1-patched/po: Makefile
+Only in gawk-4.2.1-patched/po: Makefile.in
+Only in gawk-4.2.1-patched/po: POTFILES
+Only in gawk-4.2.1-patched: stamp-h1
+Only in gawk-4.2.1-patched/support: Makefile
+diff -r -u -w gawk-4.2.1/support/regexec.c gawk-4.2.1-patched/support/regexec.c
+--- gawk-4.2.1/support/regexec.c	Thu Dec 28 18:22:14 2017
++++ gawk-4.2.1-patched/support/regexec.c	Sun Jun 17 14:56:28 2018
+@@ -1005,7 +1005,6 @@
+    since initial states may have constraints like "\<", "^", etc..  */
+ 
+ static inline re_dfastate_t *
+-__attribute ((always_inline))
+ acquire_init_state_context (reg_errcode_t *err, const re_match_context_t *mctx,
+ 			    int idx)
+ {
+Only in gawk-4.2.1-patched/support: regexec.c~
+diff -r -u -w gawk-4.2.1/support/regex_internal.c gawk-4.2.1-patched/support/regex_internal.c
+--- gawk-4.2.1/support/regex_internal.c	Mon Dec 18 20:45:37 2017
++++ gawk-4.2.1-patched/support/regex_internal.c	Sun Jun 17 14:55:12 2018
+@@ -835,7 +835,6 @@
+ }
+ 
+ static unsigned char
+-__attribute ((pure))
+ re_string_peek_byte_case (const re_string_t *pstr, int idx)
+ {
+   int ch, off;
+@@ -1364,7 +1363,6 @@
+    return 1 if SET1 and SET2 are equivalent, return 0 otherwise.  */
+ 
+ static int
+-__attribute ((pure))
+ re_node_set_compare (const re_node_set *set1, const re_node_set *set2)
+ {
+   int i;
+@@ -1379,7 +1377,6 @@
+ /* Return (idx + 1) if SET contains the element ELEM, return 0 otherwise.  */
+ 
+ static int
+-__attribute ((pure))
+ re_node_set_contains (const re_node_set *set, int elem)
+ {
+   unsigned int idx, right, mid;
+Only in gawk-4.2.1-patched/support: regex_internal.c~
+Only in gawk-4.2.1-patched/support: .deps
+Only in gawk-4.2.1-patched/test: Makefile
+Only in gawk-4.2.1-patched: .deps

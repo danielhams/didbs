@@ -1,0 +1,8 @@
+Make tests fails in various places.
+
+Notable there seems to be:
+
+* some precision difference between expected doubles
+* Missing /dev/tty
+* Missing "Yes" binary
+* Multi-byte character issues (unsurprisingly)

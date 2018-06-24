@@ -1,0 +1,3 @@
+Make tests failures:
+
+Looks like perl is rejecting on binary file compare. Either multi-byte char issue or maybe perl version issue.

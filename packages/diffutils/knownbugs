@@ -1,0 +1,6 @@
+2 test failures -> test-select and test-strftime.
+
+test-select again issue seen before (fds doesn't through errors when expected)
+
+test-strftime seems to be a sign issue (expected "1970-01-01 00:00:00 -0000 (-00)", got "1970-01-01 00:00:00 +0000)
+

@@ -1,0 +1,3 @@
+Testing reveals quite a few issues :-(
+
+run-extglob, run-intl (surprise), run-printf (formatting issues), run-redir - looks like different error messages.

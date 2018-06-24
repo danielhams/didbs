@@ -1,7 +1,7 @@
 package DidbsUtils;
 use Exporter;
 @ISA = ('Exporter');
-@EXPORT=('mkdirp','sumfile');
+@EXPORT=('mkdirp','sumfile','begins_with');
 
 use File::Basename;
 
@@ -27,6 +27,11 @@ sub sumfile($)
 #    print "Pulled out $extracteddigest\n";
 
     return $extracteddigest;
+}
+
+sub begins_with
+{
+    return substr($_[0], 0, length($_[1])) eq $_[1];
 }
 
 1;

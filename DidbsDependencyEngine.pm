@@ -52,7 +52,7 @@ sub findPackages
     foreach $pkg (@{$self->{knownPackages}})
     {
 	my $pkgid = ${$pkg}->{packageId};
-	print "DE - Have a package '$pkgid'\n";
+#	print "DE - Have a package '$pkgid'\n";
 	$pidToPackage{$pkgid} = $pkg;
     }
     my %donePackages;
@@ -62,6 +62,15 @@ sub findPackages
     print "Package order now know....\n";
 
     $self->{knownPackages} = $orderedRef;
+
+    print "Package order as follows:\n";
+    foreach $pkg (@{$orderedRef})
+    {
+	my $curpkg = ${$pkg};
+	my $pkgid = $curpkg->{packageId};
+	my $sequenceNo = $curpkg->{sequenceNo};
+	print "Package: $pkgid => $sequenceNo\n";
+    }
 }
 
 sub listPackages
@@ -106,14 +115,14 @@ sub flattenAndSortDeps
     }
 
     # Sort
-    my @ordered = sort { ${$a}->{sequenceNo} cmp ${$b}->{sequenceNo}} @{$knownPkgsRef};
+    my @ordered = sort { ${$a}->{sequenceNo} <=> ${$b}->{sequenceNo}} @{$knownPkgsRef};
 
-    print "Sorted packages:\n";
-    foreach $sortedpkgref (@ordered)
-    {
-	my $pkg = ${$sortedpkgref};
-	$pkg->debug();
-    }
+#    print "Sorted packages:\n";
+#    foreach $sortedpkgref (@ordered)
+#    {
+#	my $pkg = ${$sortedpkgref};
+#	$pkg->debug();
+#    }
 
     return \@ordered;
 }
@@ -133,12 +142,12 @@ sub recursiveFlattenDeps
     my $curPkg = ${$curpkgRef};
 
     my $curPkgId = $curPkg->{packageId};
-    print "RecursiveFlattenDeps of $curPkgId\n";
+#    print "RecursiveFlattenDeps of $curPkgId\n";
 
     # Check if already handled
     if( ${$donepRef}{$curPkgId} ne "" )
     {
-	print "Package $curPkgId is already complete.\n";
+#	print "Package $curPkgId is already complete.\n";
 	return $curPkg->{sequenceNo};
     }
 
@@ -160,7 +169,7 @@ sub recursiveFlattenDeps
     # For each dependency, find and add their dependencies
     my $deps = $curPkg->{dependenciesList};
 
-    print "For package $curPkgId dependencies are $deps\n";
+#    print "For package $curPkgId dependencies are $deps\n";
 
     my @depIds = split(',',$deps);
     my $sequenceNo = 0;
@@ -192,7 +201,7 @@ sub recursiveFlattenDeps
 
     ${$donepRef}{$curPkgId} = "done";
     ${$pkgsInCurrentResolveRef}{$curPkgId} = "done";
-    print "Setting package $curPkgId as done\n";
+#    print "Setting package $curPkgId as done\n";
     pop @{$pkgResolutionStackRef};
 
     return $curPkg->{sequenceNo};

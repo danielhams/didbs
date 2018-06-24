@@ -1,0 +1,12 @@
+packageSource=http://ftp.gnu.org/gnu/gawk/gawk-4.2.1.tar.xz
+packageFile=gawk-4.2.1.tar.xz
+packageChecksum=95cf553f50ec9f386b5dfcd67f30180a
+packageExtraction=tarxfsystemhelper.sh
+packageDir=gawk-4.2.1
+packagePatch=gawk.fixunknowndirectives
+expectedToolList=
+dependenciesList=stage1make,stage1tar,stage1xz
+envModifs=
+configureRecipe=configureit
+buildRecipe=buildit
+passesChecksIndicator=0
