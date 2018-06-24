@@ -1,0 +1,16 @@
+#!/bin/sh
+
+BUILDDIR=$1
+INSTALLDIR=$2
+EXTRAARGS=$3
+echo $BUILDDIR
+echo $INSTALLDIR
+echo $EXTRAARGS
+UNZIP_CC=c99
+UNZIP_CFLAGS="$DIDBS_ARCH_CFLAGS -O1 -DNO_LCHMOD"
+UNZIP_LDFLAGS="$DIDBS_ARCH_LDFLAGS"
+export UNZIP_CC UNZIP_CFLAGS UNZIP_LDFLAGS
+cd $BUILDDIR || exit -1
+make -j $DIDBS_JOBS -f unix/Makefile sgi || exit -1
+make prefix=$INSTALLDIR -f unix/Makefile install || exit -1
+exit 0

@@ -40,6 +40,7 @@ my $buildDir = undef;
 my $installDir = undef;
 my $verbose = 0;
 my $clean = 0;
+my $clean_all = 0;
 my $stoponuntested = 0;
 
 sub getdefaultenv
@@ -152,6 +153,7 @@ GetOptions(\%options,
            "installdir|i=s" => \$installDir,
            "verbose|v" => \$verbose,
            "clean" => \$clean,
+           "clean_all" => \$clean_all,
            "stoponuntested" => \$stoponuntested )
     or usage(true);
 
@@ -198,7 +200,48 @@ sub prompt_before_delete
     }
 }
 
+sub prompt_before_delete_non_stage00
+{
+    my( $dirtodelete ) = @_;
+    print "About to delete $dirtodelete/*.installed and related directories\n";
+    if( prompt_yn("Are you sure") )
+    {
+	system("rm -rf $dirtodelete/*.installed");
+	my $cmd = "find $dirtodelete/* -type d -prune|grep -v stage0";
+	my @dirstodelete = `$cmd`;
+	chomp(@dirstodelete);
+	foreach $subdirtodelete (@dirstodelete)
+	{
+	    my $sbcmd = "rm -rf $subdirtodelete";
+	    print "About to remove subdir with $sbcmd\n";
+#	    system($sbcmd);
+	}
+    }
+    else
+    {
+	exit 0;
+    }
+    print "About to delete $dirtodelete/*.installed\n";
+    if( prompt_yn("Are you sure") )
+    {
+	system("rm -rf $dirtodelete/*.installed");
+    }
+    else
+    {
+	exit 0;
+    }
+}
+
 if( $clean )
+{
+    print "This will delete all non-stage0 content...\n";
+    # For now leave the packages there
+    prompt_before_delete_non_stage0($buildDir);
+    prompt_before_delete($installDir);
+    exit 0;
+}
+
+if( $clean_all )
 {
     print "This will delete all content...\n";
     # For now leave the packages there
@@ -276,6 +319,7 @@ if( $stageChecker->stagesMissing() )
 }
 else
 {
+    # Only do this once per run of the script to keep things sane
     print "Modifying current path for this stage..\n";
     $stageChecker->modifyPathForCurrentStage();
 }

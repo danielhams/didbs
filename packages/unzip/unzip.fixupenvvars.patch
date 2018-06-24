@@ -1,0 +1,23 @@
+diff -r -u -w unzip60/unix/Makefile unzip60-patched/unix/Makefile
+--- unzip60/unix/Makefile	2009-01-18 22:41:18.000000000 +0000
++++ unzip60-patched/unix/Makefile	2018-06-24 09:52:23.307709895 +0000
+@@ -42,15 +42,15 @@
+ # such as -DDOSWILD).
+ 
+ # UnZip flags
+-CC = cc#	try using "gcc" target rather than changing this (CC and LD
++CC = $(UNZIP_CC)#	try using "gcc" target rather than changing this (CC and LD
+ LD = $(CC)#	must match, else "unresolved symbol:  ___main" is possible)
+ AS = as
+ LOC = $(D_USE_BZ2) $(LOCAL_UNZIP)
+ AF = $(LOC)
+-CFLAGS = -O
++CFLAGS = $(UNZIP_CFLAGS)
+ CF_NOOPT = -I. -I$(IZ_BZIP2) -DUNIX $(LOC)
+ CF = $(CFLAGS) $(CF_NOOPT)
+-LFLAGS1 =
++LFLAGS1 = $(UNZIP_LDFLAGS)
+ LF = -o unzip$E $(LFLAGS1)
+ LF2 = -s
+ 
+Only in unzip60-patched/unix: Makefile~
