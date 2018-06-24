@@ -1,0 +1,57 @@
+Only in make-4.2.1-fixed: build.sh
+Only in make-4.2.1-fixed/config: Makefile
+Only in make-4.2.1-fixed: config.h
+Only in make-4.2.1-fixed: config.log
+Only in make-4.2.1-fixed: config.status
+Only in make-4.2.1-fixed/doc: Makefile
+Only in make-4.2.1-fixed/glob: Makefile
+Only in make-4.2.1-fixed/glob: .deps
+Only in make-4.2.1-fixed: Makefile
+Only in make-4.2.1-fixed/po: Makefile
+Only in make-4.2.1-fixed/po: Makefile.in
+Only in make-4.2.1-fixed/po: POTFILES
+Only in make-4.2.1-fixed: stamp-h1
+diff -r -u -w make-4.2.1/tests/config-flags.pm make-4.2.1-fixed/tests/config-flags.pm
+--- make-4.2.1/tests/config-flags.pm	Sat Jun 11 00:03:32 2016
++++ make-4.2.1-fixed/tests/config-flags.pm	Sat Jun 23 15:23:51 2018
+@@ -6,14 +6,14 @@
+ %CONFIG_FLAGS = (
+     AM_LDFLAGS   => '-Wl,--export-dynamic',
+     AR           => 'ar',
+-    CC           => 'gcc',
+-    CFLAGS       => '-g -O2',
+-    CPP          => 'gcc -E',
++    CC           => 'c99',
++    CFLAGS       => '-mips4 -O1',
++    CPP          => 'c99 -E',
+     CPPFLAGS     => '',
+-    GUILE_CFLAGS => '-pthread -I/usr/include/guile/2.0',
+-    GUILE_LIBS   => '-lguile-2.0 -lgc',
+-    LDFLAGS      => '',
+-    LIBS         => '-ldl '
++    GUILE_CFLAGS => '',
++    GUILE_LIBS   => '',
++    LDFLAGS      => '-mips4',
++    LIBS         => ''
+ );
+ 
+ 1;
+diff -r -u -w make-4.2.1/tests/run_make_tests.pl make-4.2.1-fixed/tests/run_make_tests.pl
+--- make-4.2.1/tests/run_make_tests.pl	Mon Apr 04 06:38:37 2016
++++ make-4.2.1-fixed/tests/run_make_tests.pl	Sat Jun 23 15:25:56 2018
+@@ -58,6 +58,9 @@
+   *CORE::GLOBAL::rmdir = \&vms_rmdir;
+ }
+ 
++use FindBin;
++use lib "$FindBin::Bin";
++
+ require "test_driver.pl";
+ require "config-flags.pm";
+ 
+Only in make-4.2.1-fixed/tests: run_make_tests.pl~
+Only in make-4.2.1-fixed/w32/compat: .deps
+Only in make-4.2.1-fixed/w32: Makefile
+Only in make-4.2.1-fixed/w32/subproc: .deps
+Only in make-4.2.1-fixed/w32: .deps
+Only in make-4.2.1-fixed: .deps

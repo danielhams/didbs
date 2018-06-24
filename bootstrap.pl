@@ -119,6 +119,13 @@ sub writeconfig
                 printf FH "--verbose\n";
             }
         }
+        elsif( $key eq "stoponuntested" )
+        {
+            if( $hash{$key} eq 1 )
+            {
+                printf FH "--stoponuntested\n";
+            }
+        }
         else
         {
             print "Unhandled option: $key\n";
@@ -205,6 +212,7 @@ $options{"packagedir"} = $packageDir;
 $options{"builddir"} = $buildDir;
 $options{"installdir"} = $installDir;
 $options{"verbose"} = $verbose;
+$options{"stoponuntested"} = $stoponuntested;
 
 print"\n";
 print "Used config: \n";
@@ -287,6 +295,12 @@ my $pkgDependencyEngine = DidbsDependencyEngine->new($scriptLocation,
 
 my $foundPackagesRef = $pkgDependencyEngine->listPackages();
 
+my $sapd = $stageChecker->getStageAdjustedPackageDir();
+my $sabd = $stageChecker->getStageAdjustedBuildDir();
+my $said = $stageChecker->getStageAdjustedInstallDir();
+my $pathToStage0Root = $stageChecker->getPathToStage0Root();
+$ENV{"STAGE0ROOT"}=$pathToStage0Root;
+
 foreach $pkg (@{$foundPackagesRef})
 {
     my $curpkg = ${$pkg};
@@ -295,11 +309,11 @@ foreach $pkg (@{$foundPackagesRef})
 
 #    if( $pkgid eq "make" )
 #    {
-        my $sapd = $stageChecker->getStageAdjustedPackageDir();
-        my $sabd = $stageChecker->getStageAdjustedBuildDir();
-        my $said = $stageChecker->getStageAdjustedInstallDir();
+#        print "Have the stage0root of $pathToStage0Root\n";
+#        exit 1;
 	doPackage( $pkg, $scriptLocation, $packageDefsDir,
-		   $sapd, $sabd, $said );
+		   $sapd, $sabd, $said,
+		   $pathToStage0Root );
 #    }
 }
 
@@ -308,7 +322,8 @@ exit 0;
 sub doPackage
 {
     my( $pkgRef, $scriptLocation, $packageDefsDir,
-	$packageDir, $buildDir, $installDir ) = @_;
+	$packageDir, $buildDir, $installDir,
+	$pathToStage0Root ) = @_;
     my $pkg = ${$pkgRef};
 
     my($packageId) = $pkg->{packageId};
@@ -322,13 +337,13 @@ sub doPackage
 					     $installDir,
 					     $curpkg);
 
-#    print "$curpkg->{passesChecksIndicator} $stoponuntested\n";
+    print "$curpkg->{passesChecksIndicator} $stoponuntested\n";
 
-#    if( !$curpkg->{passesChecksIndicator} && !$stoponuntested)
-#    {
-#	print "Skipping untested package: $packageId\n";
-#	return;
-#    }
+    if( !$curpkg->{passesChecksIndicator} && !$stoponuntested)
+    {
+	print "Skipping untested package: $packageId\n";
+	return;
+    }
 
     if( $curpkgstate->getState() ne INSTALLED )
     {
@@ -378,6 +393,7 @@ sub doPackage
 							 $packageDir,
 							 $buildDir,
 							 $installDir,
+							 $pathToStage0Root,
 							 $curpkg,
 							 $curpkgextractor,
 							 $curpkgpatcher );
@@ -395,6 +411,7 @@ sub doPackage
 					       $packageDir,
 					       $buildDir,
 					       $installDir,
+					       $pathToStage0Root,
 					       $curpkg,
 					       $curpkgextractor,
 					       $curpkgpatcher,

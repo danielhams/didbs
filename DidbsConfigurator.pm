@@ -1,5 +1,7 @@
 package DidbsConfigurator;
 
+use DidbsUtils;
+
 sub new
 {
     my $self = bless {}, shift;
@@ -9,6 +11,7 @@ sub new
     my $packageDir = shift;
     my $buildDir = shift;
     my $installDir = shift;
+    my $pathToStage0Root = shift;
     my $didbsPackage = shift;
     my $didbsExtractor = shift;
     my $didbsPatcher = shift;
@@ -19,6 +22,7 @@ sub new
     $self->{packageDir} = $packageDir;
     $self->{buildDir} = $buildDir;
     $self->{installDir} = $installDir;
+    $self->{pathToStage0Root} = $pathToStage0Root;
     $self->{didbsPackage} = $didbsPackage;
     $self->{didbsExtractor} = $didbsExtractor;
     $self->{didbsPatcher} = $didbsPatcher;
@@ -29,15 +33,24 @@ sub new
 sub configureit
 {
     my $self = shift;
-    print "Configuring $self->{packageId}\n";
+    my $packageId = $self->{packageId};
+    print "Configuring $packageId\n";
 
-    my $builddir = "$self->{buildDir}/$self->{packageId}/$self->{didbsPackage}->{packageDir}";
+    my $builddir = "$self->{buildDir}/$packageId/$self->{didbsPackage}->{packageDir}";
     print "Would configure in $builddir\n";
     my $installdir = $self->{installDir};
-    my $extraargs = "";
-    print "WARN missing args processing\n";
+    my $extraargs;
+    print "Checking if $packageId begins with stage1.\n";
+    if( begins_with($packageId,"stage1") )
+    {
+	$extraargs=$self->{pathToStage0Root};
+    }
+    else
+    {
+	$extraargs="";
+    }
 
-    my $configureRecipe = "$self->{packageDefsDir}/$self->{packageId}/$self->{didbsPackage}->{configureRecipe}";
+    my $configureRecipe = "$self->{packageDefsDir}/$packageId/$self->{didbsPackage}->{configureRecipe}";
     my $cmd = "$configureRecipe $builddir $installdir $extraargs";
     print "About to execute $cmd\n";
     system($cmd) == 0 || die $!;
