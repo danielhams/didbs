@@ -76,6 +76,7 @@ Maintenance Options:
 \t-i /pathforinstall \t--installdir /pathforinstall
 \t-v                 \t--verbose
 \t                   \t--clean
+\t                   \t--clean-all
 \t                   \t--stoponuntested
 
 On first run you must provide the package, build and installation directories
@@ -153,7 +154,7 @@ GetOptions(\%options,
            "installdir|i=s" => \$installDir,
            "verbose|v" => \$verbose,
            "clean" => \$clean,
-           "clean_all" => \$clean_all,
+           "clean-all" => \$clean_all,
            "stoponuntested" => \$stoponuntested )
     or usage(true);
 
