@@ -103,9 +103,9 @@ sub writeconfig
     my %hash = %{ $hash_ref };
 
     my $cfname = "$scriptLocation/$configfile";
-    #    print "Will write config to $cfname\n";
+    print "Will write config to $cfname\n";
     open(FH, '>'.$cfname) || die $!;
-    #    print "Would try and write out config of $hash \n";
+    print "Would try and write out config of $hash \n";
     foreach my $key (keys %hash)
     {
         if( $key eq "packagedir" ||
@@ -272,6 +272,10 @@ if( -e "$scriptLocation/$configfile" &&
     {
 	exit 0;
     }
+}
+else
+{
+    $shouldWriteConfig = $parametersUpdated;
 }
 
 if( $shouldWriteConfig )

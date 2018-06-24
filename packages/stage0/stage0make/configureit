@@ -6,7 +6,7 @@ EXTRAARGS=$3
 echo $BUILDDIR
 echo $INSTALLDIR
 echo $EXTRAARGS
-CC=c99
+CC=$DIDBS_CC
 CFLAGS="$DIDBS_ARCH_CFLAGS -O1"
 LDFLAGS="$DIDBS_ARCH_LDFLAGS"
 #SHELL="$INSTALLDIR/bin/ksh"
@@ -15,5 +15,5 @@ PERL="$INSTALLDIR/bin/perl"
 #export CC CFLAGS LDFLAGS
 export CC CFLAGS LDFLAGS SHELL CONFIG_SHELL PERL
 cd $BUILDDIR || exit -1
-./configure --prefix=$INSTALLDIR $EXTRAARGS || exit -1
+./configure --without-guile --prefix=$INSTALLDIR $EXTRAARGS || exit -1
 exit 0
