@@ -8,4 +8,4 @@ dependenciesList=stage0make,stage0tar,stage0gzip,stage0sed,stage0grep
 envModifs=
 configureRecipe=configureit
 buildRecipe=buildit
-passesChecksIndicator=0
+passesChecksIndicator=1
