@@ -200,7 +200,7 @@ sub prompt_before_delete
     }
 }
 
-sub prompt_before_delete_non_stage00
+sub prompt_before_delete_non_stage0
 {
     my( $dirtodelete ) = @_;
     print "About to delete $dirtodelete/*.installed and related directories\n";
@@ -213,18 +213,10 @@ sub prompt_before_delete_non_stage00
 	foreach $subdirtodelete (@dirstodelete)
 	{
 	    my $sbcmd = "rm -rf $subdirtodelete";
-	    print "About to remove subdir with $sbcmd\n";
-#	    system($sbcmd);
+#	    print "About to remove subdir with $sbcmd\n";
+	    system($sbcmd);
 	}
-    }
-    else
-    {
 	exit 0;
-    }
-    print "About to delete $dirtodelete/*.installed\n";
-    if( prompt_yn("Are you sure") )
-    {
-	system("rm -rf $dirtodelete/*.installed");
     }
     else
     {
