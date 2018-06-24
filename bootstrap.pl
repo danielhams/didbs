@@ -75,8 +75,8 @@ Maintenance Options:
 \t-b /pathforbuilding\t--builddir /pathforbuilding
 \t-i /pathforinstall \t--installdir /pathforinstall
 \t-v                 \t--verbose
-\t                   \t--clean
-\t                   \t--clean-all
+\t                   \t--clean              (non-stage0 builds)
+\t                   \t--clean-all          (builds + installs)
 \t                   \t--stoponuntested
 
 On first run you must provide the package, build and installation directories
