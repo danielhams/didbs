@@ -88,7 +88,7 @@ sub setState
     if( $newstate eq INSTALLED )
     {
 	my $installedFileName = $self->{installedFileName};
-	print "Creating installed file: $installedFileName";
+	print "Creating installed file: $installedFileName\n";
 	open IFN, ">$installedFileName" || die $!;
 	printf IFN "$self->{didbsPackage}->{packageDir}\n";
 	close IFN;
