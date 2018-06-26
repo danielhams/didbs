@@ -1,0 +1,112 @@
+diff -r -u -w coreutils-8.29/lib/gethrxtime.c coreutils-8.29-patched/lib/gethrxtime.c
+--- coreutils-8.29/lib/gethrxtime.c	2017-12-21 11:38:24.000000000 +0000
++++ coreutils-8.29-patched/lib/gethrxtime.c	2018-06-25 21:00:58.502119921 +0000
+@@ -24,6 +24,7 @@
+ 
+ #if ! (HAVE_ARITHMETIC_HRTIME_T && HAVE_DECL_GETHRTIME)
+ 
++#include <time.h>
+ #include <sys/time.h>
+ #include "timespec.h"
+ 
+diff -r -u -w coreutils-8.29/lib/gettimeofday.c coreutils-8.29-patched/lib/gettimeofday.c
+--- coreutils-8.29/lib/gettimeofday.c	2017-11-23 21:32:18.000000000 +0000
++++ coreutils-8.29-patched/lib/gettimeofday.c	2018-06-25 21:00:58.507898954 +0000
+@@ -20,10 +20,10 @@
+ #include <config.h>
+ 
+ /* Specification.  */
+-#include <sys/time.h>
+-
+ #include <time.h>
+ 
++#include <sys/time.h>
++
+ #if (defined _WIN32 || defined __WIN32__) && ! defined __CYGWIN__
+ # define WINDOWS_NATIVE
+ # include <windows.h>
+diff -r -u -w coreutils-8.29/src/blake2/b2sum.c coreutils-8.29-patched/src/blake2/b2sum.c
+--- coreutils-8.29/src/blake2/b2sum.c	2017-09-20 02:17:21.000000000 +0000
++++ coreutils-8.29-patched/src/blake2/b2sum.c	2018-06-25 21:00:58.699559515 +0000
+@@ -13,6 +13,8 @@
+    https://blake2.net.
+ */
+ 
++#include <config.h>
++
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <string.h>
+diff -r -u -w coreutils-8.29/src/blake2/blake2.h coreutils-8.29-patched/src/blake2/blake2.h
+--- coreutils-8.29/src/blake2/blake2.h	2017-09-20 02:17:21.000000000 +0000
++++ coreutils-8.29-patched/src/blake2/blake2.h	2018-06-25 21:00:58.703378495 +0000
+@@ -20,6 +20,8 @@
+ 
+ #if defined(_MSC_VER)
+ #define BLAKE2_PACKED(x) __pragma(pack(push, 1)) x __pragma(pack(pop))
++#elif defined(__sgi)
++#define BLAKE2_PACKED(x) x
+ #else
+ #define BLAKE2_PACKED(x) x __attribute__((packed))
+ #endif
+@@ -86,6 +88,9 @@
+     size_t        outlen;
+   } blake2bp_state;
+ 
++#if defined(__sgi)
++#pragma pack(1)
++#endif
+ 
+   BLAKE2_PACKED(struct blake2s_param__
+   {
+@@ -103,8 +108,16 @@
+     uint8_t  personal[BLAKE2S_PERSONALBYTES];  /* 32 */
+   });
+ 
++#if defined(__sgi)
++#pragma pack(0)
++#endif
++
+   typedef struct blake2s_param__ blake2s_param;
+ 
++#if defined(__sgi)
++#pragma pack(1)
++#endif
++
+   BLAKE2_PACKED(struct blake2b_param__
+   {
+     uint8_t  digest_length; /* 1 */
+@@ -121,6 +134,10 @@
+     uint8_t  personal[BLAKE2B_PERSONALBYTES];  /* 64 */
+   });
+ 
++#if defined(__sgi)
++#pragma pack(0)
++#endif
++
+   typedef struct blake2b_param__ blake2b_param;
+ 
+   typedef struct blake2xs_state__
+diff -r -u -w coreutils-8.29/src/numfmt.c coreutils-8.29-patched/src/numfmt.c
+--- coreutils-8.29/src/numfmt.c	2017-09-20 02:17:21.000000000 +0000
++++ coreutils-8.29-patched/src/numfmt.c	2018-06-25 21:00:58.725127974 +0000
+@@ -1447,7 +1447,7 @@
+   bindtextdomain (PACKAGE, LOCALEDIR);
+   textdomain (PACKAGE);
+ 
+-#if HAVE_FPSETPREC
++#if HAVE_FPSETPREC && defined(fpsetprec)
+   /* Enabled extended precision if needed.  */
+   fpsetprec (FP_PE);
+ #endif
+diff -r -u -w coreutils-8.29/src/seq.c coreutils-8.29-patched/src/seq.c
+--- coreutils-8.29/src/seq.c	2017-09-20 02:17:21.000000000 +0000
++++ coreutils-8.29-patched/src/seq.c	2018-06-25 21:00:58.738079096 +0000
+@@ -20,6 +20,7 @@
+ #include <getopt.h>
+ #include <stdio.h>
+ #include <sys/types.h>
++#include <math.h>
+ 
+ #include "system.h"
+ #include "die.h"

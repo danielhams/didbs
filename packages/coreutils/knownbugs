@@ -1,0 +1,13 @@
+misc/seq isn't correctly handling NAN parameters (the macros in seq.c don't correctly identify inf or nan) - FIXED by including math.h
+misc/seq-precision fails, too.
+misc/shred-remove fail
+misc/sleep fail
+misc/sort-float fail
+misc/sort-month fail
+misc/sync fail
+misc/yes fail
+dd/sparse ERROR (setup)
+ln/sf-1 fail
+
+Then we get up to ### and that's as far as it gets, it fails with argument list too long (all parameters together are just too much for it.)
+

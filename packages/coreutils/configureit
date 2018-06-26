@@ -1,0 +1,17 @@
+#!/bin/sh
+
+BUILDDIR=$1
+INSTALLDIR=$2
+EXTRAARGS=$3
+echo $BUILDDIR
+echo $INSTALLDIR
+echo $EXTRAARGS
+CC=$DIDBS_CC
+CFLAGS="$DIDBS_ARCH_CFLAGS -O1"
+LDFLAGS="$DIDBS_ARCH_LDFLAGS"
+SHELL=$INSTALLDIR/bin/bash
+CONFIG_SHELL=$INSTALLDIR/bin/bash
+export CC CFLAGS LDFLAGS SHELL CONFIG_SHELL
+cd $BUILDDIR || exit -1
+gl_cv_func_nl_langinfo_yesexpr_works=no HAVE_NL_LANGINFO=0 utils_cv_xlc=no ./configure --prefix=$INSTALLDIR --disable-nls $EXTRAARGS || exit -1
+exit 0
