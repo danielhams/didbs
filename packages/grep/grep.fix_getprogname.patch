@@ -1,11 +1,3 @@
-Only in grep-3.1-patched: config.h
-Only in grep-3.1-patched: config.log
-Only in grep-3.1-patched: config.status
-Only in grep-3.1-patched/doc: Makefile
-Only in grep-3.1-patched/gnulib-tests: Makefile
-Only in grep-3.1-patched/gnulib-tests/unistr: .deps
-Only in grep-3.1-patched/gnulib-tests/uniwidth: .deps
-Only in grep-3.1-patched/gnulib-tests: .deps
 diff -u -w -r grep-3.1/lib/getprogname.c grep-3.1-patched/lib/getprogname.c
 --- grep-3.1/lib/getprogname.c	Mon Jan 16 17:29:13 2017
 +++ grep-3.1-patched/lib/getprogname.c	Mon Jun 18 22:57:51 2018
@@ -75,20 +67,84 @@ diff -u -w -r grep-3.1/lib/getprogname.c grep-3.1-patched/lib/getprogname.c
 + * coding: utf-8
 + * End:
 + */
-Only in grep-3.1-patched/lib/glthread: .deps
-Only in grep-3.1-patched/lib/glthread: .dirstamp
-Only in grep-3.1-patched/lib: Makefile
-Only in grep-3.1-patched/lib/unistr: .deps
-Only in grep-3.1-patched/lib/unistr: .dirstamp
-Only in grep-3.1-patched/lib/uniwidth: .deps
-Only in grep-3.1-patched/lib/uniwidth: .dirstamp
-Only in grep-3.1-patched/lib: .deps
-Only in grep-3.1-patched: Makefile
-Only in grep-3.1-patched/po: Makefile
-Only in grep-3.1-patched/po: Makefile.in
-Only in grep-3.1-patched/po: POTFILES
-Only in grep-3.1-patched/src: Makefile
-Only in grep-3.1-patched/src: .deps
-Only in grep-3.1-patched: stamp-h1
-Only in grep-3.1-patched/tests: Makefile
-Only in grep-3.1-patched/tests: .deps
+--- grep-3.1/lib/dfa.c Sat May 20 01:00:26 2017
++++ grep-3.1-patched/lib/dfa.c  Fri Jun 29 17:21:33 2018
+@@ -2159,7 +2159,7 @@
+   fprintf (stderr, "new state %zd\n nextpos:", i);
+   for (state_num j = 0; j < s->nelem; j++)
+     {
+-      fprintf (stderr, " %zu:", s->elems[j].index);
++      fprintf (stderr, " %u:", s->elems[j].index);
+       prtok (d->tokens[s->elems[j].index]);
+     }
+   fprintf (stderr, "\n context:");
+@@ -2384,7 +2384,7 @@
+   fprintf (stderr, "dfaanalyze:\n");
+   for (size_t i = 0; i < d->tindex; ++i)
+     {
+-      fprintf (stderr, " %zu:", i);
++      fprintf (stderr, " %u:", i);
+       prtok (d->tokens[i]);
+     }
+   putc ('\n', stderr);
+@@ -2501,7 +2501,7 @@
+         }
+ #ifdef DEBUG
+       /* ... balance the above nonsyntactic #ifdef goo...  */
+-      fprintf (stderr, "node %zu:", i);
++      fprintf (stderr, "node %u:", i);
+       prtok (d->tokens[i]);
+       putc ('\n', stderr);
+       fprintf (stderr,
+@@ -2509,13 +2509,13 @@
+       fprintf (stderr, " firstpos:");
+       for (size_t j = stk[-1].nfirstpos; j-- > 0;)
+         {
+-          fprintf (stderr, " %zu:", firstpos[j].index);
++          fprintf (stderr, " %u:", firstpos[j].index);
+           prtok (d->tokens[firstpos[j].index]);
+         }
+       fprintf (stderr, "\n lastpos:");
+       for (size_t j = stk[-1].nlastpos; j-- > 0;)
+         {
+-          fprintf (stderr, " %zu:", lastpos[j].index);
++          fprintf (stderr, " %u:", lastpos[j].index);
+           prtok (d->tokens[lastpos[j].index]);
+         }
+       putc ('\n', stderr);
+@@ -2528,12 +2528,12 @@
+         || d->tokens[i] == ANYCHAR || d->tokens[i] == MBCSET
+         || d->tokens[i] >= CSET)
+       {
+-        fprintf (stderr, "follows(%zu:", i);
++        fprintf (stderr, "follows(%u:", i);
+         prtok (d->tokens[i]);
+         fprintf (stderr, "):");
+         for (size_t j = d->follows[i].nelem; j-- > 0;)
+           {
+-            fprintf (stderr, " %zu:", d->follows[i].elems[j].index);
++            fprintf (stderr, " %u:", d->follows[i].elems[j].index);
+             prtok (d->tokens[d->follows[i].elems[j].index]);
+           }
+         putc ('\n', stderr);
+@@ -2769,7 +2769,7 @@
+         }
+ 
+ #ifdef DEBUG
+-      fprintf (stderr, " nextpos %zu:", pos.index);
++      fprintf (stderr, " nextpos %u:", pos.index);
+       prtok (d->tokens[pos.index]);
+       fprintf (stderr, " of");
+       for (size_t j = 0; j < NOTCHAR; j++)
+diff -r -u -w grep-3.1/src/dfasearch.c grep-3.1-patched/src/dfasearch.c
+--- grep-3.1/src/dfasearch.c Tue Jan 17 17:04:17 2017
++++ grep-3.1-patched/src/dfasearch.c Fri Jun 29 17:20:28 2018
+@@ -160,7 +160,7 @@
+           if (*pat_filename == '\0')
+             error (0, 0, "%s", err);
+           else
+-            error (0, 0, "%s:%zu: %s", pat_filename, lineno, err);
++            error (0, 0, "%s:%u: %s", pat_filename, lineno, err);
+           compilation_failed = true;
+         }
+       dc->pcount++;
