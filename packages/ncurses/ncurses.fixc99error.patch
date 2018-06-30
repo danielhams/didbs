@@ -1,0 +1,14 @@
+diff -r -u -w ncurses-6.1/c++/cursesw.h ncurses-6.1-patched/c++/cursesw.h
+--- ncurses-6.1/c++/cursesw.h	2017-11-21 00:37:23.000000000 +0000
++++ ncurses-6.1-patched/c++/cursesw.h	2018-06-30 01:04:49.776175335 +0000
+@@ -34,7 +34,9 @@
+ // $Id: cursesw.h,v 1.53 2017/11/21 00:37:23 tom Exp $
+ 
+ extern "C" {
++#define __c99
+ #  include   <curses.h>
++#undef __c99
+ }
+ 
+ #include <etip.h>
+Only in ncurses-6.1-patched/c++: cursesw.h~
