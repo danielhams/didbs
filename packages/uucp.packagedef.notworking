@@ -1,0 +1,12 @@
+packageSource=http://ftp.gnu.org/gnu/uucp/uucp-1.07.tar.gz
+packageFile=uucp-1.07.tar.gz
+packageChecksum=64c54d43787339a7cced48390eb3e1d0
+packageExtraction=tarxfsystemhelper.sh
+packageDir=uucp-1.07
+#packagePatch=
+expectedToolList=
+dependenciesList=make,tar,gawk,gzip
+envModifs=
+configureRecipe=configureit
+buildRecipe=buildit
+passesChecksIndicator=1
