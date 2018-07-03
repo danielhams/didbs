@@ -1,0 +1,11 @@
+packageSource=ftp://ftp-osl.osuosl.org/pub/libpng/src/libpng16/libpng-1.6.34.tar.xz
+packageFile=libpng-1.6.34.tar.xz
+packageChecksum=c05b6ca7190a5e387b78657dbe5536b2
+packageExtraction=tarxfsystemhelper.sh
+packageDir=libpng-1.6.34
+expectedToolList=
+dependenciesList=make,tar,xz
+envModifs=
+configureRecipe=configureit
+buildRecipe=buildit
+passesChecksIndicator=1

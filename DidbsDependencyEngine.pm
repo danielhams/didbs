@@ -114,15 +114,22 @@ sub flattenAndSortDeps
 #	}
     }
 
-    # Sort
-    my @ordered = sort { ${$a}->{sequenceNo} <=> ${$b}->{sequenceNo}} @{$knownPkgsRef};
+    # Sort (first on seq no, then on package ID)
+    my @ordered = sort {
+	${$a}->{sequenceNo} <=> ${$b}->{sequenceNo}
+	||
+	${$a}->{packageId} cmp ${$b}->{packageId}
+    } @{$knownPkgsRef};
 
+    # If having problem with dependency ordering
+    # Uncomment this stuff to see what order is being used.
 #    print "Sorted packages:\n";
 #    foreach $sortedpkgref (@ordered)
 #    {
 #	my $pkg = ${$sortedpkgref};
-#	$pkg->debug();
+#	print "Seq: $pkg->{sequenceNo}\t:\t $pkg->{packageId} \n";
 #    }
+#    exit;
 
     return \@ordered;
 }
