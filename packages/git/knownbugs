@@ -1,0 +1,8 @@
+Unable to currently test:
+
+make[1]: Entering directory '/builds/dan/bootstrapbuilds/git/git-2.17.0/t'
+rm -f -r 'test-results'
+non-portable file name(s): $(git -c core.quotepath=true ls-files 2>/dev/null | grep ["*:<>?\|])
+make[1]: *** [Makefile:82: test-lint-filenames] Error 1
+make[1]: Leaving directory '/builds/dan/bootstrapbuilds/git/git-2.17.0/t'
+make: *** [Makefile:2484: test] Error 2

@@ -1,0 +1,12 @@
+packageSource=https://www.openssl.org/source/openssl-1.1.0h.tar.gz
+packageFile=openssl-1.1.0h.tar.gz
+packageChecksum=5271477e4d93f4ea032b665ef095ff24
+packageExtraction=tarxfsystemhelper.sh
+packageDir=openssl-1.1.0h
+#packagePatch=
+expectedToolList=
+dependenciesList=make,tar,gzip
+envModifs=
+configureRecipe=configureit
+buildRecipe=buildit
+passesChecksIndicator=1
