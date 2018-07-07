@@ -1,16 +1,1 @@
-test-select failure during make check (in gnulib-tests):
-
-FAIL: test-select
-=================
-
-Invalid nfd test... failed (invalid errno after negative nfds)
-Invalid fd test... failed (invalid fd among rfds)
-  failed (invalid fd among wfds)
-  failed (invalid fd among xfds)
-Unconnected socket test... passed
-Connected sockets test... passed
-General socket test with fork... passed
-Pipe test... passed
-FAIL test-select (exit status: 4)
-
-Could maybe be issue with select fd sets not failing as expected.
+All tests currently passing!
