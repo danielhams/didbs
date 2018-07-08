@@ -1,0 +1,13 @@
+diff -r -u -w gettext-0.19.8.1/gettext-tools/gnulib-lib/libxml/trionan.c gettext-0.19.8.1-patched/gettext-tools/gnulib-lib/libxml/trionan.c
+--- gettext-0.19.8.1/gettext-tools/gnulib-lib/libxml/trionan.c	2015-12-23 07:08:27.000000000 +0000
++++ gettext-0.19.8.1-patched/gettext-tools/gnulib-lib/libxml/trionan.c	2018-07-08 08:45:31.034092120 +0000
+@@ -2,6 +2,9 @@
+ 
+ #include "config.h"
+ #include <math.h>
++#if defined(__sgi)
++#include <limits.h>
++#endif
+ 
+ /* Copied from gnulib/tests/infinity.h.  */
+ 

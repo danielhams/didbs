@@ -1,0 +1,188 @@
+==================================================
+   gettext-tools 0.19.8.1: tests/test-suite.log
+==================================================
+
+# TOTAL: 412
+# PASS:  383
+# SKIP:  27
+# XFAIL: 0
+# FAIL:  2
+# XPASS: 0
+# ERROR: 0
+
+.. contents:: :depth: 2
+
+SKIP: gettext-3
+===============
+
+Skipping test: not a glibc system
+SKIP gettext-3 (exit status: 77)
+
+SKIP: gettext-5
+===============
+
+Skipping test: not a glibc system
+SKIP gettext-5 (exit status: 77)
+
+SKIP: gettext-6
+===============
+
+Skipping test: not a glibc or Mac OS X system
+SKIP gettext-6 (exit status: 77)
+
+SKIP: gettext-7
+===============
+
+Skipping test: not a glibc or Mac OS X system
+SKIP gettext-7 (exit status: 77)
+
+FAIL: msgmerge-compendium-5
+===========================
+
+./msgmerge-compendium-5[7]: 345141 Bus error(coredump)
+FAIL msgmerge-compendium-5 (exit status: 1)
+
+SKIP: msgunfmt-csharp-1
+=======================
+
+Skipping test: C# compiler not found
+SKIP msgunfmt-csharp-1 (exit status: 77)
+
+SKIP: msgunfmt-java-1
+=====================
+
+Skipping test: Java compiler or jar not found
+SKIP msgunfmt-java-1 (exit status: 77)
+
+SKIP: msgunfmt-tcl-1
+====================
+
+Skipping test: tclsh not found or Tcl too old
+SKIP msgunfmt-tcl-1 (exit status: 77)
+
+SKIP: recode-sr-latin-1
+=======================
+
+Skipping test: no french UTF-8 locale is installed
+SKIP recode-sr-latin-1 (exit status: 77)
+
+SKIP: recode-sr-latin-2
+=======================
+
+Skipping test: no japanese EUC-JP locale is installed
+SKIP recode-sr-latin-2 (exit status: 77)
+
+SKIP: lang-objc
+===============
+
+Skipping test: Objective C compiler not found
+SKIP lang-objc (exit status: 77)
+
+SKIP: lang-python-1
+===================
+
+Skipping test: python not found
+SKIP lang-python-1 (exit status: 77)
+
+SKIP: lang-python-2
+===================
+
+Skipping test: python not found
+SKIP lang-python-2 (exit status: 77)
+
+SKIP: lang-clisp
+================
+
+Skipping test: clisp not found
+SKIP lang-clisp (exit status: 77)
+
+SKIP: lang-librep
+=================
+
+Skipping test: rep not found
+SKIP lang-librep (exit status: 77)
+
+SKIP: lang-guile
+================
+
+Skipping test: guile not found
+SKIP lang-guile (exit status: 77)
+
+SKIP: lang-smalltalk
+====================
+
+Skipping test: gst not found
+SKIP lang-smalltalk (exit status: 77)
+
+SKIP: lang-java
+===============
+
+Skipping test: Java compiler or jar not found
+SKIP lang-java (exit status: 77)
+
+SKIP: lang-csharp
+=================
+
+Skipping test: C# compiler not found
+SKIP lang-csharp (exit status: 77)
+
+SKIP: lang-gawk
+===============
+
+Skipping test: gawk was built without i18n support
+SKIP lang-gawk (exit status: 77)
+
+SKIP: lang-pascal
+=================
+
+Skipping test: Pascal compiler ppc386 or ppcx64 not found
+SKIP lang-pascal (exit status: 77)
+
+SKIP: lang-tcl
+==============
+
+Skipping test: tclsh not found or msgcat extension not present
+SKIP lang-tcl (exit status: 77)
+
+SKIP: lang-perl-1
+=================
+
+Skipping test: perl package Locale::Messages is not installed
+SKIP lang-perl-1 (exit status: 77)
+
+SKIP: lang-perl-2
+=================
+
+Skipping test: perl package libintl-perl is not installed
+SKIP lang-perl-2 (exit status: 77)
+
+SKIP: lang-php
+==============
+
+Skipping test: php not found
+SKIP lang-php (exit status: 77)
+
+SKIP: lang-lua
+==============
+
+Skipping test: lua not found
+SKIP lang-lua (exit status: 77)
+
+SKIP: lang-javascript
+=====================
+
+Skipping test: gjs not found
+SKIP lang-javascript (exit status: 77)
+
+SKIP: lang-vala
+===============
+
+Skipping test: valac not found
+SKIP lang-vala (exit status: 77)
+
+FAIL: cldr-plurals-1
+====================
+
+diff: memory exhausted
+FAIL cldr-plurals-1 (exit status: 1)
+

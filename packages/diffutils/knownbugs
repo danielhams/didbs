@@ -1,6 +1,254 @@
-2 test failures -> test-select and test-strftime.
+====================================================
+   GNU diffutils 3.6: gnulib-tests/test-suite.log
+====================================================
 
-test-select again issue seen before (fds doesn't through errors when expected)
+# TOTAL: 170
+# PASS:  147
+# SKIP:  22
+# XFAIL: 0
+# FAIL:  1
+# XPASS: 0
+# ERROR: 0
 
-test-strftime seems to be a sign issue (expected "1970-01-01 00:00:00 -0000 (-00)", got "1970-01-01 00:00:00 +0000)
+.. contents:: :depth: 2
+
+SKIP: test-btowc2.sh
+====================
+
+Skipping test: no french Unicode locale is installed
+SKIP test-btowc2.sh (exit status: 77)
+
+SKIP: test-mbrtowc2.sh
+======================
+
+Skipping test: no french Unicode locale is installed
+SKIP test-mbrtowc2.sh (exit status: 77)
+
+SKIP: test-mbrtowc3.sh
+======================
+
+Skipping test: no traditional japanese locale is installed
+SKIP test-mbrtowc3.sh (exit status: 77)
+
+SKIP: test-mbrtowc4.sh
+======================
+
+Skipping test: no transitional chinese locale is installed
+SKIP test-mbrtowc4.sh (exit status: 77)
+
+SKIP: test-mbrtowc-w32-1.sh
+===========================
+
+Skipping test: not a native Windows system
+SKIP test-mbrtowc-w32-1.sh (exit status: 77)
+
+SKIP: test-mbrtowc-w32-2.sh
+===========================
+
+Skipping test: not a native Windows system
+SKIP test-mbrtowc-w32-2.sh (exit status: 77)
+
+SKIP: test-mbrtowc-w32-3.sh
+===========================
+
+Skipping test: not a native Windows system
+SKIP test-mbrtowc-w32-3.sh (exit status: 77)
+
+SKIP: test-mbrtowc-w32-4.sh
+===========================
+
+Skipping test: not a native Windows system
+SKIP test-mbrtowc-w32-4.sh (exit status: 77)
+
+SKIP: test-mbrtowc-w32-5.sh
+===========================
+
+Skipping test: not a native Windows system
+SKIP test-mbrtowc-w32-5.sh (exit status: 77)
+
+SKIP: test-mbscasecmp.sh
+========================
+
+Skipping test: no turkish Unicode locale is installed
+SKIP test-mbscasecmp.sh (exit status: 77)
+
+SKIP: test-mbsinit.sh
+=====================
+
+Skipping test: no french Unicode locale is installed
+SKIP test-mbsinit.sh (exit status: 77)
+
+SKIP: test-mbsrtowcs2.sh
+========================
+
+Skipping test: no french Unicode locale is installed
+SKIP test-mbsrtowcs2.sh (exit status: 77)
+
+SKIP: test-mbsrtowcs3.sh
+========================
+
+Skipping test: no traditional japanese locale is installed
+SKIP test-mbsrtowcs3.sh (exit status: 77)
+
+SKIP: test-mbsrtowcs4.sh
+========================
+
+Skipping test: no transitional chinese locale is installed
+SKIP test-mbsrtowcs4.sh (exit status: 77)
+
+SKIP: test-mbsstr2.sh
+=====================
+
+Skipping test: no french Unicode locale is installed
+SKIP test-mbsstr2.sh (exit status: 77)
+
+SKIP: test-mbsstr3.sh
+=====================
+
+Skipping test: no chinese GB18030 locale is installed
+SKIP test-mbsstr3.sh (exit status: 77)
+
+FAIL: test-strftime
+===================
+
+<-00>0: expected "1970-01-01 00:00:00 -0000 (-00)", got "1970-01-01 00:00:00 +0000 (<  )"
+<-00>0: expected "1985-11-05 00:53:21 -0000 (-00)", got "1985-11-05 00:53:21 +0000 (<  )"
+<-00>0: expected "2001-09-09 01:46:42 -0000 (-00)", got "2001-09-09 01:46:42 +0000 (>  )"
+FAIL test-strftime (exit status: 1)
+
+SKIP: test-vc-list-files-cvs.sh
+===============================
+
+++ initial_cwd_=/builds/dan/bootstrapbuilds/diffutils/diffutils-3.6/gnulib-tests
++++ testdir_prefix_
++++ printf gt
+++ pfx_=gt
++++ mktempd_ /builds/dan/bootstrapbuilds/diffutils/diffutils-3.6/gnulib-tests gt-test-vc-list-files-cvs.sh.XXXX
++++ case $# in
++++ destdir_=/builds/dan/bootstrapbuilds/diffutils/diffutils-3.6/gnulib-tests
++++ template_=gt-test-vc-list-files-cvs.sh.XXXX
++++ MAX_TRIES_=4
++++ case $destdir_ in
++++ destdir_slash_=/builds/dan/bootstrapbuilds/diffutils/diffutils-3.6/gnulib-tests/
++++ case $template_ in
+++++ unset TMPDIR
++++ d=/builds/dan/bootstrapbuilds/diffutils/diffutils-3.6/gnulib-tests/gt-test-vc-list-files-cvs.sh.G5Gd
++++ case $d in
++++ :
++++ test -d /builds/dan/bootstrapbuilds/diffutils/diffutils-3.6/gnulib-tests/gt-test-vc-list-files-cvs.sh.G5Gd
+++++ ls -dgo /builds/dan/bootstrapbuilds/diffutils/diffutils-3.6/gnulib-tests/gt-test-vc-list-files-cvs.sh.G5Gd
++++ perms='drwx------ 2 6 Jul  8 12:08 /builds/dan/bootstrapbuilds/diffutils/diffutils-3.6/gnulib-tests/gt-test-vc-list-files-cvs.sh.G5Gd'
++++ case $perms in
++++ :
++++ echo /builds/dan/bootstrapbuilds/diffutils/diffutils-3.6/gnulib-tests/gt-test-vc-list-files-cvs.sh.G5Gd
++++ return
+++ test_dir_=/builds/dan/bootstrapbuilds/diffutils/diffutils-3.6/gnulib-tests/gt-test-vc-list-files-cvs.sh.G5Gd
+++ cd /builds/dan/bootstrapbuilds/diffutils/diffutils-3.6/gnulib-tests/gt-test-vc-list-files-cvs.sh.G5Gd
+++ gl_init_sh_nl_='
+'
+++ IFS=' 	
+'
+++ for sig_ in 1 2 3 13 15
++++ expr 1 + 128
+++ eval 'trap '\''Exit 129'\'' 1'
++++ trap 'Exit 129' 1
+++ for sig_ in 1 2 3 13 15
++++ expr 2 + 128
+++ eval 'trap '\''Exit 130'\'' 2'
++++ trap 'Exit 130' 2
+++ for sig_ in 1 2 3 13 15
++++ expr 3 + 128
+++ eval 'trap '\''Exit 131'\'' 3'
++++ trap 'Exit 131' 3
+++ for sig_ in 1 2 3 13 15
++++ expr 13 + 128
+++ eval 'trap '\''Exit 141'\'' 13'
++++ trap 'Exit 141' 13
+++ for sig_ in 1 2 3 13 15
++++ expr 15 + 128
+++ eval 'trap '\''Exit 143'\'' 15'
++++ trap 'Exit 143' 15
+++ trap remove_tmp_ 0
++ path_prepend_ /builds/dan/bootstrapbuilds/diffutils/diffutils-3.6/build-aux .
++ test 2 '!=' 0
++ path_dir_=/builds/dan/bootstrapbuilds/diffutils/diffutils-3.6/build-aux
++ case $path_dir_ in
++ abs_path_dir_=/builds/dan/bootstrapbuilds/diffutils/diffutils-3.6/build-aux
++ case $abs_path_dir_ in
++ PATH=/builds/dan/bootstrapbuilds/diffutils/diffutils-3.6/build-aux:/optdangit/bin:/builds/dan/bootstrapinstall/bin:/usr/sbin:/usr/bsd:/sbin:/usr/bin:/usr/bin/X11
++ create_exe_shims_ /builds/dan/bootstrapbuilds/diffutils/diffutils-3.6/build-aux
++ case $EXEEXT in
++ return 0
++ shift
++ test 1 '!=' 0
++ path_dir_=.
++ case $path_dir_ in
++ abs_path_dir_=/builds/dan/bootstrapbuilds/diffutils/diffutils-3.6/gnulib-tests/.
++ case $abs_path_dir_ in
++ PATH=/builds/dan/bootstrapbuilds/diffutils/diffutils-3.6/gnulib-tests/.:/builds/dan/bootstrapbuilds/diffutils/diffutils-3.6/build-aux:/optdangit/bin:/builds/dan/bootstrapinstall/bin:/usr/sbin:/usr/bsd:/sbin:/usr/bin:/usr/bin/X11
++ create_exe_shims_ /builds/dan/bootstrapbuilds/diffutils/diffutils-3.6/gnulib-tests/.
++ case $EXEEXT in
++ return 0
++ shift
++ test 0 '!=' 0
++ export PATH
++ tmpdir=vc-cvs
+++ pwd
++ repo=/builds/dan/bootstrapbuilds/diffutils/diffutils-3.6/gnulib-tests/gt-test-vc-list-files-cvs.sh.G5Gd/vc-cvs/repo
++ fail=0
++ for i in with-cvsu without
++ test with-cvsu = without
++ ok=0
++ mkdir vc-cvs
++ cd vc-cvs
++ skip_ 'cvs not found in PATH'
++ warn_ 'test-vc-list-files-cvs.sh: skipped test: cvs not found in PATH'
++ case $IFS in
++ printf '%s\n' 'test-vc-list-files-cvs.sh: skipped test: cvs not found in PATH'
+test-vc-list-files-cvs.sh: skipped test: cvs not found in PATH
++ test 2 = 2
++ Exit 77
++ set +e
++ exit 77
++ exit 77
++ remove_tmp_
++ __st=77
++ cleanup_
++ :
++ test '' = yes
++ cd /builds/dan/bootstrapbuilds/diffutils/diffutils-3.6/gnulib-tests
++ chmod -R u+rwx /builds/dan/bootstrapbuilds/diffutils/diffutils-3.6/gnulib-tests/gt-test-vc-list-files-cvs.sh.G5Gd
++ rm -rf /builds/dan/bootstrapbuilds/diffutils/diffutils-3.6/gnulib-tests/gt-test-vc-list-files-cvs.sh.G5Gd
++ exit 77
+SKIP test-vc-list-files-cvs.sh (exit status: 77)
+
+SKIP: test-wcrtomb-w32-1.sh
+===========================
+
+Skipping test: not a native Windows system
+SKIP test-wcrtomb-w32-1.sh (exit status: 77)
+
+SKIP: test-wcrtomb-w32-2.sh
+===========================
+
+Skipping test: not a native Windows system
+SKIP test-wcrtomb-w32-2.sh (exit status: 77)
+
+SKIP: test-wcrtomb-w32-3.sh
+===========================
+
+Skipping test: not a native Windows system
+SKIP test-wcrtomb-w32-3.sh (exit status: 77)
+
+SKIP: test-wcrtomb-w32-4.sh
+===========================
+
+Skipping test: not a native Windows system
+SKIP test-wcrtomb-w32-4.sh (exit status: 77)
+
+SKIP: test-wcrtomb-w32-5.sh
+===========================
+
+Skipping test: not a native Windows system
+SKIP test-wcrtomb-w32-5.sh (exit status: 77)
 
