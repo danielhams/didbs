@@ -9,4 +9,5 @@ dependenciesList=stage1grep,make,tar,xz,readline
 envModifs=
 configureRecipe=configureit
 buildRecipe=buildit
+installRecipe=installit
 passesChecksIndicator=1

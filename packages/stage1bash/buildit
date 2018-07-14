@@ -12,7 +12,4 @@ PKG_CONFIG_PATH="$INSTALLDIR/lib/pkgconfig"
 export PATH LD_LIBRARYN32_PATH PKG_CONFIG_PATH
 cd $BUILDDIR || exit -1
 make -j $DIDBS_JOBS || exit -1
-make install || exit -1
-cd $INSTALLDIR/bin
-ln -s -f bash sh || exit -1
 exit 0

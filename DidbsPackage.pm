@@ -41,6 +41,7 @@ sub debug
     printf " envModifs:            \t=> ".$self->{envModifs}."\n";
     printf " configureRecipe:      \t=> ".$self->{configureRecipe}."\n";
     printf " buildRecipe:          \t=> ".$self->{buildRecipe}."\n";
+    printf " installRecipe:        \t=> ".$self->{installRecipe}."\n";
     printf " passesChecksIndicator:\t=> ".$self->{passesChecksIndicator}."\n";
     printf " sequenceNo:           \t=> ".$self->{sequenceNo}."\n";
 }
@@ -82,8 +83,17 @@ sub readPackageDef
     $self->{envModifs} = $values{"envModifs"};
     $self->{configureRecipe} = $values{"configureRecipe"};
     $self->{buildRecipe} = $values{"buildRecipe"};
+    $self->{installRecipe} = $values{"installRecipe"};
     $self->{passesChecksIndicator} = $values{"passesChecksIndicator"};
 
+    if( length($self->{configureRecipe}) == 0
+	||
+	length($self->{buildRecipe}) == 0
+	||
+	length($self->{installRecipe}) == 0 )
+    {
+	die "configureRecipe, buildRecipe, installRecipe must be filled for $packageDef.";
+    }
 }
 
 1;

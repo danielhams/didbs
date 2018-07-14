@@ -9,4 +9,5 @@ dependenciesList=make,tar,xz,diffutils,grep,ncurses,bash,openssl
 envModifs=
 configureRecipe=configureit
 buildRecipe=buildit
+installRecipe=installit
 passesChecksIndicator=1

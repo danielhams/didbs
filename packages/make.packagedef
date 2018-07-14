@@ -9,4 +9,5 @@ dependenciesList=stage1perl,stage1bash,libiconv
 envModifs=
 configureRecipe=configureit
 buildRecipe=buildit
+installRecipe=installit
 passesChecksIndicator=1

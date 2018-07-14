@@ -11,5 +11,4 @@ LD_LIBRARYN32_PATH=$EXTRAARGS/lib:$INSTALLDIR/lib:$PATH
 export PATH LD_LIBRARYN32_PATH
 cd $BUILDDIR || exit -1
 make -j $DIDBS_JOBS || exit -1
-make install || exit -1
 exit 0

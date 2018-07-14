@@ -1,0 +1,17 @@
+#!/bin/sh
+
+BUILDDIR=$1
+INSTALLDIR=$2
+EXTRAARGS=$3
+echo $BUILDDIR
+echo $INSTALLDIR
+echo $EXTRAARGS
+PATH=$EXTRAARGS/bin:$INSTALLDIR/bin:$PATH
+LD_LIBRARYN32_PATH="$EXTRAARGS/lib:$INSTALLDIR/lib"
+PKG_CONFIG_PATH="$INSTALLDIR/lib/pkgconfig"
+export PATH LD_LIBRARYN32_PATH PKG_CONFIG_PATH
+cd $BUILDDIR || exit -1
+make install || exit -1
+cd $INSTALLDIR/bin
+ln -s -f bash sh || exit -1
+exit 0

@@ -9,4 +9,5 @@ dependenciesList=stage1make,stage1tar,stage1xz,stage1sed,stage1gawk
 envModifs=
 configureRecipe=configureit
 buildRecipe=buildit
+installRecipe=installit
 passesChecksIndicator=1

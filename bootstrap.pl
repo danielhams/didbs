@@ -13,6 +13,7 @@ use DidbsExtractor;
 use DidbsPatcher;
 use DidbsConfigurator;
 use DidbsBuilder;
+use DidbsInstaller;
 
 my $argc = ($#ARGV + 1);
 my $version = "0.0.1alpha1";
@@ -469,9 +470,25 @@ sub doPackage
 	    print "This package is marked untested, please do the tests.\n";
 	    exit 0;
 	}
-	else
+
+	my $curpkginstaller = DidbsInstaller->new( $scriptLocation,
+						   $packageDefsDir,
+						   $packageId,
+						   $packageDir,
+						   $buildDir,
+						   $installDir,
+						   $pathToStage0Root,
+						   $curpkg,
+						   $curpkgextractor,
+						   $curpkgpatcher,
+						   $curpkgconfigurator );
+	if( !$curpkginstaller->installit() )
 	{
-	    $curpkgstate->setState(INSTALLED);
+	    print "Failed during install step.\n";
+	    exit -1;
 	}
+
+	$curpkgstate->setState(INSTALLED);
+
     }
 }

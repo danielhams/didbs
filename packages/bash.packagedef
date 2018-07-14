@@ -8,4 +8,5 @@ dependenciesList=make,tar,gzip,diffutils,readline,ncurses
 envModifs=
 configureRecipe=configureit
 buildRecipe=buildit
+installRecipe=installit
 passesChecksIndicator=1

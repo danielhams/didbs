@@ -9,4 +9,5 @@ dependenciesList=stage1perl,make,tar,xz,sed,gawk
 envModifs=
 configureRecipe=configureit
 buildRecipe=buildit
+installRecipe=installit
 passesChecksIndicator=1

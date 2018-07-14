@@ -8,4 +8,5 @@ dependenciesList=stage1perl,make,tar,gzip,gmp
 envModifs=
 configureRecipe=configureit
 buildRecipe=buildit
+installRecipe=installit
 passesChecksIndicator=1
