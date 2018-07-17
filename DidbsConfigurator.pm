@@ -47,7 +47,7 @@ sub configureit
     }
     else
     {
-	$extraargs="";
+	$extraargs=$self->{scriptLocation};
     }
 
     my $configureRecipe = "$self->{packageDefsDir}/$packageId/$self->{didbsPackage}->{configureRecipe}";
