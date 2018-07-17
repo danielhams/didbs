@@ -21,8 +21,21 @@ and then a bit further down this
 
 Which fixes the precision issues (but not the strtod signing issue)
 
-misc/shred-remove fail
-misc/sleep fail
+misc/shred-remove fail : This one looks like it might be down to a difference between the glibc renameat2 and the stub implementation in the coreutils project. Basically there seems to be some extra renames happening compared to what happens under linux (for example). Detail:
+
+--- exp 2018-07-17 21:07:16.112532320 +0000
++++ out 2018-07-17 21:07:16.049453200 +0000
+@@ -2,4 +2,5 @@
+ shred: test: renamed to 0000
+ shred: 0000: renamed to 001
+ shred: 001: renamed to 00
++shred: 00: renamed to _
+ shred: test: removed
+
+misc/sleep fail: Seems to be because !(0<=s) where s=nan thinks nan is positive.....
+
+I've currently fixed by adding an "isnan" test for __sgi - but it can perhaps be better fixed by tweaking some floating point parameters (this should be ieee spec stuff, right?)
+
 misc/sort-float fail
 misc/sort-month fail
 misc/sync fail
