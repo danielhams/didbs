@@ -44,4 +44,4 @@ inc/
 tmp
 
 # local config cache
-bootstrap.conf
+bootstrap.conf*

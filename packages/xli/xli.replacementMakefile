@@ -615,8 +615,8 @@ clean::
 
 install:: $(SYSPATHFILE)
 #	$(RM) $(BINDIR)/xview $(BINDIR)/xsetbg
-	$(LN) $(BINDIR)/xli $(BINDIR)/xview
-	$(LN) $(BINDIR)/xli $(BINDIR)/xsetbg
+	$(LN) -f $(BINDIR)/xli $(BINDIR)/xview
+	$(LN) -f $(BINDIR)/xli $(BINDIR)/xsetbg
 
 $(SYSPATHFILE):
 	@echo "*** Creating default $(SYSPATHFILE) since you"

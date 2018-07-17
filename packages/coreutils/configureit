@@ -13,5 +13,5 @@ SHELL=$INSTALLDIR/bin/bash
 CONFIG_SHELL=$INSTALLDIR/bin/bash
 export CC CFLAGS LDFLAGS SHELL CONFIG_SHELL
 cd $BUILDDIR || exit -1
-REPLACE_STRTOD=1 gl_cv_func_strtod_works=no gl_cv_func_nl_langinfo_yesexpr_works=no HAVE_NL_LANGINFO=0 utils_cv_xlc=no ./configure --prefix=$INSTALLDIR --disable-nls --disable-silent-rules $EXTRAARGS || exit -1
+REPLACE_STRTOD=1 gl_cv_func_strtod_works=no gl_cv_func_nl_langinfo_yesexpr_works=no HAVE_NL_LANGINFO=0 utils_cv_xlc=no ./configure --prefix=$INSTALLDIR --disable-nls --disable-silent-rules || exit -1
 exit 0

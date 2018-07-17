@@ -1,5 +1,26 @@
 misc/seq isn't correctly handling NAN parameters (the macros in seq.c don't correctly identify inf or nan) - FIXED by including math.h
 misc/seq-precision fails, too.
+
+One patch is to numfmt.c to add this near the top:
+
+#if defined(__sgi)
+# include <sys/fpu.h>
+#endif
+
+and then a bit further down this
+
+#if HAVE_FPSETPREC && defined(fpsetprec)
+  /* Enabled extended precision if needed.  */
+  fpsetprec (FP_PE);
+#elif defined(__sgi)
+  union fpc_csr f;
+  f.fc_word = get_fpc_csr();
+  f.fc_struct.flush = 0;
+  set_fpc_csr(f.fc_word);
+#endif
+
+Which fixes the precision issues (but not the strtod signing issue)
+
 misc/shred-remove fail
 misc/sleep fail
 misc/sort-float fail
