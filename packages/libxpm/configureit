@@ -15,5 +15,5 @@ XPM_CFLAGS="-I/usr/include/X11"
 XPM_LIBS="-lX11"
 export CC CFLAGS LDFLAGS LD_LIBRARYN32_PATH PKG_CONFIG_PATH XPM_CFLAGS XPM_LIBS
 cd $BUILDDIR || exit -1
-./configure --prefix=$INSTALLDIR $EXTRAARGS || exit -1
+./configure --prefix=$INSTALLDIR || exit -1
 exit 0

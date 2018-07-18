@@ -12,5 +12,5 @@ CFLAGS="$DIDBS_ARCH_CFLAGS -O3 -OPT:Olimit=7000"
 LDFLAGS="$DIDBS_ARCH_LDFLAGS"
 export CC CFLAGS LDFLAGS
 cd $BUILDDIR || exit -1
-gl_cv_func_select_supports0=no gl_cv_func_select_detects_ebadf=no ./configure --prefix=$INSTALLDIR $EXTRAARGS || exit -1
+gl_cv_func_select_supports0=no gl_cv_func_select_detects_ebadf=no ./configure --prefix=$INSTALLDIR || exit -1
 exit 0

@@ -15,5 +15,5 @@ PERL="$INSTALLDIR/bin/perl"
 #export CC CFLAGS LDFLAGS
 export CC CFLAGS LDFLAGS SHELL CONFIG_SHELL PERL
 cd $BUILDDIR || exit -1
-./configure --without-guile --prefix=$INSTALLDIR $EXTRAARGS || exit -1
+./configure --without-guile --prefix=$INSTALLDIR || exit -1
 exit 0

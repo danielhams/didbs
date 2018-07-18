@@ -13,5 +13,5 @@ CXXFLAGS="$DIDBS_ARCH_CXXFLAGS -O1 -I${INSTALLDIR}/include"
 LDFLAGS="$DIDBS_ARCH_LDFLAGS -L${INSTALLDIR}/lib"
 export CC CXX CFLAGS CXXFLAGS LDFLAGS
 cd $BUILDDIR || exit -1
-./configure --with-shared --with-gpm --prefix=$INSTALLDIR $EXTRAARGS || exit -1
+./configure --with-shared --with-gpm --prefix=$INSTALLDIR || exit -1
 exit 0

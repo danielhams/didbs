@@ -14,5 +14,5 @@ PKG_CONFIG_PATH="$INSTALLDIR/lib/pkgconfig"
 PERL=$INSTALLDIR/bin/perl
 export CC CFLAGS LDFLAGS LD_LIBRARYN32_PATH PKG_CONFIG_PATH PERL
 cd $BUILDDIR || exit -1
-./configure --prefix=$INSTALLDIR --disable-silent-rules $EXTRAARGS || exit -1
+./configure --prefix=$INSTALLDIR --disable-silent-rules || exit -1
 exit 0
