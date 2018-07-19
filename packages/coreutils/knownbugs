@@ -36,11 +36,13 @@ misc/sleep fail: Seems to be because !(0<=s) where s=nan thinks nan is positive.
 
 I've currently fixed by adding an "isnan" test for __sgi - but it can perhaps be better fixed by tweaking some floating point parameters (this should be ieee spec stuff, right?)
 
-misc/sort-float fail - bah....
-misc/sort-month fail - failure in sort when run under LC_ALL=fr_FR and 'sort -k2,2M'
+misc/sort-float fail - Fixed by disabling strtod
+misc/sort-month fail - Fixed by disabling strtod
 misc/sync fail - "bad file number" for doing regular fsync(fd) - changing the open_flags to include write (like aix) fixes this one.
 misc/yes fail
 dd/sparse ERROR (setup) - this one seems to have been fixed by the fix to "sync"
-dd/stats fail - (maybe just takes huge amount of time, I killed it after 15 mins)
+dd/stats fail - fixed by disabling strtod or sync fix
 ln/sf-1 fail - some of the name to long tests are failing - not clear why for the moment.
+
+Now down to three failures :-)
 
