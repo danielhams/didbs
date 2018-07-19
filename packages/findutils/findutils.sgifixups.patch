@@ -1,0 +1,38 @@
+diff -r -u -w findutils-4.6.0/locate/code.c findutils-4.6.0-patched/locate/code.c
+--- findutils-4.6.0/locate/code.c	2015-12-28 21:10:23.000000000 +0000
++++ findutils-4.6.0-patched/locate/code.c	2018-07-19 09:04:18.362146920 +0000
+@@ -83,8 +83,12 @@
+ 
+ 
+ #ifndef ATTRIBUTE_NORETURN
++# if defined(__sgi)
++#  define ATTRIBUTE_NORETURN
++# else
+ # define ATTRIBUTE_NORETURN __attribute__ ((__noreturn__))
+ #endif
++#endif
+ 
+ 
+ /* The 128 most common bigrams in the file list, padded with NULs
+diff -r -u -w findutils-4.6.0/tests/test-gettimeofday.c findutils-4.6.0-patched/tests/test-gettimeofday.c
+--- findutils-4.6.0/tests/test-gettimeofday.c	2015-12-22 17:32:53.000000000 +0000
++++ findutils-4.6.0-patched/tests/test-gettimeofday.c	2018-07-19 09:04:40.922923880 +0000
+@@ -17,6 +17,7 @@
+ 
+ #include <config.h>
+ 
++#include <time.h>
+ #include <sys/time.h>
+ 
+ #include "signature.h"
+diff -r -u -w findutils-4.6.0/tests/test-sys_time.c findutils-4.6.0-patched/tests/test-sys_time.c
+--- findutils-4.6.0/tests/test-sys_time.c	2015-12-22 17:32:53.000000000 +0000
++++ findutils-4.6.0-patched/tests/test-sys_time.c	2018-07-19 09:04:40.925872760 +0000
+@@ -18,6 +18,7 @@
+ 
+ #include <config.h>
+ 
++#include <time.h>
+ #include <sys/time.h>
+ 
+ /* Check that the 'struct timeval' type is defined.  */

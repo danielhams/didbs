@@ -1,0 +1,6 @@
+test-isfinite requires to use -O1 to avoid barfing on isfinite(Infinityf()). Some issue with reordering and floating point I guess.
+
+Also some tests are failing as part of what they do involves using python....
+
+Great...
+
