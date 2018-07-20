@@ -8,4 +8,5 @@ dependenciesList=make,pkgconfig,gnutls
 envModifs=
 configureRecipe=configureit
 buildRecipe=buildit
-passesChecksIndicator=0
+installRecipe=installit
+passesChecksIndicator=1

@@ -1,0 +1,105 @@
+diff -r -u -w gnutls-3.1.5/gl/tests/test-gettimeofday.c gnutls-3.1.5-patched/gl/tests/test-gettimeofday.c
+--- gnutls-3.1.5/gl/tests/test-gettimeofday.c	2012-04-12 21:05:11.000000000 +0000
++++ gnutls-3.1.5-patched/gl/tests/test-gettimeofday.c	2018-07-20 17:50:04.949332800 +0000
+@@ -17,6 +17,7 @@
+ 
+ #include <config.h>
+ 
++#include <time.h>
+ #include <sys/time.h>
+ 
+ #include "signature.h"
+diff -r -u -w gnutls-3.1.5/gl/tests/test-sys_time.c gnutls-3.1.5-patched/gl/tests/test-sys_time.c
+--- gnutls-3.1.5/gl/tests/test-sys_time.c	2012-04-12 21:05:11.000000000 +0000
++++ gnutls-3.1.5-patched/gl/tests/test-sys_time.c	2018-07-20 17:50:04.952163840 +0000
+@@ -18,6 +18,7 @@
+ 
+ #include <config.h>
+ 
++#include <time.h>
+ #include <sys/time.h>
+ 
+ /* Check that the 'struct timeval' type is defined.  */
+diff -r -u -w gnutls-3.1.5/lib/nettle/cipher.c gnutls-3.1.5-patched/lib/nettle/cipher.c
+--- gnutls-3.1.5/lib/nettle/cipher.c	2012-09-19 22:13:58.000000000 +0000
++++ gnutls-3.1.5-patched/lib/nettle/cipher.c	2018-07-20 17:49:51.951892720 +0000
+@@ -63,7 +63,9 @@
+   union
+   {
+     struct aes_ctx aes;
+-    struct camellia_ctx camellia;
++    struct camellia128_ctx camellia128;
++    struct camellia192_ctx camellia192;
++    struct camellia256_ctx camellia256;
+     struct arcfour_ctx arcfour;
+     struct arctwo_ctx arctwo;
+     struct des3_ctx des3;
+@@ -152,13 +154,27 @@
+       ctx->block_size = AES_BLOCK_SIZE;
+       break;
+     case GNUTLS_CIPHER_CAMELLIA_128_CBC:
++      ctx->encrypt = cbc_encrypt;
++      ctx->decrypt = cbc_decrypt;
++      ctx->i_encrypt = (nettle_crypt_func*)camellia128_crypt;
++      ctx->i_decrypt = (nettle_crypt_func*)camellia128_crypt;
++      ctx->ctx_ptr = &ctx->ctx.camellia128;
++      ctx->block_size = CAMELLIA_BLOCK_SIZE;
++      break;
+     case GNUTLS_CIPHER_CAMELLIA_192_CBC:
++      ctx->encrypt = cbc_encrypt;
++      ctx->decrypt = cbc_decrypt;
++      ctx->i_encrypt = (nettle_crypt_func*)camellia192_crypt;
++      ctx->i_decrypt = (nettle_crypt_func*)camellia192_crypt;
++      ctx->ctx_ptr = &ctx->ctx.camellia192;
++      ctx->block_size = CAMELLIA_BLOCK_SIZE;
++      break;
+     case GNUTLS_CIPHER_CAMELLIA_256_CBC:
+       ctx->encrypt = cbc_encrypt;
+       ctx->decrypt = cbc_decrypt;
+-      ctx->i_encrypt = (nettle_crypt_func*)camellia_crypt;
+-      ctx->i_decrypt = (nettle_crypt_func*)camellia_crypt;
+-      ctx->ctx_ptr = &ctx->ctx.camellia;
++      ctx->i_encrypt = (nettle_crypt_func*)camellia256_crypt;
++      ctx->i_decrypt = (nettle_crypt_func*)camellia256_crypt;
++      ctx->ctx_ptr = &ctx->ctx.camellia256;
+       ctx->block_size = CAMELLIA_BLOCK_SIZE;
+       break;
+     case GNUTLS_CIPHER_AES_128_CBC:
+@@ -236,12 +252,22 @@
+         aes_set_decrypt_key (ctx->ctx_ptr, keysize, key);
+       break;
+     case GNUTLS_CIPHER_CAMELLIA_128_CBC:
++      if (ctx->enc)
++        camellia128_set_encrypt_key (ctx->ctx_ptr, key);
++      else
++        camellia128_set_decrypt_key (ctx->ctx_ptr, key);
++      break;
+     case GNUTLS_CIPHER_CAMELLIA_192_CBC:
++      if (ctx->enc)
++        camellia192_set_encrypt_key (ctx->ctx_ptr, key);
++      else
++        camellia192_set_decrypt_key (ctx->ctx_ptr, key);
++      break;
+     case GNUTLS_CIPHER_CAMELLIA_256_CBC:
+       if (ctx->enc)
+-        camellia_set_encrypt_key (ctx->ctx_ptr, keysize, key);
++        camellia256_set_encrypt_key (ctx->ctx_ptr, key);
+       else
+-        camellia_set_decrypt_key (ctx->ctx_ptr, keysize, key);
++        camellia256_set_decrypt_key (ctx->ctx_ptr, key);
+       break;
+     case GNUTLS_CIPHER_3DES_CBC:
+       if (keysize != DES3_KEY_SIZE)
+Only in gnutls-3.1.5-patched/lib/nettle: cipher.c.orig
+diff -r -u -w gnutls-3.1.5/lib/nettle/pk.c gnutls-3.1.5-patched/lib/nettle/pk.c
+--- gnutls-3.1.5/lib/nettle/pk.c	2012-09-22 00:38:14.000000000 +0000
++++ gnutls-3.1.5-patched/lib/nettle/pk.c	2018-07-20 17:49:51.956128400 +0000
+@@ -37,6 +37,7 @@
+ #include <random.h>
+ #include <gnutls_pk.h>
+ #include <nettle/dsa.h>
++#include <nettle/dsa-compat.h>
+ #include <nettle/rsa.h>
+ #include <random.h>
+ #include <gnutls/crypto.h>
+Only in gnutls-3.1.5-patched/lib/nettle: pk.c.orig
