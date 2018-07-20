@@ -1,0 +1,13 @@
+packageSource=http://ftp.gnu.org/gnu/mpfr/mpfr-4.0.1.tar.xz
+packageFile=mpfr-4.0.1.tar.xz
+packageChecksum=b8dd19bd9bb1ec8831a6a582a7308073
+packageExtraction=tarxfsystemhelper.sh
+packageDir=mpfr-4.0.1
+#packagePatch=
+expectedToolList=
+dependenciesList=make,tar,xz,gmp
+envModifs=
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=1

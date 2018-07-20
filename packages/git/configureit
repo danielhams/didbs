@@ -18,5 +18,5 @@ PERL="$INSTALLDIR/bin/perl"
 PERL_PATH="$INSTALLDIR/bin/perl"
 export CC CFLAGS LDFLAGS LD_LIBRARYN32_PATH PKG_CONFIG_PATH SHELL CONFIG_SHELL SHELL_PATH PERL PERL_PATH
 cd $BUILDDIR || exit -1
-./configure ac_cv_func_getdelim=no ac_cv_func_getline=no ac_cv_func_get_current_dir_name=no ac_cv_func_strsignal=no ac_cv_func_vfork=no ac_cv_func_euidaccess=no ac_cv_func_getloadavg=no --prefix=$INSTALLDIR --without-tcltk || exit -1
+./configure ac_cv_prog_DIFF=diff ac_cv_func_getdelim=no ac_cv_func_getline=no ac_cv_func_get_current_dir_name=no ac_cv_func_strsignal=no ac_cv_func_vfork=no ac_cv_func_euidaccess=no ac_cv_func_getloadavg=no --prefix=$INSTALLDIR --without-tcltk || exit -1
 exit 0

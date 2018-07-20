@@ -1,0 +1,11 @@
+#!/bin/sh
+
+BUILDDIR=$1
+INSTALLDIR=$2
+EXTRAARGS=$3
+echo $BUILDDIR
+echo $INSTALLDIR
+echo $EXTRAARGS
+cd $BUILDDIR || exit -1
+make install PREFIX=$INSTALLDIR PLATFORM=irix65 || exit -1
+exit 0

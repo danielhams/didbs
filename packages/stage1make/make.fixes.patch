@@ -1,6 +1,6 @@
-diff -r -u -w make-4.2.1/dir.c make-4.2.1-fixed/dir.c
---- make-4.2.1/dir.c	2016-05-31 08:17:26.000000000 +0100
-+++ make-4.2.1-fixed/dir.c	2018-06-24 14:02:18.433914175 +0100
+diff -r -u -w make-4.2.1/dir.c make-4.2.1-patched/dir.c
+--- make-4.2.1/dir.c	2016-05-31 08:17:26.000000000 +0000
++++ make-4.2.1-patched/dir.c	2018-07-19 21:39:04.153755600 +0000
 @@ -1299,15 +1299,40 @@
  }
  #endif
@@ -44,9 +44,9 @@ diff -r -u -w make-4.2.1/dir.c make-4.2.1-fixed/dir.c
  }
  
  void
-diff -r -u -w make-4.2.1/tests/run_make_tests.pl make-4.2.1-fixed/tests/run_make_tests.pl
---- make-4.2.1/tests/run_make_tests.pl	Mon Apr 04 06:38:37 2016
-+++ make-4.2.1-fixed/tests/run_make_tests.pl	Sat Jun 23 15:25:56 2018
+diff -r -u -w make-4.2.1/tests/run_make_tests.pl make-4.2.1-patched/tests/run_make_tests.pl
+--- make-4.2.1/tests/run_make_tests.pl	2016-04-04 06:38:37.000000000 +0000
++++ make-4.2.1-patched/tests/run_make_tests.pl	2018-07-19 21:39:04.156351520 +0000
 @@ -58,6 +58,9 @@
    *CORE::GLOBAL::rmdir = \&vms_rmdir;
  }
