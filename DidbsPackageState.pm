@@ -1,10 +1,12 @@
 package DidbsPackageState;
 
-use constant PACKAGESTATE => qw(UNCHECKED UNFETCHED FETCHED SIGCHECKED EXTRACTED PATCHED CONFIGURED BUILT INSTALLED);
+use constant PACKAGESTATE => qw(UNCHECKED UNFETCHED FETCHED SIGCHECKED EXTRACTED PATCHED CONFIGURED BUILT INSTALLED OUTOFDATE);
 
 sub new
 {
     my $self = bless {}, shift;
+    my $verbose = shift;
+    $self->{v} = $verbose;
     my $scriptLocation = shift;
     my $packageDefsDir = shift;
     my $packageId = shift;
@@ -31,16 +33,22 @@ sub new
 
     my $installedDate = lastModTimestampOrZero( $installedFile );
 
-    print "Package def date is $packageDefDate\n";
-    print "Package installed date is $installedDate\n";
+    $self->{v} && print "Package def date is $packageDefDate\n";
+    $self->{v} && print "Package installed date is $installedDate\n";
 
-    if( $installedDate lt $packageDefDate )
+    if( $installedDate == 0 )
     {
+	print "Package $packageId not yet installed.\n";
 	$self->{stateString} = UNFETCHED;
+    }
+    elsif( $installedDate lt $packageDefDate )
+    {
+	print "Package $packageId out of date.\n";
+	$self->{stateString} = OUTOFDATE;
     }
     else
     {
-	print "Package $packageId is up to date.\n";
+	$self->{v} && print "Package $packageId is up to date.\n";
 	$self->{stateString} = INSTALLED;
     }
 

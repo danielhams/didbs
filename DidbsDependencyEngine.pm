@@ -3,6 +3,8 @@ package DidbsDependencyEngine;
 sub new
 {
     my $self = bless{}, shift;
+    my $verbose = shift;
+    $self->{v} = $verbose;
     my $scriptLocation = shift;
     my $packageDefsDir = shift;
 
@@ -38,7 +40,7 @@ sub findPackages
     foreach $foundpkg (@FOUNDPKGS)
     {
 	(my $pkgname = $foundpkg) =~ s/.*\/(\S+)\.packagedef.*/$1/;
-	my $dpkg = DidbsPackage->new($pkgname);
+	my $dpkg = DidbsPackage->new($self->{v},$pkgname);
 	$dpkg->readPackageDef($self->{scriptLocation},
 	    $packageLocation);
 	$dpkg->debug();
@@ -57,20 +59,21 @@ sub findPackages
     }
     my %donePackages;
 
-    print "Working out dependencies and order....\n";
+    $self->{v} && print "Working out dependencies and order....\n";
     my $orderedRef = flattenAndSortDeps( \@knownPackages, \%pidToPackage, \%donePackages );
-    print "Package order now know....\n";
+    if( $self->{v} )
+    {
+	print "Package order as follows:\n";
+	foreach $pkg (@{$orderedRef})
+	{
+	    my $curpkg = ${$pkg};
+	    my $pkgid = $curpkg->{packageId};
+	    my $sequenceNo = $curpkg->{sequenceNo};
+	    print "Package: $pkgid => $sequenceNo\n";
+	}
+    }
 
     $self->{knownPackages} = $orderedRef;
-
-    print "Package order as follows:\n";
-    foreach $pkg (@{$orderedRef})
-    {
-	my $curpkg = ${$pkg};
-	my $pkgid = $curpkg->{packageId};
-	my $sequenceNo = $curpkg->{sequenceNo};
-	print "Package: $pkgid => $sequenceNo\n";
-    }
 }
 
 sub listPackages

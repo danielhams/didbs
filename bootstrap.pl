@@ -104,9 +104,9 @@ sub writeconfig
     my %hash = %{ $hash_ref };
 
     my $cfname = "$scriptLocation/$configfile";
-    print "Will write config to $cfname\n";
+    $verbose && print "Will write config to $cfname\n";
     open(FH, '>'.$cfname) || die $!;
-    print "Would try and write out config of $hash \n";
+    $verbose && print "Would try and write out config of $hash \n";
     foreach my $key (keys %hash)
     {
         if( $key eq "packagedir" ||
@@ -161,9 +161,9 @@ GetOptions(\%options,
 
 if( !defined($packageDir) || !defined($buildDir) || !defined($installDir))
 {
-    print "packageDir=$packageDir\n";
-    print "buildDir=$buildDir\n";
-    print "installDir=$installDir\n";
+    $verbose && print "packageDir=$packageDir\n";
+    $verbose && print "buildDir=$buildDir\n";
+    $verbose && print "installDir=$installDir\n";
     usage(true);
 }
 
@@ -252,10 +252,13 @@ $options{"verbose"} = $verbose;
 $options{"stoponuntested"} = $stoponuntested;
 
 print"\n";
-print "Used config: \n";
-foreach $key (keys %options)
+if($verbose)
 {
-    print " $key \t=> $options{$key}\n";
+    print "Used config: \n";
+    foreach $key (keys %options)
+    {
+	print " $key \t=> $options{$key}\n";
+    }
 }
 
 my $parametersUpdated = $userfoundconf eq 0 || $argc >= 1;
@@ -298,7 +301,7 @@ my(%envvars) = getdefaultenv($DIR);
 foreach $var (keys %envvars)
 {
     my $val = $envvars{$var};
-    print " setting $var=$val\n";
+    $verbose && print " setting $var=$val\n";
     $ENV{$var} = $val;
 }
 
@@ -311,14 +314,14 @@ my $stageChecker = DidbsStageChecker->new( $scriptLocation,
 
 if( $stageChecker->stagesMissing() )
 {
-    print "Needed stages are missing..\n";
+    $verbose && print "Needed stages are missing..\n";
     $stageChecker->callMissingStage();
     exit 0;
 }
 else
 {
     # Only do this once per run of the script to keep things sane
-    print "Modifying current path for this stage..\n";
+    $verbose && print "Modifying current path for this stage..\n";
     $stageChecker->modifyPathForCurrentStage();
 }
 
@@ -332,7 +335,8 @@ print"\n";
 
 my $packageDefsDir = $stageChecker->getStageAdjustedPackageDefDir();
 
-my $pkgDependencyEngine = DidbsDependencyEngine->new($scriptLocation,
+my $pkgDependencyEngine = DidbsDependencyEngine->new($verbose,
+						     $scriptLocation,
 						     $packageDefsDir );
 
 my $foundPackagesRef = $pkgDependencyEngine->listPackages();
@@ -347,31 +351,41 @@ foreach $pkg (@{$foundPackagesRef})
 {
     my $curpkg = ${$pkg};
     my $pkgid = $curpkg->{packageId};
-    print "Treating package '$pkgid'...\n";
+    $verbose && print "Checking status of package '$pkgid'...\n";
 
-#    if( $pkgid eq "make" )
-#    {
-#        print "Have the stage0root of $pathToStage0Root\n";
-#        exit 1;
-	doPackage( $pkg, $scriptLocation, $packageDefsDir,
-		   $sapd, $sabd, $said,
-		   $pathToStage0Root );
-#    }
+    checkPackage( $pkg,
+		  $scriptLocation,
+		  $packageDefsDir,
+		  $sapd,
+		  $sabd,
+		  $said,
+		  $pathToStage0Root,
+		  \$pkgDependencyEngine );
 }
+
+print "Processed ".@{$foundPackagesRef}." packages.\n";
 
 exit 0;
 
-sub doPackage
+sub checkPackage
 {
-    my( $pkgRef, $scriptLocation, $packageDefsDir,
-	$packageDir, $buildDir, $installDir,
-	$pathToStage0Root ) = @_;
+    my( $pkgRef,
+	$scriptLocation,
+	$packageDefsDir,
+	$packageDir,
+	$buildDir,
+	$installDir,
+	$pathToStage0Root,
+	$pkgDependencyEngineRef ) = @_;
+
     my $pkg = ${$pkgRef};
+    my $pkgDependencyEngine = ${$pkgDependencyEngineRef};
 
     my($packageId) = $pkg->{packageId};
     my($curpkg) = $pkg;
 
-    my $curpkgstate = DidbsPackageState->new($scriptLocation,
+    my $curpkgstate = DidbsPackageState->new($verbose,
+					     $scriptLocation,
 					     $packageDefsDir,
 					     $packageId,
 					     $packageDir,
@@ -379,11 +393,11 @@ sub doPackage
 					     $installDir,
 					     $curpkg);
 
-    print "$curpkg->{passesChecksIndicator} $stoponuntested\n";
+#    print "$curpkg->{passesChecksIndicator} $stoponuntested\n";
 
     if( !$curpkg->{passesChecksIndicator} && !$stoponuntested)
     {
-	print "Skipping untested package: $packageId\n";
+	$verbose && print "Skipping untested package: $packageId\n";
 	return;
     }
 
@@ -401,7 +415,7 @@ sub doPackage
 
 	if( !$curpkgextractor->extractionSuccess() )
 	{
-	    print "Package extraction not known.\n";
+	    $verbose && print "Package extraction not complete.\n";
 	    if( !$curpkgextractor->extractit() )
 	    {
 		print "Unable to extract $curpkg->{packageId}\n";
@@ -463,7 +477,7 @@ sub doPackage
 	    print "Failed during build step.\n";
 	    exit -1;
 	}
-	print "Package $packageId complete.\n";
+	$verbose && print "Package $packageId complete.\n";
 
 	if( $stoponuntested && !($curpkg->{passesChecksIndicator}) )
 	{
