@@ -7,6 +7,10 @@ echo $BUILDDIR
 echo $INSTALLDIR
 echo $EXTRAARGS
 CC=$DIDBS_CC
+# For debugging
+#CFLAGS="$DIDBS_ARCH_CFLAGS -g -O0 -DDEBUG=1"
+#DEBUG=1
+#export DEBUG
 CFLAGS="$DIDBS_ARCH_CFLAGS -O1"
 LDFLAGS="$DIDBS_ARCH_LDFLAGS"
 LD_LIBRARYN32_PATH="$INSTALLDIR/lib"
@@ -14,4 +18,5 @@ PKG_CONFIG_PATH="$INSTALLDIR/lib/pkgconfig"
 export CC CFLAGS LDFLAGS LD_LIBRARYN32_PATH PKG_CONFIG_PATH
 cd $BUILDDIR || exit -1
 ./configure --prefix=$INSTALLDIR --enable-readline --with-installed-readline || exit -1
+#./configure --prefix=$INSTALLDIR || exit -1
 exit 0
