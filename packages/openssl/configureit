@@ -12,5 +12,5 @@ CFLAGS="$DIDBS_ARCH_CFLAGS -O1"
 LDFLAGS="$DIDBS_ARCH_LDFLAGS"
 export CC CFLAGS LDFLAGS
 cd $BUILDDIR || exit -1
-./Configure --prefix=$INSTALLDIR irix-mips3-cc threads shared || exit -1
+./Configure --prefix=$INSTALLDIR irix-mips4-cc threads shared || exit -1
 exit 0
