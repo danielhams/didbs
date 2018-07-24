@@ -1,48 +1,5 @@
-misc/seq isn't correctly handling NAN parameters (the macros in seq.c don't correctly identify inf or nan) - FIXED by including math.h
-misc/seq-precision fails, too.
-
-One patch is to numfmt.c to add this near the top:
-
-#if defined(__sgi)
-# include <sys/fpu.h>
-#endif
-
-and then a bit further down this
-
-#if HAVE_FPSETPREC && defined(fpsetprec)
-  /* Enabled extended precision if needed.  */
-  fpsetprec (FP_PE);
-#elif defined(__sgi)
-  union fpc_csr f;
-  f.fc_word = get_fpc_csr();
-  f.fc_struct.flush = 0;
-  set_fpc_csr(f.fc_word);
-#endif
-
-Which fixes the precision issues (but not the strtod signing issue)
-
-misc/shred-remove fail : This one looks like it might be down to a difference between the glibc renameat2 and the stub implementation in the coreutils project. Basically there seems to be some extra renames happening compared to what happens under linux (for example). Detail:
-
---- exp 2018-07-17 21:07:16.112532320 +0000
-+++ out 2018-07-17 21:07:16.049453200 +0000
-@@ -2,4 +2,5 @@
- shred: test: renamed to 0000
- shred: 0000: renamed to 001
- shred: 001: renamed to 00
-+shred: 00: renamed to _
- shred: test: removed
-
-misc/sleep fail: Seems to be because !(0<=s) where s=nan thinks nan is positive.....
-
-I've currently fixed by adding an "isnan" test for __sgi - but it can perhaps be better fixed by tweaking some floating point parameters (this should be ieee spec stuff, right?)
-
-misc/sort-float fail - Fixed by disabling strtod
-misc/sort-month fail - Fixed by disabling strtod
-misc/sync fail - "bad file number" for doing regular fsync(fd) - changing the open_flags to include write (like aix) fixes this one.
-misc/yes fail
-dd/sparse ERROR (setup) - this one seems to have been fixed by the fix to "sync"
-dd/stats fail - fixed by disabling strtod or sync fix
-ln/sf-1 fail - some of the name to long tests are failing - not clear why for the moment.
+misc/sort-month fail - Still errors due to what looks like locale issues
+dd/stats fail - Occasional errors - looks like signal USR1 isn't correctly propogated to the child "dd" on some test runs.
+ln/sf-1 fail - some of the name too long tests are failing
 
 Now down to three failures :-)
-
