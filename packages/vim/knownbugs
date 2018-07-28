@@ -1,0 +1,59 @@
+
+
+From test_gui.vim:
+Found errors in Test_set_guifont():
+function RunTheTest[38]..Test_set_guifont line 27: Pattern '\\(fixed\\)\\|\\(\\c-Misc-Fixed-Medium-R-SemiCondensed--13-120-75-75-C-60-ISO8859-1\\)' does not match '-sgi-terminal-bold-r-normal--17-120-100-100-c-100-iso8859-1'
+
+From test_iminsert.vim:
+Found errors in Test_iminsert2():
+function RunTheTest[38]..Test_iminsert2 line 10: Expected 1 but got 0
+
+From test_increment_dbcs.vim:
+Found errors in Test_increment_dbcs_1():
+function RunTheTest[38]..Test_increment_dbcs_1 line 4: Expected ['ŽR2'] but got ['ŽS1']
+function RunTheTest[38]..Test_increment_dbcs_1 line 5: Expected [0, 1, 3, 0] but got [0, 1, 2, 0]
+function RunTheTest[38]..Test_increment_dbcs_1 line 9: Expected ['‚`‚a‚b0xDD‚e'] but got ['‚`‚a‚b0xDE‚e']
+function RunTheTest[38]..Test_increment_dbcs_1 line 10: Expected [0, 1, 10, 0] but got [0, 1, 4, 0]
+
+From test_terminal.vim:
+Found errors in Test_terminal_composing_unicode():
+First run:
+function RunTheTest[38]..Test_terminal_composing_unicode line 27: Pattern 'echo a¿bc' does not match 'sh-3.2$ echo bc'
+function RunTheTest[38]..Test_terminal_composing_unicode line 28: Expected 'a¿bc' but got 'bc'
+function RunTheTest[38]..Test_terminal_composing_unicode line 30: Expected 'a¿' but got 'b'
+function RunTheTest[38]..Test_terminal_composing_unicode line 31: Expected 'b' but got 'c'
+function RunTheTest[38]..Test_terminal_composing_unicode line 32: Expected 'c' but got ''
+function RunTheTest[38]..Test_terminal_composing_unicode line 38: Pattern 'echo ¿¿¿¿¿¿¿¿' does not match 'sh-3.2$ bc'
+function RunTheTest[38]..Test_terminal_composing_unicode line 39: Expected '¿¿¿¿¿¿¿¿' but got ''
+function RunTheTest[38]..Test_terminal_composing_unicode line 41: Expected '¿¿' but got ''
+function RunTheTest[38]..Test_terminal_composing_unicode line 42: Expected '¿' but got ''
+function RunTheTest[38]..Test_terminal_composing_unicode line 43: Expected '¿¿' but got ''
+function RunTheTest[38]..Test_terminal_composing_unicode line 44: Expected '¿' but got ''
+function RunTheTest[38]..Test_terminal_composing_unicode line 45: Expected '¿¿' but got ''
+function RunTheTest[38]..Test_terminal_composing_unicode line 51: Pattern 'echo abc ¿' does not match '(standard_in) 1: Syntax error'
+function RunTheTest[38]..Test_terminal_composing_unicode line 52: Expected 'abc ¿' but got '(standard_in) 1: illegal character: \\194'
+function RunTheTest[38]..Test_terminal_composing_unicode line 54: Expected ' ¿' but got 'a'
+function RunTheTest[38]..Test_terminal_composing_unicode[57]..WaitForAssert[2]..<SNR>6_WaitForCommon[11]..<lambda>45 line 1: Expected 'dead' but got 'run'
+Second run:
+function RunTheTest[38]..Test_terminal_composing_unicode line 27: Pattern 'echo a¿bc' does not match 'sh-3.2$ echo a\\314\\210bc'
+function RunTheTest[38]..Test_terminal_composing_unicode line 38: Pattern 'echo ¿¿¿¿¿¿¿¿' does not match 'sh-3.2$ echo \\343\\201\\213\\343\\202\\231\\343\\201\\216\\343\\201\\217\\343\\202\\231\\343\\20'
+function RunTheTest[38]..Test_terminal_composing_unicode line 39: Expected '¿¿¿¿¿¿¿¿' but got '1\\222\\343\\201\\223\\343\\202\\231'
+function RunTheTest[38]..Test_terminal_composing_unicode line 41: Expected '¿¿' but got '1'
+function RunTheTest[38]..Test_terminal_composing_unicode line 42: Expected '¿' but got '\\'
+function RunTheTest[38]..Test_terminal_composing_unicode line 43: Expected '¿¿' but got '2'
+function RunTheTest[38]..Test_terminal_composing_unicode line 44: Expected '¿' but got '2'
+function RunTheTest[38]..Test_terminal_composing_unicode line 45: Expected '¿¿' but got '2'
+function RunTheTest[38]..Test_terminal_composing_unicode line 51: Pattern 'echo abc ¿' does not match '¿¿¿¿¿¿¿¿'
+function RunTheTest[38]..Test_terminal_composing_unicode line 52: Expected 'abc ¿' but got 'sh-3.2$ echo abc\\302\\240\\314\\210'
+function RunTheTest[38]..Test_terminal_composing_unicode line 54: Expected ' ¿' but got '3'
+Found errors in Test_terminal_out_err():
+function RunTheTest[38]..Test_terminal_out_err line 15: Expected 'this is standard error' but got ''
+
+From test_alot_utf8.vim:
+Found errors in Test_read_fifo_utf8():
+function RunTheTest[38]..Test_read_fifo_utf8 line 24: Expected ['¿¿¿', '¿ÀÈÌÒÙ'] but got []
+
+From test_alot.vim:
+Found errors in Test_filetype_detection():
+function RunTheTest[38]..Test_filetype_detection[2]..CheckItems line 9: with file name: /etc/init/file.conf: Expected 'upstart' but got ''
+function RunTheTest[38]..Test_filetype_detection[2]..CheckItems line 9: with file name: /etc/init/file.override: Expected 'upstart' but got ''
