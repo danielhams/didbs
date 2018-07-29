@@ -1,1 +1,5 @@
-LOTS. Needs deeper looking into.
+packageSource=ftp://ftp.cpan.org/pub/CPAN/src/perl-5.26.2.tar.gz no
+packageSource=ftp://ftp.cpan.org/pub/CPAN/src/perl-5.8.9.tar.gz yes
+packageSource=ftp://ftp.cpan.org/pub/CPAN/src/perl-5.18.1.tar.gz no
+packageSource=ftp://ftp.cpan.org/pub/CPAN/src/perl-5.12.1.tar.gz ok (2 simple failures)
+packageSource=ftp://ftp.cpan.org/pub/CPAN/src/perl-5.22.1.tar.gz ok (no failures)

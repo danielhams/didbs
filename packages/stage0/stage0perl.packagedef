@@ -1,8 +1,8 @@
-packageSource=ftp://ftp.cpan.org/pub/CPAN/src/perl-5.26.2.tar.gz
-packageFile=perl-5.26.2.tar.gz
-packageChecksum=dc0fea097f3992a8cd53f8ac0810d523
+packageSource=ftp://ftp.cpan.org/pub/CPAN/src/perl-5.22.1.tar.gz
+packageFile=perl-5.22.1.tar.gz
+packageChecksum=19295bbb775a3c36123161b9bf4892f1
 packageExtraction=tarxfsystemhelper.sh
-packageDir=perl-5.26.2
+packageDir=perl-5.22.1
 expectedToolList=
 dependenciesList=stage0make,stage0tar,stage0gzip,stage0sed,stage0grep
 envModifs=

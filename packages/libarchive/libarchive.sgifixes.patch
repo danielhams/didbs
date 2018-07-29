@@ -1,0 +1,14 @@
+diff -r -u -w libarchive-3.3.2/libarchive/archive_read_disk_posix.c libarchive-3.3.2-patched/libarchive/archive_read_disk_posix.c
+--- libarchive-3.3.2/libarchive/archive_read_disk_posix.c	2017-02-25 17:37:08.000000000 +0000
++++ libarchive-3.3.2-patched/libarchive/archive_read_disk_posix.c	2018-07-28 11:22:04.409079360 +0000
+@@ -93,6 +93,10 @@
+ #include <sys/ioctl.h>
+ #endif
+ 
++#if defined(__sgi)
++# define dirfd(dirp) ((dirp)->dd_fd)
++#endif
++
+ #include "archive.h"
+ #include "archive_string.h"
+ #include "archive_entry.h"
