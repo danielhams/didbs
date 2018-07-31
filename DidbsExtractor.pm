@@ -70,7 +70,7 @@ sub extractit
         my $checksum = $self->{didbsPackage}->{packageChecksum};
 
         print "Package needs fetching from $sourceurl\n";
-        my $fetchcmd = $self->{scriptLocation}."/curlhelper.sh $destdir $sourceurl";
+        my $fetchcmd = $self->{scriptLocation}."/wgethelper.sh ".$self->{scriptLocation}." $destdir $sourceurl";
 
         # If the file exists check the signature
         my $fileexistsgood = 0;
@@ -135,7 +135,7 @@ sub verifyChecksum
     my $checksum=shift;
     #    print "Verifying checksum of $filename\n";
     
-    my $calcchecksum = sumfile($filename);
+    my $calcchecksum = sumfile($self->{scriptLocation}, $filename);
     print "Expected($checksum) - received($calcchecksum)\n";
 
     return $calcchecksum eq $checksum;

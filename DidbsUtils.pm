@@ -13,11 +13,11 @@ sub mkdirp($)
     mkdir $dir, 0755 || die $!;
 }
 
-sub sumfile($)
+sub sumfile
 {
+    my $scriptLocation=shift;
     my $filename=shift;
-    $dsum = $ENV{"DSUM"};
-#    print "DSUM is $dsum\n";
+    $dsum = "$scriptLocation/mips4tools/md5sum";
 
     my $digest = `$dsum $filename`;
     chomp($digest);
