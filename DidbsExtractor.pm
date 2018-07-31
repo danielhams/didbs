@@ -27,8 +27,6 @@ sub new
     $self->{didbsPackage} = $didbsPackage;
     $self->{packageState} = $packageState;
 
-    print "oops " .$self->{packageState}->debug()."\n";
-
     return $self;
 }
 
@@ -61,7 +59,7 @@ sub extractit
     my $destfile = $self->{didbsPackage}->{packageFile};
     my $fulldestfile = $destdir."/".$destfile;
 
-    if( $self->getState() eq UNFETCHED )
+    if( $self->getState() ne FETCHED )
     {
         print "Unfetched package. Fetching.\n";
         mkdirp($destdir);
@@ -87,6 +85,7 @@ sub extractit
             }
             else
             {
+		print "File exists ($fulldestfile)\n";
                 $fileexistsgood = 1;
             }
         }
@@ -96,7 +95,7 @@ sub extractit
             print "Fetching...\n";
             print "\n\n";
 
-            system($fetchcmd) ==0 || die $!;
+            system($fetchcmd) == 0 || die $!;
             $self->setState( FETCHED );
             if(!verifyChecksum($self,$fulldestfile,$checksum))
             {
@@ -146,6 +145,7 @@ sub debug
 {
     my $self = shift;
     print "DibsExtractor constructed for $self->{packageId}\n";
+    print "Status is " . $self->getState() ."\n";
 }
 
 1;
