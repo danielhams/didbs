@@ -15,5 +15,7 @@ PERL="$INSTALLDIR/bin/perl"
 PERL_PATH="$INSTALLDIR/bin/perl"
 export LD_LIBRARYN32_PATH PKG_CONFIG_PATH SHELL CONFIG_SHELL SHELL_PATH PERL PERL_PATH
 cd $BUILDDIR || exit -1
+# V=1 for verbose compilation output
+#make V=1 -j $DIDBS_JOBS || exit -1
 make -j $DIDBS_JOBS || exit -1
 exit 0
