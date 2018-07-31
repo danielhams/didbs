@@ -16,7 +16,7 @@ use DidbsBuilder;
 use DidbsInstaller;
 
 my $argc = ($#ARGV + 1);
-my $version = "0.0.1alpha1";
+my $version = "0.0.1a";
 
 (my $configfile = basename($0)) =~ s/^(.*?)(?:\..*)?$/$1.conf/;
 my $scriptLocation = $FindBin::Bin;
