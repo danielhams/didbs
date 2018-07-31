@@ -15,10 +15,17 @@ A perl script and some minimal supporting tools to allow bootstrapping of some r
 
 ## How to run it
 
-* Edit the defaultenv.vars file to set the DIDBS_JIBS to number of CPUs + 1
+* Edit the defaultenv.vars file to set the DIDBS_JOBS to number of CPUs + 1
 * Run ./bootstrap.pl to set the directories it should use
 
 ./bootstrap.pl -p /pathforpackages -b /pathforbuilding -i /pathforinstall -v
 
-* Once configuration run bootstrap.pl to build stage0 packages
+* Run bootstrap.pl to build stage0 packages (it stops after this)
 * Run bootstrap.pl again to build stage1 and the release packages
+
+## Using the installed tools
+
+The compilation options don't set "rpath" - so you'll need to set:
+
+* PATH=/installdir/bin
+* LD_LIBRARYN32_PATH=/installdir/lib
