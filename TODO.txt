@@ -1,1 +1,4 @@
-Finish DidbsPackageState and usage.
+* Clean up the $EXTRAARGS things passed to configureit,buildit + installit. It's used as script location and needs properly fixing
+* Separate out build time and run time dependencies
+* Work out what dependencies packages really have
+* Add reverse dependency + rebuilding (where a rebuild of X is triggered, all dependents should be auto-rebuilt too)

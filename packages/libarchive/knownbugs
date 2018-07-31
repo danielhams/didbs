@@ -1,1 +1,16 @@
-All tests currently passing!
+bsdtar some failures due to long filenames.
+
+Also some failures during main testing, some due to group differences, haven't looked too deeply there yet.
+
+bsdtar:
+
+test_print_longpath.c:52: Contents don't match
+
+libarchive:
+
+
+libarchive/test/test_read_disk.c:147: p != zero_groups[0]
+libarchive/test/test_read_disk_directory_traversals.c:1162: File at has atime 1533028045.000000000, expected 886622.000000000
+libarchive/test/test_read_format_rar.c:772: &file2_buff[file2_size + 1 - sizeof(file2_test_txt)] != file2_test_txt
+libarchive/test/test_read_format_warc.c:48: 1402399833 != archive_entry_mtime(ae)
+libarchive/test/test_write_disk_perms.c:428: st.st_mode & 07777 != S_ISGID | 0742
