@@ -1,0 +1,13 @@
+packageSource=http://dist.schmorp.de/rxvt-unicode/rxvt-unicode-9.22.tar.bz2
+packageFile=rxvt-unicode-9.22.tar.bz2
+packageChecksum=93782dec27494eb079467dacf6e48185
+packageExtraction=tarxfsystemhelper.sh
+packageDir=rxvt-unicode-9.22
+packagePatch=urxvt.sgifixes.patch
+expectedToolList=
+dependenciesList=make,bzip,perl,autoconf,automake,libtool
+envModifs=
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=1

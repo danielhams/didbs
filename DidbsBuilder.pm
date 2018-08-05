@@ -54,7 +54,11 @@ sub buildit
     my $buildRecipe = "$self->{packageDefsDir}/$self->{packageId}/$self->{didbsPackage}->{buildRecipe}";
     my $cmd = "$buildRecipe $builddir $installdir $extraargs";
 #    print "About to execute $cmd\n";
-    system($cmd) == 0 || die $!;
+    if( system($cmd) != 0 )
+    {
+	print "Failed during build: $!\n";
+	die $!;
+    }
 
     return 1;
 }

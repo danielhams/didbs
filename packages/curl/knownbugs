@@ -1,0 +1,5 @@
+TESTDONE: 891 tests out of 898 reported OK: 99%
+TESTFAIL: These test cases failed: 20 507 534 1013 1233 1435 1436 
+TESTDONE: 1202 tests were considered during 2459 seconds.
+
+Test 1233 requires manually killing the blocked curl process.

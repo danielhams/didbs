@@ -1,0 +1,6 @@
+ERROR: 328 tests were run,
+1 failed unexpectedly.
+24 tests were skipped.
+
+293: %error-verbose and YYSTACK_USE_ALLOCA           FAILED (regression.at:1297)
+

@@ -1,0 +1,91 @@
+diff -r -u -w rxvt-unicode-9.22/libptytty/ptytty.m4 rxvt-unicode-9.22-patched/libptytty/ptytty.m4
+--- rxvt-unicode-9.22/libptytty/ptytty.m4	2015-05-11 23:24:03.000000000 +0000
++++ rxvt-unicode-9.22-patched/libptytty/ptytty.m4	2018-08-03 13:34:04.741654280 +0000
+@@ -208,6 +208,8 @@
+ #include <sys/types.h>
+ #include <sys/socket.h>
+ #include <sys/uio.h>
++
++#define SCM_RIGHTS 0x01
+ ]], [[
+ {
+   msghdr msg;
+diff -r -u -w rxvt-unicode-9.22/libptytty/src/fdpass.C rxvt-unicode-9.22-patched/libptytty/src/fdpass.C
+--- rxvt-unicode-9.22/libptytty/src/fdpass.C	2014-11-16 12:22:34.000000000 +0000
++++ rxvt-unicode-9.22-patched/libptytty/src/fdpass.C	2018-08-03 13:33:49.820504880 +0000
+@@ -60,7 +60,7 @@
+   msg.msg_namelen    = 0;
+   msg.msg_iov        = &iov;
+   msg.msg_iovlen     = 1;
+-  msg.msg_control    = buf;
++  msg.msg_control    = (caddr_t)buf;
+   msg.msg_controllen = CMSG_SPACE (sizeof (int));
+ 
+   cmsg = CMSG_FIRSTHDR (&msg);
+@@ -96,7 +96,7 @@
+   msg.msg_namelen    = 0;
+   msg.msg_iov        = &iov;
+   msg.msg_iovlen     = 1;
+-  msg.msg_control    = buf;
++  msg.msg_control    = (caddr_t)buf;
+   msg.msg_controllen = CMSG_SPACE (sizeof (int));
+ 
+   int fd = -1;
+diff -r -u -w rxvt-unicode-9.22/libptytty/src/libptytty.h rxvt-unicode-9.22-patched/libptytty/src/libptytty.h
+--- rxvt-unicode-9.22/libptytty/src/libptytty.h	2014-05-22 19:53:16.000000000 +0000
++++ rxvt-unicode-9.22-patched/libptytty/src/libptytty.h	2018-08-03 13:33:42.363136880 +0000
+@@ -63,5 +63,7 @@
+ 
+ #endif
+ 
++#define SCM_RIGHTS 0x01
++
+ #endif
+ 
+diff -r -u -w rxvt-unicode-9.22/libptytty/src/logging.C rxvt-unicode-9.22-patched/libptytty/src/logging.C
+--- rxvt-unicode-9.22/libptytty/src/logging.C	2014-11-16 12:22:34.000000000 +0000
++++ rxvt-unicode-9.22-patched/libptytty/src/logging.C	2018-08-03 13:33:56.939674600 +0000
+@@ -189,7 +189,7 @@
+   updlastlogx (LASTLOGX_FILE, getuid (), &llx);
+ # endif
+ 
+-# ifdef HAVE_STRUCT_LASTLOG
++#if defined(HAVE_STRUCT_LASTLOG) && defined(PT_LASTLOG_FILE)
+   memset (&ll, 0, sizeof (ll));
+   ll.ll_time = time (NULL);
+   strncpy (ll.ll_line, pty, sizeof (ll.ll_line));
+diff -r -u -w rxvt-unicode-9.22/src/emman.c rxvt-unicode-9.22-patched/src/emman.c
+--- rxvt-unicode-9.22/src/emman.c	2014-10-30 21:59:18.000000000 +0000
++++ rxvt-unicode-9.22-patched/src/emman.c	2018-08-03 13:33:29.780686800 +0000
+@@ -4,7 +4,7 @@
+ #endif
+ 
+ /* enable the POSIX prototypes of mmap/munmap on Solaris */
+-#ifdef __sun
++#if defined(__sun) || defined(__sgi)
+ # if __STDC_VERSION__ >= 199901L
+ #  define _XOPEN_SOURCE 600
+ # else
+@@ -17,6 +17,7 @@
+ #include <ecb.h>
+ 
+ #include <string.h>
++#include <malloc.h>
+ 
+ #ifndef _WIN32
+ # include <unistd.h>
+diff -r -u -w rxvt-unicode-9.22/src/rxvt.h rxvt-unicode-9.22-patched/src/rxvt.h
+--- rxvt-unicode-9.22/src/rxvt.h	2015-06-17 12:57:42.000000000 +0000
++++ rxvt-unicode-9.22-patched/src/rxvt.h	2018-08-03 13:33:08.931096440 +0000
+@@ -7,7 +7,10 @@
+ #include <stdarg.h>
+ #include <stdlib.h>
+ #ifdef HAVE_STDINT_H
+-#include <stdint.h>
++//#define __c99
++//#include <stdint.h>
++//#undef __c99
++#include <inttypes.h>
+ #endif
+ #include <sys/types.h>
+ #include <unistd.h>

@@ -1,0 +1,18 @@
+#!/bin/sh
+
+BUILDDIR=$1
+INSTALLDIR=$2
+EXTRAARGS=$3
+echo $BUILDDIR
+echo $INSTALLDIR
+echo $EXTRAARGS
+cd $BUILDDIR || exit -1
+# Don't know why make returns a failure here...
+# So we'll ignore errors (bah) and assume ok
+# Mipspro getting fruity and instantiating some methods
+# in multiple objects...
+make -j $DIDBS_JOBS
+rm src/ii_files/init.ii
+rm src/ii_files/rxtvd.ii
+make -j $DIDBS_JOBS || exit -1
+exit 0

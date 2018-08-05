@@ -1,9 +1,9 @@
-packageSource=http://ftp.gnu.org/gnu/libiconv/libiconv-1.15.tar.gz
-packageFile=libiconv-1.15.tar.gz
-packageChecksum=ace8b5f2db42f7b3b3057585e80d9808
+packageSource=ftp://ftp.gnu.org/pub/gnu/texinfo/texinfo-6.5.tar.xz
+packageFile=texinfo-6.5.tar.xz
+packageChecksum=3715197e62e0e07f85860b3d7aab55ed
 packageExtraction=tarxfsystemhelper.sh
-packageDir=libiconv-1.15
-#packagePatch=
+packageDir=texinfo-6.5
+packagePatch=texinfo.sgifixups.patch
 expectedToolList=
 dependenciesList=stage1make,stage1tar,stage1xz,stage1perl
 envModifs=

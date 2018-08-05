@@ -1,0 +1,13 @@
+packageSource=https://download.samba.org/pub/rsync/src/rsync-3.1.3.tar.gz
+packageFile=rsync-3.1.3.tar.gz
+packageChecksum=1581a588fde9d89f6bc6201e8129afaf
+packageExtraction=tarxfsystemhelper.sh
+packageDir=rsync-3.1.3
+#packagePatch=
+expectedToolList=
+dependenciesList=make,tar,gzip
+envModifs=
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=1

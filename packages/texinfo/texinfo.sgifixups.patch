@@ -1,0 +1,46 @@
+diff -r -u -w texinfo-6.5/gnulib/lib/getprogname.c texinfo-6.5-patched/gnulib/lib/getprogname.c
+--- texinfo-6.5/gnulib/lib/getprogname.c	2017-04-15 08:19:45.000000000 +0000
++++ texinfo-6.5-patched/gnulib/lib/getprogname.c	2018-08-02 17:31:41.144579760 +0000
+@@ -1,5 +1,5 @@
+ /* Program name management.
+-   Copyright (C) 2016-2017 Free Software Foundation, Inc.
++   Copyright (C) 2016 Free Software Foundation, Inc.
+ 
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+@@ -53,6 +53,8 @@
+ 
+ #include "dirname.h"
+ 
++extern char *program_name;
++
+ #ifndef HAVE_GETPROGNAME             /* not Mac OS X, FreeBSD, NetBSD, OpenBSD >= 5.4, Cygwin */
+ char const *
+ getprogname (void)
+@@ -151,7 +153,7 @@
+       free (buf.ps_pathptr);
+     }
+   return p;
+-# elif defined __sgi                                        /* IRIX */
++# elif defined __sgi
+   char filename[50];
+   int fd;
+ 
+@@ -165,7 +167,7 @@
+       if (ioctl_ok)
+         {
+           char *name = buf.pr_fname;
+-          char *namesize = sizeof buf.pr_fname;
++          size_t namesize = sizeof buf.pr_fname;
+           char *namenul = memchr (name, '\0', namesize);
+           size_t namelen = namenul ? namenul - name : namesize;
+           char *namecopy = malloc (namelen + 1);
+@@ -178,7 +180,7 @@
+     }
+   return NULL;
+ # else
+-#  error "getprogname module not ported to this OS"
++# error "getprogname module not ported"
+ # endif
+ }
+ 
