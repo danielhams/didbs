@@ -1,4 +1,4 @@
-perl
-7.4.4m
-curl
-gtar (e.g. tar from nekoware)
+system perl
+system tar
+7.4.4m c99 + CC
+sufficient diskspace + ram?
