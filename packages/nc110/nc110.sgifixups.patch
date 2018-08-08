@@ -1,0 +1,28 @@
+diff -r -u -w nc110/Makefile nc110-patched/Makefile
+--- nc110/Makefile	2018-01-11 22:13:14.000000000 +0000
++++ nc110-patched/Makefile	2018-08-07 17:02:19.454165400 +0000
+@@ -9,12 +9,13 @@
+ # pick gcc if you'd rather , and/or do -g instead of -O if debugging
+ # debugging
+ # DFLAGS = -DTEST -DDEBUG
+-CFLAGS = -O
++#CFLAGS = ${CFLAGS}
+ XFLAGS = 	# xtra cflags, set by systype targets
+ XLIBS =		# xtra libs if necessary?
+ # -Bstatic for sunos,  -static for gcc, etc.  You want this, trust me.
+ STATIC =
+-CC = cc $(CFLAGS)
++#CC = cc $(CFLAGS)
++#CC = ${CC} ${CFLAGS}
+ LD = $(CC)	# linker; defaults to unstripped executables
+ o = o		# object extension
+ 
+@@ -74,7 +75,7 @@
+ # of apparently not installing /usr/lib/nonshared/*.  Sheesh.
+ irix:
+ 	make -e $(ALL) $(MFLAGS) XFLAGS='-DIRIX -DSYSV=4 -D__svr4__' \
+-	STATIC=-non_shared
++	STATIC=$(NULL)
+ 
+ osf:
+ 	make -e $(ALL) $(MFLAGS) XFLAGS='-DOSF' STATIC=-non_shared

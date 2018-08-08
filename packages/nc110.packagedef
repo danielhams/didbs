@@ -1,0 +1,13 @@
+packageSource=http://download2.polytechnic.edu.na/pub4/sourceforge/n/nc/nc110/community%20releases/nc110.20180111.tar.xz
+packageFile=nc110.20180111.tar.xz
+packageChecksum=691e734b398bbbe2225feffdd21f63b7
+packageExtraction=tarxfsystemhelper.sh
+packageDir=nc110
+packagePatch=nc110.sgifixups.patch
+expectedToolList=
+dependenciesList=make,tar,xz
+envModifs=
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=1

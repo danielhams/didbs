@@ -1,0 +1,12 @@
+#!/bin/sh
+
+BUILDDIR=$1
+INSTALLDIR=$2
+EXTRAARGS=$3
+echo $BUILDDIR
+echo $INSTALLDIR
+echo $EXTRAARGS
+cd $BUILDDIR || exit -1
+#make irix install || exit -1
+cp nc $INSTALLDIR/bin || exit -1
+exit 0
