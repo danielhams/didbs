@@ -1,1 +1,4 @@
 cldr-plurals generates huge amounts of output data and then attempts to diff it which results in memory exhaustion.
+Also, if your locale is non C, the following fail:
+
+FAIL: msgmerge-compendium-5, FAIL: msginit-4
