@@ -1,5 +1,223 @@
 Testing reveals quite a few issues :-(
 
-On the positive side, they seem related to non-fatal things:
-
-run-extglob, run-intl (surprise), run-printf (formatting issues), run-redir - looks like different error messages.
+Any output from any test, unless otherwise noted, indicates a possible anomaly
+run-alias
+run-appendop
+run-arith
+run-arith-for
+run-array
+warning: all of these tests will fail if arrays have not
+warning: been compiled into the shell
+204,205c204,205
+< u
+< r s t u v [3]=abcde
+---
+> t
+> [3]=abcde r s t u v
+run-array2
+warning: all of these tests will fail if arrays have not
+warning: been compiled into the shell
+run-braces
+run-builtins
+run-cond
+warning: all of these tests will fail if the conditional command has not
+warning: been compiled into the shell
+warning: some of these tests will fail if extended pattern matching has not
+warning: been compiled into the shell
+run-cprint
+run-dbg-support
+run-dbg-support2
+run-dirstack
+run-dollars
+run-errors
+run-execscript
+warning: the text of a system error message may vary between systems and
+warning: produce diff output.
+warning: if the text of the error messages concerning `notthere' or
+warning: `/tmp/bash-notthere' not being found or `/' being a directory
+warning: produce diff output, please do not consider this a test failure
+warning: if diff output differing only in the location of the bash
+warning: binary appears, please do not consider this a test failure
+run-exp-tests
+run-extglob
+run-extglob2
+run-extglob3
+run-func
+warning: if you have exported functions defined in your environment,
+warning: they may show up as diff output.
+warning: if so, please do not consider this a test failure
+run-getopts
+run-glob-test
+1c1
+< foobar/bar foo/bar
+---
+> foo/bar foobar/bar
+41,45c41,44
+< argv[6] = <Beware>
+< argv[7] = <ca>
+< argv[8] = <cb>
+< argv[9] = <dd>
+< argv[10] = <de>
+---
+> argv[6] = <ca>
+> argv[7] = <cb>
+> argv[8] = <dd>
+> argv[9] = <de>
+48,52c47,52
+< argv[1] = <aXb>
+< argv[2] = <a-b>
+< argv[1] = <d>
+< argv[2] = <dd>
+< argv[3] = <de>
+---
+> argv[1] = <a-b>
+> argv[2] = <aXb>
+> argv[1] = <Beware>
+> argv[2] = <d>
+> argv[3] = <dd>
+> argv[4] = <de>
+104,113c104,113
+< argv[1] = <b>
+< argv[2] = <bb>
+< argv[3] = <bcd>
+< argv[4] = <bdir>
+< argv[5] = <Beware>
+< argv[1] = <b>
+< argv[2] = <bb>
+< argv[3] = <bcd>
+< argv[4] = <bdir>
+< argv[5] = <Beware>
+---
+> argv[1] = <Beware>
+> argv[2] = <b>
+> argv[3] = <bb>
+> argv[4] = <bcd>
+> argv[5] = <bdir>
+> argv[1] = <Beware>
+> argv[2] = <b>
+> argv[3] = <bb>
+> argv[4] = <bcd>
+> argv[5] = <bdir>
+115,118c115,118
+< argv[1] = <abd>
+< argv[2] = <aXb>
+< argv[3] = <a*b>
+< argv[4] = <a-b>
+---
+> argv[1] = <a*b>
+> argv[2] = <a-b>
+> argv[3] = <aXb>
+> argv[4] = <abd>
+126,129c126,129
+< argv[1] = <abc>
+< argv[2] = <abe>
+< argv[3] = <bdir>
+< argv[4] = <Beware>
+---
+> argv[1] = <Beware>
+> argv[2] = <abc>
+> argv[3] = <abe>
+> argv[4] = <bdir>
+run-heredoc
+run-herestr
+run-histexpand
+warning: all of these tests will fail if history has not been compiled
+warning: into the shell
+run-history
+warning: all of these tests will fail if history has not been compiled
+warning: into the shell
+run-ifs
+run-ifs-posix
+run-input-test
+run-intl
+warning: some of these tests will fail if you do not have UTF-8
+warning: locales installed on your system.
+warning: please ignore any differences consisting only of white space
+2c2
+< 2
+---
+> 1
+8,10c8,10
+< aÃb
+< 0000000 141 303 142
+< 0000003
+---
+> aÃ©b
+> 0000000   141 303 251 142                                                
+> 0000004
+run-invert
+run-iquote
+run-jobs
+warning: some of these tests may fail if job control has not been compiled
+warning: into the shell
+warning: there may be a message regarding a cat process dying due to a
+warning: SIGHUP.  Please disregard.
+27d26
+< ./jobs4.sub: line 25: 22532 Hangup                  ( sleep 1; cat )
+run-more-exp
+run-new-exp
+warning: two of these tests will fail if your OS does not support
+warning: named pipes or the /dev/fd filesystem.  If the tests of the
+warning: process substitution mechanism fail, please do not consider
+warning: this a test failure
+warning: if you have exported variables beginning with the string _Q,
+warning: diff output may be generated.  If so, please do not consider
+warning: this a test failure
+run-nquote
+run-nquote1
+warning: several of these tests will fail if arrays have not
+warning: been compiled into the shell.
+run-nquote2
+warning: several of these tests will fail if arrays have not
+warning: been compiled into the shell.
+run-nquote3
+warning: several of these tests will fail if arrays have not
+warning: been compiled into the shell.
+run-nquote4
+warning: some of these tests will fail if you do not have UTF-8
+warning: locales installed on your system
+run-posix2
+run-posixpat
+run-precedence
+run-printf
+run-quote
+run-read
+warning: please do not consider output differing only in the amount of
+warning: white space to be an error.
+62c62
+<       0       0       0
+---
+>        0       0       0
+run-redir
+warning: the text of a system error message may vary between systems and
+warning: produce diff output.
+warning: if the text of an error message concerning `redir1.*' not being
+warning: found or messages concerning bad file descriptors produce diff
+warning: output, please do not consider it a test failure
+87c87
+< ./redir5.sub: line 20: read: 5: invalid file descriptor: Bad file number
+---
+> ./redir5.sub: line 20: read: 5: invalid file descriptor: Bad file descriptor
+89c89
+< ./redir5.sub: line 27: read: read error: 0: Bad file number
+---
+> ./redir5.sub: line 27: read: read error: 0: Bad file descriptor
+run-rhs-exp
+run-rsh
+run-set-e
+run-set-x
+run-shopt
+run-strip
+run-test
+run-tilde
+run-tilde2
+run-trap
+warning: UNIX versions number signals differently.  If output differing
+warning: only in line numbers is produced, please do not consider this
+warning: a test failure.
+72d71
+< trap -- '' SIGUSR2
+73a73
+> trap -- '' SIGUSR2
+run-type
+run-varenv
