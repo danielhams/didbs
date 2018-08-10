@@ -85,7 +85,7 @@ all::
 
                AR = $(TOOLROOT)/usr/bin/ar cq
   BOOTSTRAPCFLAGS = $(OPTIMIZER)
-               CC = $(TOOLROOT)/usr/bin/cc
+               CC = $(TOOLROOT)/usr/bin/c99
                AS = $(TOOLROOT)/usr/bin/as $(SGIABIOPTS)
 
 .SUFFIXES: .cc
