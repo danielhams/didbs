@@ -481,7 +481,7 @@ sub checkPackage
 
 	if( $stoponuntested && !($curpkg->{passesChecksIndicator}) )
 	{
-	    print "This package is marked untested, please do the tests.\n";
+	    print "This package ($packageId) is marked untested, please do the tests.\n";
 	    exit 0;
 	}
 
