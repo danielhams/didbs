@@ -1,1 +1,1 @@
-All tests currently passing!
+FAIL    chown (looks due to running the tests as a regular user)
