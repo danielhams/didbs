@@ -1,0 +1,13 @@
+packageSource=http://www.eecis.udel.edu/~ntp/ntp_spool/ntp4/ntp-4.2/ntp-4.2.8p11.tar.gz
+packageFile=ntp-4.2.8p11.tar.gz
+packageChecksum=00950ca2855579541896513e78295361
+packageExtraction=tarxfsystemhelper.sh
+packageDir=ntp-4.2.8p11
+packagePatch=ntp.sgifixes.patch
+expectedToolList=
+dependenciesList=make,tar,gzip,readline,ruby
+envModifs=
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=0
