@@ -1,0 +1,13 @@
+packageSource=https://ftp.osuosl.org/pub/blfs/conglomeration/boost/boost_1_56_0.tar.bz2
+packageFile=boost_1_56_0.tar.bz2
+packageChecksum=a744cf167b05d72335f27c88115f211d
+packageExtraction=tarxfsystemhelper.sh
+packageDir=boost_1_56_0
+#packagePatch=
+expectedToolList=
+dependenciesList=make,tar,bzip
+envModifs=
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=0
