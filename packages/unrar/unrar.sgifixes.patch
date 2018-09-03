@@ -1,0 +1,58 @@
+diff -r -u -w unrar/makefile unrar-patched/makefile
+--- unrar/makefile	2017-11-22 06:53:39.000000000 +0000
++++ unrar-patched/makefile	2018-09-03 18:45:35.032526320 +0000
+@@ -2,14 +2,14 @@
+ # Makefile for UNIX - unrar
+ 
+ # Linux using GCC
+-CXX=c++
+-CXXFLAGS=-O2 -Wno-logical-op-parentheses -Wno-switch -Wno-dangling-else
+-LIBFLAGS=-fPIC
+-DEFINES=-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -DRAR_SMP
+-STRIP=strip
+-AR=ar
+-LDFLAGS=-pthread
+-DESTDIR=/usr
++#CXX=c++
++#CXXFLAGS=-O2 -Wno-logical-op-parentheses -Wno-switch -Wno-dangling-else
++#LIBFLAGS=-fPIC
++#DEFINES=-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -DRAR_SMP
++#STRIP=strip
++#AR=ar
++#LDFLAGS=-pthread
++#DESTDIR=/usr
+ 
+ # Linux using LCC
+ #CXX=lcc
+@@ -46,12 +46,12 @@
+ #DESTDIR=/usr
+ 
+ # IRIX using MIPSPro (experimental)
+-#CXX=CC
+-#CXXFLAGS=-O2 -mips3 -woff 1234,1156,3284 -LANG:std
+-#DEFINES=-DBIG_ENDIAN -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -D_BSD_COMPAT -Dint64=int64_t
+-#STRIP=strip
+-#AR=ar
+-#DESTDIR=/usr
++CXX=CC
++CXXFLAGS=-O2 -mips3 -woff 1234,1156,3284 -LANG:std
++DEFINES=-DBIG_ENDIAN -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -D_BSD_COMPAT -Dint64=int64_t
++STRIP=strip
++AR=ar
++DESTDIR=${INSTALLDIR}
+ 
+ # AIX using xlC (IBM VisualAge C++ 5.0)
+ #CXX=xlC
+diff -r -u -w unrar/rartypes.hpp unrar-patched/rartypes.hpp
+--- unrar/rartypes.hpp	2018-06-24 16:10:31.000000000 +0000
++++ unrar-patched/rartypes.hpp	2018-09-03 18:45:35.035511600 +0000
+@@ -1,7 +1,9 @@
+ #ifndef _RAR_TYPES_
+ #define _RAR_TYPES_
+ 
++#define __c99
+ #include <stdint.h>
++#undef __c99
+ 
+ typedef uint8_t          byte;   // Unsigned 8 bits.
+ typedef uint16_t         ushort; // Preferably 16 bits, but can be more.

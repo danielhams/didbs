@@ -1,0 +1,11 @@
+## ------------- ##
+## Test results. ##
+## ------------- ##
+
+ERROR: 179 tests were run,
+2 failed unexpectedly.
+54 tests were skipped.
+
+123: Quoting of expansions in `...`                  FAILED (lexical.at:604)
+
+132: Filename substitution                           FAILED (subst.at:57)

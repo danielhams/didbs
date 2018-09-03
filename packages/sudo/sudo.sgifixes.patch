@@ -1,0 +1,29 @@
+diff -r -u -w sudo-1.8.24/lib/util/arc4random.h sudo-1.8.24-patched/lib/util/arc4random.h
+--- sudo-1.8.24/lib/util/arc4random.h	2018-08-18 15:10:24.000000000 +0000
++++ sudo-1.8.24-patched/lib/util/arc4random.h	2018-08-28 04:25:34.828550880 +0000
+@@ -85,11 +85,11 @@
+ _rs_allocate(struct _rs **rsp, struct _rsx **rsxp)
+ {
+ 	if ((*rsp = (void *)mmap(NULL, sizeof(**rsp), PROT_READ|PROT_WRITE,
+-	    MAP_ANON|MAP_PRIVATE, -1, 0)) == MAP_FAILED)
++	    MAP_PRIVATE, -1, 0)) == MAP_FAILED)
+ 		return (-1);
+ 
+ 	if ((*rsxp = (void *)mmap(NULL, sizeof(**rsxp), PROT_READ|PROT_WRITE,
+-	    MAP_ANON|MAP_PRIVATE, -1, 0)) == MAP_FAILED) {
++	    MAP_PRIVATE, -1, 0)) == MAP_FAILED) {
+ 		munmap((void *)*rsp, sizeof(**rsp));
+ 		*rsp = NULL;
+ 		return (-1);
+diff -r -u -w sudo-1.8.24/lib/util/getentropy.c sudo-1.8.24-patched/lib/util/getentropy.c
+--- sudo-1.8.24/lib/util/getentropy.c	2018-08-18 15:10:24.000000000 +0000
++++ sudo-1.8.24-patched/lib/util/getentropy.c	2018-08-28 04:25:44.596618320 +0000
+@@ -463,7 +463,7 @@
+ 					HX(mm[m].p = mmap(NULL,
+ 					    mm[m].npg * pgs,
+ 					    PROT_READ|PROT_WRITE,
+-					    MAP_PRIVATE|MAP_ANON, -1,
++					    MAP_PRIVATE, -1,
+ 					    (off_t)0), mm[m].p);
+ 					if (mm[m].p != MAP_FAILED) {
+ 						size_t mo;

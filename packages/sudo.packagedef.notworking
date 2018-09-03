@@ -1,0 +1,13 @@
+packageSource=ftp://ftp.sudo.ws/pub/sudo/sudo-1.8.24.tar.gz
+packageFile=sudo-1.8.24.tar.gz
+packageChecksum=ddba16ba9f34cd7d66ea5719bb1a428e
+packageExtraction=tarxfsystemhelper.sh
+packageDir=sudo-1.8.24
+packagePatch=sudo.sgifixes.patch
+expectedToolList=
+dependenciesList=make,tar,gzip,perl
+envModifs=
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=0
