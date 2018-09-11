@@ -1,0 +1,20 @@
+#!/bin/sh
+
+BUILDDIR=$1
+INSTALLDIR=$2
+EXTRAARGS=$3
+echo $BUILDDIR
+echo $INSTALLDIR
+echo $EXTRAARGS
+CC=$DIDBS_CC
+# Errors when attempting to use system libs
+#CPPFLAGS="-I$INSTALLDIR/include"
+#LDFLAGS="$DIDBS_ARCH_LDFLAGS -L$INSTALLDIR/lib"
+
+CFLAGS="$DIDBS_ARCH_CFLAGS -O1"
+export CXXFLAGS="$DIDBS_ARCH_CXXFLAGS -O1 -LANG:std"
+LDFLAGS="$DIDBS_ARCH_LDFLAGS"
+export CC CPPFLAGS CFLAGS CXXFLAGS LDFLAGS
+cd $BUILDDIR || exit -1
+./configure --parallel=$DIDBS_JOBS --prefix=$INSTALLDIR || exit -1
+exit 0

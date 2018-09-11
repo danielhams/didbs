@@ -1,0 +1,40 @@
+diff -r -u -w libxml2-2.9.8/xpath.c libxml2-2.9.8-patched/xpath.c
+--- libxml2-2.9.8/xpath.c	2017-12-02 08:58:10.000000000 +0000
++++ libxml2-2.9.8-patched/xpath.c	2018-09-11 00:01:36.152650080 +0000
+@@ -485,6 +485,27 @@
+ #define INFINITY HUGE_VAL
+ #endif
+ 
++#if defined(__sgi)
++double xmlXPathNAN = 0.0;
++double xmlXPathPINF = 0.0;
++double xmlXPathNINF = 0.0;
++
++/**
++ * xmlXPathInit:
++ *
++ * Initialize the XPath environment
++ *
++ * For SGI set the NAN and INFINITY variables
++ */
++void
++xmlXPathInit(void) {
++  xmlXPathNAN = NAN;
++  xmlXPathPINF = INFINITY;
++  xmlXPathNINF = -INFINITY;
++}
++
++#else
++
+ double xmlXPathNAN = NAN;
+ double xmlXPathPINF = INFINITY;
+ double xmlXPathNINF = -INFINITY;
+@@ -500,6 +521,8 @@
+ xmlXPathInit(void) {
+ }
+ 
++#endif
++
+ /**
+  * xmlXPathIsNaN:
+  * @val:  a double value

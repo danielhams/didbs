@@ -1,0 +1,20 @@
+#!/bin/sh
+
+BUILDDIR=$1
+INSTALLDIR=$2
+EXTRAARGS=$3
+echo $BUILDDIR
+echo $INSTALLDIR
+echo $EXTRAARGS
+CC=$DIDBS_CC
+CFLAGS="$DIDBS_ARCH_CFLAGS -O1"
+CXXFLAGS="$DIDBS_ARCH_CFLAGS -O1"
+#CFLAGS="$DIDBS_ARCH_CFLAGS -O3 -OPT:Olimit=7000"
+LDFLAGS="$DIDBS_ARCH_LDFLAGS"
+export CC CXXFLAGS CFLAGS LDFLAGS
+cd $BUILDDIR || exit -1
+mkdir build && cd build || exit -1
+cmake .. || exit -1
+make -j $DIDBS_JOBS || exit -1
+exit -1
+exit 0
