@@ -1,0 +1,13 @@
+packageSource=
+packageFile=
+packageChecksum=
+packageDir=
+packageExtraction=tarxfsystemhelper.sh
+#packagePatch=
+expectedToolList=
+dependenciesList=make,tar,gzip,perl,python,docbook,xsltproc,w3m,dblatex,fop,a-a-p
+envModifs=
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=0

@@ -1,0 +1,16 @@
+diff -r -u -w Python-2.7.15/Lib/multiprocessing/__init__.py Python-2.7.15-patched/Lib/multiprocessing/__init__.py
+--- Python-2.7.15/Lib/multiprocessing/__init__.py	2018-04-29 23:47:33.000000000 +0000
++++ Python-2.7.15-patched/Lib/multiprocessing/__init__.py	2018-09-16 16:22:09.617224880 +0000
+@@ -124,6 +124,12 @@
+                 num = int(p.read())
+         except ValueError:
+             num = 0
++    elif 'irix' in sys.platform:
++        try:
++            with os.popen('/usr/sbin/sysconf NPROC_ONLN') as p:
++                num = int(p.read())
++        except (ValueError, OSError, AttributeError):
++            num = 0
+     else:
+         try:
+             num = os.sysconf('SC_NPROCESSORS_ONLN')

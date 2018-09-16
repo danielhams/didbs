@@ -1,0 +1,13 @@
+packageSource=http://ftp.vim.org/ftp/mediaplayer/xbmc/build-deps/sources/Python-2.7.15.tar.xz
+packageFile=Python-2.7.15.tar.xz
+packageChecksum=a80ae3cc478460b922242f43a1b4094d
+packageDir=Python-2.7.15
+packageExtraction=tarxfsystemhelper.sh
+packagePatch=python2.sgifixes.patch
+expectedToolList=
+dependenciesList=make,tar,xz,perl
+envModifs=
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=0
