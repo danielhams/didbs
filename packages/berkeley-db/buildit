@@ -1,0 +1,12 @@
+#!/bin/sh
+
+BUILDDIR=$1
+INSTALLDIR=$2
+EXTRAARGS=$3
+echo $BUILDDIR
+echo $INSTALLDIR
+echo $EXTRAARGS
+cd $BUILDDIR || exit -1
+cd build_unix || exit -1
+make -j $DIDBS_JOBS || exit -1
+exit 0
