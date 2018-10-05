@@ -44,6 +44,29 @@ my $clean = 0;
 my $clean_all = 0;
 my $stoponuntested = 0;
 
+sub supressenv
+{
+    my $scriptdir = shift;
+    open CFG, "<".$scriptdir."suppressenv.vars" || die $!;
+    my @envvars = <CFG>;
+    close CFG;
+
+    my %values;
+    foreach (@envvars) {
+        chomp;
+        s|#.+||;
+        s|@(.+?)@|$1|g;
+# this eats values with spaces in there....
+#        s|\s||;
+	next if $_ eq "";
+	delete $ENV{$_};
+	if($verbose)
+	{
+		print " Supressing environment $_\n";
+	}
+    }
+}
+
 sub getdefaultenv
 {
     my $scriptdir = shift;
@@ -297,6 +320,7 @@ if( $parametersUpdated )
 
 # Default environment vars
 print"\n";
+supressenv($DIR);
 my(%envvars) = getdefaultenv($DIR);
 foreach $var (keys %envvars)
 {
