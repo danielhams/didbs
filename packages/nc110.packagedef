@@ -1,4 +1,4 @@
-packageSource=http://download2.polytechnic.edu.na/pub4/sourceforge/n/nc/nc110/community%20releases/nc110.20180111.tar.xz
+packageSource=http://distfiles.gentoo.org/distfiles/nc110.20180111.tar.xz
 packageFile=nc110.20180111.tar.xz
 packageChecksum=691e734b398bbbe2225feffdd21f63b7
 packageExtraction=tarxfsystemhelper.sh
