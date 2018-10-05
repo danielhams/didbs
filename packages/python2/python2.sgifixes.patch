@@ -25,7 +25,7 @@ diff -r -u -w Python-2.7.15/Include/pyport.h Python-2.7.15-patched/Include/pypor
 +    old_csr.fc_word = get_fpc_csr();   \
 +    new_csr.fc_word = old_csr.fc_word; \
 +    new_csr.fc_struct.flush=0; \
-+    /*new_csr.fc_struct.rounding_mode=ROUND_TO_NEAREST;*/	\
++    new_csr.fc_struct.rounding_mode=ROUND_TO_NEAREST; \
 +    set_fpc_csr(new_csr.fc_word); \
 +  } while (0)
 +#define _Py_SET_53BIT_PRECISION_END \
