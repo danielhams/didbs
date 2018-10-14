@@ -1,28 +1,16 @@
 Test Summary Report
 -------------------
-../test/recipes/01-test_symbol_presence.t (Wstat: 512 Tests: 4 Failed: 2)
-  Failed tests:  2, 4
-  Non-zero exit status: 2
-../test/recipes/30-test_evp.t            (Wstat: 256 Tests: 1 Failed: 1)
-  Failed test:  1
-  Non-zero exit status: 1
-../test/recipes/70-test_asyncio.t        (Wstat: 256 Tests: 1 Failed: 1)
-  Failed test:  1
-  Non-zero exit status: 1
 ../test/recipes/80-test_ct.t             (Wstat: 256 Tests: 1 Failed: 1)
   Failed test:  1
   Non-zero exit status: 1
-../test/recipes/80-test_ssl_new.t        (Wstat: 4608 Tests: 19 Failed: 18)
-  Failed tests:  1-18
-  Non-zero exit status: 18
-../test/recipes/80-test_ssl_old.t        (Wstat: 1280 Tests: 7 Failed: 5)
-  Failed tests:  2-6
-  Non-zero exit status: 5
-../test/recipes/80-test_sslcorrupt.t     (Wstat: 256 Tests: 1 Failed: 1)
-  Failed test:  1
-  Non-zero exit status: 1
-../test/recipes/90-test_sslapi.t         (Wstat: 256 Tests: 1 Failed: 1)
-  Failed test:  1
-  Non-zero exit status: 1
-Files=96, Tests=555, 1247 wallclock secs (13.41 usr  1.19 sys + 1054.35 cusr 172.84 csys = 1241.79 CPU)
+Files=96, Tests=555, 686 wallclock secs ( 6.94 usr  0.70 sys + 601.46 cusr 69.84 csys = 678.94 CPU)
 Result: FAIL
+
+(The above failing test can be individually launched:
+
+[dan@leafy test]$ export SRCTOP=.
+[dan@leafy test]$ export BLDTOP=.
+[dan@leafy test]$ export OPENSSL_ENGINES=./engines
+[dan@leafy test]$ export OPENSSL_DEBUG_MEMORY=on
+[dan@leafy test]$ VERBOSE=yes perl test/run_tests.pl test_ct
+)

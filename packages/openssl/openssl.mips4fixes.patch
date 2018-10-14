@@ -10,7 +10,7 @@ diff -r -u -w openssl-1.1.0h/Configurations/10-main.conf openssl-1.1.0h-patched/
 +        cc               => "c99",
 +        cflags           => combine(picker(default => "-n32 -mips4 -use_readonly_const -G0 -rdata_shared -DB_ENDIAN -DBN_DIV3W",
 +                                           debug   => "-g -O0",
-+                                           release => "-O2"),
++                                           release => "-O1"),
 +                                    threads("-D_SGI_MP_SOURCE")),
 +        ex_libs          => add(threads("-lpthread")),
 +        bn_ops           => "RC4_CHAR SIXTY_FOUR_BIT",

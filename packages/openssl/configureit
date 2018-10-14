@@ -8,7 +8,7 @@ echo $INSTALLDIR
 echo $EXTRAARGS
 CC=$DIDBS_CC
 # Attempt to fix some floating point precision issues with tests
-CFLAGS="$DIDBS_ARCH_CFLAGS -O1"
+CFLAGS="$DIDBS_ARCH_CFLAGS"
 LDFLAGS="$DIDBS_ARCH_LDFLAGS"
 export CC CFLAGS LDFLAGS
 cd $BUILDDIR || exit -1
