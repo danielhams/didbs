@@ -1,6 +1,6 @@
 diff -r -u -w openssl-1.1.0h/Configurations/10-main.conf openssl-1.1.0h-patched/Configurations/10-main.conf
 --- openssl-1.1.0h/Configurations/10-main.conf	2018-03-27 14:50:37.000000000 +0000
-+++ openssl-1.1.0h-patched/Configurations/10-main.conf	2018-10-13 11:12:41.052144520 +0000
++++ openssl-1.1.0h-patched/Configurations/10-main.conf	2018-10-15 23:13:46.430896480 +0000
 @@ -364,6 +364,23 @@
          shared_extension => ".so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
          multilib         => "32",
@@ -25,9 +25,32 @@ diff -r -u -w openssl-1.1.0h/Configurations/10-main.conf openssl-1.1.0h-patched/
      # N64 ABI builds.
      "irix64-mips4-gcc" => {
          inherit_from     => [ "BASE_unix", asm("mips64_asm") ],
+diff -r -u -w openssl-1.1.0h/test/ct_test.c openssl-1.1.0h-patched/test/ct_test.c
+--- openssl-1.1.0h/test/ct_test.c	2018-03-27 14:50:41.000000000 +0000
++++ openssl-1.1.0h-patched/test/ct_test.c	2018-10-15 23:14:36.434356160 +0000
+@@ -478,9 +478,7 @@
+     EXECUTE_CT_TEST();
+ }
+ 
+-static int test_decode_tls_sct()
+-{
+-    const unsigned char tls_sct_list[] = "\x00\x78" /* length of list */
++static const unsigned char tls_sct_list[] = "\x00\x78" /* length of list */
+         "\x00\x76"
+         "\x00" /* version */
+         /* log ID */
+@@ -498,6 +496,8 @@
+         "\x6A\x68\x06\x53\x98\x7D\xCF\x41\x02\x7D\xFE\xFF\xA1\x05\x51\x9D\x89"
+         "\xED\xBF\x08";
+ 
++static int test_decode_tls_sct()
++{
+     SETUP_CT_TEST_FIXTURE();
+     fixture.tls_sct_list = tls_sct_list;
+     fixture.tls_sct_list_len = 0x7a;
 diff -r -u -w openssl-1.1.0h/test/recipes/01-test_symbol_presence.t openssl-1.1.0h-patched/test/recipes/01-test_symbol_presence.t
 --- openssl-1.1.0h/test/recipes/01-test_symbol_presence.t	2018-03-27 14:50:41.000000000 +0000
-+++ openssl-1.1.0h-patched/test/recipes/01-test_symbol_presence.t	2018-10-13 11:13:02.416087480 +0000
++++ openssl-1.1.0h-patched/test/recipes/01-test_symbol_presence.t	2018-10-15 23:13:46.544624160 +0000
 @@ -57,7 +57,7 @@
          note "Number of lines in \@def_lines before massaging: ", scalar @def_lines;
  

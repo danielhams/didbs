@@ -1,16 +1,12 @@
-Test Summary Report
--------------------
-../test/recipes/80-test_ct.t             (Wstat: 256 Tests: 1 Failed: 1)
-  Failed test:  1
-  Non-zero exit status: 1
-Files=96, Tests=555, 686 wallclock secs ( 6.94 usr  0.70 sys + 601.46 cusr 69.84 csys = 678.94 CPU)
-Result: FAIL
+All tests successful.
+Files=96, Tests=555, 692 wallclock secs ( 6.88 usr  0.66 sys + 602.99 cusr 69.46 csys = 679.99 CPU)
+Result: PASS
 
-(The above failing test can be individually launched:
+(Tests can be individually launched:
 
-[dan@leafy test]$ export SRCTOP=.
-[dan@leafy test]$ export BLDTOP=.
-[dan@leafy test]$ export OPENSSL_ENGINES=./engines
-[dan@leafy test]$ export OPENSSL_DEBUG_MEMORY=on
-[dan@leafy test]$ VERBOSE=yes perl test/run_tests.pl test_ct
+[dan@leafy openssl]$ export SRCTOP=.
+[dan@leafy openssl]$ export BLDTOP=.
+[dan@leafy openssl]$ export OPENSSL_ENGINES=./engines
+[dan@leafy openssl]$ export OPENSSL_DEBUG_MEMORY=on
+[dan@leafy openssl]$ VERBOSE=yes perl test/run_tests.pl test_ct
 )
