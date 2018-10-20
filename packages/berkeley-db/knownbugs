@@ -1,1 +1,28 @@
-Failures during test running. Not had time to dive deeper into the why or where yet.
+Failures during test running.
+
+Occasionally the "cutest" that launches all the test scenarios fails during the "TestDbTuner" - but it seems rare and a dbx of the resulting core shows little info other than SEGV from some memcpy.
+
+The stack trace is mostly empty but when I reproduce it again I'll add it here.
+
+Error when running build_unix/cutest:
+
+...
+Running suite TestDbTuner
+Test db_tuner on various different kinds of btree, so it takes some time.
+Segmentation fault (core dumped)
+
+
+dbx of the coredump:
+
+[dan@leafy build_unix]$ libtool --mode=execute dbx ./cutest ./core 
+dbx version 7.3.4 (86441_Nov11 MR) Nov 11 2002 11:31:55
+Core from signal SIGSEGV: Segmentation violation
+(dbx) where
+
+Thread 0x10000
+>  0 memcpy(0x105db438, 0x10234001, 0x50, 0x0, 0x0, 0x71, 0x76777879, 0x0) ["/xlv86/patches/7207/work/irix/lib/libc/libc_n32_M4/strings/bcopy.s":598, 0xfa43a14]
+   1 <Unknown>() [< unknown >, 0x105db3e4]
+(dbx) 
+
+Which isn't a whole lot to go on.....
+
