@@ -17,5 +17,5 @@ SHELL="$INSTALLDIR/bin/bash"
 CONFIG_SHELL="$INSTALLDIR/bin/bash"
 export CC CFLAGS CXXFLAGS LDFLAGS PERL TEST_SHELL SHELL CONFIG_SHELL
 cd $BUILDDIR || exit -1
-./configure --with-iconv=$INSTALLDIR/lib --prefix=$INSTALLDIR || exit -1
+./configure --with-iconv=$INSTALLDIR/lib --without-python --prefix=$INSTALLDIR || exit -1
 exit 0
