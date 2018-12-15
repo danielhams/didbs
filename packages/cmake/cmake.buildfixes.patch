@@ -1,6 +1,6 @@
-diff -r -u -w cmake-2.8.12.2/Modules/FindCurses.cmake cmake-2.8.12.2-patched/Modules/FindCurses.cmake
+diff -u -r -w cmake-2.8.12.2/Modules/FindCurses.cmake cmake-2.8.12.2-patched/Modules/FindCurses.cmake
 --- cmake-2.8.12.2/Modules/FindCurses.cmake	2014-01-16 17:15:08.000000000 +0000
-+++ cmake-2.8.12.2-patched/Modules/FindCurses.cmake	2018-10-25 16:07:51.807923560 +0000
++++ cmake-2.8.12.2-patched/Modules/FindCurses.cmake	2018-12-15 18:49:04.738370240 +0000
 @@ -11,6 +11,7 @@
  #
  # Set CURSES_NEED_NCURSES to TRUE before the find_package() command if NCurses
@@ -9,3 +9,48 @@ diff -r -u -w cmake-2.8.12.2/Modules/FindCurses.cmake cmake-2.8.12.2-patched/Mod
  
  #=============================================================================
  # Copyright 2001-2009 Kitware, Inc.
+@@ -28,7 +29,7 @@
+ find_library(CURSES_CURSES_LIBRARY NAMES curses )
+ 
+ find_library(CURSES_NCURSES_LIBRARY NAMES ncurses )
+-set(CURSES_USE_NCURSES FALSE)
++set(CURSES_USE_NCURSES TRUE)
+ 
+ if(CURSES_NCURSES_LIBRARY  AND NOT  CURSES_CURSES_LIBRARY)
+   set(CURSES_USE_NCURSES TRUE)
+@@ -94,10 +95,7 @@
+   find_file(CURSES_HAVE_CURSES_H          curses.h
+     HINTS "${_cursesParentDir}/include")
+ 
+-  find_path(CURSES_NCURSES_INCLUDE_PATH ncurses.h ncurses/ncurses.h
+-    ncurses/curses.h)
+-  find_path(CURSES_NCURSES_INCLUDE_PATH curses.h
+-    HINTS "${_cursesParentDir}/include")
++  set(CURSES_NCURSES_INCLUDE_PATH "${_cursesParentDir}/include")
+ 
+   # for compatibility with older FindCurses.cmake this has to be in the cache
+   # FORCE must not be used since this would break builds which preload
+diff -u -r -w cmake-2.8.12.2/Source/CursesDialog/CMakeLists.txt cmake-2.8.12.2-patched/Source/CursesDialog/CMakeLists.txt
+--- cmake-2.8.12.2/Source/CursesDialog/CMakeLists.txt	2014-01-16 17:15:08.000000000 +0000
++++ cmake-2.8.12.2-patched/Source/CursesDialog/CMakeLists.txt	2018-12-15 18:49:33.920676120 +0000
+@@ -27,7 +27,7 @@
+ 
+ include_directories(${CMake_SOURCE_DIR}/Source/CursesDialog/form
+                     ${CMake_BINARY_DIR}/Source/CursesDialog/form)
+-include_directories(${CURSES_INCLUDE_PATH})
++include_directories(${CURSES_NCURSES_INCLUDE_PATH})
+ 
+ 
+ add_executable(ccmake ${CURSES_SRCS} )
+diff -u -r -w cmake-2.8.12.2/Source/CursesDialog/form/CMakeLists.txt cmake-2.8.12.2-patched/Source/CursesDialog/form/CMakeLists.txt
+--- cmake-2.8.12.2/Source/CursesDialog/form/CMakeLists.txt	2014-01-16 17:15:08.000000000 +0000
++++ cmake-2.8.12.2-patched/Source/CursesDialog/form/CMakeLists.txt	2018-12-15 18:49:59.499369040 +0000
+@@ -12,7 +12,7 @@
+ project(CMAKE_FORM)
+ 
+ include_regular_expression("^.*$")
+-include_directories(${CURSES_INCLUDE_PATH} "${CMAKE_CURRENT_BINARY_DIR}")
++include_directories(${CURSES_NCURSES_INCLUDE_PATH} "${CMAKE_CURRENT_BINARY_DIR}")
+ 
+ configure_file(cmFormConfigure.h.in "${CMAKE_CURRENT_BINARY_DIR}/cmFormConfigure.h")
+ 
