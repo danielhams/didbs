@@ -1,0 +1,11 @@
+diff -r -u -w cmake-2.8.12.2/Modules/FindCurses.cmake cmake-2.8.12.2-patched/Modules/FindCurses.cmake
+--- cmake-2.8.12.2/Modules/FindCurses.cmake	2014-01-16 17:15:08.000000000 +0000
++++ cmake-2.8.12.2-patched/Modules/FindCurses.cmake	2018-10-25 16:07:51.807923560 +0000
+@@ -11,6 +11,7 @@
+ #
+ # Set CURSES_NEED_NCURSES to TRUE before the find_package() command if NCurses
+ # functionality is required.
++set(CURSES_NEED_NCURSES TRUE)
+ 
+ #=============================================================================
+ # Copyright 2001-2009 Kitware, Inc.
