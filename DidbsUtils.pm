@@ -1,9 +1,17 @@
 package DidbsUtils;
 use Exporter;
+use IO::Handle;
+
 @ISA = ('Exporter');
-@EXPORT=('mkdirp','sumfile','begins_with');
+@EXPORT=('mkdirp','sumfile','begins_with','didbsprint');
 
 use File::Basename;
+
+# Just in cast at some point I want to add timestaps etc.
+sub didbsprint
+{
+    printf @_;
+}
 
 sub mkdirp($)
 {
@@ -22,9 +30,9 @@ sub sumfile
     my $digest = `$dsum $filename`;
     chomp($digest);
 
-#    print "Digest result is $digest\n";
+#    didbsprint "Digest result is $digest\n";
     (my $extracteddigest = $digest ) =~ s/^(\S+)\s+.*$/$1/g;
-#    print "Pulled out $extracteddigest\n";
+#    didbsprint "Pulled out $extracteddigest\n";
 
     return $extracteddigest;
 }

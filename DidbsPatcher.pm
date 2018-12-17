@@ -1,5 +1,7 @@
 package DidbsPatcher;
 
+use DidbsUtils;
+
 use File::Copy qw/cp/;
 
 sub new
@@ -32,11 +34,11 @@ sub patchit
     my $patchfn = $self->{didbsPackage}->{packagePatch};
     my $fullpathpatch = "$self->{packageDefsDir}/$self->{packageId}/$patchfn";
     my $patchdest = "$self->{buildDir}/$self->{packageId}";
-    print "Copying patch file $fullpathpatch to $patchdest\n";
+    didbsprint "Copying patch file $fullpathpatch to $patchdest\n";
     cp($fullpathpatch,$patchdest) || die $!;
 
     my $patchcmd = "$sl/patchhelper.sh $patchdest $patchfn";
-    print "patch command is $patchcmd\n";
+    didbsprint "patch command is $patchcmd\n";
     system($patchcmd) == 0 || die $!;
 
     return 1;
@@ -45,7 +47,7 @@ sub patchit
 sub debug
 {
     my $self = shift;
-    print "DidbsPatcher constructed for $self->{packageId}\n";
+    didbsprint "DidbsPatcher constructed for $self->{packageId}\n";
 }
 
 1;

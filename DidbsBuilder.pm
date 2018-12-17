@@ -36,11 +36,11 @@ sub buildit
 {
     my $self = shift;
     my $packageId = $self->{packageId};
-    print "Building $packageId\n";
+    didbsprint "Building $packageId\n";
 
     my $builddir = "$self->{buildDir}/$self->{packageId}/$self->{didbsPackage}->{packageDir}";
     my $installdir = $self->{installDir};
-    print "Would build in $builddir\n";
+    didbsprint "Would build in $builddir\n";
     my $extraargs;
     if( begins_with($packageId,"stage1") )
     {
@@ -53,10 +53,10 @@ sub buildit
 
     my $buildRecipe = "$self->{packageDefsDir}/$self->{packageId}/$self->{didbsPackage}->{buildRecipe}";
     my $cmd = "$buildRecipe $builddir $installdir $extraargs";
-#    print "About to execute $cmd\n";
+#    didbsprint "About to execute $cmd\n";
     if( system($cmd) != 0 )
     {
-	print "Failed during build: $!\n";
+	didbsprint "Failed during build: $!\n";
 	die $!;
     }
 
@@ -66,7 +66,7 @@ sub buildit
 sub debug
 {
     my $self = shift;
-    print "DidbsBuilder constructed for $self->{packageId}\n";
+    didbsprint "DidbsBuilder constructed for $self->{packageId}\n";
 }
 
 1;

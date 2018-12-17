@@ -33,21 +33,21 @@ sub debug
     my $self = shift;
     if( $self->{v} )
     {
-	printf "DidbsPackage:          \t   ".$self->{packageId}."\n";
-	printf " packageSource:        \t=> ".$self->{packageSource}."\n";
-	printf " packageFile:          \t=> ".$self->{packageFile}."\n";
-	printf " packageChecksum:      \t=> ".$self->{packageChecksum}."\n";
-	printf " packageExtraction:    \t=> ".$self->{packageExtraction}."\n";
-	printf " packageDir:           \t=> ".$self->{packageDir}."\n";
-	printf " packagePatch:         \t=> ".$self->{packagePatch}."\n";
-	printf " expectedToolList:     \t=> ".$self->{expectedToolList}."\n";
-	printf " dependenciesList:     \t=> ".$self->{dependenciesList}."\n";
-	printf " envModifs:            \t=> ".$self->{envModifs}."\n";
-	printf " configureRecipe:      \t=> ".$self->{configureRecipe}."\n";
-	printf " buildRecipe:          \t=> ".$self->{buildRecipe}."\n";
-	printf " installRecipe:        \t=> ".$self->{installRecipe}."\n";
-	printf " passesChecksIndicator:\t=> ".$self->{passesChecksIndicator}."\n";
-	printf " sequenceNo:           \t=> ".$self->{sequenceNo}."\n";
+	didbsprint "DidbsPackage:          \t   ".$self->{packageId}."\n";
+	didbsprint " packageSource:        \t=> ".$self->{packageSource}."\n";
+	didbsprint " packageFile:          \t=> ".$self->{packageFile}."\n";
+	didbsprint " packageChecksum:      \t=> ".$self->{packageChecksum}."\n";
+	didbsprint " packageExtraction:    \t=> ".$self->{packageExtraction}."\n";
+	didbsprint " packageDir:           \t=> ".$self->{packageDir}."\n";
+	didbsprint " packagePatch:         \t=> ".$self->{packagePatch}."\n";
+	didbsprint " expectedToolList:     \t=> ".$self->{expectedToolList}."\n";
+	didbsprint " dependenciesList:     \t=> ".$self->{dependenciesList}."\n";
+	didbsprint " envModifs:            \t=> ".$self->{envModifs}."\n";
+	didbsprint " configureRecipe:      \t=> ".$self->{configureRecipe}."\n";
+	didbsprint " buildRecipe:          \t=> ".$self->{buildRecipe}."\n";
+	didbsprint " installRecipe:        \t=> ".$self->{installRecipe}."\n";
+	didbsprint " passesChecksIndicator:\t=> ".$self->{passesChecksIndicator}."\n";
+	didbsprint " sequenceNo:           \t=> ".$self->{sequenceNo}."\n";
     }
 }
 
@@ -61,7 +61,7 @@ sub readPackageDef
     {
 	die "No such package definition: $packageDef\n";
     }
-    $verbose && printf "Reading from $packageDef\n";
+    $verbose && didbsprint "Reading from $packageDef\n";
 
     open PKG, "<".$packageDef || die $!;
     my @lines = <PKG>;

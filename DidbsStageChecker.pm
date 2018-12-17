@@ -1,5 +1,7 @@
 package DidbsStageChecker;
 
+use DidbsUtils;
+
 use constant PACKAGESTAGE => qw(STAGE0 BUILD);
 
 sub new
@@ -22,7 +24,7 @@ sub new
 
     $self->{missingStageString} = $self->calcMissingStage();
 
-    print "Setting missing stage to $self->{missingStageString}\n";
+    didbsprint "Setting missing stage to $self->{missingStageString}\n";
 
     return $self;
 }
@@ -89,16 +91,16 @@ sub calcMissingStage
 {
     my $self = shift;
     
-    print "Checking if there is a missing stage...\n";
+    didbsprint "Checking if there is a missing stage...\n";
 
     my $currentStage = $ENV{"DIDBS_STAGE"};
     
     my $stage0finishedfile = "$self->{buildDir}/stage0/stage.finished";
-    print "Looking for stage finished file at $stage0finishedfile\n";
+    didbsprint "Looking for stage finished file at $stage0finishedfile\n";
     my $stage0missing = !(-e $stage0finishedfile);
 
-    print "currentStage=$currentStage\n";
-    print "stage0missing=$stage0missing\n";
+    didbsprint "currentStage=$currentStage\n";
+    didbsprint "stage0missing=$stage0missing\n";
 #    exit;
 
     if( defined($currentStage) )
@@ -126,7 +128,7 @@ sub callMissingStage
 
     my $stageMissing = $self->{missingStageString};
 
-    print "Attempting to call missing stage $stageMissing ...\n";
+    didbsprint "Attempting to call missing stage $stageMissing ...\n";
 
     if( $stageMissing eq STAGE0 )
     {
@@ -134,7 +136,7 @@ sub callMissingStage
     }
     else
     {
-	print "Unknown stage that is missing!\n";
+	didbsprint "Unknown stage that is missing!\n";
 	exit -1;
     }
 
@@ -142,12 +144,12 @@ sub callMissingStage
 
     system($cmd) == 0 || die $!;
 
-    print "Stage $stageMissing completed.\n";
+    didbsprint "Stage $stageMissing completed.\n";
 
     $cmd = "touch $self->{buildDir}/".
 	lc($self->{missingStageString}).
 	"/stage.finished";
-    print "Touching stage complete file - $cmd\n";
+    didbsprint "Touching stage complete file - $cmd\n";
     system($cmd) == 0 || die !$;
 }
 
@@ -162,14 +164,14 @@ sub prependEnvVarPath
     my $newValue = $ENV{$envVarName};
 
     
-    print "Reset $envVarName from $prevValue to $newValue\n";
+    didbsprint "Reset $envVarName from $prevValue to $newValue\n";
 }
 
 sub modifyPathForCurrentStage
 {
     my $self = shift;
     my $envRef = shift;
-    print "Would attempt to call modify path for stage '$self->{stageString}' ...\n";
+    didbsprint "Would attempt to call modify path for stage '$self->{stageString}' ...\n";
 
     my $extraBinPath = $self->getStageAdjustedInstallDir() . "/bin";
     $self->prependEnvVarPath("PATH", $extraBinPath);

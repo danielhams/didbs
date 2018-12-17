@@ -1,5 +1,7 @@
 package DidbsDependencyEngine;
 
+use DidbsUtils;
+
 sub new
 {
     my $self = bless{}, shift;
@@ -22,19 +24,19 @@ sub findPackages
     my $packageLocation = "$self->{packageDefsDir}";
     if( ! -e $packageLocation )
     {
-	print "Unable to find packages at $packageLocation\n";
+	didbsprint "Unable to find packages at $packageLocation\n";
 	exit 1;
     }
-    print "Looking for packages in $packageLocation\n";
+    didbsprint "Looking for packages in $packageLocation\n";
 
     my @FOUNDPKGS = `ls $packageLocation/*.packagedef`;
     chomp(@FOUNDPKGS);
     if( length(@FOUNDPKGS) == 0 )
     {
-	print "Unable to find packages at $packageLocation\n";
+	didbsprint "Unable to find packages at $packageLocation\n";
 	exit 1;
     }
-#    print "Have @FOUNDPKGS\n";
+#    didbsprint "Have @FOUNDPKGS\n";
     my @knownPackages = ();
 
     foreach $foundpkg (@FOUNDPKGS)
@@ -54,22 +56,22 @@ sub findPackages
     foreach $pkg (@{$self->{knownPackages}})
     {
 	my $pkgid = ${$pkg}->{packageId};
-#	print "DE - Have a package '$pkgid'\n";
+#	didbsprint "DE - Have a package '$pkgid'\n";
 	$pidToPackage{$pkgid} = $pkg;
     }
     my %donePackages;
 
-    $self->{v} && print "Working out dependencies and order....\n";
+    $self->{v} && didbsprint "Working out dependencies and order....\n";
     my $orderedRef = flattenAndSortDeps( \@knownPackages, \%pidToPackage, \%donePackages );
     if( $self->{v} )
     {
-	print "Package order as follows:\n";
+	didbsprint "Package order as follows:\n";
 	foreach $pkg (@{$orderedRef})
 	{
 	    my $curpkg = ${$pkg};
 	    my $pkgid = $curpkg->{packageId};
 	    my $sequenceNo = $curpkg->{sequenceNo};
-	    print "Package: $pkgid => $sequenceNo\n";
+	    didbsprint "Package: $pkgid => $sequenceNo\n";
 	}
     }
 
@@ -110,10 +112,10 @@ sub flattenAndSortDeps
 			      $pkgref,
 	                      \@pkgResolutionStack );
 
-#	print "One done.\n";
+#	didbsprint "One done.\n";
 #	foreach $pkgid (keys %{$donepRef})
 #	{
-#	    print "Done package: $pkgid\n";
+#	    didbsprint "Done package: $pkgid\n";
 #	}
     }
 
@@ -126,11 +128,11 @@ sub flattenAndSortDeps
 
     # If having problem with dependency ordering
     # Uncomment this stuff to see what order is being used.
-#    print "Sorted packages:\n";
+#    didbsprint "Sorted packages:\n";
 #    foreach $sortedpkgref (@ordered)
 #    {
 #	my $pkg = ${$sortedpkgref};
-#	print "Seq: $pkg->{sequenceNo}\t:\t $pkg->{packageId} \n";
+#	didbsprint "Seq: $pkg->{sequenceNo}\t:\t $pkg->{packageId} \n";
 #    }
 #    exit;
 
@@ -152,12 +154,12 @@ sub recursiveFlattenDeps
     my $curPkg = ${$curpkgRef};
 
     my $curPkgId = $curPkg->{packageId};
-#    print "RecursiveFlattenDeps of $curPkgId\n";
+#    didbsprint "RecursiveFlattenDeps of $curPkgId\n";
 
     # Check if already handled
     if( ${$donepRef}{$curPkgId} ne "" )
     {
-#	print "Package $curPkgId is already complete.\n";
+#	didbsprint "Package $curPkgId is already complete.\n";
 	return $curPkg->{sequenceNo};
     }
 
@@ -166,11 +168,11 @@ sub recursiveFlattenDeps
     if( packageInResolutionStack( $pkgResolutionStackRef,
 				  $curPkgId ) )
     {
-	print "Dependency cycle detected with driving pkg: ".
+	didbsprint "Dependency cycle detected with driving pkg: ".
 	    ${$drivingPkgRef}->{packageId} . "!\n";
 	foreach $deppkgid (@{$pkgResolutionStackRef})
 	{
-	    print "Pkgid: $deppkgid\n";
+	    didbsprint "Pkgid: $deppkgid\n";
 	}
 	exit 1;
     }
@@ -179,7 +181,7 @@ sub recursiveFlattenDeps
     # For each dependency, find and add their dependencies
     my $deps = $curPkg->{dependenciesList};
 
-#    print "For package $curPkgId dependencies are $deps\n";
+#    didbsprint "For package $curPkgId dependencies are $deps\n";
 
     my @depIds = split(',',$deps);
     my $sequenceNo = 0;
@@ -189,7 +191,7 @@ sub recursiveFlattenDeps
 	my $depRef = ${$p2pRef}{$depId};
 	if( !defined($depRef) )
 	{
-	    print "Missing dependency: $depId for $curPkgId\n";
+	    didbsprint "Missing dependency: $depId for $curPkgId\n";
 	    exit 1;
 	}
 	my $childSeqNo = recursiveFlattenDeps( $drivingPkgRef,
@@ -211,7 +213,7 @@ sub recursiveFlattenDeps
 
     ${$donepRef}{$curPkgId} = "done";
     ${$pkgsInCurrentResolveRef}{$curPkgId} = "done";
-#    print "Setting package $curPkgId as done\n";
+#    didbsprint "Setting package $curPkgId as done\n";
     pop @{$pkgResolutionStackRef};
 
     return $curPkg->{sequenceNo};

@@ -1,5 +1,7 @@
 package DidbsPackageState;
 
+use DidbsUtils;
+
 use constant PACKAGESTATE => qw(UNCHECKED UNFETCHED FETCHED SIGCHECKED EXTRACTED PATCHED CONFIGURED BUILT INSTALLED OUTOFDATE);
 
 sub new
@@ -33,22 +35,22 @@ sub new
 
     my $installedDate = lastModTimestampOrZero( $installedFile );
 
-    $self->{v} && print "Package def date is $packageDefDate\n";
-    $self->{v} && print "Package installed date is $installedDate\n";
+    $self->{v} && didbsprint "Package def date is $packageDefDate\n";
+    $self->{v} && didbsprint "Package installed date is $installedDate\n";
 
     if( $installedDate == 0 )
     {
-	print "Package $packageId not yet installed.\n";
+	didbsprint "Package $packageId not yet installed.\n";
 	$self->{stateString} = UNFETCHED;
     }
     elsif( $installedDate lt $packageDefDate )
     {
-	print "Package $packageId out of date.\n";
+	didbsprint "Package $packageId out of date.\n";
 	$self->{stateString} = OUTOFDATE;
     }
     else
     {
-	$self->{v} && print "Package $packageId is up to date.\n";
+	$self->{v} && didbsprint "Package $packageId is up to date.\n";
 	$self->{stateString} = INSTALLED;
     }
 
@@ -61,7 +63,7 @@ sub lastModTimestamp
 
     if( ! -e $fn )
     {
-	print "Expected file $fn missing.\n";
+	didbsprint "Expected file $fn missing.\n";
 	exit 1;
     }
 
@@ -83,7 +85,7 @@ sub lastModTimestampOrZero
 sub debug
 {
     my $self = shift;
-    print "DidbsPackageState for $self->{packageId} is $self->{stateString}\n";
+    didbsprint "DidbsPackageState for $self->{packageId} is $self->{stateString}\n";
 }
 
 sub setState
@@ -91,12 +93,12 @@ sub setState
     my $self = shift;
     my $newstate = shift;
     $self->{stateString} = $newstate;
-    print "Package $self->{packageId} is now in state $newstate\n";
+    didbsprint "Package $self->{packageId} is now in state $newstate\n";
 
     if( $newstate eq INSTALLED )
     {
 	my $installedFileName = $self->{installedFileName};
-	print "Creating installed file: $installedFileName\n";
+	didbsprint "Creating installed file: $installedFileName\n";
 	open IFN, ">$installedFileName" || die $!;
 	printf IFN "$self->{didbsPackage}->{packageDir}\n";
 	close IFN;

@@ -14,14 +14,18 @@ use DidbsPatcher;
 use DidbsConfigurator;
 use DidbsBuilder;
 use DidbsInstaller;
+use DidbsUtils;
+
+STDERR->autoflush(1);
+STDOUT->autoflush(1);
 
 my $argc = ($#ARGV + 1);
 my $version = "0.0.1a";
 
 (my $configfile = basename($0)) =~ s/^(.*?)(?:\..*)?$/$1.conf/;
 my $scriptLocation = $FindBin::Bin;
-#print "Script location is $scriptLocation\n";
-#print "Configfile is $configfile\n";
+#didbsprint "Script location is $scriptLocation\n";
+#didbsprint "Configfile is $configfile\n";
 
 my $usingfoundconf = 0;
 
@@ -62,7 +66,7 @@ sub supressenv
 	delete $ENV{$_};
 	if($verbose)
 	{
-		print " Supressing environment $_\n";
+		didbsprint " Supressing environment $_\n";
 	}
     }
 }
@@ -127,9 +131,9 @@ sub writeconfig
     my %hash = %{ $hash_ref };
 
     my $cfname = "$scriptLocation/$configfile";
-    $verbose && print "Will write config to $cfname\n";
+    $verbose && didbsprint "Will write config to $cfname\n";
     open(FH, '>'.$cfname) || die $!;
-    $verbose && print "Would try and write out config of $hash \n";
+    $verbose && didbsprint "Would try and write out config of $hash \n";
     foreach my $key (keys %hash)
     {
         if( $key eq "packagedir" ||
@@ -154,21 +158,21 @@ sub writeconfig
         }
         else
         {
-            print "Unhandled option: $key\n";
+            didbsprint "Unhandled option: $key\n";
             exit(-1);
         }
     }
     close(FH);
 }
 
-print "didbs bootstrapper script version $version\n";
-print"\n";
+didbsprint "didbs bootstrapper script version $version\n";
+didbsprint "\n";
 
 if( $usingfoundconf == 1 )
 {
-    print "Adding found config.\n To start fresh, rm $scriptLocation/$configfile\n";
+    didbsprint "Adding found config.\n To start fresh, rm $scriptLocation/$configfile\n";
 }
-print "TODO: Check for build prerequisites (7.4.4m, sed etc - see toolstocheckfor.txt)\n";
+didbsprint "TODO: Check for build prerequisites (7.4.4m, sed etc - see toolstocheckfor.txt)\n";
 
 my %options = ();
 
@@ -184,9 +188,9 @@ GetOptions(\%options,
 
 if( !defined($packageDir) || !defined($buildDir) || !defined($installDir))
 {
-    $verbose && print "packageDir=$packageDir\n";
-    $verbose && print "buildDir=$buildDir\n";
-    $verbose && print "installDir=$installDir\n";
+    $verbose && didbsprint "packageDir=$packageDir\n";
+    $verbose && didbsprint "buildDir=$buildDir\n";
+    $verbose && didbsprint "installDir=$installDir\n";
     usage(true);
 }
 
@@ -203,7 +207,7 @@ sub prompt_yn
 {
     my( $query ) = @_;
     my $answer = prompt("$query (y/n): ");
-    print "\n";
+    didbsprint "\n";
     return lc($answer) eq 'y';
 }
 
@@ -212,11 +216,11 @@ sub prompt_before_delete
     my( $dirtodelete ) = @_;
     if( $dirtodelete ne "" && $dirtodelete ne "/")
     {
-	print "About to delete $dirtodelete/*\n";
+	didbsprint "About to delete $dirtodelete/*\n";
 	if( prompt_yn("Are you sure") )
 	{
 	    system("rm -rf $dirtodelete/*");
-#	    print "rm -rf $dirtodelete/*";
+#	    didbsprint "rm -rf $dirtodelete/*";
 	}
 	else
 	{
@@ -228,7 +232,7 @@ sub prompt_before_delete
 sub prompt_before_delete_non_stage0
 {
     my( $dirtodelete ) = @_;
-    print "About to delete $dirtodelete/*.installed and related directories\n";
+    didbsprint "About to delete $dirtodelete/*.installed and related directories\n";
     if( prompt_yn("Are you sure") )
     {
 	system("rm -rf $dirtodelete/*.installed");
@@ -238,7 +242,7 @@ sub prompt_before_delete_non_stage0
 	foreach $subdirtodelete (@dirstodelete)
 	{
 	    my $sbcmd = "rm -rf $subdirtodelete";
-#	    print "About to remove subdir with $sbcmd\n";
+#	    didbsprint "About to remove subdir with $sbcmd\n";
 	    system($sbcmd);
 	}
 	exit 0;
@@ -251,7 +255,7 @@ sub prompt_before_delete_non_stage0
 
 if( $clean )
 {
-    print "This will delete all non-stage0 content...\n";
+    didbsprint "This will delete all non-stage0 content...\n";
     # For now leave the packages there
     prompt_before_delete_non_stage0($buildDir);
     prompt_before_delete($installDir);
@@ -260,7 +264,7 @@ if( $clean )
 
 if( $clean_all )
 {
-    print "This will delete all content...\n";
+    didbsprint "This will delete all content...\n";
     # For now leave the packages there
 #    prompt_before_delete($packageDir);
     prompt_before_delete($buildDir);
@@ -277,10 +281,10 @@ $options{"stoponuntested"} = $stoponuntested;
 print"\n";
 if($verbose)
 {
-    print "Used config: \n";
+    didbsprint "Used config: \n";
     foreach $key (keys %options)
     {
-	print " $key \t=> $options{$key}\n";
+	didbsprint " $key \t=> $options{$key}\n";
     }
 }
 
@@ -313,8 +317,8 @@ if( $shouldWriteConfig )
 
 if( $parametersUpdated )
 {
-    print "\n";
-    print "Parameters updated. Now try running bootstrap.pl alone.\n";
+    didbsprint "\n";
+    didbsprint "Parameters updated. Now try running bootstrap.pl alone.\n";
     exit 0;
 }
 
@@ -325,7 +329,7 @@ my(%envvars) = getdefaultenv($DIR);
 foreach $var (keys %envvars)
 {
     my $val = $envvars{$var};
-    $verbose && print " setting $var=$val\n";
+    $verbose && didbsprint " setting $var=$val\n";
     $ENV{$var} = $val;
 }
 
@@ -338,14 +342,14 @@ my $stageChecker = DidbsStageChecker->new( $scriptLocation,
 
 if( $stageChecker->stagesMissing() )
 {
-    $verbose && print "Needed stages are missing..\n";
+    $verbose && didbsprint "Needed stages are missing..\n";
     $stageChecker->callMissingStage();
     exit 0;
 }
 else
 {
     # Only do this once per run of the script to keep things sane
-    $verbose && print "Modifying current path for this stage..\n";
+    $verbose && didbsprint "Modifying current path for this stage..\n";
     $stageChecker->modifyPathForCurrentStage();
 }
 
@@ -354,7 +358,7 @@ $ENV{"PATH"} = "$installDir/bin:$origpath";
 my $origPkgCpath = $ENV{"PKG_CONFIG_PATH"};
 $ENV{"PKG_CONFIG_PATH"} = "$pkgConfigPath/lib/pkgconfig:$origPkgCpath";
 $ENV{"DIDSB_INSTALL_DIR"} = $installDir;
-print "Modify the above in defaultenv.vars\n";
+didbsprint "Modify the above in defaultenv.vars\n";
 print"\n";
 
 my $packageDefsDir = $stageChecker->getStageAdjustedPackageDefDir();
@@ -375,7 +379,7 @@ foreach $pkg (@{$foundPackagesRef})
 {
     my $curpkg = ${$pkg};
     my $pkgid = $curpkg->{packageId};
-    $verbose && print "Checking status of package '$pkgid'...\n";
+    $verbose && didbsprint "Checking status of package '$pkgid'...\n";
 
     checkPackage( $pkg,
 		  $scriptLocation,
@@ -387,7 +391,7 @@ foreach $pkg (@{$foundPackagesRef})
 		  \$pkgDependencyEngine );
 }
 
-print "Processed ".@{$foundPackagesRef}." packages.\n";
+didbsprint "Processed ".@{$foundPackagesRef}." packages.\n";
 
 exit 0;
 
@@ -417,11 +421,11 @@ sub checkPackage
 					     $installDir,
 					     $curpkg);
 
-#    print "$curpkg->{passesChecksIndicator} $stoponuntested\n";
+#    didbsprint "$curpkg->{passesChecksIndicator} $stoponuntested\n";
 
     if( !$curpkg->{passesChecksIndicator} && !$stoponuntested)
     {
-	$verbose && print "Skipping untested package: $packageId\n";
+	$verbose && didbsprint "Skipping untested package: $packageId\n";
 	return;
     }
 
@@ -439,10 +443,10 @@ sub checkPackage
 
 	if( !$curpkgextractor->extractionSuccess() )
 	{
-	    $verbose && print "Package extraction not complete.\n";
+	    $verbose && didbsprint "Package extraction not complete.\n";
 	    if( !$curpkgextractor->extractit() )
 	    {
-		print "Unable to extract $curpkg->{packageId}\n";
+		didbsprint "Unable to extract $curpkg->{packageId}\n";
 		exit -1;
 	    }
 	}
@@ -461,7 +465,7 @@ sub checkPackage
 
 	    if( !$curpkgpatcher->patchit() )
 	    {
-		print "Failed to patch $curpkg->{packageId}\n";
+		didbsprint "Failed to patch $curpkg->{packageId}\n";
 		exit -1;
 	    }
 	    $curpkgextractor->setState(PATCHED);
@@ -481,7 +485,7 @@ sub checkPackage
 
 	if( !$curpkgconfigurator->configureit() )
 	{
-	    print "Failed during configure stage.\n";
+	    didbsprint "Failed during configure stage.\n";
 	    exit -1;
 	}
 
@@ -498,14 +502,14 @@ sub checkPackage
 					       $curpkgconfigurator );
 	if( !$curpkgbuilder->buildit() )
 	{
-	    print "Failed during build step.\n";
+	    didbsprint "Failed during build step.\n";
 	    exit -1;
 	}
-	$verbose && print "Package $packageId complete.\n";
+	$verbose && didbsprint "Package $packageId complete.\n";
 
 	if( $stoponuntested && !($curpkg->{passesChecksIndicator}) )
 	{
-	    print "This package ($packageId) is marked untested, please do the tests.\n";
+	    didbsprint "This package ($packageId) is marked untested, please do the tests.\n";
 	    exit 0;
 	}
 
@@ -522,7 +526,7 @@ sub checkPackage
 						   $curpkgconfigurator );
 	if( !$curpkginstaller->installit() )
 	{
-	    print "Failed during install step.\n";
+	    didbsprint "Failed during install step.\n";
 	    exit -1;
 	}
 

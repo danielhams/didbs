@@ -61,7 +61,7 @@ sub extractit
 
     if( $self->getState() ne FETCHED )
     {
-        print "Unfetched package. Fetching.\n";
+        didbsprint "Unfetched package. Fetching.\n";
         mkdirp($destdir);
         my $destfile = $self->{didbsPackage}->{packageFile};
         my $fulldestfile = $destdir."/".$destfile;
@@ -69,7 +69,7 @@ sub extractit
         my $sourceurl = $self->{didbsPackage}->{packageSource};
         my $checksum = $self->{didbsPackage}->{packageChecksum};
 
-        print "Package needs fetching from $sourceurl\n";
+        didbsprint "Package needs fetching from $sourceurl\n";
         my $fetchcmd = $self->{scriptLocation}."/wgethelper.sh ".$self->{scriptLocation}." $destdir \"$sourceurl\"";
 
         # If the file exists check the signature
@@ -78,48 +78,48 @@ sub extractit
         {
             if(!verifyChecksum($self,$fulldestfile,$checksum))
             {
-                print "Stale download at $fulldestfile.\n";
-                print "Removing is commented out.\n";
+                didbsprint "Stale download at $fulldestfile.\n";
+                didbsprint "Removing is commented out.\n";
                 exit -1;
                 unlink $fulldestfile;
             }
             else
             {
-		print "File exists ($fulldestfile)\n";
+		didbsprint "File exists ($fulldestfile)\n";
                 $fileexistsgood = 1;
             }
         }
 
         if(!$fileexistsgood)
         {
-            print "Fetching...\n";
-            print "\n\n";
+            didbsprint "Fetching...\n";
+            didbsprint "\n\n";
 
             system($fetchcmd) == 0 || die $!;
             $self->setState( FETCHED );
             if(!verifyChecksum($self,$fulldestfile,$checksum))
             {
-                print "Second download attempt failed.\n";
+                didbsprint "Second download attempt failed.\n";
                 exit -1;
             }
         }
 
         # File is good
-        print "Checksum match.\n";
+        didbsprint "Checksum match.\n";
         $self->setState(SIGCHECKED);
     }
 
     if( $self->getState() == SIGCHECKED )
     {
         my $extractdir = $self->{buildDir}."/".$self->{packageId};
-        print "Removing any existing content at $extractdir\n";
+        didbsprint "Removing any existing content at $extractdir\n";
         rmtree $extractdir || die $!;
         mkdirp( $extractdir );
         my $extractor = $self->{didbsPackage}->{packageExtraction};
         my $fullpathext = $self->{scriptLocation}."/".$extractor;
-        print "Extracting to $extractdir using $fullpathext\n";
+        didbsprint "Extracting to $extractdir using $fullpathext\n";
         my $cmd = "$fullpathext $extractdir $fulldestfile";
-        print "Command is $cmd\n";
+        didbsprint "Command is $cmd\n";
         system($cmd) == 0 || die $!;
 
         $self->setState(EXTRACTED);
@@ -133,10 +133,10 @@ sub verifyChecksum
     my $self=shift;
     my $filename=shift;
     my $checksum=shift;
-    #    print "Verifying checksum of $filename\n";
+    #    didbsprint "Verifying checksum of $filename\n";
     
     my $calcchecksum = sumfile($self->{scriptLocation}, $filename);
-    print "Expected($checksum) - received($calcchecksum)\n";
+    didbsprint "Expected($checksum) - received($calcchecksum)\n";
 
     return $calcchecksum eq $checksum;
 }
@@ -144,8 +144,8 @@ sub verifyChecksum
 sub debug
 {
     my $self = shift;
-    print "DibsExtractor constructed for $self->{packageId}\n";
-    print "Status is " . $self->getState() ."\n";
+    didbsprint "DibsExtractor constructed for $self->{packageId}\n";
+    didbsprint "Status is " . $self->getState() ."\n";
 }
 
 1;

@@ -34,13 +34,13 @@ sub configureit
 {
     my $self = shift;
     my $packageId = $self->{packageId};
-    print "Configuring $packageId\n";
+    didbsprint "Configuring $packageId\n";
 
     my $builddir = "$self->{buildDir}/$packageId/$self->{didbsPackage}->{packageDir}";
-    print "Would configure in $builddir\n";
+    didbsprint "Would configure in $builddir\n";
     my $installdir = $self->{installDir};
     my $extraargs;
-    print "Checking if $packageId begins with stage1.\n";
+    didbsprint "Checking if $packageId begins with stage1.\n";
     if( begins_with($packageId,"stage1") )
     {
 	$extraargs=$self->{pathToStage0Root};
@@ -52,7 +52,7 @@ sub configureit
 
     my $configureRecipe = "$self->{packageDefsDir}/$packageId/$self->{didbsPackage}->{configureRecipe}";
     my $cmd = "$configureRecipe $builddir $installdir $extraargs";
-    print "About to execute $cmd\n";
+    didbsprint "About to execute $cmd\n";
     system($cmd) == 0 || die $!;
 
     return 1;
@@ -61,7 +61,7 @@ sub configureit
 sub debug
 {
     my $self = shift;
-    print "DidbsConfigurator constructed for $self->{packageId}\n";
+    didbsprint "DidbsConfigurator constructed for $self->{packageId}\n";
 }
 
 1;

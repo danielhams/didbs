@@ -36,11 +36,11 @@ sub installit
 {
     my $self = shift;
     my $packageId = $self->{packageId};
-    print "Installing $packageId\n";
+    didbsprint "Installing $packageId\n";
 
     my $builddir = "$self->{buildDir}/$self->{packageId}/$self->{didbsPackage}->{packageDir}";
     my $installdir = $self->{installDir};
-    print "Build is in $builddir\n";
+    didbsprint "Build is in $builddir\n";
     my $extraargs;
     if( begins_with($packageId,"stage1") )
     {
@@ -53,7 +53,7 @@ sub installit
 
     my $installRecipe = "$self->{packageDefsDir}/$self->{packageId}/$self->{didbsPackage}->{installRecipe}";
     my $cmd = "$installRecipe $builddir $installdir $extraargs";
-    print "About to execute $cmd\n";
+    didbsprint "About to execute $cmd\n";
     system($cmd) == 0 || die $!;
 
     return 1;
@@ -62,7 +62,7 @@ sub installit
 sub debug
 {
     my $self = shift;
-    print "DidbsInstaller constructed for $self->{packageId}\n";
+    didbsprint "DidbsInstaller constructed for $self->{packageId}\n";
 }
 
 1;
