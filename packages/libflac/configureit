@@ -7,8 +7,7 @@ echo $BUILDDIR
 echo $INSTALLDIR
 echo $EXTRAARGS
 CC=$DIDBS_CC
-CPPFLAGS="-I$INSTALLDIR/include -I$INSTALLDIR/include/ncurses"
-# Python uses -O anyway, override here doesn't work
+CPPFLAGS="-I$INSTALLDIR/include"
 #CFLAGS="$DIDBS_ARCH_CFLAGS -O1"
 #CXXFLAGS="$DIDBS_ARCH_CFLAGS -O1"
 CFLAGS="$DIDBS_ARCH_CFLAGS"
@@ -17,8 +16,8 @@ LDFLAGS="$DIDBS_ARCH_LDFLAGS -L$INSTALLDIR/lib"
 PERL="$INSTALLDIR/bin/perl"
 TEST_SHELL="$INSTALLDIR/bin/bash"
 SHELL="$INSTALLDIR/bin/bash"
-SSL="$INSTALLDIR"
-export CC CPPFLAGS CFLAGS CXXFLAGS LDFLAGS PERL TEST_SHELL SHELL SSL
+CONFIG_SHELL="$INSTALLDIR/bin/bash"
+export CC CPPFLAGS CFLAGS CXXFLAGS LDFLAGS PERL TEST_SHELL SHELL CONFIG_SHELL
 cd $BUILDDIR || exit -1
-./configure --enable-shared --prefix=$INSTALLDIR --with-pydebug --with-system-ffi || exit -1
+./configure --prefix=$INSTALLDIR || exit -1
 exit 0

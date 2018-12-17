@@ -7,5 +7,5 @@ echo $BUILDDIR
 echo $INSTALLDIR
 echo $EXTRAARGS
 cd $BUILDDIR || exit -1
-make OPT= install || exit -1
+make install || exit -1
 exit 0
