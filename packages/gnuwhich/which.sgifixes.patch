@@ -1,0 +1,23 @@
+diff -r -u -w which-2.21/Makefile.am which-2.21-patched/Makefile.am
+--- which-2.21/Makefile.am	2015-03-20 16:28:11.000000000 +0000
++++ which-2.21-patched/Makefile.am	2018-12-18 17:22:13.879394400 +0000
+@@ -1,5 +1,5 @@
+ AUTOMAKE_OPTIONS = no-texinfo.tex
+-ACLOCAL_AMFLAGS=@ACLOCAL_CWFLAGS@
++# ACLOCAL_AMFLAGS=@ACLOCAL_CWFLAGS@
+ 
+ SUBDIRS = tilde .
+ 
+Only in which-2.21: aclocal.m4
+diff -r -u -w which-2.21/configure.ac which-2.21-patched/configure.ac
+--- which-2.21/configure.ac	2015-03-19 17:53:15.000000000 +0000
++++ which-2.21-patched/configure.ac	2018-12-18 17:22:02.912065600 +0000
+@@ -6,7 +6,7 @@
+ AM_MAINTAINER_MODE
+ 
+ dnl Because we use cwautomacros.
+-CW_AUTOMACROS
++dnl CW_AUTOMACROS
+ 
+ which_cv_iberty=yes
+ AC_ARG_ENABLE(iberty,
