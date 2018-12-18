@@ -375,6 +375,8 @@ my $said = $stageChecker->getStageAdjustedInstallDir();
 my $pathToStage0Root = $stageChecker->getPathToStage0Root();
 $ENV{"STAGE0ROOT"}=$pathToStage0Root;
 
+my %foundPackageStates = {};
+
 foreach $pkg (@{$foundPackagesRef})
 {
     my $curpkg = ${$pkg};
@@ -388,7 +390,8 @@ foreach $pkg (@{$foundPackagesRef})
 		  $sabd,
 		  $said,
 		  $pathToStage0Root,
-		  \$pkgDependencyEngine );
+		  \$pkgDependencyEngine,
+		  \%foundPackageStates );
 }
 
 didbsprint "Processed ".@{$foundPackagesRef}." packages.\n";
@@ -404,7 +407,8 @@ sub checkPackage
 	$buildDir,
 	$installDir,
 	$pathToStage0Root,
-	$pkgDependencyEngineRef ) = @_;
+	$pkgDependencyEngineRef,
+	$foundPackageStatesRef ) = @_;
 
     my $pkg = ${$pkgRef};
     my $pkgDependencyEngine = ${$pkgDependencyEngineRef};
@@ -419,9 +423,12 @@ sub checkPackage
 					     $packageDir,
 					     $buildDir,
 					     $installDir,
-					     $curpkg);
+					     $curpkg,
+					     $foundPackageStatesRef );
 
 #    didbsprint "$curpkg->{passesChecksIndicator} $stoponuntested\n";
+    ${$foundPackageStatesRef}{$packageId} = $curpkgstate;
+    didbsprint "Set the package state for $packageId\n";
 
     if( !$curpkg->{passesChecksIndicator} && !$stoponuntested)
     {
@@ -431,6 +438,10 @@ sub checkPackage
 
     if( $curpkgstate->getState() ne INSTALLED )
     {
+	didbsprint "Package $packageId needs updating...\n";
+	# Wait for a return
+	<STDIN>;
+
 	my $curpkgextractor = DidbsExtractor->new( $scriptLocation,
 						   $packageId,
 						   $packageDir,
@@ -500,6 +511,9 @@ sub checkPackage
 					       $curpkgextractor,
 					       $curpkgpatcher,
 					       $curpkgconfigurator );
+
+	didbsprint "About to rebuild package..\n";
+
 	if( !$curpkgbuilder->buildit() )
 	{
 	    didbsprint "Failed during build step.\n";
