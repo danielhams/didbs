@@ -428,7 +428,7 @@ sub checkPackage
 
 #    didbsprint "$curpkg->{passesChecksIndicator} $stoponuntested\n";
     ${$foundPackageStatesRef}{$packageId} = $curpkgstate;
-    didbsprint "Set the package state for $packageId\n";
+    $verbose && didbsprint "Set the package state for $packageId\n";
 
     if( !$curpkg->{passesChecksIndicator} && !$stoponuntested)
     {
