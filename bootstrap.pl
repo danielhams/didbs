@@ -440,7 +440,7 @@ sub checkPackage
     {
 	didbsprint "Package $packageId needs updating...\n";
 	# Wait for a return
-	<STDIN>;
+	#<STDIN>;
 
 	my $curpkgextractor = DidbsExtractor->new( $scriptLocation,
 						   $packageId,
