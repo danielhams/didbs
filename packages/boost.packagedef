@@ -8,12 +8,19 @@
 #packageChecksum=15cb8c0803064faef0c4ddf5bc5ca279
 #packageDir=boost_1_54_0
 
-packageSource=https://ftp.osuosl.org/pub/blfs/conglomeration/boost/boost_1_52_0.tar.bz2
-packageFile=boost_1_52_0.tar.bz2
-packageChecksum=3a855e0f919107e0ca4de4d84ad3f750
-packageDir=boost_1_52_0
+#packageSource=https://ftp.osuosl.org/pub/blfs/conglomeration/boost/boost_1_52_0.tar.bz2
+#packageFile=boost_1_52_0.tar.bz2
+#packageChecksum=3a855e0f919107e0ca4de4d84ad3f750
+#packageDir=boost_1_52_0
+#packagePatch=boost_1_52_0.sgifixes.patch
+
+packageSource=https://downloads.sourceforge.net/boost/boost_1_33_1.tar.gz
+packageFile=boost_1_33_1.tar.gz
+packageChecksum=a0be7261bfdc8a6c98a25f964766c7a5
+packageDir=boost_1_33_1
+packagePatch=boost_1_33_1.sgifixes.patch
+
 packageExtraction=tarxfsystemhelper.sh
-packagePatch=boost.sgifixes.patch
 expectedToolList=
 dependenciesList=make,tar,bzip
 envModifs=
