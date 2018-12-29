@@ -16,6 +16,6 @@ cd $BUILDDIR || exit -1
 # For 1_53-0
 #./b2 -j $DIDBS_JOBS --link=shared --threading=multi --with-thread --with-system --with-chrono --with-program_options --prefix=$INSTALLDIR install || exit -1
 
-# For 1_33_1
-./make install
+make install
+
 exit 0
