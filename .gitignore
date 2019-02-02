@@ -45,3 +45,5 @@ tmp
 
 # local config cache
 bootstrap.conf*
+
+core
