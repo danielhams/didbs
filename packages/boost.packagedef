@@ -26,6 +26,12 @@ packageChecksum=a6b7d92c335c83e69a968a7a7926c933
 packageDir=boost_1_35_0
 packagePatch=boost_1_35_0.sgifixes.patch
 
+#packageSource=https://downloads.sourceforge.net/boost/boost_1_42_0.tar.gz
+#packageFile=boost_1_42_0.tar.gz
+#packageChecksum=f822f01dc4eb00f5af000cf633961a23
+#packageDir=boost_1_42_0
+##packagePatch=boost_1_42_0.sgifixes.patch
+
 packageExtraction=tarxfsystemhelper.sh
 expectedToolList=
 dependenciesList=make,tar,bzip

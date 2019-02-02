@@ -27,8 +27,12 @@ cd $BUILDDIR || exit -1
 #./configure --prefix=$INSTALLDIR --without-libraries=python
 
 # For 1_35_0
-./configure --prefix=$INSTALLDIR --without-libraries=python
+./configure --prefix=$INSTALLDIR --without-libraries=python || exit -1
 
-make
+
+# For 1_42_0
+#./bootstrap.sh --prefix=$INSTALLDIR --without-libraries=python || exit -1
+
+make || exit -1
 
 exit 0

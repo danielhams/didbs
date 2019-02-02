@@ -1,0 +1,14 @@
+diff -u -r -w tcl8.6.9/pkgs/sqlite3.25.3/tclconfig/tcl.m4 tcl8.6.9-patched/pkgs/sqlite3.25.3/tclconfig/tcl.m4
+--- tcl8.6.9/pkgs/sqlite3.25.3/tclconfig/tcl.m4	2018-11-16 19:01:50.000000000 +0000
++++ tcl8.6.9-patched/pkgs/sqlite3.25.3/tclconfig/tcl.m4	2019-01-26 12:12:22.464402800 +0000
+@@ -3197,8 +3197,8 @@
+ 	])
+ 	MAKE_STUB_LIB="\${STLIB_LD} -nodefaultlib -out:\[$]@ \$(PKG_STUB_OBJECTS)"
+     else
+-	MAKE_STATIC_LIB="\${STLIB_LD} \[$]@ \$(PKG_OBJECTS)"
+-	MAKE_SHARED_LIB="\${SHLIB_LD} -o \[$]@ \$(PKG_OBJECTS) \${SHLIB_LD_LIBS}"
++	MAKE_STATIC_LIB="\${STLIB_LD} \[$]@ \$(LDFLAGS_DEFAULT) \$(PKG_OBJECTS)"
++	MAKE_SHARED_LIB="\${SHLIB_LD} -o \[$]@ \$(LDFLAGS_DEFAULT) \$(PKG_OBJECTS) \${SHLIB_LD_LIBS}"
+ 	MAKE_STUB_LIB="\${STLIB_LD} \[$]@ \$(PKG_STUB_OBJECTS)"
+     fi
+ 

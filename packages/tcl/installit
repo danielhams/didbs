@@ -1,0 +1,13 @@
+#!/bin/sh
+
+BUILDDIR=$1
+INSTALLDIR=$2
+EXTRAARGS=$3
+echo $BUILDDIR
+echo $INSTALLDIR
+echo $EXTRAARGS
+cd $BUILDDIR/unix || exit -1
+make install || exit -1
+cd $INSTALLDIR/bin || exit -1
+ln -f -s tclsh8.6 tclsh || exit -1
+exit 0

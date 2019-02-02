@@ -1,0 +1,13 @@
+packageSource=ftp://ftp.mirrorservice.org/sites/sourceware.org/pub/gcc/releases/gcc-4.7.2/gcc-4.7.2.tar.bz2
+packageFile=gcc-4.7.2.tar.bz2
+packageChecksum=cc308a0891e778cfda7a151ab8a6e762
+packageDir=gcc-4.7.2
+packageExtraction=tarxfsystemhelper.sh
+#packagePatch=
+expectedToolList=
+dependenciesList=make,tar,gzip,autoconf,automake,libtool,gmp,mpfr,mpc,binutils
+envModifs=
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=0

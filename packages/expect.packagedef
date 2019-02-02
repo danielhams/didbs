@@ -1,0 +1,13 @@
+packageSource=https://downloads.sourceforge.net/expect/expect5.45.4.tar.gz
+packageFile=expect5.45.4.tar.gz
+packageChecksum=00fce8de158422f5ccd2666512329bd2
+packageDir=expect5.45.4
+packageExtraction=tarxfsystemhelper.sh
+#packagePatch=
+expectedToolList=
+dependenciesList=make,tar,gzip,autoconf,automake,libtool,tk
+envModifs=
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=1
