@@ -1,5 +1,7 @@
+Version 1.1.1a - 
+
 All tests successful.
-Files=96, Tests=555, 692 wallclock secs ( 6.88 usr  0.66 sys + 602.99 cusr 69.46 csys = 679.99 CPU)
+Files=152, Tests=1355, 1124 wallclock secs (18.35 usr  1.10 sys + 960.43 cusr 145.73 csys = 1125.61 CPU)
 Result: PASS
 
 (Tests can be individually launched:

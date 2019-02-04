@@ -1,0 +1,36 @@
+diff -u -r -w wget-1.20.1/Makefile.am wget-1.20.1-patched/Makefile.am
+--- wget-1.20.1/Makefile.am	2018-12-26 19:58:38.000000000 +0000
++++ wget-1.20.1-patched/Makefile.am	2019-02-04 18:46:53.458109920 +0000
+@@ -41,7 +41,7 @@
+ ACLOCAL_AMFLAGS = -I m4
+ 
+ # subdirectories in the distribution
+-SUBDIRS = lib src doc po util fuzz tests testenv
++SUBDIRS = lib src doc po util tests testenv
+ 
+ EXTRA_DIST = MAILING-LIST \
+              msdos/config.h msdos/Makefile.DJ \
+diff -u -r -w wget-1.20.1/Makefile.in wget-1.20.1-patched/Makefile.in
+--- wget-1.20.1/Makefile.in	2018-12-26 20:09:02.000000000 +0000
++++ wget-1.20.1-patched/Makefile.in	2019-02-04 18:46:53.466346880 +0000
+@@ -1460,7 +1460,7 @@
+ ACLOCAL_AMFLAGS = -I m4
+ 
+ # subdirectories in the distribution
+-SUBDIRS = lib src doc po util fuzz tests testenv
++SUBDIRS = lib src doc po util tests testenv
+ EXTRA_DIST = MAILING-LIST \
+              msdos/config.h msdos/Makefile.DJ \
+              msdos/Makefile.WC ABOUT-NLS \
+diff -u -r -w wget-1.20.1/src/Makefile.in wget-1.20.1-patched/src/Makefile.in
+--- wget-1.20.1/src/Makefile.in	2018-12-26 20:09:02.000000000 +0000
++++ wget-1.20.1-patched/src/Makefile.in	2019-02-04 18:47:09.260118640 +0000
+@@ -1673,7 +1673,7 @@
+ 
+ wget$(EXEEXT): $(wget_OBJECTS) $(wget_DEPENDENCIES) $(EXTRA_wget_DEPENDENCIES) 
+ 	@rm -f wget$(EXEEXT)
+-	$(AM_V_CCLD)$(LINK) $(wget_OBJECTS) $(wget_LDADD) $(LIBS)
++	$(AM_V_CCLD)$(LINK) $(wget_OBJECTS) $(wget_LDADD) $(LIBS) -Bdynamic -lpthread
+ 
+ mostlyclean-compile:
+ 	-rm -f *.$(OBJEXT)

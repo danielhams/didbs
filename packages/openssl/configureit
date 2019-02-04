@@ -7,11 +7,15 @@ echo $BUILDDIR
 echo $INSTALLDIR
 echo $EXTRAARGS
 CC=$DIDBS_CC
-# Attempt to fix some floating point precision issues with tests
-CFLAGS="$DIDBS_ARCH_CFLAGS"
-LDFLAGS="$DIDBS_ARCH_LDFLAGS"
-export CC CFLAGS LDFLAGS
+CC=$DIDBS_CC
+CPPFLAGS="-I$INSTALLDIR/include"
+CFLAGS="$DIDBS_ARCH_CFLAGS -O1"
+CXXFLAGS="$DIDBS_ARCH_CFLAGS -O1"
+LDFLAGS="$DIDBS_ARCH_LDFLAGS -L$INSTALLDIR/lib"
+PERL="$INSTALLDIR/bin/perl"
+TEST_SHELL="$INSTALLDIR/bin/bash"
+SHELL="$INSTALLDIR/bin/bash"
+export CC CPPFLAGS CFLAGS CXXFLAGS LDFLAGS PERL TEST_SHELL SHELL
 cd $BUILDDIR || exit -1
-#./Configure --prefix=$INSTALLDIR irix-mips3-cc threads shared || exit -1
 ./Configure --prefix=$INSTALLDIR irix-mips4-cc threads shared || exit -1
 exit 0

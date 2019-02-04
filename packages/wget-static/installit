@@ -1,0 +1,15 @@
+#!/bin/sh
+
+BUILDDIR=$1
+INSTALLDIR=$2
+EXTRAARGS=$3
+echo $BUILDDIR
+echo $INSTALLDIR
+echo $EXTRAARGS
+cd $BUILDDIR || exit -1
+# we dont want to overwrite - so no install
+# we'll just manually copy out the wget-static
+#make install || exit -1
+cp src/wget $INSTALLDIR/bin/wget-static || exit -1
+strip $INSTALLDIR/bin/wget-static || exit -1
+exit 0
