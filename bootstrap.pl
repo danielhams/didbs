@@ -86,9 +86,13 @@ sub getdefaultenv
 # this eats values with spaces in there....
 #        s|\s||;
 	next if $_ eq "";
-        my($key, $val) = split(/=/);
+	my $firstEqualPos = index($_,"=");
+	my $key = substr($_, 0, $firstEqualPos);
+	my $val = substr($_, $firstEqualPos+1);
+	print "Found $key->$val\n";
         $values{$key} = $val;
     }
+#    exit -1;
     return %values;
 }
 
