@@ -47,6 +47,7 @@ my $verbose = 0;
 my $clean = 0;
 my $clean_all = 0;
 my $stoponuntested = 0;
+my $pretend = 0;
 
 sub supressenv
 {
@@ -110,6 +111,7 @@ Maintenance Options:
 \t                   \t--clean              (non-stage0 builds)
 \t                   \t--clean-all          (builds + installs)
 \t                   \t--stoponuntested
+\t                   \t--pretend
 
 On first run you must provide the package, build and installation directories
 that this bootstrapper will use.
@@ -187,7 +189,8 @@ GetOptions(\%options,
            "verbose|v" => \$verbose,
            "clean" => \$clean,
            "clean-all" => \$clean_all,
-           "stoponuntested" => \$stoponuntested )
+           "stoponuntested" => \$stoponuntested,
+           "pretend" => \$pretend )
     or usage(true);
 
 if( !defined($packageDir) || !defined($buildDir) || !defined($installDir))
@@ -292,7 +295,9 @@ if($verbose)
     }
 }
 
-my $parametersUpdated = $userfoundconf eq 0 || $argc >= 1;
+my $onlyPretendArguments = ($argc == 1 && defined($options{"pretend"}));
+
+my $parametersUpdated = ($userfoundconf eq 0 || $argc >= 1) && !onlyPretendArguments;
 
 my $shouldWriteConfig = 0;
 if( -e "$scriptLocation/$configfile" &&
@@ -456,34 +461,42 @@ sub checkPackage
 
 	$curpkgextractor->debug();
 
-	if( !$curpkgextractor->extractionSuccess() )
+	if( !$pretend )
 	{
-	    $verbose && didbsprint "Package extraction not complete.\n";
-	    if( !$curpkgextractor->extractit() )
+
+	    if( !$curpkgextractor->extractionSuccess() )
 	    {
-		didbsprint "Unable to extract $curpkg->{packageId}\n";
-		exit -1;
+		$verbose && didbsprint "Package extraction not complete.\n";
+		if( !$curpkgextractor->extractit() )
+		{
+		    didbsprint "Unable to extract $curpkg->{packageId}\n";
+		    exit -1;
+		}
 	    }
 	}
 
 	my $curpkgpatcher = undef;
-	if( defined($curpkg->{packagePatch}) &&
-	    $curpkgextractor->getState() ne PATCHED)
-	{
-	    $curpkgpatcher = DidbsPatcher->new( $scriptLocation,
-						$packageDefsDir,
-						$packageId,
-						$packageDir,
-						$buildDir,
-						$curpkg,
-						$curpkgextractor );
 
-	    if( !$curpkgpatcher->patchit() )
+	if( !$pretend )
+	{
+	    if( defined($curpkg->{packagePatch}) &&
+		$curpkgextractor->getState() ne PATCHED)
 	    {
-		didbsprint "Failed to patch $curpkg->{packageId}\n";
-		exit -1;
+		$curpkgpatcher = DidbsPatcher->new( $scriptLocation,
+						    $packageDefsDir,
+						    $packageId,
+						    $packageDir,
+						    $buildDir,
+						    $curpkg,
+						    $curpkgextractor );
+
+		if( !$curpkgpatcher->patchit() )
+		{
+		    didbsprint "Failed to patch $curpkg->{packageId}\n";
+		    exit -1;
+		}
+		$curpkgextractor->setState(PATCHED);
 	    }
-	    $curpkgextractor->setState(PATCHED);
 	}
 
 	my $curpkgconfigurator = DidbsConfigurator->new( $scriptLocation,
@@ -498,10 +511,13 @@ sub checkPackage
 							 $curpkgpatcher );
 
 
-	if( !$curpkgconfigurator->configureit() )
+	if( !$pretend )
 	{
-	    didbsprint "Failed during configure stage.\n";
-	    exit -1;
+	    if( !$curpkgconfigurator->configureit() )
+	    {
+		didbsprint "Failed during configure stage.\n";
+		exit -1;
+	    }
 	}
 
 	my $curpkgbuilder = DidbsBuilder->new( $scriptLocation,
@@ -518,10 +534,13 @@ sub checkPackage
 
 	didbsprint "About to rebuild package..\n";
 
-	if( !$curpkgbuilder->buildit() )
+	if( !$pretend )
 	{
-	    didbsprint "Failed during build step.\n";
-	    exit -1;
+	    if( !$curpkgbuilder->buildit() )
+	    {
+		didbsprint "Failed during build step.\n";
+		exit -1;
+	    }
 	}
 	$verbose && didbsprint "Package $packageId complete.\n";
 
@@ -542,13 +561,16 @@ sub checkPackage
 						   $curpkgextractor,
 						   $curpkgpatcher,
 						   $curpkgconfigurator );
-	if( !$curpkginstaller->installit() )
+
+	if( !$pretend )
 	{
-	    didbsprint "Failed during install step.\n";
-	    exit -1;
+	    if( !$curpkginstaller->installit() )
+	    {
+		didbsprint "Failed during install step.\n";
+		exit -1;
+	    }
+
+	    $curpkgstate->setState(INSTALLED);
 	}
-
-	$curpkgstate->setState(INSTALLED);
-
     }
 }
