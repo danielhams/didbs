@@ -6,9 +6,7 @@ EXTRAARGS=$3
 echo $BUILDDIR
 echo $INSTALLDIR
 echo $EXTRAARGS
-SHELL=$INSTALLDIR/bin/bash
-CONFIG_SHELL=$INSTALLDIR/bin/bash
-export SHELL CONFIG_SHELL
+. ./setupenv.sh
 cd $BUILDDIR || exit -1
 make install || exit -1
 # Move the coreutils 'stty' tool which doesn't do what we'd

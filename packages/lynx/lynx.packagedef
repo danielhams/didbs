@@ -1,0 +1,13 @@
+packageSource=https://invisible-mirror.net/archives/lynx/tarballs/lynx2.8.9rel.1.tar.gz
+packageFile=lynx2.8.9rel.1.tar.gz
+packageChecksum=899e3531cc9446e73dc5ebe63ea5f062
+packageDir=lynx2.8.9rel.1
+packageExtraction=tarxfsystemhelper.sh
+#packagePatch=
+expectedToolList=
+dependenciesList=make,tar,gzip,pkgconfig,openssl,ncursesw
+envModifs=setupenv.sh
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=1

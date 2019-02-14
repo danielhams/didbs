@@ -56,7 +56,9 @@ sub readPackageDef
     my $self = shift;
     my $scriptLocation = shift;
     my $packageDefDir = shift;
-    my $packageDef = $packageDefDir ."/".$self->{packageId}.".packagedef";
+    my $packageDef = $packageDefDir . "/" .
+	$self->{packageId} . "/" .
+	$self->{packageId}.".packagedef";
     if( !( -e $packageDef ) )
     {
 	die "No such package definition: $packageDef\n";
@@ -98,6 +100,18 @@ sub readPackageDef
 	length($self->{installRecipe}) == 0 )
     {
 	die "configureRecipe, buildRecipe, installRecipe must be filled for $packageDef.";
+    }
+
+    if( length($self->{envModifs}) != 0 )
+    {
+	my $envModifsFilePath = $packageDefDir . "/" .
+	    $self->{packageId} . "/" .
+	    $self->{envModifs};
+	if( !(-e $envModifsFilePath) )
+	{
+	    my $packageId = $self->{packageId};
+	    die "Package $packageId specifies envModifs but file not found.";
+	}
     }
 }
 

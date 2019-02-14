@@ -1,0 +1,12 @@
+packageSource=http://www.ijg.org/files/jpegsrc.v9c.tar.gz
+packageFile=jpegsrc.v9c.tar.gz
+packageChecksum=93c62597eeef81a84d988bccbda1e990
+packageExtraction=tarxfsystemhelper.sh
+packageDir=jpeg-9c
+expectedToolList=
+dependenciesList=make,tar,gzip
+envModifs=setupenv.sh
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=1

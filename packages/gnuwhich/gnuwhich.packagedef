@@ -1,0 +1,13 @@
+packageSource=https://ftp.gnu.org/gnu/which/which-2.21.tar.gz
+packageFile=which-2.21.tar.gz
+packageChecksum=097ff1a324ae02e0a3b0369f07a7544a
+packageDir=which-2.21
+packageExtraction=tarxfsystemhelper.sh
+packagePatch=which.sgifixes.patch
+expectedToolList=
+dependenciesList=make,tar,gzip,autoconf,automake,libtool
+envModifs=setupenv.sh
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=1

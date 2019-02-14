@@ -1,0 +1,13 @@
+packageSource=http://ftp.gnu.org/gnu/sed/sed-4.5.tar.xz
+packageFile=sed-4.5.tar.xz
+packageChecksum=ade8f8c2c548bf41f74db2dcfc37e4e3
+packageExtraction=tarxfsystemhelper.sh
+packageDir=sed-4.5
+packagePatch=sed.fixtimeheaders.patch
+expectedToolList=
+dependenciesList=stage1make,stage1tar,stage1xz
+envModifs=setupenv.sh
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=1

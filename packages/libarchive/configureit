@@ -6,11 +6,7 @@ EXTRAARGS=$3
 echo $BUILDDIR
 echo $INSTALLDIR
 echo $EXTRAARGS
-CC=$DIDBS_CC
-CFLAGS="$DIDBS_ARCH_CFLAGS -O1 -I$INSTALLDIR/include"
-#CFLAGS="$DIDBS_ARCH_CFLAGS -O3 -OPT:Olimit=7000"
-LDFLAGS="$DIDBS_ARCH_LDFLAGS -L$INSTALLDIR/lib"
-export CC CFLAGS LDFLAGS
+. ./setupenv.sh
 cd $BUILDDIR || exit -1
 #./configure --disable-bsdtar --disable-bsdcpio --disable-bsdcat --prefix=$INSTALLDIR || exit -1
 ./configure --disable-bsdcpio --disable-bsdcat --prefix=$INSTALLDIR || exit -1

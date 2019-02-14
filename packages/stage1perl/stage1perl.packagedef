@@ -1,0 +1,12 @@
+packageSource=ftp://ftp.cpan.org/pub/CPAN/src/perl-5.22.4.tar.gz
+packageFile=perl-5.22.4.tar.gz
+packageChecksum=31a71821682e02378fcdadeed85688b8
+packageExtraction=tarxfsystemhelper.sh
+packageDir=perl-5.22.4
+expectedToolList=
+dependenciesList=stage1make,stage1tar,stage1gzip,stage1sed,stage1grep
+envModifs=setupenv.sh
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=1

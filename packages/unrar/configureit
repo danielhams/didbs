@@ -6,6 +6,7 @@ EXTRAARGS=$3
 echo $BUILDDIR
 echo $INSTALLDIR
 echo $EXTRAARGS
+. ./setupenv.sh
 # Only a makefile for unrar
 #cd $BUILDDIR || exit -1
 #./configure --prefix=$INSTALLDIR || exit -1

@@ -1,0 +1,13 @@
+packageSource=http://http.debian.net/debian/pool/main/o/ossp-uuid/ossp-uuid_1.6.2.orig.tar.gz
+packageFile=ossp-uuid_1.6.2.orig.tar.gz
+packageChecksum=5db0d43a9022a6ebbbc25337ae28942f
+packageDir=uuid-1.6.2
+packageExtraction=tarxfsystemhelper.sh
+#packagePatch=
+expectedToolList=
+dependenciesList=make,tar,gzip,perl
+envModifs=setupenv.sh
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=1

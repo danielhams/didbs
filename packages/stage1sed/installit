@@ -6,9 +6,7 @@ EXTRAARGS=$3
 echo $BUILDDIR
 echo $INSTALLDIR
 echo $EXTRAARGS
-PATH=$EXTRAARGS/bin:$PATH
-LD_LIBRARYN32_PATH=$EXTRAARGS/lib:$PATH
-export PATH LD_LIBRARYN32_PATH
+. ./setupenv.sh
 cd $BUILDDIR || exit -1
 make install || exit -1
 exit 0

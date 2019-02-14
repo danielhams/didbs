@@ -6,12 +6,7 @@ EXTRAARGS=$3
 echo $BUILDDIR
 echo $INSTALLDIR
 echo $EXTRAARGS
-CC=$DIDBS_CC
-CPPFLAGS="-I$INSTALLDIR/include"
-CFLAGS="$DIDBS_ARCH_CFLAGS -O1"
-CXXFLAGS="$DIDBS_ARCH_CFLAGS -O1"
-LDFLAGS="$DIDBS_ARCH_LDFLAGS -L$INSTALLDIR/lib"
-export CC CFLAGS CXXFLAGS LDFLAGS
+. ./setupenv.sh
 cd $BUILDDIR || exit -1
 cd build_unix || exit -1
 ../dist/configure --prefix=$INSTALLDIR --enable-compat185 --enable-dbm --disable-static --enable-cxx --disable-silent-rules || exit -1

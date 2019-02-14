@@ -1,0 +1,13 @@
+packageSource=http://ftp.gnu.org/gnu/coreutils/coreutils-8.30.tar.xz
+packageFile=coreutils-8.30.tar.xz
+packageChecksum=ab06d68949758971fe744db66b572816
+packageDir=coreutils-8.30
+packageExtraction=tarxfsystemhelper.sh
+packagePatch=coreutils.fixupforsgi.patch
+expectedToolList=
+dependenciesList=tar,xz,bash,stage1perl,findutils,gmp
+envModifs=setupenv.sh
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=1

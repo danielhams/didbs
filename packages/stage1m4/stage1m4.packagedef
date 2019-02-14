@@ -1,0 +1,13 @@
+packageSource=http://ftp.gnu.org/gnu/m4/m4-1.4.18.tar.xz
+packageFile=m4-1.4.18.tar.xz
+packageChecksum=730bb15d96fffe47e148d1e09235af82
+packageExtraction=tarxfsystemhelper.sh
+packageDir=m4-1.4.18
+packagePatch=m4.fixprogname.patch
+expectedToolList=
+dependenciesList=stage1make,stage1tar,stage1xz
+envModifs=setupenv.sh
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=1

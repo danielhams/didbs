@@ -1,0 +1,13 @@
+packageSource=https://downloads.xiph.org/releases/vorbis/libvorbis-1.3.5.tar.xz
+packageFile=libvorbis-1.3.5.tar.xz
+packageChecksum=28cb28097c07a735d6af56e598e1c90f
+packageDir=libvorbis-1.3.5
+packageExtraction=tarxfsystemhelper.sh
+#packagePatch=
+expectedToolList=
+dependenciesList=make,tar,xz,libogg
+envModifs=setupenv.sh
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=1

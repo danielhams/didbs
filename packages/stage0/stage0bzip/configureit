@@ -3,6 +3,7 @@
 BUILDDIR=$1
 INSTALLDIR=$2
 EXTRAARGS=$3
+. ./setupenv.sh
 echo $BUILDDIR
 echo $INSTALLDIR
 echo $EXTRAARGS

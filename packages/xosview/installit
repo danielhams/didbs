@@ -6,6 +6,7 @@ EXTRAARGS=$3
 echo $BUILDDIR
 echo $INSTALLDIR
 echo $EXTRAARGS
+. ./setupenv.sh
 cd $BUILDDIR || exit -1
 make install PREFIX=$INSTALLDIR PLATFORM=irix65 || exit -1
 exit 0

@@ -6,12 +6,7 @@ EXTRAARGS=$3
 echo $BUILDDIR
 echo $INSTALLDIR
 echo $EXTRAARGS
-CC=$DIDBS_CC
-CFLAGS="$DIDBS_ARCH_CFLAGS -O1"
-#CFLAGS="$DIDBS_ARCH_CFLAGS -O3 -OPT:Olimit=7000"
-LDFLAGS="$DIDBS_ARCH_LDFLAGS"
-PERL=$INSTALLDIR/bin/perl
-export CC CFLAGS LDFLAGS PERL
+. ./setupenv.sh
 cd $BUILDDIR || exit -1
 ./autogen.sh || exit -1
 ./configure --prefix=$INSTALLDIR --enable-everything --disable-xft --disable-xim --enable-256-color || exit -1

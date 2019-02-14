@@ -1,0 +1,13 @@
+packageSource=http://ftp.gnu.org/pub/gnu/grep/grep-3.1.tar.xz
+packageFile=grep-3.1.tar.xz
+packageChecksum=feca7b3e7c7f4aab2b42ecbfc513b070
+packageExtraction=tarxfsystemhelper.sh
+packageDir=grep-3.1
+packagePatch=grep.fix_getprogname.patch
+expectedToolList=
+dependenciesList=stage1make,stage1tar,stage1xz,stage1sed,stage1gawk
+envModifs=setupenv.sh
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=1

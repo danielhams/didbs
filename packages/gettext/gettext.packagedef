@@ -1,0 +1,13 @@
+packageSource=http://ftp.gnu.org/gnu/gettext/gettext-0.19.8.1.tar.xz
+packageFile=gettext-0.19.8.1.tar.xz
+packageChecksum=df3f5690eaa30fd228537b00cb7b7590
+packageExtraction=tarxfsystemhelper.sh
+packageDir=gettext-0.19.8.1
+packagePatch=gettext.includefixes.patch
+expectedToolList=
+dependenciesList=libiconv
+envModifs=setupenv.sh
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=1

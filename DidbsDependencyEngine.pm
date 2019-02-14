@@ -29,7 +29,7 @@ sub findPackages
     }
     didbsprint "Looking for packages in $packageLocation\n";
 
-    my @FOUNDPKGS = `ls $packageLocation/*.packagedef`;
+    my @FOUNDPKGS = `ls $packageLocation/*/*.packagedef`;
     chomp(@FOUNDPKGS);
     if( length(@FOUNDPKGS) == 0 )
     {
@@ -41,7 +41,7 @@ sub findPackages
 
     foreach $foundpkg (@FOUNDPKGS)
     {
-	(my $pkgname = $foundpkg) =~ s/.*\/(\S+)\.packagedef.*/$1/;
+	(my $pkgname = $foundpkg) =~ s/.*\/.+\/(\S+)\.packagedef.*/$1/;
 	my $dpkg = DidbsPackage->new($self->{v},$pkgname);
 	$dpkg->readPackageDef($self->{scriptLocation},
 	    $packageLocation);
@@ -51,7 +51,7 @@ sub findPackages
 
     $self->{knownPackages} = \@knownPackages;
 
-    my %pidToPackage = {};
+    my %pidToPackage = ();
 
     foreach $pkg (@{$self->{knownPackages}})
     {
@@ -59,6 +59,8 @@ sub findPackages
 #	didbsprint "DE - Have a package '$pkgid'\n";
 	$pidToPackage{$pkgid} = $pkg;
     }
+
+    $self->{pidToPackage} = \%pidToPackage;
     my %donePackages;
 
     $self->{v} && didbsprint "Working out dependencies and order....\n";
@@ -81,8 +83,13 @@ sub findPackages
 sub listPackages
 {
     my $self = shift;
-
     return $self->{knownPackages};
+}
+
+sub getPackageMap
+{
+    my $self = shift;
+    return $self->{pidToPackage};
 }
 
 sub packageInResolutionStack

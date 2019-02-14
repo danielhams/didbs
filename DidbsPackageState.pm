@@ -27,8 +27,8 @@ sub new
 
     $self->{stateString} = UNCHECKED;
 
-    my $packageDefFile = "$packageDefsDir/$packageId.packagedef";
     my $packageDefPath = "$packageDefsDir/$packageId";
+    my $packageDefFile = "$packageDefPath/$packageId.packagedef";
 
     my $packageDefDate = lastModTimestampOfPackage(
 	$packageDefPath, $packageDefFile );

@@ -1,0 +1,13 @@
+packageSource=ftp://ftp.gnu.org/pub/gnu/bison/bison-2.7.1.tar.xz
+packageFile=bison-2.7.1.tar.xz
+packageChecksum=7be02eb973eccf388f1ae750fc09eed0
+packageExtraction=tarxfsystemhelper.sh
+packageDir=bison-2.7.1
+#packagePatch=
+expectedToolList=
+dependenciesList=stage1make,stage1tar,stage1xz,stage1m4,stage1perl
+envModifs=setupenv.sh
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=1

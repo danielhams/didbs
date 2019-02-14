@@ -49,6 +49,9 @@ sub configureit
     {
 	$extraargs=$self->{scriptLocation};
     }
+    my $packageDefDir = $self->{packageDefsDir} . "/" . $packageId;
+    didbsprint "Changing directory to $packageDefDir\n";
+    chdir $packageDefDir;
 
     my $configureRecipe = "$self->{packageDefsDir}/$packageId/$self->{didbsPackage}->{configureRecipe}";
     my $cmd = "$configureRecipe $builddir $installdir $extraargs";

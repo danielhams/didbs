@@ -14,6 +14,7 @@ use DidbsPatcher;
 use DidbsConfigurator;
 use DidbsBuilder;
 use DidbsInstaller;
+use DidbsPackageShell;
 use DidbsUtils;
 
 STDERR->autoflush(1);
@@ -48,6 +49,7 @@ my $clean = 0;
 my $clean_all = 0;
 my $stoponuntested = 0;
 my $pretend = 0;
+my $buildshellpackage = undef;
 
 sub supressenv
 {
@@ -90,7 +92,7 @@ sub getdefaultenv
 	my $firstEqualPos = index($_,"=");
 	my $key = substr($_, 0, $firstEqualPos);
 	my $val = substr($_, $firstEqualPos+1);
-	print "Found $key->$val\n";
+#	print "Found $key->$val\n";
         $values{$key} = $val;
     }
 #    exit -1;
@@ -112,6 +114,7 @@ Maintenance Options:
 \t                   \t--clean-all          (builds + installs)
 \t                   \t--stoponuntested
 \t                   \t--pretend
+\t                   \t--buildshell PACKAGENAME
 
 On first run you must provide the package, build and installation directories
 that this bootstrapper will use.
@@ -190,7 +193,8 @@ GetOptions(\%options,
            "clean" => \$clean,
            "clean-all" => \$clean_all,
            "stoponuntested" => \$stoponuntested,
-           "pretend" => \$pretend )
+           "pretend" => \$pretend,
+           "buildshell=s" => \$buildshellpackage )
     or usage(true);
 
 if( !defined($packageDir) || !defined($buildDir) || !defined($installDir))
@@ -377,6 +381,9 @@ my $pkgDependencyEngine = DidbsDependencyEngine->new($verbose,
 						     $packageDefsDir );
 
 my $foundPackagesRef = $pkgDependencyEngine->listPackages();
+my $p2pRef = $pkgDependencyEngine->getPackageMap();
+
+my %pkgidToPackageMap = %{$p2pRef};
 
 my $sapd = $stageChecker->getStageAdjustedPackageDir();
 my $sabd = $stageChecker->getStageAdjustedBuildDir();
@@ -384,7 +391,36 @@ my $said = $stageChecker->getStageAdjustedInstallDir();
 my $pathToStage0Root = $stageChecker->getPathToStage0Root();
 $ENV{"STAGE0ROOT"}=$pathToStage0Root;
 
-my %foundPackageStates = {};
+# Fast quit for buildshell
+if( $buildshellpackage )
+{
+    my $bsPackage = $pkgidToPackageMap{$buildshellpackage};
+    if( $bsPackage == undef)
+    {
+	didbsprint "Couldn't find package $buildshellpackage.\n";
+	exit -1;
+    }
+#    didbsprint "Would launch build shell of $buildshellpackage here.\n";
+    my $curpkgshell = DidbsPackageShell->new( $scriptLocation,
+					      $packageDefsDir,
+					      $buildshellpackage,
+					      $packageDir,
+					      $buildDir,
+					      $installDir,
+					      $pathToStage0Root,
+					      $bsPackage );
+
+    if( $verbose )
+    {
+	$curpkgshell->debug();
+    }
+
+    $curpkgshell->startshell();
+
+    exit 0;
+}
+
+my %foundPackageStates = ();
 
 foreach $pkg (@{$foundPackagesRef})
 {
@@ -459,7 +495,10 @@ sub checkPackage
 						   $curpkgstate);
 
 
-	$curpkgextractor->debug();
+	if( $verbose )
+	{
+	    $curpkgextractor->debug();
+	}
 
 	if( !$pretend )
 	{
@@ -531,8 +570,6 @@ sub checkPackage
 					       $curpkgextractor,
 					       $curpkgpatcher,
 					       $curpkgconfigurator );
-
-	didbsprint "About to rebuild package..\n";
 
 	if( !$pretend )
 	{

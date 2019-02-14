@@ -6,5 +6,6 @@ EXTRAARGS=$3
 echo $BUILDDIR
 echo $INSTALLDIR
 echo $EXTRAARGS
+. ./setupenv.sh
 # no configure for bzip
 exit 0

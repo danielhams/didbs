@@ -6,6 +6,7 @@ EXTRAARGS=$3
 echo $BUILDDIR
 echo $INSTALLDIR
 echo $EXTRAARGS
+. ./setupenv.sh
 cd $BUILDDIR || exit -1
 # Don't know why make returns a failure here...
 # So we'll ignore errors (bah) and assume ok

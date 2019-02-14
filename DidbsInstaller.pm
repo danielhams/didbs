@@ -50,6 +50,9 @@ sub installit
     {
 	$extraargs="";
     }
+    my $packageDefDir = $self->{packageDefsDir} . "/" . $packageId;
+    didbsprint "Changing directory to $packageDefDir\n";
+    chdir $packageDefDir;
 
     my $installRecipe = "$self->{packageDefsDir}/$self->{packageId}/$self->{didbsPackage}->{installRecipe}";
     my $cmd = "$installRecipe $builddir $installdir $extraargs";

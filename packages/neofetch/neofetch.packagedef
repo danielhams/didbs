@@ -1,0 +1,13 @@
+packageSource=https://github.com/dylanaraps/neofetch/archive/5.0.0.tar.gz
+packageFile=5.0.0.tar.gz
+packageChecksum=807c41694ff5b861e4233eb71d507be9
+packageExtraction=tarxfsystemhelper.sh
+packageDir=neofetch-5.0.0
+#packagePatch=
+expectedToolList=
+dependenciesList=make,tar,gzip,bash
+envModifs=setupenv.sh
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=1

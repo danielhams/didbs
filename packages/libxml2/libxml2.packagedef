@@ -1,0 +1,13 @@
+packageSource=http://xmlsoft.org/sources/libxml2-2.9.8.tar.gz
+packageFile=libxml2-2.9.8.tar.gz
+packageChecksum=b786e353e2aa1b872d70d5d1ca0c740d
+packageDir=libxml2-2.9.8
+packageExtraction=tarxfsystemhelper.sh
+packagePatch=libxml2.sgifixes.patch
+expectedToolList=
+dependenciesList=make,tar,gzip
+envModifs=setupenv.sh
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=1

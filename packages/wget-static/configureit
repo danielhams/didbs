@@ -6,15 +6,7 @@ EXTRAARGS=$3
 echo $BUILDDIR
 echo $INSTALLDIR
 echo $EXTRAARGS
-CC=$DIDBS_CC
-CPPFLAGS="-I$INSTALLDIR/include -D_SGI_MP_SOURCE"
-CFLAGS="$DIDBS_ARCH_CFLAGS -O1"
-CXXFLAGS="$DIDBS_ARCH_CFLAGS -O1"
-LDFLAGS="$DIDBS_ARCH_LDFLAGS -Bstatic -L$INSTALLDIR/lib"
-PERL="$INSTALLDIR/bin/perl"
-TEST_SHELL="$INSTALLDIR/bin/bash"
-SHELL="$INSTALLDIR/bin/bash"
-export CC CPPFLAGS CFLAGS CXXFLAGS LDFLAGS PERL TEST_SHELL SHELL
+. ./setupenv.sh
 cd $BUILDDIR || exit -1
 am_cv_func_iconv=no ac_cv_func_uuid_create=no ac_cv_header_uuid_h=no HAVE_UUID_CREATE=0 ./configure --prefix=$INSTALLDIR --with-ssl=openssl --without-libuuid || exit -1
 exit 0

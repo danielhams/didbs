@@ -1,0 +1,12 @@
+packageSource=http://ftp.gnu.org/gnu/readline/readline-7.0.tar.gz
+packageFile=readline-7.0.tar.gz
+packageChecksum=205b03a87fc83dab653b628c59b9fc91
+packageExtraction=tarxfsystemhelper.sh
+packageDir=readline-7.0
+expectedToolList=
+dependenciesList=make,tar,gzip
+envModifs=setupenv.sh
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=1

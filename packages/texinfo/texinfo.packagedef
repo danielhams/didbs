@@ -1,0 +1,13 @@
+packageSource=ftp://ftp.gnu.org/pub/gnu/texinfo/texinfo-6.5.tar.xz
+packageFile=texinfo-6.5.tar.xz
+packageChecksum=3715197e62e0e07f85860b3d7aab55ed
+packageExtraction=tarxfsystemhelper.sh
+packageDir=texinfo-6.5
+packagePatch=texinfo.sgifixups.patch
+expectedToolList=
+dependenciesList=stage1make,stage1tar,stage1xz,stage1perl
+envModifs=setupenv.sh
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=1

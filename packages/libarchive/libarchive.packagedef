@@ -1,0 +1,13 @@
+packageSource=http://www.libarchive.org/downloads/libarchive-3.3.2.tar.gz
+packageFile=libarchive-3.3.2.tar.gz
+packageChecksum=4583bd6b2ebf7e0e8963d90879eb1b27
+packageExtraction=tarxfsystemhelper.sh
+packageDir=libarchive-3.3.2
+packagePatch=libarchive.sgifixes.patch
+expectedToolList=
+dependenciesList=make,tar,gzip,coreutils,unzip,xz,unrar,nettle,openssl,xz,zlib
+envModifs=setupenv.sh
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=1

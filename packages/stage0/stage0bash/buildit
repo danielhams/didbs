@@ -1,0 +1,15 @@
+#!/bin/sh
+
+BUILDDIR=$1
+INSTALLDIR=$2
+EXTRAARGS=$3
+echo $BUILDDIR
+echo $INSTALLDIR
+echo $EXTRAARGS
+. ./setupenv.sh
+cd $BUILDDIR || exit -1
+# at stage0 there are no guarantees we've got enough shell/make
+# things yet built so only use one job
+#make -j $DIDBS_JOBS || exit -1
+make -j 1 || exit -1
+exit 0

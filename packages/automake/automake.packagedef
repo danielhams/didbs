@@ -1,0 +1,13 @@
+packageSource=http://ftp.gnu.org/gnu/automake/automake-1.16.1.tar.xz
+packageFile=automake-1.16.1.tar.xz
+packageChecksum=53f38e7591fa57c3d2cee682be668e5b
+packageExtraction=tarxfsystemhelper.sh
+packageDir=automake-1.16.1
+packagePatch=automake.sgifixes.patch
+expectedToolList=
+dependenciesList=make,tar,xz,autoconf
+envModifs=setupenv.sh
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=1

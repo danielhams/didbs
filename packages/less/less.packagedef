@@ -1,0 +1,12 @@
+packageSource=http://ftp.gnu.org/gnu/less/less-530.tar.gz
+packageFile=less-530.tar.gz
+packageChecksum=6a39bccf420c946b0fd7ffc64961315b
+packageExtraction=guntarsystemhelper.sh
+packageDir=less-530
+expectedToolList=
+dependenciesList=make
+envModifs=setupenv.sh
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=1

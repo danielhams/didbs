@@ -1,0 +1,13 @@
+packageSource=http://ftp.gnu.org/gnu/autoconf/autoconf-2.69.tar.xz
+packageFile=autoconf-2.69.tar.xz
+packageChecksum=50f97f4159805e374639a73e2636f22e
+packageExtraction=tarxfsystemhelper.sh
+packageDir=autoconf-2.69
+#packagePatch=
+expectedToolList=
+dependenciesList=make,tar,xz,coreutils
+envModifs=setupenv.sh
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=1

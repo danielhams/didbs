@@ -6,12 +6,7 @@ EXTRAARGS=$3
 echo $BUILDDIR
 echo $INSTALLDIR
 echo $EXTRAARGS
-CC=$DIDBS_CC
-CXX=$DIDBS_CXX
-CFLAGS="$DIDBS_ARCH_CFLAGS -O1"
-CXXFLAGS="DIDBS_ARCH_CXXFLAGS -O1"
-LDFLAGS="$DIDBS_ARCH_LDFLAGS"
-export CC CXX CFLAGS CXXFLAGS LDFLAGS
+. ./setupenv.sh
 cd $BUILDDIR || exit -1
 # no configure step yet.
 #./configure --prefix=$INSTALLDIR --disable-silent-rules || exit -1

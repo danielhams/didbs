@@ -6,6 +6,7 @@ EXTRAARGS=$3
 echo $BUILDDIR
 echo $INSTALLDIR
 echo $EXTRAARGS
+. ./setupenv.sh
 cd $BUILDDIR || exit -1
 cd build_unix || exit -1
 make -j $DIDBS_JOBS || exit -1
