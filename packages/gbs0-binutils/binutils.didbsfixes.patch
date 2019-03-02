@@ -1,6 +1,6 @@
 diff -u -r -w binutils-2.23.2/bfd/cache.c binutils-2.23.2-patched/bfd/cache.c
 --- binutils-2.23.2/bfd/cache.c	2013-03-25 08:06:19.000000000 +0000
-+++ binutils-2.23.2-patched/bfd/cache.c	2019-01-27 00:21:24.237575920 +0000
++++ binutils-2.23.2-patched/bfd/cache.c	2019-02-16 19:49:11.967846640 +0000
 @@ -437,7 +437,10 @@
          {
            *map_addr = ret;
@@ -15,7 +15,7 @@ diff -u -r -w binutils-2.23.2/bfd/cache.c binutils-2.23.2-patched/bfd/cache.c
  #endif
 diff -u -r -w binutils-2.23.2/binutils/readelf.c binutils-2.23.2-patched/binutils/readelf.c
 --- binutils-2.23.2/binutils/readelf.c	2013-03-25 08:06:21.000000000 +0000
-+++ binutils-2.23.2-patched/binutils/readelf.c	2019-01-27 00:21:41.016470800 +0000
++++ binutils-2.23.2-patched/binutils/readelf.c	2019-02-16 19:49:12.002324280 +0000
 @@ -7286,7 +7286,10 @@
  
    for (i = 0; handlers[i].handler != NULL; i++)
@@ -30,7 +30,7 @@ diff -u -r -w binutils-2.23.2/binutils/readelf.c binutils-2.23.2-patched/binutil
  	  get_machine_name (elf_header.e_machine));
 diff -u -r -w binutils-2.23.2/config/override.m4 binutils-2.23.2-patched/config/override.m4
 --- binutils-2.23.2/config/override.m4	2011-03-05 07:33:13.000000000 +0000
-+++ binutils-2.23.2-patched/config/override.m4	2019-01-27 00:21:24.239715760 +0000
++++ binutils-2.23.2-patched/config/override.m4	2019-02-16 19:49:12.011519880 +0000
 @@ -29,7 +29,7 @@
  
  dnl Ensure exactly this Autoconf version is used
