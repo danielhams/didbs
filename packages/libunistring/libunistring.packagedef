@@ -1,6 +1,6 @@
 packageSource=https://ftp.gnu.org/gnu/libunistring/libunistring-0.9.10.tar.gz
 packageFile=libunistring-0.9.10.tar.gz
-packageChecksum=
+packageChecksum=0d3274e9838396b12200f8b54ddaf43b
 packageDir=libunistring-0.9.10
 packageExtraction=tarxfsystemhelper.sh
 #packagePatch=
