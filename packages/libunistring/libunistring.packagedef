@@ -1,0 +1,13 @@
+packageSource=https://ftp.gnu.org/gnu/libunistring/libunistring-0.9.10.tar.gz
+packageFile=libunistring-0.9.10.tar.gz
+packageChecksum=
+packageDir=libunistring-0.9.10
+packageExtraction=tarxfsystemhelper.sh
+#packagePatch=
+expectedToolList=
+dependenciesList=make,tar,gzip,pkgconfig
+envModifs=setupenv.sh
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=0
