@@ -1,0 +1,13 @@
+packageSource=https://ftp.gnu.org/gnu/guile/guile-2.2.4.tar.gz
+packageFile=guile-2.2.4.tar.gz
+packageChecksum=217c7606a0d47cf0b2594852c1f23c02
+packageDir=guile-2.2.4
+packageExtraction=tarxfsystemhelper.sh
+#packagePatch=
+expectedToolList=
+dependenciesList=make,tar,gzip,pkgconfig
+envModifs=setupenv.sh
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=0
