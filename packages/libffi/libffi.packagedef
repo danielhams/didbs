@@ -1,7 +1,7 @@
-packageSource=https://ftp.gnu.org/gnu/libunistring/libunistring-0.9.10.tar.gz
-packageFile=libunistring-0.9.10.tar.gz
-packageChecksum=0d3274e9838396b12200f8b54ddaf43b
-packageDir=libunistring-0.9.10
+packageSource=ftp://sourceware.org/pub/libffi/libffi-3.2.1.tar.gz
+packageFile=libffi-3.2.1.tar.gz
+packageChecksum=83b89587607e3eb65c70d361f13bab43
+packageDir=libffi-3.2.1
 packageExtraction=tarxfsystemhelper.sh
 #packagePatch=
 expectedToolList=

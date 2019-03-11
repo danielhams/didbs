@@ -8,5 +8,5 @@ echo $INSTALLDIR
 echo $EXTRAARGS
 . ./setupenv.sh
 cd $BUILDDIR || exit -1
-./configure ac_cv_header_stdbool_h=no ac_cv_type__Bool=no --prefix=$INSTALLDIR --disable-silent-rules || exit -1
+make -j $DIDBS_JOBS || exit -1
 exit 0
