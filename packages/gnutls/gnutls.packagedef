@@ -19,7 +19,8 @@ packagePatch=gnutls_3_5_19.sgifixes.patch
 
 packageExtraction=tarxfsystemhelper.sh
 expectedToolList=
-dependenciesList=make,tar,xz,nettle,autogen
+#dependenciesList=make,tar,xz,nettle,autogen
+dependenciesList=make,tar,xz,nettle
 envModifs=setupenv.sh
 configureRecipe=configureit
 buildRecipe=buildit
