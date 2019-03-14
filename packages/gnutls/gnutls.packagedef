@@ -25,4 +25,4 @@ envModifs=setupenv.sh
 configureRecipe=configureit
 buildRecipe=buildit
 installRecipe=installit
-passesChecksIndicator=0
+passesChecksIndicator=1
