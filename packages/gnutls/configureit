@@ -8,5 +8,6 @@ echo $INSTALLDIR
 echo $EXTRAARGS
 . ./setupenv.sh
 cd $BUILDDIR || exit -1
-gl_cv_func_select_supports0=no gl_cv_func_select_detects_ebadf=no ./configure --prefix=$INSTALLDIR --disable-silent-rules || exit -1
+#gl_cv_func_select_supports0=no gl_cv_func_select_detects_ebadf=no ./configure --prefix=$INSTALLDIR --disable-silent-rules || exit -1
+gl_cv_func_select_supports0=no gl_cv_func_select_detects_ebadf=no ./configure --prefix=$INSTALLDIR --disable-silent-rules --disable-hardware-acceleration --with-included-libtasn1 --without-p11-kit --disable-guile || exit -1
 exit 0
