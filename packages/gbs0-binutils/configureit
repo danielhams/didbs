@@ -30,7 +30,7 @@ cd $BUILDDIR || exit -1
 #autoconf || exit -1
 cd $BUILDDIR || exit -1
 #autoreconf || exit -1
-./configure --prefix=$GSB0_TOOLS_DIR --enable-werror=no --disable-nls --disable-iconv || exit -1
+./configure --prefix=$GSB0_TOOLS_DIR --enable-werror=no --disable-nls --disable-iconv --disable-gprof || exit -1
 
 #ulimit -m 524288
 #ulimit -d 524288

@@ -1,12 +1,14 @@
 diff -r -u -w rxvt-unicode-9.22/libptytty/ptytty.m4 rxvt-unicode-9.22-patched/libptytty/ptytty.m4
 --- rxvt-unicode-9.22/libptytty/ptytty.m4	2015-05-11 23:24:03.000000000 +0000
 +++ rxvt-unicode-9.22-patched/libptytty/ptytty.m4	2018-08-03 13:34:04.741654280 +0000
-@@ -208,6 +208,8 @@
+@@ -208,6 +208,10 @@
  #include <sys/types.h>
  #include <sys/socket.h>
  #include <sys/uio.h>
 +
++#if defined(__sgi)
 +#define SCM_RIGHTS 0x01
++#endif
  ]], [[
  {
    msghdr msg;
@@ -34,11 +36,13 @@ diff -r -u -w rxvt-unicode-9.22/libptytty/src/fdpass.C rxvt-unicode-9.22-patched
 diff -r -u -w rxvt-unicode-9.22/libptytty/src/libptytty.h rxvt-unicode-9.22-patched/libptytty/src/libptytty.h
 --- rxvt-unicode-9.22/libptytty/src/libptytty.h	2014-05-22 19:53:16.000000000 +0000
 +++ rxvt-unicode-9.22-patched/libptytty/src/libptytty.h	2018-08-03 13:33:42.363136880 +0000
-@@ -63,5 +63,7 @@
+@@ -63,5 +63,9 @@
  
  #endif
  
++#if defined(__sgi)
 +#define SCM_RIGHTS 0x01
++#endif
 +
  #endif
  
