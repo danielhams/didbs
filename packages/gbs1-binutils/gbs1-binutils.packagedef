@@ -5,11 +5,17 @@
 ##packagePatch=binutils.ptrarith.patch
 #packagePatch=binutils.didbsfixes.patch
 
-#packageSource=http://ftp.gnu.org/gnu/binutils/binutils-2.17a.tar.bz2
-#packageFile=binutils-2.17a.tar.bz2
-#packageChecksum=1d81edd0569de4d84091526fd578dd7b
-#packageDir=binutils-2.17
-##packagePatch=
+#packageSource=http://ftp.gnu.org/gnu/binutils/binutils-2.22.tar.bz2
+#packageFile=binutils-2.22.tar.bz2
+#packageChecksum=ee0f10756c84979622b992a4a61ea3f5
+#packageDir=binutils-2.22
+#packagePatch=binutils2_22.didbsfixes.patch
+
+packageSource=http://ftp.gnu.org/gnu/binutils/binutils-2.17a.tar.bz2
+packageFile=binutils-2.17a.tar.bz2
+packageChecksum=1d81edd0569de4d84091526fd578dd7b
+packageDir=binutils-2.17
+#packagePatch=
 
 #packageSource=http://ftp.gnu.org/gnu/binutils/binutils-2.30.tar.bz2
 #packageFile=binutils-2.30.tar.bz2
@@ -17,11 +23,11 @@
 #packageDir=binutils-2.30
 #packagePatch=binutils2_30.didbsfixes.patch
 
-packageSource=http://ftp.gnu.org/gnu/binutils/binutils-2.32.tar.xz
-packageFile=binutils-2.32.tar.xz
-packageChecksum=0d174cdaf85721c5723bf52355be41e6
-packageDir=binutils-2.32
-packagePatch=binutils2_32.didbsfixes.patch
+#packageSource=http://ftp.gnu.org/gnu/binutils/binutils-2.32.tar.xz
+#packageFile=binutils-2.32.tar.xz
+#packageChecksum=0d174cdaf85721c5723bf52355be41e6
+#packageDir=binutils-2.32
+#packagePatch=binutils2_32.didbsfixes.patch
 
 packageExtraction=tarxfsystemhelper.sh
 expectedToolList=

@@ -8,32 +8,9 @@ echo $INSTALLDIR
 echo $EXTRAARGS
 . ./setupenv.sh
 cd $BUILDDIR || exit -1
-##cd ../gold || exit -1
-##autoreconf || exit -1
-#cd binutils || exit -1
-#autoconf || exit -1
-#cd ../bfd || exit -1
-#autoconf || exit -1
-#cd ../gas || exit -1
-#autoconf || exit -1
-#cd libiberty || exit -1
-#autoreconf || exit -1
-#cd ../opcodes || exit -1
-#autoconf || exit -1
-#cd ../ld || exit -1
-#autoconf || exit -1
-#cd ../gprof || exit -1
-#autoconf || exit -1
-#cd ../intl || exit -1
-#autoconf || exit -1
-#cd ../etc || exit -1
-#autoconf || exit -1
-cd $BUILDDIR || exit -1
-#autoreconf || exit -1
-./configure --prefix=$GSB1_INSTALL_DIR --enable-werror=no --disable-nls --disable-iconv || exit -1
-
-#ulimit -m 524288
-#ulimit -d 524288
-#ulimit -v 524288
+cd ..
+mkdir bu-build
+cd bu-build
+$BUILDDIR/configure --prefix=$GSB1_INSTALL_DIR --enable-werror=no --disable-nls --disable-iconv --disable-gprof || exit -1
 
 exit 0

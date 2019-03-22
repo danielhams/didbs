@@ -10,7 +10,7 @@ echo $EXTRAARGS
 cd $BUILDDIR || exit -1
 cd ../gcc-build
 
-make -j $DIDBS_JOBS || exit -1
+make -j $DIDBS_JOBS
 
 mkdir -p gcc/doc
 touch gcc/doc/cpp.info
