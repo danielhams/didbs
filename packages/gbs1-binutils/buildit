@@ -8,6 +8,7 @@ echo $INSTALLDIR
 echo $EXTRAARGS
 . ./setupenv.sh
 cd $BUILDDIR || exit -1
+cd ../bu-build
 # binutils has bad parallel build, can only use 1 job
 # for the chew build.
 make -j $DIDBS_JOBS

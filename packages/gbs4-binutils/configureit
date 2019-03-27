@@ -1,0 +1,16 @@
+#!/bin/sh
+
+BUILDDIR=$1
+INSTALLDIR=$2
+EXTRAARGS=$3
+echo $BUILDDIR
+echo $INSTALLDIR
+echo $EXTRAARGS
+. ./setupenv.sh
+cd $BUILDDIR || exit -1
+cd ..
+mkdir bu-build
+cd bu-build
+$BUILDDIR/configure --prefix=$GBS4_INSTALL_DIR --enable-werror=no --disable-nls --disable-iconv --disable-gprof || exit -1
+
+exit 0

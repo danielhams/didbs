@@ -1,0 +1,14 @@
+packageSource=ftp://ftp.mirrorservice.org/sites/sourceware.org/pub/gcc/releases/gcc-4.7.1/gcc-4.7.1.tar.gz
+packageFile=gcc-4.7.1.tar.gz
+packageChecksum=3d06e24570635c91eed6b114687513a6
+packageDir=gcc-4.7.1
+packagePatch=gcc4_gnuld_fullbuild.patch
+
+packageExtraction=tarxfsystemhelper.sh
+expectedToolList=
+dependenciesList=make,tar,bzip,autoconf,automake,libtool,gmp,mpfr,mpc,gbs1-binutils,gbs2-gcc4
+envModifs=setupenv.sh
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=1

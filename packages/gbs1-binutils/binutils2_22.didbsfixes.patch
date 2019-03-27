@@ -1,0 +1,15 @@
+diff -u -r -w binutils-2.22/bfd/cache.c binutils-2.22-patched/bfd/cache.c
+--- binutils-2.22/bfd/cache.c	2013-03-25 08:06:19.000000000 +0000
++++ binutils-2.22-patched/bfd/cache.c	2019-01-26 23:24:34.583935600 +0000
+@@ -437,7 +437,10 @@
+         {
+           *map_addr = ret;
+           *map_len = pg_len;
+-          ret += offset & pagesize_m1;
++	  uint64_t tmpVar = (offset & pagesize_m1);
++	  uint8_t * retTmpPtr = (uint8_t*)ret;
++	  retTmpPtr = retTmpPtr + tmpVar;
++          ret = (void*)(retTmpPtr);
+         }
+     }
+ #endif

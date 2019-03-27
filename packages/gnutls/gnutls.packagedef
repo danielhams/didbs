@@ -4,14 +4,22 @@
 #packageDir=gnutls-3.1.5
 #packagePatch=gnutls.sgifixups.patch
 
-packageSource=ftp://ftp.gnutls.org/gcrypt/gnutls/v3.6/gnutls-3.6.4.tar.xz
-packageFile=gnutls-3.6.4.tar.xz
-packageChecksum=63363d1c00601f4d11a5cadc8b5e0799
-packageDir=gnutls-3.6.4
-#packagePatch=gnutls.sgifixups.patch
+# Doesn't work, expends __thread local storage (non c99)
+#packageSource=ftp://ftp.gnutls.org/gcrypt/gnutls/v3.6/gnutls-3.6.4.tar.xz
+#packageFile=gnutls-3.6.4.tar.xz
+#packageChecksum=63363d1c00601f4d11a5cadc8b5e0799
+#packageDir=gnutls-3.6.4
+##packagePatch=gnutls.sgifixups.patch
+
+packageSource=ftp://ftp.gnutls.org/gcrypt/gnutls/v3.5/gnutls-3.5.19.tar.xz
+packageFile=gnutls-3.5.19.tar.xz
+packageChecksum=1002f4099ce11d785e9811099aaa59a6
+packageDir=gnutls-3.5.19
+packagePatch=gnutls_3_5_19.sgifixes.patch
 
 packageExtraction=tarxfsystemhelper.sh
 expectedToolList=
+#dependenciesList=make,tar,xz,nettle,autogen
 dependenciesList=make,tar,xz,nettle
 envModifs=setupenv.sh
 configureRecipe=configureit

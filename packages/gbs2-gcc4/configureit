@@ -11,5 +11,5 @@ cd $BUILDDIR || exit -1
 cd ..
 mkdir gcc-build
 cd gcc-build
-$BUILDDIR/configure --prefix=$GBS2_INSTALL_DIR --disable-silent-rules --disable-nls --disable-multilib --enable-obsolete --enable-languages=c,c++ --disable-bootstrap --with-gnu-ld --with-ld=$GBS1_INSTALL_DIR/bin/ld --with-gnu-as --with-as=$GBS1_INSTALL_DIR/bin/as || exit -1
+$BUILDDIR/configure --prefix=$GBS2_INSTALL_DIR --disable-silent-rules --disable-nls --disable-multilib --enable-obsolete --enable-languages=c,c++ --disable-bootstrap --with-gnu-ld --with-ld=$GBS1_INSTALL_DIR/bin/ld --with-gnu-as --with-as=$GBS1_INSTALL_DIR/bin/as --disable-shared --enable-static --enable-threads=posix --disable-lto --with-gmp=$INSTALLDIR --with-mpfr=$INSTALLDIR --with-system-zlib --enable-checking=release || exit -1
 exit 0

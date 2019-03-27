@@ -1,26 +1,8 @@
-#packageSource=ftp://ftp.mirrorservice.org/sites/sourceware.org/pub/gcc/releases/gcc-3.4.6/gcc-3.4.6.tar.bz2
-#packageFile=gcc-3.4.6.tar.bz2
-#packageChecksum=4a21ac777d4b5617283ce488b808da7b
-#packageDir=gcc-3.4.6
-#packagePatch=
-
-#packageSource=ftp://ftp.mirrorservice.org/sites/sourceware.org/pub/gcc/releases/gcc-4.7.0/gcc-4.7.0.tar.gz
-#packageFile=gcc-4.7.0.tar.gz
-#packageChecksum=ef5117788e27ffef05f8b8adf46f91d8
-#packageDir=gcc-4.7.0
-##packagePatch=
-
-#packageSource=ftp://ftp.mirrorservice.org/sites/sourceware.org/pub/gcc/releases/gcc-4.7.1/gcc-4.7.1.tar.gz
-#packageFile=gcc-4.7.1.tar.gz
-#packageChecksum=3d06e24570635c91eed6b114687513a6
-#packageDir=gcc-4.7.1
-##packagePatch=
-
-packageSource=ftp://ftp.mirrorservice.org/sites/sourceware.org/pub/gcc/releases/gcc-4.7.2/gcc-4.7.2.tar.gz
-packageFile=gcc-4.7.2.tar.gz
-packageChecksum=5199d34506d4fa6528778ddba362d3f4
-packageDir=gcc-4.7.2
-#packagePatch=
+packageSource=ftp://ftp.mirrorservice.org/sites/sourceware.org/pub/gcc/releases/gcc-4.7.1/gcc-4.7.1.tar.gz
+packageFile=gcc-4.7.1.tar.gz
+packageChecksum=3d06e24570635c91eed6b114687513a6
+packageDir=gcc-4.7.1
+#packagePatch=gcc4_7_1.bootsfixes_o1.patch
 
 packageExtraction=tarxfsystemhelper.sh
 expectedToolList=
@@ -29,4 +11,4 @@ envModifs=setupenv.sh
 configureRecipe=configureit
 buildRecipe=buildit
 installRecipe=installit
-passesChecksIndicator=0
+passesChecksIndicator=1
