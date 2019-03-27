@@ -8,5 +8,8 @@ echo $INSTALLDIR
 echo $EXTRAARGS
 . ./setupenv.sh
 cd $BUILDDIR || exit -1
-VERBOSE=TRUE ./configure --parallel=$DIDBS_JOBS --prefix=$INSTALLDIR || exit -1
+rm -rf Tests/QtAutomoc
+rm -rf Tests/Qt4And5Automoc
+rm -rf Tests/RunCMake/IncompatibleQt
+VERBOSE=TRUE ./configure --no-qt-gui --qt-qmake=none --parallel=$DIDBS_JOBS --prefix=$INSTALLDIR || exit -1
 exit 0
