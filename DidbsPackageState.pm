@@ -144,6 +144,15 @@ sub setState
 
 }
 
+sub fakeNewInstalledDate
+{
+    my $self = shift;
+    $self->{stateString} = INSTALLED;
+    $self->{installedDate} = time();
+    $self->{v} && didbsprint "Fake set new installed date to " .
+	$self->{installedDate} . "\n";
+}
+
 sub getState
 {
     my $self = shift;

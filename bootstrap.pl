@@ -301,10 +301,11 @@ if($verbose)
 
 my $onlyDryrunArguments = (($argc eq 1) && ($dryrun eq 1));
 
-my $parametersUpdated = ($userfoundconf eq 0 || $argc >= 1) && ($onlyDryrunArguments eq 1);
+my $parametersUpdated = ($userfoundconf eq 0 || $argc >= 1) && ($onlyDryrunArguments eq 0);
 
 if($verbose)
 {
+    didbsprint "userfoundconf=$userfoundconf\n";
     didbsprint "argc=$argc\n";
     didbsprint "dryrun=$dryrun\n";
     didbsprint "onlyDryrunArguments=$onlyDryrunArguments\n";
@@ -621,8 +622,11 @@ sub checkPackage
 		didbsprint "Failed during install step.\n";
 		exit -1;
 	    }
-
 	    $curpkgstate->setState(INSTALLED);
+	}
+	else
+	{
+	    $curpkgstate->fakeNewInstalledDate();
 	}
     }
 }
