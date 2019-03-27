@@ -142,6 +142,11 @@ sub callMissingStage
 
     my $cmd = "$self->{scriptLocation}/bootstrap.pl";
 
+    if($verbose)
+    {
+	didbsprint "Relaunching didbs as $cmd\n";
+    }
+
     system($cmd) == 0 || die $!;
 
     didbsprint "Stage $stageMissing completed.\n";
@@ -176,6 +181,7 @@ sub modifyPathForCurrentStage
     my $extraBinPath = $self->getStageAdjustedInstallDir() . "/bin";
     $self->prependEnvVarPath("PATH", $extraBinPath);
     my $extraLibPath = $self->getStageAdjustedInstallDir() . "/lib";
+    $self->prependEnvVarPath("LD_LIBRARY_PATH", $extraLibPath);
     $self->prependEnvVarPath("LD_LIBRARYN32_PATH", $extraLibPath);
     my $extraPkgConfigPath = $self->getStageAdjustedInstallDir() . "/lib/pkgconfig";
     $self->prependEnvVarPath("PKG_CONFIG_PATH", $extraPkgConfigPath);

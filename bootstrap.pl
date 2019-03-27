@@ -48,7 +48,7 @@ my $verbose = 0;
 my $clean = 0;
 my $clean_all = 0;
 my $stoponuntested = 0;
-my $pretend = 0;
+my $dryrun = 0;
 my $buildshellpackage = undef;
 
 sub supressenv
@@ -113,7 +113,7 @@ Maintenance Options:
 \t                   \t--clean              (non-stage0 builds)
 \t                   \t--clean-all          (builds + installs)
 \t                   \t--stoponuntested
-\t                   \t--pretend
+\t                   \t--dryrun
 \t                   \t--buildshell PACKAGENAME
 
 On first run you must provide the package, build and installation directories
@@ -142,7 +142,7 @@ sub writeconfig
     my $cfname = "$scriptLocation/$configfile";
     $verbose && didbsprint "Will write config to $cfname\n";
     open(FH, '>'.$cfname) || die $!;
-    $verbose && didbsprint "Would try and write out config of $hash \n";
+
     foreach my $key (keys %hash)
     {
         if( $key eq "packagedir" ||
@@ -193,7 +193,7 @@ GetOptions(\%options,
            "clean" => \$clean,
            "clean-all" => \$clean_all,
            "stoponuntested" => \$stoponuntested,
-           "pretend" => \$pretend,
+           "dryrun" => \$dryrun,
            "buildshell=s" => \$buildshellpackage )
     or usage(true);
 
@@ -299,9 +299,17 @@ if($verbose)
     }
 }
 
-my $onlyPretendArguments = ($argc == 1 && defined($options{"pretend"}));
+my $onlyDryrunArguments = (($argc eq 1) && ($dryrun eq 1));
 
-my $parametersUpdated = ($userfoundconf eq 0 || $argc >= 1) && !onlyPretendArguments;
+my $parametersUpdated = ($userfoundconf eq 0 || $argc >= 1) && ($onlyDryrunArguments eq 1);
+
+if($verbose)
+{
+    didbsprint "argc=$argc\n";
+    didbsprint "dryrun=$dryrun\n";
+    didbsprint "onlyDryrunArguments=$onlyDryrunArguments\n";
+    didbsprint "parametersUpdated=$parametersUpdated\n";
+}
 
 my $shouldWriteConfig = 0;
 if( -e "$scriptLocation/$configfile" &&
@@ -326,6 +334,10 @@ if( $shouldWriteConfig )
 {
     # Write our config back out
     writeconfig(\%options);
+}
+elsif($verbose)
+{
+    didbsprint "Not updating configuration file\n";
 }
 
 if( $parametersUpdated )
@@ -475,7 +487,10 @@ sub checkPackage
     ${$foundPackageStatesRef}{$packageId} = $curpkgstate;
     $verbose && didbsprint "Set the package state for $packageId\n";
 
-    if( !$curpkg->{passesChecksIndicator} && !$stoponuntested)
+    my $pkgPci = $curpkg->{passesChecksIndicator};
+    $verbose && didbsprint "Package pci=$pkgPci and sou=$stoponuntested\n";
+
+    if( !$pkgPci && !$stoponuntested)
     {
 	$verbose && didbsprint "Skipping untested package: $packageId\n";
 	return;
@@ -500,7 +515,7 @@ sub checkPackage
 	    $curpkgextractor->debug();
 	}
 
-	if( !$pretend )
+	if( !$dryrun )
 	{
 
 	    if( !$curpkgextractor->extractionSuccess() )
@@ -516,7 +531,7 @@ sub checkPackage
 
 	my $curpkgpatcher = undef;
 
-	if( !$pretend )
+	if( !$dryrun )
 	{
 	    if( defined($curpkg->{packagePatch}) &&
 		$curpkgextractor->getState() ne PATCHED)
@@ -550,7 +565,7 @@ sub checkPackage
 							 $curpkgpatcher );
 
 
-	if( !$pretend )
+	if( !$dryrun )
 	{
 	    if( !$curpkgconfigurator->configureit() )
 	    {
@@ -571,7 +586,7 @@ sub checkPackage
 					       $curpkgpatcher,
 					       $curpkgconfigurator );
 
-	if( !$pretend )
+	if( !$dryrun )
 	{
 	    if( !$curpkgbuilder->buildit() )
 	    {
@@ -599,7 +614,7 @@ sub checkPackage
 						   $curpkgpatcher,
 						   $curpkgconfigurator );
 
-	if( !$pretend )
+	if( !$dryrun )
 	{
 	    if( !$curpkginstaller->installit() )
 	    {
