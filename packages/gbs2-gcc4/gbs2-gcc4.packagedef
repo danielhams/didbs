@@ -2,7 +2,7 @@ packageSource=ftp://ftp.mirrorservice.org/sites/sourceware.org/pub/gcc/releases/
 packageFile=gcc-4.7.1.tar.gz
 packageChecksum=3d06e24570635c91eed6b114687513a6
 packageDir=gcc-4.7.1
-#packagePatch=gcc4_7_1.bootsfixes_o1.patch
+packagePatch=gcc4_linuxunwind.patch
 
 packageExtraction=tarxfsystemhelper.sh
 expectedToolList=

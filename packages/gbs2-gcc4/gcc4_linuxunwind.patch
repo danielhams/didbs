@@ -1,0 +1,36 @@
+diff -u -r -w gcc-4.7.1/libgcc/config/i386/linux-unwind.h gcc-4.7.1-patched/libgcc/config/i386/linux-unwind.h
+--- gcc-4.7.1/libgcc/config/i386/linux-unwind.h	2012-04-20 08:51:30.000000000 +0100
++++ gcc-4.7.1-patched/libgcc/config/i386/linux-unwind.h	2019-03-28 23:31:46.901779840 +0000
+@@ -27,6 +27,8 @@
+    state data appropriately.  See unwind-dw2.c for the structs.
+    Don't use this at all if inhibit_libc is used.  */
+ 
++#include <sys/ucontext.h>
++
+ #ifndef inhibit_libc
+ 
+ #ifdef __x86_64__
+@@ -53,11 +55,12 @@
+   if (*(unsigned char *)(pc+0) == 0x48
+       && *(unsigned long long *)(pc+1) == RT_SIGRETURN_SYSCALL)
+     {
+-      struct ucontext *uc_ = context->cfa;
++      ucontext_t *uc_ = context->cfa;
+       /* The void * cast is necessary to avoid an aliasing warning.
+          The aliasing warning is correct, but should not be a problem
+          because it does not alias anything.  */
+-      sc = (struct sigcontext *) (void *) &uc_->uc_mcontext;
++      void *vptr = (void *) &(uc_->uc_mcontext);
++      sc = (struct sigcontext *)vptr;
+     }
+   else
+     return _URC_END_OF_STACK;
+@@ -142,7 +145,7 @@
+ 	siginfo_t *pinfo;
+ 	void *puc;
+ 	siginfo_t info;
+-	struct ucontext uc;
++	ucontext_t uc;
+       } *rt_ = context->cfa;
+       /* The void * cast is necessary to avoid an aliasing warning.
+          The aliasing warning is correct, but should not be a problem
