@@ -2,7 +2,7 @@ packageSource=http://ftp.gnu.org/gnu/gdb/gdb-8.2.1.tar.gz
 packageFile=gdb-8.2.1.tar.gz
 packageChecksum=6a11cc642b626541777d9e5f96ae406f
 packageDir=gdb-8.2.1
-#packagePatch=
+packagePatch=gdb8.2.1.fixups.patch
 
 packageExtraction=tarxfsystemhelper.sh
 expectedToolList=
