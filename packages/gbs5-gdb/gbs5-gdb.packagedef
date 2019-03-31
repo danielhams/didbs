@@ -1,0 +1,14 @@
+packageSource=http://ftp.gnu.org/gnu/gdb/gdb-8.2.1.tar.gz
+packageFile=gdb-8.2.1.tar.gz
+packageChecksum=6a11cc642b626541777d9e5f96ae406f
+packageDir=gdb-8.2.1
+#packagePatch=
+
+packageExtraction=tarxfsystemhelper.sh
+expectedToolList=
+dependenciesList=make,tar,gzip,dejagnu,gbs4-gcc4
+envModifs=setupenv.sh
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=0
