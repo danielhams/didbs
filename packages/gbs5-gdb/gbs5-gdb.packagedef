@@ -4,11 +4,11 @@
 #packageDir=gdb-8.2.1
 #packagePatch=gdb8.2.1.fixups.patch
 
-packageSource=http://ftp.gnu.org/gnu/gdb/gdb-7.10.1.tar.gz
-packageFile=gdb-7.10.1.tar.gz
-packageChecksum=b93a2721393e5fa226375b42d567d90b
-packageDir=gdb-7.10.1
-#packagePatch=
+packageSource=http://ftp.gnu.org/gnu/gdb/gdb-7.8.2.tar.gz
+packageFile=gdb-7.8.2.tar.gz
+packageChecksum=8b0ea8b3559d3d90b3ff4952f0aeafbc
+packageDir=gdb-7.8.2
+packagePatch=gdb7.8.2.fixups.patch
 
 packageExtraction=tarxfsystemhelper.sh
 expectedToolList=
