@@ -8,7 +8,8 @@ echo $INSTALLDIR
 echo $EXTRAARGS
 . ./setupenv.sh
 cd $BUILDDIR || exit -1
-mkdir ../guile-build
-cd ../guile-build
+#autoreconf
+mkdir ../ao-build
+cd ../ao-build
 $BUILDDIR/configure --prefix=$INSTALLDIR --disable-silent-rules || exit -1
 exit 0

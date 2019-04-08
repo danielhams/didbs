@@ -1,0 +1,118 @@
+diff -u -r -w guile-2.2.4/libguile/__scm.h guile-2.2.4-patched/libguile/__scm.h
+--- guile-2.2.4/libguile/__scm.h	2017-01-20 15:33:06.000000000 +0000
++++ guile-2.2.4-patched/libguile/__scm.h	2019-04-07 10:09:18.524755240 +0000
+@@ -150,7 +150,7 @@
+ /* SCM_API is a macro prepended to all function and data definitions
+    which should be exported from libguile. */
+ 
+-#if defined BUILDING_LIBGUILE && defined HAVE_VISIBILITY
++#if defined(BUILDING_LIBGUILE) && HAVE_VISIBILITY==1
+ # define SCM_API extern __attribute__((__visibility__("default")))
+ #elif defined BUILDING_LIBGUILE && defined _MSC_VER
+ # define SCM_API __declspec(dllexport) extern
+Only in guile-2.2.4-patched/libguile: __scm.h~
+diff -u -r -w guile-2.2.4/libguile/gc.h guile-2.2.4-patched/libguile/gc.h
+--- guile-2.2.4/libguile/gc.h	2017-01-20 15:33:06.000000000 +0000
++++ guile-2.2.4-patched/libguile/gc.h	2019-04-07 10:16:03.899843760 +0000
+@@ -184,6 +184,8 @@
+   return cell;
+ }
+ 
++SCM_API void scm_remember_upto_here_1 (SCM obj);
++
+ SCM_INLINE_IMPLEMENTATION SCM
+ scm_double_cell (scm_t_bits car, scm_t_bits cbr,
+ 		 scm_t_bits ccr, scm_t_bits cdr)
+Only in guile-2.2.4-patched/libguile: gc.h~
+diff -u -r -w guile-2.2.4/libguile/net_db.c guile-2.2.4-patched/libguile/net_db.c
+--- guile-2.2.4/libguile/net_db.c	2016-08-01 12:32:31.000000000 +0000
++++ guile-2.2.4-patched/libguile/net_db.c	2019-04-07 10:26:31.423212720 +0000
+@@ -61,8 +61,10 @@
+ 
+ #if defined HAVE_HSTRERROR && !HAVE_DECL_HSTRERROR
+ /* Some OSes, such as Tru64 5.1b, lack a declaration for hstrerror(3).  */
++#if !defined(__sgi)
+ extern const char *hstrerror (int);
+ #endif
++#endif
+ 
+ SCM_SYMBOL (scm_host_not_found_key, "host-not-found");
+ SCM_SYMBOL (scm_try_again_key, "try-again");
+Only in guile-2.2.4-patched/libguile: net_db.c~
+diff -u -r -w guile-2.2.4/libguile/srfi-14.i.c guile-2.2.4-patched/libguile/srfi-14.i.c
+--- guile-2.2.4/libguile/srfi-14.i.c	2016-06-17 10:37:10.000000000 +0000
++++ guile-2.2.4-patched/libguile/srfi-14.i.c	2019-04-07 10:21:13.601289760 +0000
+@@ -7941,7 +7941,8 @@
+   cs_ascii_ranges
+ };
+ 
+-scm_t_char_range cs_empty_ranges[] = {
++scm_t_char_range cs_empty_ranges[1] = {
++  {0x0000, 0x0000}
+ };
+ 
+ scm_t_char_set cs_empty = {
+Only in guile-2.2.4-patched/libguile: srfi-14.i.c~
+diff -u -r -w guile-2.2.4/libguile/vm.c guile-2.2.4-patched/libguile/vm.c
+--- guile-2.2.4/libguile/vm.c	2018-06-29 21:58:08.000000000 +0000
++++ guile-2.2.4-patched/libguile/vm.c	2019-04-07 10:25:08.157853800 +0000
+@@ -298,26 +298,31 @@
+ static void
+ vm_dispatch_apply_hook (struct scm_vm *vp)
+ {
+-  return vm_dispatch_hook (vp, SCM_VM_APPLY_HOOK, NULL, 0);
++  vm_dispatch_hook (vp, SCM_VM_APPLY_HOOK, NULL, 0);
++  return;
+ }
+ static void vm_dispatch_push_continuation_hook (struct scm_vm *vp)
+ {
+-  return vm_dispatch_hook (vp, SCM_VM_PUSH_CONTINUATION_HOOK, NULL, 0);
++  vm_dispatch_hook (vp, SCM_VM_PUSH_CONTINUATION_HOOK, NULL, 0);
++  return;
+ }
+ static void vm_dispatch_pop_continuation_hook (struct scm_vm *vp,
+                                                union scm_vm_stack_element *old_fp)
+ {
+-  return vm_dispatch_hook (vp, SCM_VM_POP_CONTINUATION_HOOK,
++  vm_dispatch_hook (vp, SCM_VM_POP_CONTINUATION_HOOK,
+                            vp->sp, SCM_FRAME_NUM_LOCALS (old_fp, vp->sp) - 1);
++  return;
+ }
+ static void vm_dispatch_next_hook (struct scm_vm *vp)
+ {
+-  return vm_dispatch_hook (vp, SCM_VM_NEXT_HOOK, NULL, 0);
++  vm_dispatch_hook (vp, SCM_VM_NEXT_HOOK, NULL, 0);
++  return;
+ }
+ static void vm_dispatch_abort_hook (struct scm_vm *vp)
+ {
+-  return vm_dispatch_hook (vp, SCM_VM_ABORT_CONTINUATION_HOOK,
++  vm_dispatch_hook (vp, SCM_VM_ABORT_CONTINUATION_HOOK,
+                            vp->sp, SCM_FRAME_NUM_LOCALS (vp->fp, vp->sp) - 1);
++  return;
+ }
+ 
+ static void
+@@ -786,7 +791,11 @@
+ 
+ #if HAVE_SYS_MMAN_H
+   ret = mmap (NULL, size, PROT_READ | PROT_WRITE,
++#if defined(__sgi)
++              MAP_PRIVATE, -1, 0);
++#else
+               MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
++#endif
+   if (ret == NULL)
+     /* Shouldn't happen.  */
+     abort ();
+@@ -1173,7 +1182,8 @@
+       scm_dynwind_end ();
+ 
+       /* Recurse.  */
+-      return vm_expand_stack (vp, new_sp);
++      vm_expand_stack (vp, new_sp);
++      return;
+     }
+ }
+ 
+Only in guile-2.2.4-patched/libguile: vm.c~

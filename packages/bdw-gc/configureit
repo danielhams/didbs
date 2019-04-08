@@ -8,5 +8,7 @@ echo $INSTALLDIR
 echo $EXTRAARGS
 . ./setupenv.sh
 cd $BUILDDIR || exit -1
-./configure --prefix=$INSTALLDIR --disable-silent-rules || exit -1
+mkdir ../gc-build
+cd ../gc-build
+$BUILDDIR/configure --prefix=$INSTALLDIR --with-libatomic-ops --disable-silent-rules --enable-gc-debug --enable-gc-assertions || exit -1
 exit 0

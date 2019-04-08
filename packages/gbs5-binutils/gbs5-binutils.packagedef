@@ -19,9 +19,10 @@ packagePatch=binutils2_32.didbsfixes.patch
 
 packageExtraction=tarxfsystemhelper.sh
 expectedToolList=
-dependenciesList=make,tar,xz,bzip,dejagnu,gbs4-gcc4
+dependenciesList=make,tar,xz,bzip,dejagnu,gbs4-gcc4,autogen
 envModifs=setupenv.sh
 configureRecipe=configureit
 buildRecipe=buildit
 installRecipe=installit
 passesChecksIndicator=0
+disabled=1

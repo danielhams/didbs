@@ -1,9 +1,16 @@
-packageSource=https://www.hboehm.info/gc/gc_source/gc-8.0.2.tar.gz
-packageFile=gc-8.0.2.tar.gz
-packageChecksum=0c3e5a2de567a4f199dc07740bbf21d1
-packageDir=gc-8.0.2
+packageSource=https://www.hboehm.info/gc/gc_source/gc-8.0.4.tar.gz
+packageFile=gc-8.0.4.tar.gz
+packageChecksum=67a5093e2f9f381bd550aa891d00b54b
+packageDir=gc-8.0.4
 packageExtraction=tarxfsystemhelper.sh
 #packagePatch=
+
+#packageSource=https://www.hboehm.info/gc/gc_source/gc-8.0.2.tar.gz
+#packageFile=gc-8.0.2.tar.gz
+#packageChecksum=0c3e5a2de567a4f199dc07740bbf21d1
+#packageDir=gc-8.0.2
+#packageExtraction=tarxfsystemhelper.sh
+##packagePatch=
 
 #packageSource=https://www.hboehm.info/gc/gc_source/gc-8.0.0.tar.gz
 #packageFile=gc-8.0.0.tar.gz
@@ -13,9 +20,10 @@ packageExtraction=tarxfsystemhelper.sh
 ##packagePatch=
 
 expectedToolList=
-dependenciesList=make,tar,gzip,pkgconfig
+dependenciesList=make,tar,gzip,pkgconfig,bdw-libatomicops
 envModifs=setupenv.sh
 configureRecipe=configureit
 buildRecipe=buildit
 installRecipe=installit
 passesChecksIndicator=1
+disabled=1

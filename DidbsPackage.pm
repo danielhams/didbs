@@ -47,6 +47,7 @@ sub debug
 	didbsprint " buildRecipe:          \t=> ".$self->{buildRecipe}."\n";
 	didbsprint " installRecipe:        \t=> ".$self->{installRecipe}."\n";
 	didbsprint " passesChecksIndicator:\t=> ".$self->{passesChecksIndicator}."\n";
+	didbsprint " disabled              \t=> ".$self->{disabled}."\n";
 	didbsprint " sequenceNo:           \t=> ".$self->{sequenceNo}."\n";
     }
 }
@@ -92,6 +93,7 @@ sub readPackageDef
     $self->{buildRecipe} = $values{"buildRecipe"};
     $self->{installRecipe} = $values{"installRecipe"};
     $self->{passesChecksIndicator} = $values{"passesChecksIndicator"};
+    $self->{disabled} = $values{"disabled"};
 
     if( length($self->{configureRecipe}) == 0
 	||

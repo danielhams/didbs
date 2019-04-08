@@ -46,7 +46,10 @@ sub findPackages
 	$dpkg->readPackageDef($self->{scriptLocation},
 	    $packageLocation);
 	$dpkg->debug();
-	push(@knownPackages, \$dpkg);
+	if( ! $dpkg->{disabled} )
+	{
+	    push(@knownPackages, \$dpkg);
+	}
     }
 
     $self->{knownPackages} = \@knownPackages;
