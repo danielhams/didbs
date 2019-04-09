@@ -8,6 +8,6 @@ echo $INSTALLDIR
 echo $EXTRAARGS
 . ./setupenv.sh
 cd $BUILDDIR || exit -1
-cd ../gdb-build
+cd ../build-gdb
 make -j $DIDS_JOBS || exit -1
 exit 0

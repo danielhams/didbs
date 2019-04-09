@@ -10,11 +10,23 @@
 #packageDir=gdb-7.8.2
 #packagePatch=gdb7.8.2.fixups.patch
 
-packageSource=http://ftp.gnu.org/gnu/gdb/gdb-6.3a.tar.gz
-packageFile=gdb-6.3a.tar.gz
-packageChecksum=028dc29b086fd523339831e83972d9b7
-packageDir=gdb-6.3
-packagePatch=gdb6.3a.fixups.patch
+packageSource=http://ftp.gnu.org/gnu/gdb/gdb-6.8a.tar.gz
+packageFile=gdb-6.8a.tar.gz
+packageChecksum=6bccd284284261e46ad5acfb5cf3a499
+packageDir=gdb-6.8
+packagePatch=gdb6.8a.fixups.patch
+
+#packageSource=http://ftp.gnu.org/gnu/gdb/gdb-6.3a.tar.gz
+#packageFile=gdb-6.3a.tar.gz
+#packageChecksum=028dc29b086fd523339831e83972d9b7
+#packageDir=gdb-6.3
+#packagePatch=gdb6.3a.fixups.patch
+
+#packageSource=http://ftp.gnu.org/gnu/gdb/gdb-5.3.tar.gz
+#packageFile=gdb-5.3.tar.gz
+#packageChecksum=1e8566325f222edfbdd93e40c6ae921b
+#packageDir=gdb-5.3
+##packagePatch=DOESNT WORK WITH RECENT GCC
 
 packageExtraction=tarxfsystemhelper.sh
 expectedToolList=
@@ -23,5 +35,5 @@ envModifs=setupenv.sh
 configureRecipe=configureit
 buildRecipe=buildit
 installRecipe=installit
-passesChecksIndicator=0
-disabled=1
+passesChecksIndicator=1
+disabled=0
