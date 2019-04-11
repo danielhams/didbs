@@ -10,7 +10,7 @@ A perl script and some minimal supporting tools to allow bootstrapping of some r
 * Mipspro 7.4.4m
 * System perl (/usr/bin/perl)
 * System tar (/sbin/tar)
-* Roughly 2Gb diskspace
+* Roughly 5Gb diskspace
 * Minimum of ~512Mb of RAM
 
 ## How to run it
@@ -29,9 +29,9 @@ Suggested approach (do everything as your user, I do not recommend use of root o
 
 * Create /usr/didbs
 * chown myuser:people /usr/didbs # (have to do this as root, of course)
-* gunzip 0.0.3.tar
-* tar xf 0.0.3.tar
-* cd didbs-0.0.3
+* gunzip 0.0.5.tar
+* tar xf 0.0.5.tar
+* cd didbs-0.0.5
 * nedit defaultenv.vars
 * Set the DIDBS_JOBS to CPU+1, or just one if RAM is < 512Mb, save, exit
 * ./bootstrap.pl -p /usr/didbs/packages -b /usr/didbs/build -i /usr/didbs -v # (this sets up paths)
