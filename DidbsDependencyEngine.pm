@@ -50,6 +50,11 @@ sub findPackages
 	{
 	    push(@knownPackages, \$dpkg);
 	}
+	else
+	{
+	    my $pkgid = $dpkg->{packageId};
+	    $self->{v} && didbsprint "Skipping disabled package '$pkgid'\n";
+	}
     }
 
     $self->{knownPackages} = \@knownPackages;

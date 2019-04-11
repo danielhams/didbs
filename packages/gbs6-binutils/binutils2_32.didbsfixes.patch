@@ -1,0 +1,53 @@
+diff -u -r -w binutils-2.32/binutils/readelf.c binutils-2.32-patched/binutils/readelf.c
+--- binutils-2.32/binutils/readelf.c	2019-01-19 16:01:33.000000000 +0000
++++ binutils-2.32-patched/binutils/readelf.c	2019-04-09 07:14:48.611468200 +0000
+@@ -13514,10 +13514,12 @@
+ 	{
+ 	  size_t maxlen = end - data;
+ 
+-#ifndef __MSVCRT__
++#if !defined(__MSVCRT__) && !defined(__sgi)
+ 	  /* PR 11128: Use two separate invocations in order to work
+              around bugs in the Solaris 8 implementation of printf.  */
+ 	  printf ("  [%6tx]  ", data - start);
++#elif defined(__sgi)
++	  printf ("  [%06x]  ", (size_t) (data - start));
+ #else
+ 	  printf ("  [%6Ix]  ", (size_t) (data - start));
+ #endif
+diff -u -r -w binutils-2.32/libiberty/mkstemps.c binutils-2.32-patched/libiberty/mkstemps.c
+--- binutils-2.32/libiberty/mkstemps.c	2019-01-19 16:01:34.000000000 +0000
++++ binutils-2.32-patched/libiberty/mkstemps.c	2019-04-09 06:58:10.182108360 +0000
+@@ -16,6 +16,8 @@
+    write to the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
+    Boston, MA 02110-1301, USA.  */
+ 
++#include <sys/time.h>
++
+ #ifdef HAVE_CONFIG_H
+ #include "config.h"
+ #endif
+diff -u -r -w binutils-2.32/libiberty/strsignal.c binutils-2.32-patched/libiberty/strsignal.c
+--- binutils-2.32/libiberty/strsignal.c	2019-01-19 16:01:34.000000000 +0000
++++ binutils-2.32-patched/libiberty/strsignal.c	2019-04-09 06:58:10.221881480 +0000
+@@ -248,6 +248,8 @@
+ #else
+ #ifdef _NSIG
+ static int sys_nsig = _NSIG;
++#else
++static int sys_nsig = SIGRTMAX;
+ #endif
+ #endif
+ extern const char * const sys_siglist[];
+diff -u -r -w binutils-2.32/libiberty/timeval-utils.c binutils-2.32-patched/libiberty/timeval-utils.c
+--- binutils-2.32/libiberty/timeval-utils.c	2019-01-19 16:01:34.000000000 +0000
++++ binutils-2.32-patched/libiberty/timeval-utils.c	2019-04-09 06:58:10.239309480 +0000
+@@ -17,6 +17,8 @@
+ write to the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
+ Boston, MA 02110-1301, USA.  */
+ 
++#include <sys/time.h>
++
+ #include "config.h"
+ 
+ /* On some systems (such as WindISS), you must include <sys/types.h>

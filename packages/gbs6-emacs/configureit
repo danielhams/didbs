@@ -1,0 +1,14 @@
+#!/bin/sh
+
+BUILDDIR=$1
+INSTALLDIR=$2
+EXTRAARGS=$3
+echo $BUILDDIR
+echo $INSTALLDIR
+echo $EXTRAARGS
+. ./setupenv.sh
+cd $BUILDDIR || exit -1
+mkdir ../build-emacs
+cd ../build-emacs
+$BUILDDIR/configure --with-x-toolkit=motif --without-gif --prefix=$GBS5_INSTALL_DIR || exit -1
+exit 0
