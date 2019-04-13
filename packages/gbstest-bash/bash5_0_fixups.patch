@@ -1,0 +1,54 @@
+diff -u -r -w bash-5.0/examples/loadables/Makefile.in bash-5.0-patched/examples/loadables/Makefile.in
+--- bash-5.0/examples/loadables/Makefile.in	2018-11-16 20:44:28.000000000 +0000
++++ bash-5.0-patched/examples/loadables/Makefile.in	2019-04-13 14:53:00.009495280 +0000
+@@ -100,7 +100,7 @@
+ 	$(SHOBJ_CC) $(SHOBJ_CFLAGS) $(CCFLAGS) $(INC) -c -o $@ $<
+ 
+ 
+-ALLPROG = print truefalse sleep finfo logname basename dirname fdflags \
++ALLPROG = print truefalse sleep finfo logname basename dirname \
+ 	  tty pathchk tee head mkdir rmdir printenv id whoami \
+ 	  uname sync push ln unlink realpath strftime mypid setpgid seq
+ OTHERPROG = necho hello cat pushd stat rm
+diff -u -r -w bash-5.0/examples/loadables/fdflags.c bash-5.0-patched/examples/loadables/fdflags.c
+--- bash-5.0/examples/loadables/fdflags.c	2017-02-02 16:40:42.000000000 +0000
++++ bash-5.0-patched/examples/loadables/fdflags.c	2019-04-13 14:56:08.602046400 +0000
+@@ -113,8 +113,10 @@
+       return -1;
+     }
+ 
++#ifdef O_CLOEXEC
+   if (c)
+     f |= O_CLOEXEC;
++#endif
+ 
+   return f & getallflags();
+ }
+@@ -199,6 +201,7 @@
+   parseflags(v, &pos, &neg);
+ 
+   cloexec = -1;
++#ifdef O_CLOEXEC
+   if ((pos & O_CLOEXEC) && (f & O_CLOEXEC) == 0)
+     cloexec = FD_CLOEXEC;
+   if ((neg & O_CLOEXEC) && (f & O_CLOEXEC))
+@@ -209,6 +212,7 @@
+   pos &= ~O_CLOEXEC;
+   neg &= ~O_CLOEXEC;
+   f &= ~O_CLOEXEC;
++#endif
+ 
+   n = f;
+   n |= pos;
+diff -u -r -w bash-5.0/examples/loadables/push.c bash-5.0-patched/examples/loadables/push.c
+--- bash-5.0/examples/loadables/push.c	2017-06-20 15:54:52.000000000 +0000
++++ bash-5.0-patched/examples/loadables/push.c	2019-04-13 14:57:31.396619520 +0000
+@@ -35,7 +35,7 @@
+ extern int errno;
+ #endif
+ 
+-extern int dollar_dollar_pid;
++extern pid_t dollar_dollar_pid;
+ extern int last_command_exit_value;
+ 
+ int

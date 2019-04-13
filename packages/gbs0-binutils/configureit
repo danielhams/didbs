@@ -9,9 +9,8 @@ echo $EXTRAARGS
 . ./setupenv.sh
 cd $BUILDDIR || exit -1
 cd ..
-mkdir bu-build
-cd bu-build
-
-$BUILDDIR/configure --prefix=$GSB0_TOOLS_DIR --enable-werror=no --disable-nls --disable-iconv --disable-gprof || exit -1
+mkdir build-bu
+cd build-bu
+$BUILDDIR/configure --prefix=$GBS0_INSTALL_DIR --enable-werror=no --disable-nls --disable-iconv --disable-gprof || exit -1
 
 exit 0

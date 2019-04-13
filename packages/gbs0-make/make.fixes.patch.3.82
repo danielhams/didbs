@@ -1,0 +1,13 @@
+diff -r -u -w make-3.82/tests/run_make_tests.pl make-3.82-patched/tests/run_make_tests.pl
+--- make-3.82/tests/run_make_tests.pl	2010-07-13 02:20:43.000000000 +0000
++++ make-3.82-patched/tests/run_make_tests.pl	2018-07-22 07:03:55.855246640 +0000
+@@ -40,6 +40,9 @@
+ 
+ $all_tests = 0;
+ 
++use FindBin;
++use lib "$FindBin::Bin";
++
+ require "test_driver.pl";
+ 
+ # Some target systems might not have the POSIX module...

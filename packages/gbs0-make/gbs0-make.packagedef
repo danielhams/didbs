@@ -24,3 +24,4 @@ configureRecipe=configureit
 buildRecipe=buildit
 installRecipe=installit
 passesChecksIndicator=1
+disabled=0

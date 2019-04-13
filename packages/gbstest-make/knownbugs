@@ -1,0 +1,1 @@
+Running make check has one real failure and two "no tests found" failures. The one real failure (close_stdout) looks like it's an ongoing issue related to deterministic parallel ordering -> skipping looking deeper for now.

@@ -8,6 +8,8 @@ echo $INSTALLDIR
 echo $EXTRAARGS
 . ./setupenv.sh
 cd $BUILDDIR || exit -1
-cd ../build-libffi
-make -j $DIDBS_JOBS || exit -1
+cd ../build-bash
+make install || exit -1
+cd $INSTALLDIR/bin
+ln -s -f bash sh || exit -1
 exit 0
