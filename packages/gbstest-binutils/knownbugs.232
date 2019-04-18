@@ -1,0 +1,27 @@
+
+                === ld Summary ===
+
+# of expected passes            834
+# of unexpected failures        196
+# of unexpected successes       1
+# of expected failures          10
+# of unresolved testcases       41
+# of untested testcases         5
+# of unsupported tests          150
+./ld-new 2.32
+
+                === gas Summary ===
+
+# of expected passes            7147
+# of unexpected failures        67
+# of unsupported tests          30
+/builds/dan/bootstrapbuilds/gbstest-binutils/build-bu/gas/as-new 2.32
+
+                === binutils Summary ===
+
+# of expected passes            210
+# of expected failures          3
+# of unsupported tests          8
+
+libiberty - passes
+
