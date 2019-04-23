@@ -1,0 +1,10 @@
+diff -u -r -w pax-utils-1.2.4/lddtree.sh pax-utils-1.2.4-patched/lddtree.sh
+--- pax-utils-1.2.4/lddtree.sh	2019-01-14 22:35:29.000000000 +0000
++++ pax-utils-1.2.4-patched/lddtree.sh	2019-04-23 17:27:12.349922840 +0000
+@@ -1,4 +1,4 @@
+-#!/bin/bash
++#!/usr/bin/env bash
+ # Copyright 2007-2013 Gentoo Foundation
+ # Copyright 2007-2013 Mike Frysinger <vapier@gentoo.org>
+ # Distributed under the terms of the GNU General Public License v2
+Only in pax-utils-1.2.4-patched: lddtree.sh~

@@ -1,0 +1,13 @@
+#!/bin/sh
+
+BUILDDIR=$1
+INSTALLDIR=$2
+EXTRAARGS=$3
+echo $BUILDDIR
+echo $INSTALLDIR
+echo $EXTRAARGS
+. ./setupenv.sh
+alias ranlib=true
+cd $BUILDDIR || exit -1
+make curses || exit -1
+exit 0

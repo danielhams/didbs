@@ -12,10 +12,10 @@ packagePatch=bash5_0_fixups.patch
 
 packageExtraction=tarxfsystemhelper.sh
 expectedToolList=
-dependenciesList=make,tar,gzip,diffutils,readline,ncurses,gbstest-gcc4
+dependenciesList=make,tar,gzip,diffutils,readline,ncurses,gbstest-binutils
 envModifs=setupenv.sh
 configureRecipe=configureit
 buildRecipe=buildit
 installRecipe=installit
 passesChecksIndicator=1
-disable=0
+disabled=1

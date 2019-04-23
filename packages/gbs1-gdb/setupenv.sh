@@ -4,7 +4,8 @@ GBS1_INSTALL_DIR="$INSTALLDIR/gbs1"
 CC=gcc
 CXX=g++
 CPPFLAGS="-I$INSTALLDIR/include -I$INSTALLDIR/include/ncurses"
-CFLAGS="--std=c99 -I$INSTALLDIR/include -I$INSTALLDIR/include/ncurses -L$INSTALLDIR/lib"
+CFLAGS="--std=c99 -mips4 -I$INSTALLDIR/include -I$INSTALLDIR/include/ncurses -L$INSTALLDIR/lib"
+CXXFLAGS="-mips4"
 LDFLAGS="-L$INSTALLDIR/lib"
 SHELL="$INSTALLDIR/bin/bash"
 CONFIG_SHELL="$INSTALLDIR/bin/bash"

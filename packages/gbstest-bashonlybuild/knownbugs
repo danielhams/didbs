@@ -1,8 +1,6 @@
-For bash5, quite a few errors....
-
-Testing /builds/dan/bootstrapbuilds/gbstest-bash/build-bash/bash
-version: 5.0.0(1)-release
-versinfo: 5 0 0 1 release mips-sgi-irix6.5
+Testing /builds/dan/bootstrapbuilds/gbstest-bashonlybuild/build-bash/bash
+version: 5.0.7(1)-release
+versinfo: 5 0 7 1 release mips-sgi-irix6.5
 HOSTTYPE = mips
 OSTYPE = irix6.5
 MACHTYPE = mips-sgi-irix6.5
@@ -91,7 +89,7 @@ run-glob-test
 > 0000000 141 243 134 142
 16,17d14
 < ./glob2.sub: line 44: warning: setlocale: LC_ALL: cannot change locale (zh_HK.big5hkscs)
-< /builds/dan/bootstrapbuilds/gbstest-bash/build-bash/bash: warning: setlocale: LC_ALL: cannot change locale (zh_HK.big5hkscs)
+< /builds/dan/bootstrapbuilds/gbstest-bashonlybuild/build-bash/bash: warning: setlocale: LC_ALL: cannot change locale (zh_HK.big5hkscs)
 run-globstar
 run-heredoc
 warning: UNIX versions number signals and schedule processes differently.
@@ -111,12 +109,12 @@ run-intl
 warning: some of these tests will fail if you do not have UTF-8
 warning: locales installed on your system.
 ./intl.tests: line 1: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
-/builds/dan/bootstrapbuilds/gbstest-bash/build-bash/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+/builds/dan/bootstrapbuilds/gbstest-bashonlybuild/build-bash/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 ./intl1.sub: line 1: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
-/builds/dan/bootstrapbuilds/gbstest-bash/build-bash/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+/builds/dan/bootstrapbuilds/gbstest-bashonlybuild/build-bash/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 ./intl2.sub: line 1: warning: setlocale: LC_NUMERIC: cannot change locale (en_GB): No such file or directory
-/builds/dan/bootstrapbuilds/gbstest-bash/build-bash/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
-/builds/dan/bootstrapbuilds/gbstest-bash/build-bash/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+/builds/dan/bootstrapbuilds/gbstest-bashonlybuild/build-bash/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+/builds/dan/bootstrapbuilds/gbstest-bashonlybuild/build-bash/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 2c2
 < 2
 ---
@@ -145,7 +143,7 @@ warning: locales installed on your system.
 > 1,0000
 > 1
 53d52
-< /builds/dan/bootstrapbuilds/gbstest-bash/build-bash/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+< /builds/dan/bootstrapbuilds/gbstest-bashonlybuild/build-bash/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
 run-invert
 run-iquote
 run-jobs
@@ -197,7 +195,7 @@ run-printf
 < ./printf2.sub: line 1: warning: setlocale: LC_CTYPE: cannot change locale (en_GB)
 < printf2.sub: multibyte character conversion failed
 260d257
-< current time mismatch:1555162748|%s|
+< current time mismatch:1555940750|%s|
 263,264c260,261
 < epoch time: 1969-12-31 07:00:00 PM %z
 < random time: 2010-05-30 04:09:15 PM %z

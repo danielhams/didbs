@@ -1,0 +1,14 @@
+#!/bin/sh
+
+BUILDDIR=$1
+INSTALLDIR=$2
+EXTRAARGS=$3
+echo $BUILDDIR
+echo $INSTALLDIR
+echo $EXTRAARGS
+. ./setupenv.sh
+cd $BUILDDIR || exit -1
+mkdir ../build-pu
+cd ../build-pu
+$BUILDDIR/configure gl_cv_func_getopt_posix=no --prefix=$GBSTEST_INSTALL_DIR --without-python --with-gnu-ld || exit -1
+exit 0

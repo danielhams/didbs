@@ -1,14 +1,14 @@
-packageSource=http://ftp.gnu.org/gnu/bash/bash-3.2.57.tar.gz
-packageFile=bash-3.2.57.tar.gz
-packageChecksum=237a8767c990b43ae2c89895c2dbc062
-packageDir=bash-3.2.57
-#packagePatch=
+#packageSource=http://ftp.gnu.org/gnu/bash/bash-3.2.57.tar.gz
+#packageFile=bash-3.2.57.tar.gz
+#packageChecksum=237a8767c990b43ae2c89895c2dbc062
+#packageDir=bash-3.2.57
+##packagePatch=
 
-#packageSource=http://ftp.gnu.org/gnu/bash/bash-5.0.tar.gz
-#packageFile=bash-5.0.tar.gz
-#packageChecksum=2b44b47b905be16f45709648f671820b
-#packageDir=bash-5.0
-#packagePatch=bash5_0_fixups.patch
+packageSource=http://ftp.gnu.org/gnu/bash/bash-5.0.tar.gz
+packageFile=bash-5.0.tar.gz
+packageChecksum=2b44b47b905be16f45709648f671820b
+packageDir=bash-5.0
+packagePatch=bash5_0_fixups.patch
 
 packageExtraction=tarxfsystemhelper.sh
 expectedToolList=
@@ -18,4 +18,4 @@ configureRecipe=configureit
 buildRecipe=buildit
 installRecipe=installit
 passesChecksIndicator=1
-disable=0
+disabled=1

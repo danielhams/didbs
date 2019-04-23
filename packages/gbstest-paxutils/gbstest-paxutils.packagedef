@@ -1,0 +1,15 @@
+packageSource=https://dev.gentoo.org/~slyfox/distfiles/pax-utils-1.2.4.tar.xz
+packageFile=pax-utils-1.2.4.tar.xz
+packageChecksum=5ead95624b92727fdcb8df3078e2f2dd
+packageDir=pax-utils-1.2.4
+packagePatch=paxutils.sgifixups.patch
+
+packageExtraction=tarxfsystemhelper.sh
+expectedToolList=
+dependenciesList=make,tar,gzip,diffutils,readline,ncurses,gbstest-binutils
+envModifs=setupenv.sh
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=1
+disabled=1

@@ -4,6 +4,8 @@ GBS1_INSTALL_DIR="$INSTALLDIR/gbs1"
 
 CC=gcc
 CXX=g++
+CFLAGS="-mips4"
+CXXFLAGS="-mips4"
 PERL="$INSTALLDIR/bin/perl"
 TEST_SHELL="$INSTALLDIR/bin/bash"
 SHELL="$INSTALLDIR/bin/bash"

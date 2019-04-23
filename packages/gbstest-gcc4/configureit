@@ -11,5 +11,6 @@ cd $BUILDDIR || exit -1
 cd ..
 mkdir build-gcc
 cd build-gcc
-$BUILDDIR/configure --prefix=$GBSTEST_INSTALL_DIR --disable-silent-rules --disable-nls --disable-multilib --enable-obsolete --enable-languages=c,c++ --disable-bootstrap --with-gnu-ld --with-ld=$GBSTEST_INSTALL_DIR/bin/ld --with-gnu-as --with-as=$GBSTEST_INSTALL_DIR/bin/as --enable-shared --enable-static --enable-threads=posix --disable-lto --with-gmp=$INSTALLDIR --with-mpfr=$INSTALLDIR --with-system-zlib --enable-checking=release || exit -1
+#$BUILDDIR/configure --prefix=$GBSTEST_INSTALL_DIR --disable-silent-rules --disable-nls --disable-multilib --enable-obsolete --enable-languages=c,c++ --disable-bootstrap --with-gnu-ld --with-ld=$GBSTEST_INSTALL_DIR/bin/ld --with-gnu-as --with-as=$GBSTEST_INSTALL_DIR/bin/as --enable-shared --enable-static --enable-threads=posix --disable-lto --with-gmp=$INSTALLDIR --with-mpfr=$INSTALLDIR --with-system-zlib --enable-checking=release || exit -1
+$BUILDDIR/configure --prefix=$GBSTEST_INSTALL_DIR --disable-silent-rules --disable-nls --disable-multilib --enable-obsolete --enable-languages=c,c++ --disable-bootstrap --without-gnu-ld --with-ld=/usr/bin/ld --with-gnu-as --with-as=$GBSTEST_INSTALL_DIR/bin/as --enable-shared --enable-static --enable-threads=posix --disable-lto --with-gmp=$INSTALLDIR --with-mpfr=$INSTALLDIR --with-system-zlib --enable-checking=release || exit -1
 exit 0

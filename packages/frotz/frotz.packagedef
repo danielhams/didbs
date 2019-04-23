@@ -1,0 +1,15 @@
+packageSource=https://gitlab.com/DavidGriffith/frotz/-/archive/2.44/frotz-2.44.tar.gz
+packageFile=frotz-2.44.tar.gz
+packageChecksum=19d0cdb44d4462aaab97d197b28c7b08
+packageDir=frotz-2.44
+packagePatch=frotz.sgifixes.patch
+
+packageExtraction=tarxfsystemhelper.sh
+expectedToolList=
+dependenciesList=make,tar,gzip,pkgconfig
+envModifs=setupenv.sh
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=1
+disabled=0

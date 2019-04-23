@@ -8,14 +8,14 @@
 #packageFile=binutils-2.18a.tar.bz2
 #packageChecksum=ccd264a5fa9ed992a21427c69cba91d3
 #packageDir=binutils-2.18
-##packagePatch=
+#packagePatch=
 
 # Still OK with gcc4.7.1
-#packageSource=http://ftp.gnu.org/gnu/binutils/binutils-2.19.1a.tar.bz2
-#packageFile=binutils-2.19.1a.tar.bz2
-#packageChecksum=023222f392e9546bcbb0b4c0960729be
-#packageDir=binutils-2.19.1
-#packagePatch=binutils2_19.didbsfixes.patch
+packageSource=http://ftp.gnu.org/gnu/binutils/binutils-2.19.1a.tar.bz2
+packageFile=binutils-2.19.1a.tar.bz2
+packageChecksum=023222f392e9546bcbb0b4c0960729be
+packageDir=binutils-2.19.1
+packagePatch=binutils2_19.didbsfixes.patch
 
 # Still OK with gcc4.7.1
 #packageSource=http://ftp.gnu.org/gnu/binutils/binutils-2.20.1a.tar.bz2
@@ -26,11 +26,11 @@
 
 # This is where gcc starts to be unable to generate correct
 # binaries
-packageSource=http://ftp.gnu.org/gnu/binutils/binutils-2.21.1.tar.bz2
-packageFile=binutils-2.21.1.tar.bz2
-packageChecksum=bde820eac53fa3a8d8696667418557ad
-packageDir=binutils-2.21.1
-packagePatch=binutils2_21.didbsfixes.patch
+#packageSource=http://ftp.gnu.org/gnu/binutils/binutils-2.21.1.tar.bz2
+#packageFile=binutils-2.21.1.tar.bz2
+#packageChecksum=bde820eac53fa3a8d8696667418557ad
+#packageDir=binutils-2.21.1
+#packagePatch=binutils2_21.didbsfixes.patch
 
 #packageSource=http://ftp.gnu.org/gnu/binutils/binutils-2.21.1a.tar.bz2
 #packageFile=binutils-2.21.1a.tar.bz2
@@ -57,5 +57,5 @@ envModifs=setupenv.sh
 configureRecipe=configureit
 buildRecipe=buildit
 installRecipe=installit
-passesChecksIndicator=0
-disabled=0
+passesChecksIndicator=1
+disabled=1
