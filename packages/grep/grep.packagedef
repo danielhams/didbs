@@ -1,9 +1,16 @@
-packageSource=http://ftp.gnu.org/pub/gnu/grep/grep-3.1.tar.xz
-packageFile=grep-3.1.tar.xz
-packageChecksum=feca7b3e7c7f4aab2b42ecbfc513b070
+#packageSource=http://ftp.gnu.org/pub/gnu/grep/grep-3.1.tar.xz
+#packageFile=grep-3.1.tar.xz
+#packageChecksum=feca7b3e7c7f4aab2b42ecbfc513b070
+#packageDir=grep-3.1
+#packagePatch=grep.fix_getprogname.patch
+
+packageSource=http://ftp.gnu.org/pub/gnu/grep/grep-3.3.tar.xz
+packageFile=grep-3.3.tar.xz
+packageChecksum=05d0718a1b7cc706a4bdf8115363f1ed
+packageDir=grep-3.3
+packagePatch=grep3_3_fixes.patch
+
 packageExtraction=tarxfsystemhelper.sh
-packageDir=grep-3.1
-packagePatch=grep.fix_getprogname.patch
 expectedToolList=
 dependenciesList=stage1perl,make,tar,xz,sed,gawk
 envModifs=setupenv.sh
@@ -11,3 +18,4 @@ configureRecipe=configureit
 buildRecipe=buildit
 installRecipe=installit
 passesChecksIndicator=1
+disabled=0

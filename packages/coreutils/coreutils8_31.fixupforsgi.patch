@@ -1,0 +1,466 @@
+diff -u -r -w coreutils-8.31/gnulib-tests/test-fsync.c coreutils-8.31-patched/gnulib-tests/test-fsync.c
+--- coreutils-8.31/gnulib-tests/test-fsync.c	2019-01-04 16:14:43.000000000 +0000
++++ coreutils-8.31-patched/gnulib-tests/test-fsync.c	2019-04-26 14:58:21.007559040 +0000
+@@ -63,6 +63,7 @@
+   ASSERT (fsync (fd) == 0);
+   ASSERT (close (fd) == 0);
+ 
++#if !defined(__sgi)
+   /* For a read-only regular file input file descriptor, fsync should
+      succeed (since at least atime changes can be synchronized).  */
+   fd = open (file, O_RDONLY);
+@@ -73,6 +74,7 @@
+   }
+   ASSERT (fsync (fd) == 0);
+   ASSERT (close (fd) == 0);
++#endif
+ 
+   ASSERT (unlink (file) == 0);
+ 
+diff -u -r -w coreutils-8.31/gnulib-tests/test-gettimeofday.c coreutils-8.31-patched/gnulib-tests/test-gettimeofday.c
+--- coreutils-8.31/gnulib-tests/test-gettimeofday.c	2019-01-04 16:14:43.000000000 +0000
++++ coreutils-8.31-patched/gnulib-tests/test-gettimeofday.c	2019-04-26 14:58:21.035845040 +0000
+@@ -17,6 +17,7 @@
+ 
+ #include <config.h>
+ 
++#include <time.h>
+ #include <sys/time.h>
+ 
+ #include "signature.h"
+diff -u -r -w coreutils-8.31/gnulib-tests/test-sys_time.c coreutils-8.31-patched/gnulib-tests/test-sys_time.c
+--- coreutils-8.31/gnulib-tests/test-sys_time.c	2019-01-04 16:14:43.000000000 +0000
++++ coreutils-8.31-patched/gnulib-tests/test-sys_time.c	2019-04-26 14:58:21.039058240 +0000
+@@ -18,6 +18,7 @@
+ 
+ #include <config.h>
+ 
++#include <time.h>
+ #include <sys/time.h>
+ 
+ /* Check that the 'struct timeval' type is defined.  */
+diff -u -r -w coreutils-8.31/lib/gethrxtime.c coreutils-8.31-patched/lib/gethrxtime.c
+--- coreutils-8.31/lib/gethrxtime.c	2019-01-04 16:14:43.000000000 +0000
++++ coreutils-8.31-patched/lib/gethrxtime.c	2019-04-26 14:58:21.042797520 +0000
+@@ -24,6 +24,7 @@
+ 
+ #if ! (HAVE_ARITHMETIC_HRTIME_T && HAVE_DECL_GETHRTIME)
+ 
++#include <time.h>
+ #include <sys/time.h>
+ #include "timespec.h"
+ 
+diff -u -r -w coreutils-8.31/lib/gettimeofday.c coreutils-8.31-patched/lib/gettimeofday.c
+--- coreutils-8.31/lib/gettimeofday.c	2019-01-04 16:18:30.000000000 +0000
++++ coreutils-8.31-patched/lib/gettimeofday.c	2019-04-26 14:58:21.046158320 +0000
+@@ -20,10 +20,10 @@
+ #include <config.h>
+ 
+ /* Specification.  */
+-#include <sys/time.h>
+-
+ #include <time.h>
+ 
++#include <sys/time.h>
++
+ #if defined _WIN32 && ! defined __CYGWIN__
+ # define WINDOWS_NATIVE
+ # include <windows.h>
+diff -u -r -w coreutils-8.31/src/basenc.c coreutils-8.31-patched/src/basenc.c
+--- coreutils-8.31/src/basenc.c	2019-02-11 01:51:47.000000000 +0000
++++ coreutils-8.31-patched/src/basenc.c	2019-04-26 14:58:47.717502880 +0000
+@@ -216,6 +216,8 @@
+    is used, because of the memmove operation below.  */
+ # define DEC_BLOCKSIZE (1024*5)
+ 
++#error "Got here mr hams"
++
+ static int (*base_length) (int i);
+ static bool (*isbase) (char ch);
+ static void (*base_encode) (const char *restrict in, size_t inlen,
+@@ -241,13 +243,13 @@
+ struct base_decode_context
+ {
+   int i; /* will be updated manually */
+-  union {
+-    struct base64_decode_context b64ctx;
+-    struct base32_decode_context b32ctx;
+-    struct base16_decode_context b16ctx;
+-    struct base2_decode_context  b2ctx;
+-    struct z85_decode_context    z85ctx;
+-  };
++  union anonunion {
++    struct base64_decode_context myb64ctx;
++    struct base32_decode_context myb32ctx;
++    struct base16_decode_context myb16ctx;
++    struct base2_decode_context  myb2ctx;
++    struct z85_decode_context    myz85ctx;
++  } anonunion;
+   char *inbuf;
+   size_t bufsize;
+ };
+@@ -271,7 +273,7 @@
+ static void
+ base64_decode_ctx_init_wrapper (struct base_decode_context *ctx)
+ {
+-  base64_decode_ctx_init (&ctx->b64ctx);
++  base64_decode_ctx_init (&ctx->anonunion.myb64ctx);
+ }
+ 
+ static bool
+@@ -279,8 +281,8 @@
+                            const char *restrict in, size_t inlen,
+                            char *restrict out, size_t *outlen)
+ {
+-  bool b = base64_decode_ctx (&ctx->b64ctx, in, inlen, out, outlen);
+-  ctx->i = ctx->b64ctx.i;
++  bool b = base64_decode_ctx (&ctx->anonunion.myb64ctx, in, inlen, out, outlen);
++  ctx->i = ctx->anonunion.myb64ctx.i;
+   return b;
+ }
+ 
+@@ -329,7 +331,7 @@
+ static void
+ base64url_decode_ctx_init_wrapper (struct base_decode_context *ctx)
+ {
+-  base64_decode_ctx_init (&ctx->b64ctx);
++  base64_decode_ctx_init (&ctx->anonunion.myb64ctx);
+   init_inbuf (ctx);
+ }
+ 
+@@ -359,8 +361,8 @@
+       ++p;
+     }
+ 
+-  bool b = base64_decode_ctx (&ctx->b64ctx, ctx->inbuf, inlen, out, outlen);
+-  ctx->i = ctx->b64ctx.i;
++  bool b = base64_decode_ctx (&ctx->anonunion.myb64ctx, ctx->inbuf, inlen, out, outlen);
++  ctx->i = ctx->anonunion.myb64ctx.i;
+ 
+   return b;
+ }
+@@ -376,7 +378,7 @@
+ static void
+ base32_decode_ctx_init_wrapper (struct base_decode_context *ctx)
+ {
+-  base32_decode_ctx_init (&ctx->b32ctx);
++  base32_decode_ctx_init (&ctx->anonunion.myb32ctx);
+ }
+ 
+ static bool
+@@ -384,8 +386,8 @@
+                            const char *restrict in, size_t inlen,
+                            char *restrict out, size_t *outlen)
+ {
+-  bool b = base32_decode_ctx (&ctx->b32ctx, in, inlen, out, outlen);
+-  ctx->i = ctx->b32ctx.i;
++  bool b = base32_decode_ctx (&ctx->anonunion.myb32ctx, in, inlen, out, outlen);
++  ctx->i = ctx->anonunion.myb32ctx.i;
+   return b;
+ }
+ 
+@@ -457,7 +459,7 @@
+ static void
+ base32hex_decode_ctx_init_wrapper (struct base_decode_context *ctx)
+ {
+-  base32_decode_ctx_init (&ctx->b32ctx);
++  base32_decode_ctx_init (&ctx->anonunion.myb32ctx);
+   init_inbuf (ctx);
+ }
+ 
+@@ -481,8 +483,8 @@
+       ++in;
+     }
+ 
+-  bool b = base32_decode_ctx (&ctx->b32ctx, ctx->inbuf, inlen, out, outlen);
+-  ctx->i = ctx->b32ctx.i;
++  bool b = base32_decode_ctx (&ctx->anonunion.myb32ctx, ctx->inbuf, inlen, out, outlen);
++  ctx->i = ctx->anonunion.myb32ctx.i;
+ 
+   return b;
+ }
+@@ -519,7 +521,7 @@
+ base16_decode_ctx_init (struct base_decode_context *ctx)
+ {
+   init_inbuf (ctx);
+-  ctx->b16ctx.have_nibble = false;
++  ctx->anonunion.myb16ctx.have_nibble = false;
+   ctx->i = 1;
+ }
+ 
+@@ -538,7 +540,7 @@
+      if there is a dangling high nibble - we are missing the low nibble,
+      so return false - indicating an invalid input.  */
+   if (inlen == 0)
+-    return !ctx->b16ctx.have_nibble;
++    return !ctx->anonunion.myb16ctx.have_nibble;
+ 
+   while (inlen--)
+     {
+@@ -557,18 +559,18 @@
+ 
+       ++in;
+ 
+-      if (ctx->b16ctx.have_nibble)
++      if (ctx->anonunion.myb16ctx.have_nibble)
+         {
+           /* have both nibbles, write octet */
+-          *out++ = (ctx->b16ctx.nibble<<4) + nib;
++          *out++ = (ctx->anonunion.myb16ctx.nibble<<4) + nib;
+           ++(*outlen);
+         }
+       else
+         {
+           /* Store higher nibble until next one arrives */
+-          ctx->b16ctx.nibble = nib;
++          ctx->anonunion.myb16ctx.nibble = nib;
+         }
+-      ctx->b16ctx.have_nibble = !ctx->b16ctx.have_nibble;
++      ctx->anonunion.myb16ctx.have_nibble = !ctx->anonunion.myb16ctx.have_nibble;
+     }
+   return true;
+ }
+@@ -657,20 +659,20 @@
+ z85_decode_ctx_init (struct base_decode_context *ctx)
+ {
+   init_inbuf (ctx);
+-  ctx->z85ctx.i = 0;
++  ctx->anonunion.myz85ctx.i = 0;
+   ctx->i = 1;
+ }
+ 
+ 
+ # define Z85_LO_CTX_TO_32BIT_VAL(ctx) \
+-  (((ctx)->z85ctx.octets[1] * 85 * 85 * 85) +   \
+-   ((ctx)->z85ctx.octets[2] * 85 * 85) +	    \
+-   ((ctx)->z85ctx.octets[3] * 85) +		    \
+-   ((ctx)->z85ctx.octets[4]))
++  (((ctx)->anonunion.myz85ctx.octets[1] * 85 * 85 * 85) +   \
++   ((ctx)->anonunion.myz85ctx.octets[2] * 85 * 85) +	    \
++   ((ctx)->anonunion.myz85ctx.octets[3] * 85) +		    \
++   ((ctx)->anonunion.myz85ctx.octets[4]))
+ 
+ 
+ # define Z85_HI_CTX_TO_32BIT_VAL(ctx) \
+-  ((ctx)->z85ctx.octets[0] * 85 * 85 * 85 * 85 )
++  ((ctx)->anonunion.myz85ctx.octets[0] * 85 * 85 * 85 * 85 )
+ 
+ /*
+  0 -  9:  0 1 2 3 4 5 6 7 8 9
+@@ -713,7 +715,7 @@
+      so return false - indicating an invalid input.  */
+   if (inlen == 0)
+     {
+-      if (ctx->z85ctx.i > 0)
++      if (ctx->anonunion.myz85ctx.i > 0)
+         {
+           /* Z85 variant does not allow padding - input must
+              be a multiple of 5 - so return error.  */
+@@ -744,8 +746,8 @@
+ 
+       ++in;
+ 
+-      ctx->z85ctx.octets[ctx->z85ctx.i++] = c;
+-      if (ctx->z85ctx.i == 5)
++      ctx->anonunion.myz85ctx.octets[ctx->anonunion.myz85ctx.i++] = c;
++      if (ctx->anonunion.myz85ctx.i == 5)
+         {
+           /* decode the lowest 4 octets, then check for overflows.  */
+           unsigned int val = Z85_LO_CTX_TO_32BIT_VAL (ctx);
+@@ -761,8 +763,8 @@
+              '%' (decoded to 82) in the highest octet can fit in unsigned int
+              if the other 4 octets decode to a small enough value.
+           */
+-          if ((ctx->z85ctx.octets[0] == 84 || ctx->z85ctx.octets[0] == 83) \
+-              || (ctx->z85ctx.octets[0] == 82 \
++          if ((ctx->anonunion.myz85ctx.octets[0] == 84 || ctx->anonunion.myz85ctx.octets[0] == 83) \
++              || (ctx->anonunion.myz85ctx.octets[0] == 82 \
+                   && (val > 0xFFFFFFFF - 82*85*85*85*85U)))
+             return false;
+ 
+@@ -776,10 +778,10 @@
+ 
+           *outlen += 4;
+ 
+-          ctx->z85ctx.i = 0;
++          ctx->anonunion.myz85ctx.i = 0;
+         }
+     }
+-  ctx->i = ctx->z85ctx.i;
++  ctx->i = ctx->anonunion.myz85ctx.i;
+   return true;
+ }
+ 
+@@ -838,7 +840,7 @@
+ base2_decode_ctx_init (struct base_decode_context *ctx)
+ {
+   init_inbuf (ctx);
+-  ctx->b2ctx.octet = 0;
++  ctx->anonunion.myb2ctx.octet = 0;
+   ctx->i = 0;
+ }
+ 
+@@ -870,13 +872,13 @@
+         return false;
+ 
+       bool bit = (*in == '1');
+-      ctx->b2ctx.octet |= bit << ctx->i;
++      ctx->anonunion.myb2ctx.octet |= bit << ctx->i;
+       ++ctx->i;
+ 
+       if (ctx->i==8)
+         {
+-          *out++ = ctx->b2ctx.octet ;
+-          ctx->b2ctx.octet = 0;
++          *out++ = ctx->anonunion.myb2ctx.octet ;
++          ctx->anonunion.myb2ctx.octet = 0;
+           ++*outlen;
+           ctx->i = 0;
+         }
+@@ -917,12 +919,12 @@
+       if (ctx->i == 0)
+         ctx->i = 8;
+       --ctx->i;
+-      ctx->b2ctx.octet |= bit << ctx->i;
++      ctx->anonunion.myb2ctx.octet |= bit << ctx->i;
+ 
+       if (ctx->i==0)
+         {
+-          *out++ = ctx->b2ctx.octet ;
+-          ctx->b2ctx.octet = 0;
++          *out++ = ctx->anonunion.myb2ctx.octet ;
++          ctx->anonunion.myb2ctx.octet = 0;
+           ++*outlen;
+           ctx->i = 0;
+         }
+diff -u -r -w coreutils-8.31/src/blake2/b2sum.c coreutils-8.31-patched/src/blake2/b2sum.c
+--- coreutils-8.31/src/blake2/b2sum.c	2018-05-14 05:20:24.000000000 +0000
++++ coreutils-8.31-patched/src/blake2/b2sum.c	2019-04-26 14:58:21.049671520 +0000
+@@ -13,6 +13,8 @@
+    https://blake2.net.
+ */
+ 
++#include <config.h>
++
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <string.h>
+diff -u -r -w coreutils-8.31/src/blake2/blake2.h coreutils-8.31-patched/src/blake2/blake2.h
+--- coreutils-8.31/src/blake2/blake2.h	2018-05-14 05:20:24.000000000 +0000
++++ coreutils-8.31-patched/src/blake2/blake2.h	2019-04-26 14:58:21.053436880 +0000
+@@ -20,6 +20,8 @@
+ 
+ #if defined(_MSC_VER)
+ #define BLAKE2_PACKED(x) __pragma(pack(push, 1)) x __pragma(pack(pop))
++#elif defined(__sgi)
++#define BLAKE2_PACKED(x) x
+ #else
+ #define BLAKE2_PACKED(x) x __attribute__((packed))
+ #endif
+@@ -86,6 +88,9 @@
+     size_t        outlen;
+   } blake2bp_state;
+ 
++#if defined(__sgi)
++#pragma pack(1)
++#endif
+ 
+   BLAKE2_PACKED(struct blake2s_param__
+   {
+@@ -103,8 +108,16 @@
+     uint8_t  personal[BLAKE2S_PERSONALBYTES];  /* 32 */
+   });
+ 
++#if defined(__sgi)
++#pragma pack(0)
++#endif
++
+   typedef struct blake2s_param__ blake2s_param;
+ 
++#if defined(__sgi)
++#pragma pack(1)
++#endif
++
+   BLAKE2_PACKED(struct blake2b_param__
+   {
+     uint8_t  digest_length; /* 1 */
+@@ -121,6 +134,10 @@
+     uint8_t  personal[BLAKE2B_PERSONALBYTES];  /* 64 */
+   });
+ 
++#if defined(__sgi)
++#pragma pack(0)
++#endif
++
+   typedef struct blake2b_param__ blake2b_param;
+ 
+   typedef struct blake2xs_state__
+diff -u -r -w coreutils-8.31/src/numfmt.c coreutils-8.31-patched/src/numfmt.c
+--- coreutils-8.31/src/numfmt.c	2019-01-05 10:36:22.000000000 +0000
++++ coreutils-8.31-patched/src/numfmt.c	2019-04-26 14:58:21.059917680 +0000
+@@ -37,6 +37,10 @@
+ # include <ieeefp.h>
+ #endif
+ 
++#if defined(__sgi)
++# include <sys/fpu.h>
++#endif
++
+ /* The official name of this program (e.g., no 'g' prefix).  */
+ #define PROGRAM_NAME "numfmt"
+ 
+@@ -1447,9 +1451,14 @@
+   bindtextdomain (PACKAGE, LOCALEDIR);
+   textdomain (PACKAGE);
+ 
+-#if HAVE_FPSETPREC
++#if HAVE_FPSETPREC && defined(fpsetprec)
+   /* Enabled extended precision if needed.  */
+   fpsetprec (FP_PE);
++#elif defined(__sgi)
++  union fpc_csr f;
++  f.fc_word = get_fpc_csr();
++  f.fc_struct.flush = 0;
++  set_fpc_csr(f.fc_word);
+ #endif
+ 
+   decimal_point = nl_langinfo (RADIXCHAR);
+diff -u -r -w coreutils-8.31/src/seq.c coreutils-8.31-patched/src/seq.c
+--- coreutils-8.31/src/seq.c	2019-02-11 01:51:47.000000000 +0000
++++ coreutils-8.31-patched/src/seq.c	2019-04-26 14:58:21.063650400 +0000
+@@ -20,6 +20,7 @@
+ #include <getopt.h>
+ #include <stdio.h>
+ #include <sys/types.h>
++#include <math.h>
+ 
+ #include "system.h"
+ #include "die.h"
+diff -u -r -w coreutils-8.31/src/sleep.c coreutils-8.31-patched/src/sleep.c
+--- coreutils-8.31/src/sleep.c	2019-03-03 04:04:26.000000000 +0000
++++ coreutils-8.31-patched/src/sleep.c	2019-04-26 14:58:21.065917600 +0000
+@@ -127,7 +127,11 @@
+           /* No extra chars after the number and an optional s,m,h,d char.  */
+           || (*p && *(p+1))
+           /* Check any suffix char and update S based on the suffix.  */
+-          || ! apply_suffix (&s, *p))
++          || ! apply_suffix (&s, *p)
++#if defined(__sgi)
++	  || isnan(s)
++#endif
++	  )
+         {
+           error (0, 0, _("invalid time interval %s"), quote (argv[i]));
+           ok = false;
+diff -u -r -w coreutils-8.31/src/sync.c coreutils-8.31-patched/src/sync.c
+--- coreutils-8.31/src/sync.c	2019-01-05 10:36:22.000000000 +0000
++++ coreutils-8.31-patched/src/sync.c	2019-04-26 14:58:21.068198480 +0000
+@@ -94,7 +94,7 @@
+   int open_flags = O_RDONLY | O_NONBLOCK;
+   int fd;
+ 
+-#ifdef _AIX
++#if defined(AIX) || defined(__sgi)
+   /* AIX 7.1 fsync requires write access to file.  */
+   if (mode == MODE_FILE)
+     open_flags = O_WRONLY | O_NONBLOCK;

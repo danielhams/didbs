@@ -1,11 +1,12 @@
 packageSource=http://ftp.gnu.org/gnu/findutils/findutils-4.6.0.tar.gz
 packageFile=findutils-4.6.0.tar.gz
 packageChecksum=9936aa8009438ce185bea2694a997fc1
-packageExtraction=tarxfsystemhelper.sh
 packageDir=findutils-4.6.0
 packagePatch=findutils.sgifixups.patch
+
+packageExtraction=tarxfsystemhelper.sh
 expectedToolList=
-dependenciesList=make,tar,gzip,gawk,grep,sed
+dependenciesList=make,tar,gzip,gawk,grep,sed,astronfile
 envModifs=setupenv.sh
 configureRecipe=configureit
 buildRecipe=buildit

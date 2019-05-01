@@ -2,8 +2,16 @@ packageSource=http://ftp.gnu.org/gnu/coreutils/coreutils-8.30.tar.xz
 packageFile=coreutils-8.30.tar.xz
 packageChecksum=ab06d68949758971fe744db66b572816
 packageDir=coreutils-8.30
+packagePatch=coreutils8_30.fixupforsgi.patch
+
+# ln is currently broken enough I don't advise to use this
+#packageSource=http://ftp.gnu.org/gnu/coreutils/coreutils-8.31.tar.xz
+#packageFile=coreutils-8.31.tar.xz
+#packageChecksum=0009a224d8e288e8ec406ef0161f9293
+#packageDir=coreutils-8.31
+#packagePatch=coreutils8_31.fixupforsgi.patch
+
 packageExtraction=tarxfsystemhelper.sh
-packagePatch=coreutils.fixupforsgi.patch
 expectedToolList=
 dependenciesList=tar,xz,bash,stage1perl,findutils,gmp
 envModifs=setupenv.sh
@@ -11,3 +19,4 @@ configureRecipe=configureit
 buildRecipe=buildit
 installRecipe=installit
 passesChecksIndicator=1
+disabled=0

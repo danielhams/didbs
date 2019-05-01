@@ -17,5 +17,5 @@ envModifs=setupenv.sh
 configureRecipe=configureit
 buildRecipe=buildit
 installRecipe=installit
-passesChecksIndicator=1
+passesChecksIndicator=0
 disabled=1

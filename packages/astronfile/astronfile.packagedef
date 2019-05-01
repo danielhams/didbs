@@ -1,0 +1,15 @@
+packageSource=ftp://ftp.astron.com/pub/file/file-5.36.tar.gz
+packageFile=file-5.36.tar.gz
+packageChecksum=9af0eb3f5db4ae00fffc37f7b861575c
+packageDir=file-5.36
+#packagePatch=
+
+packageExtraction=tarxfsystemhelper.sh
+expectedToolList=
+dependenciesList=make,tar,gzip,gawk
+envModifs=setupenv.sh
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=1
+disabled=0
