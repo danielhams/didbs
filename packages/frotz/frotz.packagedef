@@ -6,7 +6,7 @@ packagePatch=frotz.sgifixes.patch
 
 packageExtraction=tarxfsystemhelper.sh
 expectedToolList=
-dependenciesList=make,tar,gzip,pkgconfig
+dependenciesList=make,tar,gzip,pkgconfig,ncurses
 envModifs=setupenv.sh
 configureRecipe=configureit
 buildRecipe=buildit

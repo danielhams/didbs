@@ -18,7 +18,7 @@ diff -u -r -w binutils-2.32/libiberty/strsignal.c binutils-2.32-patched/libibert
  #ifdef _NSIG
  static int sys_nsig = _NSIG;
 +#else
-+static int sys_nsig = SIGRTMAX;
++static int sys_nsig = NUMSIGS;
  #endif
  #endif
  extern const char * const sys_siglist[];

@@ -1,6 +1,6 @@
 diff -u -r -w gdb-6.8/gdb/defs.h gdb-6.8-patched/gdb/defs.h
 --- gdb-6.8/gdb/defs.h	2008-01-18 17:07:39.000000000 +0000
-+++ gdb-6.8-patched/gdb/defs.h	2019-04-08 23:16:37.313389960 +0000
++++ gdb-6.8-patched/gdb/defs.h	2019-05-03 20:16:16.158229440 +0000
 @@ -49,6 +49,12 @@
  /* For ``enum target_signal''.  */
  #include "gdb/signals.h"
@@ -8,16 +8,15 @@ diff -u -r -w gdb-6.8/gdb/defs.h gdb-6.8-patched/gdb/defs.h
 +#include <sys/signal.h>
 +
 +#if !defined(NSIG)
-+#define NSIG SIGRTMAX
++#define NSIG NUMSIGS
 +#endif
 +
  /* Just in case they're not defined in stdio.h.  */
  
  #ifndef SEEK_SET
-Only in gdb-6.8-patched/gdb: defs.h~
 diff -u -r -w gdb-6.8/gdb/tui/tui-win.c gdb-6.8-patched/gdb/tui/tui-win.c
 --- gdb-6.8/gdb/tui/tui-win.c	2008-01-01 22:53:22.000000000 +0000
-+++ gdb-6.8-patched/gdb/tui/tui-win.c	2019-04-08 23:13:20.866900760 +0000
++++ gdb-6.8-patched/gdb/tui/tui-win.c	2019-05-03 20:16:16.168851120 +0000
 @@ -51,6 +51,7 @@
  #include "readline/readline.h"
  
@@ -26,23 +25,31 @@ diff -u -r -w gdb-6.8/gdb/tui/tui-win.c gdb-6.8-patched/gdb/tui/tui-win.c
  
  /*******************************
  ** Static Local Decls
-Only in gdb-6.8-patched/gdb/tui: tui-win.c~
 diff -u -r -w gdb-6.8/libiberty/strsignal.c gdb-6.8-patched/libiberty/strsignal.c
 --- gdb-6.8/libiberty/strsignal.c	2007-01-30 23:13:04.000000000 +0000
-+++ gdb-6.8-patched/libiberty/strsignal.c	2019-04-08 23:00:20.276792240 +0000
-@@ -248,6 +248,8 @@
++++ gdb-6.8-patched/libiberty/strsignal.c	2019-05-03 20:29:30.791425480 +0000
+@@ -20,6 +20,9 @@
+ 
+ #include <stdio.h>
+ #include <signal.h>
++#if defined(__sgi)
++#include <sys/signal.h>
++#endif
+ 
+ /*  Routines imported from standard C runtime libraries. */
+ 
+@@ -248,6 +251,8 @@
  #else
  #ifdef _NSIG
  static int sys_nsig = _NSIG;
 +#else
-+static int sys_nsig = SIGRTMAX;
++static int sys_nsig = NUMSIGS;
  #endif
  #endif
  extern const char * const sys_siglist[];
-Only in gdb-6.8-patched/libiberty: strsignal.c~
 diff -u -r -w gdb-6.8/sim/common/sim-arange.c gdb-6.8-patched/sim/common/sim-arange.c
 --- gdb-6.8/sim/common/sim-arange.c	2008-01-01 22:53:23.000000000 +0000
-+++ gdb-6.8-patched/sim/common/sim-arange.c	2019-04-08 23:04:58.780752040 +0000
++++ gdb-6.8-patched/sim/common/sim-arange.c	2019-05-03 20:16:16.690833560 +0000
 @@ -280,11 +280,7 @@
    build_search_tree (ar);
  }
@@ -62,10 +69,9 @@ diff -u -r -w gdb-6.8/sim/common/sim-arange.c gdb-6.8-patched/sim/common/sim-ara
  
 -#endif /* DEFINE_INLINE_P */
 +#endif /* DEFINE_NON_INLINE_P */
-Only in gdb-6.8-patched/sim/common: sim-arange.c~
 diff -u -r -w gdb-6.8/sim/common/sim-arange.h gdb-6.8-patched/sim/common/sim-arange.h
 --- gdb-6.8/sim/common/sim-arange.h	2008-01-01 22:53:23.000000000 +0000
-+++ gdb-6.8-patched/sim/common/sim-arange.h	2019-04-08 23:05:35.337006840 +0000
++++ gdb-6.8-patched/sim/common/sim-arange.h	2019-05-03 20:16:16.693143080 +0000
 @@ -62,7 +62,7 @@
  
  /* Return non-zero if ADDR is in range AR, traversing the entire tree.
@@ -75,4 +81,3 @@ diff -u -r -w gdb-6.8/sim/common/sim-arange.h gdb-6.8-patched/sim/common/sim-ara
  sim_addr_range_hit_p (ADDR_RANGE * /*ar*/, address_word /*addr*/);
  #define ADDR_RANGE_HIT_P(ar, addr) \
    ((ar)->range_tree == NULL || sim_addr_range_hit_p ((ar), (addr)))
-Only in gdb-6.8-patched/sim/common: sim-arange.h~

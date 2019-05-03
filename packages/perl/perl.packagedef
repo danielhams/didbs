@@ -1,8 +1,16 @@
-packageSource=ftp://ftp.cpan.org/pub/CPAN/src/perl-5.22.4.tar.gz
-packageFile=perl-5.22.4.tar.gz
-packageChecksum=31a71821682e02378fcdadeed85688b8
+#packageSource=ftp://ftp.cpan.org/pub/CPAN/src/perl-5.22.4.tar.gz
+#packageFile=perl-5.22.4.tar.gz
+#packageChecksum=31a71821682e02378fcdadeed85688b8
+#packageDir=perl-5.22.4
+##packagePatch=
+
+packageSource=ftp://ftp.cpan.org/pub/CPAN/src/perl-5.28.2.tar.gz
+packageFile=perl-5.28.2.tar.gz
+packageChecksum=1323e7581fbedf3791d2843f4ccaec4b
+packageDir=perl-5.28.2
+packagePatch=perl5_28_2_fixes.patch
+
 packageExtraction=tarxfsystemhelper.sh
-packageDir=perl-5.22.4
 expectedToolList=
 dependenciesList=stage1perl,make,tar,gzip,sed,grep,bash,coreutils
 envModifs=setupenv.sh
@@ -10,3 +18,4 @@ configureRecipe=configureit
 buildRecipe=buildit
 installRecipe=installit
 passesChecksIndicator=1
+disabled=0

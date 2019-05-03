@@ -8,7 +8,7 @@ diff -u -r -w gdb-6.3/gdb/defs.h gdb-6.3-patched/gdb/defs.h
 +#include <sys/signal.h>
 +
 +#if !defined(NSIG)
-+#define NSIG SIGRTMAX
++#define NSIG NUMSIGS
 +#endif
 +
  /* Just in case they're not defined in stdio.h.  */
@@ -36,7 +36,7 @@ diff -u -r -w gdb-6.3/libiberty/strsignal.c gdb-6.3-patched/libiberty/strsignal.
  #ifdef _NSIG
  static int sys_nsig = _NSIG;
 +#else
-+static int sys_nsig = SIGRTMAX;
++static int sys_nsig = NUMSIGS;
  #endif
  #endif
  extern const char * const sys_siglist[];

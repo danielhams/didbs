@@ -19,7 +19,7 @@ diff -u -r -w gdb-8.2.1/libiberty/strsignal.c gdb-8.2.1-patched/libiberty/strsig
  #ifdef _NSIG
  static int sys_nsig = _NSIG;
 +#else
-+static int sys_nsig = SIGRTMAX;
++static int sys_nsig = NUMSIGS;
  #endif
  #endif
  extern const char * const sys_siglist[];
