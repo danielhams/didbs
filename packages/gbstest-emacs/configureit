@@ -1,0 +1,16 @@
+#!/bin/sh
+
+BUILDDIR=$1
+INSTALLDIR=$2
+EXTRAARGS=$3
+echo $BUILDDIR
+echo $INSTALLDIR
+echo $EXTRAARGS
+. ./setupenv.sh
+cd $BUILDDIR || exit -1
+autoreconf
+mkdir ../build-emacs
+cd ../build-emacs
+#$BUILDDIR/configure --prefix=$GBSTEST_INSTALL_DIR --with-x-toolkit=motif --without-gif --with-jpeg=no --with-tiff=no --with-xpm=no || exit -1
+$BUILDDIR/configure --prefix=$GBSTEST_INSTALL_DIR --with-x-toolkit=motif --without-gif || exit -1
+exit 0

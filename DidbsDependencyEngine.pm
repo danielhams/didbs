@@ -29,7 +29,12 @@ sub findPackages
     }
     didbsprint "Looking for packages in $packageLocation\n";
 
+    $self->{v} && didbsprint "Before package ls\n";
+
     my @FOUNDPKGS = `ls $packageLocation/*/*.packagedef`;
+
+    $self->{v} && didbsprint "After package ls\n";
+
     chomp(@FOUNDPKGS);
     if( length(@FOUNDPKGS) == 0 )
     {
@@ -86,6 +91,7 @@ sub findPackages
     }
 
     $self->{knownPackages} = $orderedRef;
+    $self->{v} && didbsprint "Done package find\n";
 }
 
 sub listPackages

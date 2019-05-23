@@ -1,4 +1,5 @@
 package DidbsUtils;
+use POSIX;
 use Exporter;
 use IO::Handle;
 
@@ -7,10 +8,15 @@ use IO::Handle;
 
 use File::Basename;
 
-# Just in cast at some point I want to add timestaps etc.
+# Tweak to 1 to see date/time output
+my $useTimestamps=0;
 sub didbsprint
 {
-    printf @_;
+    my @args = @_;
+    if($useTimestamps) {
+	print strftime("%F %T",localtime) . " ";
+    }
+    print @args;
 }
 
 sub mkdirp($)

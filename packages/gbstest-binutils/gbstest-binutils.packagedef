@@ -8,14 +8,14 @@
 #packageFile=binutils-2.18a.tar.bz2
 #packageChecksum=ccd264a5fa9ed992a21427c69cba91d3
 #packageDir=binutils-2.18
-#packagePatch=
+##packagePatch=
 
 ## Still OK with gcc4.7.1
-#packageSource=http://ftp.gnu.org/gnu/binutils/binutils-2.19.1a.tar.bz2
-#packageFile=binutils-2.19.1a.tar.bz2
-#packageChecksum=023222f392e9546bcbb0b4c0960729be
-#packageDir=binutils-2.19.1
-#packagePatch=binutils2_19.didbsfixes.patch
+packageSource=http://ftp.gnu.org/gnu/binutils/binutils-2.19.1a.tar.bz2
+packageFile=binutils-2.19.1a.tar.bz2
+packageChecksum=023222f392e9546bcbb0b4c0960729be
+packageDir=binutils-2.19.1
+packagePatch=binutils2_19.didbsfixes.patch
 
 # Still OK with gcc4.7.1
 #packageSource=http://ftp.gnu.org/gnu/binutils/binutils-2.20.1a.tar.bz2
@@ -44,11 +44,11 @@
 #packageDir=binutils-2.22
 #packagePatch=binutils2_22.didbsfixes.patch
 
-packageSource=http://ftp.gnu.org/gnu/binutils/binutils-2.32.tar.xz
-packageFile=binutils-2.32.tar.xz
-packageChecksum=0d174cdaf85721c5723bf52355be41e6
-packageDir=binutils-2.32
-packagePatch=binutils2_32.didbsfixes.patch
+#packageSource=http://ftp.gnu.org/gnu/binutils/binutils-2.32.tar.xz
+#packageFile=binutils-2.32.tar.xz
+#packageChecksum=0d174cdaf85721c5723bf52355be41e6
+#packageDir=binutils-2.32
+#packagePatch=binutils2_32.didbsfixes.patch
 
 packageExtraction=tarxfsystemhelper.sh
 expectedToolList=

@@ -1,0 +1,403 @@
+Only in emacs-26.2-patched: autom4te.cache
+diff -u -r -w emacs-26.2/configure emacs-26.2-patched/configure
+--- emacs-26.2/configure	2019-04-11 21:47:05.000000000 +0000
++++ emacs-26.2-patched/configure	2019-05-12 14:29:08.953429360 +0000
+@@ -4821,6 +4821,12 @@
+     CFLAGS="-D_INCLUDE__STDC_A1_SOURCE $CFLAGS"
+   ;;
+ 
++  ## irix
++  mips-sgi-irix6.5 )
++    opsys=irix6.5
++    CFLAGS="-D_LANGUAGE_C"
++  ;;
++
+   ## IBM machines
+   rs6000-ibm-aix4.[23]* )
+     opsys=aix4-2
+@@ -18572,6 +18578,17 @@
+ 
+     ;;
+ 
++  irix6.5 )
++    $as_echo "#define PTY_OPEN  do { struct stat stb; struct sigaction ocstat, cstat; char * name; sigemptyset(&cstat.sa_mask); cstat.sa_handler = SIG_DFL; cstat.sa_flags = 0; sigaction(SIGCLD, &cstat, &ocstat); name = _getpty (&fd, O_RDWR | O_NDELAY, 0600, 0); sigaction(SIGCLD, &ocstat, (struct sigaction *)0); if (name == 0) return -1; if (fd < 0) return -1; if (fstat (fd, &stb) < 0) return -1; strcpy (pty_name, name); } while (false)" >>confdefs.h
++
++    $as_echo "#define PTY_NAME_SPRINTF /**/" >>confdefs.h
++
++    $as_echo "#define PTY_TTY_NAME_SPRINTF /**/" >>confdefs.h
++
++    $as_echo "#define FIRST_PTY_LETTER 'q'" >>confdefs.h
++
++    ;;
++
+   cygwin )
+     $as_echo "#define PTY_ITERATION int i; for (i = 0; i < 1; i++)" >>confdefs.h
+ 
+@@ -18581,6 +18598,8 @@
+ 
+     $as_echo "#define PTY_TTY_NAME_SPRINTF /**/" >>confdefs.h
+ 
++    $as_echo "#define FIRST_PTY_LETTER 'p'" >>confdefs.h
++
+     ;;
+ 
+   gnu | openbsd | qnxnto )
+@@ -18658,7 +18677,7 @@
+ 
+ 
+ case $opsys in
+-    aix4-2 | cygwin | gnu | dragonfly | freebsd | netbsd | openbsd | darwin )
++    aix4-2 | cygwin | gnu | dragonfly | freebsd | netbsd | openbsd | darwin | irix6.5 )
+     $as_echo "#define SIGNALS_VIA_CHARACTERS 1" >>confdefs.h
+ 
+     ;;
+@@ -18708,7 +18727,7 @@
+   darwin) $as_echo "#define TAB3 OXTABS" >>confdefs.h
+  ;;
+ 
+-  gnu | dragonfly | freebsd | netbsd | openbsd )
++  gnu | dragonfly | freebsd | netbsd | openbsd | irix6.5 )
+ 
+ $as_echo "#define TABDLY OXTABS" >>confdefs.h
+ 
+diff -u -r -w emacs-26.2/configure.ac emacs-26.2-patched/configure.ac
+--- emacs-26.2/configure.ac	2019-04-11 20:53:23.000000000 +0000
++++ emacs-26.2-patched/configure.ac	2019-05-12 14:28:43.002749040 +0000
+@@ -645,6 +645,12 @@
+     CFLAGS="-D_INCLUDE__STDC_A1_SOURCE $CFLAGS"
+   ;;
+ 
++  ## irix
++  mips-sgi-irix6.5 )
++    opsys=irix6.5
++    CFLAGS="-D_LANGUAGE_C"
++  ;;
++
+   ## IBM machines
+   rs6000-ibm-aix4.[23]* )
+     opsys=aix4-2
+@@ -4614,12 +4620,20 @@
+     AC_DEFINE(PTY_TTY_NAME_SPRINTF, [strcpy (pty_name, ttyname (fd));])
+     ;;
+ 
++  irix6.5 )
++    AC_DEFINE(PTY_OPEN, [ do { struct stat stb; struct sigaction ocstat, cstat; char * name; sigemptyset(&cstat.sa_mask); cstat.sa_handler = SIG_DFL; cstat.sa_flags = 0; sigaction(SIGCLD, &cstat, &ocstat); name = _getpty (&fd, O_RDWR | O_NDELAY, 0600, 0); sigaction(SIGCLD, &ocstat, (struct sigaction *)0); if (name == 0) return -1; if (fd < 0) return -1; if (fstat (fd, &stb) < 0) return -1; strcpy (pty_name, name); } while (false)])
++    AC_DEFINE(PTY_NAME_SPRINTF, [])
++    AC_DEFINE(PTY_TTY_NAME_SPRINTF, [])
++    AC_DEFINE(FIRST_PTY_LETTER, ['q'])
++    ;;
++
+   cygwin )
+     AC_DEFINE(PTY_ITERATION, [int i; for (i = 0; i < 1; i++)])
+     dnl multi-line AC_DEFINEs are hard. :(
+     AC_DEFINE(PTY_OPEN, [ do { int dummy; sigset_t blocked, procmask; sigemptyset (&blocked); sigaddset (&blocked, SIGCHLD); pthread_sigmask (SIG_BLOCK, &blocked, &procmask); if (-1 == openpty (&fd, &dummy, pty_name, 0, 0)) fd = -1; pthread_sigmask (SIG_SETMASK, &procmask, 0); if (fd >= 0) emacs_close (dummy); } while (false)])
+     AC_DEFINE(PTY_NAME_SPRINTF, [])
+     AC_DEFINE(PTY_TTY_NAME_SPRINTF, [])
++    AC_DEFINE(FIRST_PTY_LETTER, ['p'])
+     ;;
+ 
+   gnu | openbsd | qnxnto )
+@@ -4690,7 +4704,7 @@
+ 
+ case $opsys in
+   dnl Perry Smith <pedz@ddivt1.austin.ibm.com> says this is correct for AIX.
+-  aix4-2 | cygwin | gnu | dragonfly | freebsd | netbsd | openbsd | darwin )
++  aix4-2 | cygwin | gnu | dragonfly | freebsd | netbsd | openbsd | darwin | irix6.5 )
+     AC_DEFINE(SIGNALS_VIA_CHARACTERS, 1)
+     ;;
+ 
+@@ -4716,7 +4730,7 @@
+ case $opsys in
+   darwin) AC_DEFINE(TAB3, OXTABS) ;;
+ 
+-  gnu | dragonfly | freebsd | netbsd | openbsd )
++  gnu | dragonfly | freebsd | netbsd | openbsd | irix6.5 )
+     AC_DEFINE(TABDLY, OXTABS, [Undocumented.])
+     AC_DEFINE(TAB3, OXTABS)
+     ;;
+Only in emacs-26.2-patched/doc/man: emacs.1
+diff -u -r -w emacs-26.2/lib-src/make-docfile.c emacs-26.2-patched/lib-src/make-docfile.c
+--- emacs-26.2/lib-src/make-docfile.c	2019-01-07 14:26:06.000000000 +0000
++++ emacs-26.2-patched/lib-src/make-docfile.c	2019-05-12 10:01:26.815798200 +0000
+@@ -667,7 +667,7 @@
+ 	   "#ifndef DEFINE_SYMBOLS\n"
+ 	   "extern\n"
+ 	   "#endif\n"
+-	   "struct Lisp_Symbol lispsym[%td];\n"),
++	   "struct Lisp_Symbol lispsym[%ld];\n"),
+ 	  num_symbols);
+ }
+ 
+@@ -733,7 +733,7 @@
+ 		  globals[i].name, globals[i].name);
+ 	}
+       else if (globals[i].type == SYMBOL)
+-	printf (("#define i%s %td\n"
++	printf (("#define i%s %ld\n"
+ 		 "DEFINE_LISP_SYMBOL (%s)\n"),
+ 		globals[i].name, symnum++, globals[i].name);
+       else
+@@ -775,7 +775,7 @@
+   num_symbols = 0;
+   for (ptrdiff_t i = 0; i < num_globals; i++)
+     if (globals[i].type == SYMBOL && num_symbols++ != 0)
+-      printf ("# define %s builtin_lisp_symbol (%td)\n",
++      printf ("# define %s builtin_lisp_symbol (%ld)\n",
+ 	      globals[i].name, num_symbols - 1);
+   puts ("#endif");
+ }
+diff -u -r -w emacs-26.2/src/regex.c emacs-26.2-patched/src/regex.c
+--- emacs-26.2/src/regex.c	2019-01-07 14:26:07.000000000 +0000
++++ emacs-26.2-patched/src/regex.c	2019-05-12 10:01:26.900722040 +0000
+@@ -852,7 +852,7 @@
+   /* Loop over pattern commands.  */
+   while (p < pend)
+     {
+-      fprintf (stderr, "%td:\t", p - start);
++      fprintf (stderr, "%ld:\t", p - start);
+ 
+       switch ((re_opcode_t) *p++)
+ 	{
+@@ -957,56 +957,56 @@
+ 
+ 	case on_failure_jump:
+ 	  EXTRACT_NUMBER_AND_INCR (mcnt, p);
+-	  fprintf (stderr, "/on_failure_jump to %td", p + mcnt - start);
++	  fprintf (stderr, "/on_failure_jump to %ld", p + mcnt - start);
+ 	  break;
+ 
+ 	case on_failure_keep_string_jump:
+ 	  EXTRACT_NUMBER_AND_INCR (mcnt, p);
+-	  fprintf (stderr, "/on_failure_keep_string_jump to %td",
++	  fprintf (stderr, "/on_failure_keep_string_jump to %ld",
+ 		   p + mcnt - start);
+ 	  break;
+ 
+ 	case on_failure_jump_nastyloop:
+ 	  EXTRACT_NUMBER_AND_INCR (mcnt, p);
+-	  fprintf (stderr, "/on_failure_jump_nastyloop to %td",
++	  fprintf (stderr, "/on_failure_jump_nastyloop to %ld",
+ 		   p + mcnt - start);
+ 	  break;
+ 
+ 	case on_failure_jump_loop:
+ 	  EXTRACT_NUMBER_AND_INCR (mcnt, p);
+-	  fprintf (stderr, "/on_failure_jump_loop to %td",
++	  fprintf (stderr, "/on_failure_jump_loop to %ld",
+ 		   p + mcnt - start);
+ 	  break;
+ 
+ 	case on_failure_jump_smart:
+ 	  EXTRACT_NUMBER_AND_INCR (mcnt, p);
+-	  fprintf (stderr, "/on_failure_jump_smart to %td",
++	  fprintf (stderr, "/on_failure_jump_smart to %ld",
+ 		   p + mcnt - start);
+ 	  break;
+ 
+ 	case jump:
+ 	  EXTRACT_NUMBER_AND_INCR (mcnt, p);
+-	  fprintf (stderr, "/jump to %td", p + mcnt - start);
++	  fprintf (stderr, "/jump to %ld", p + mcnt - start);
+ 	  break;
+ 
+ 	case succeed_n:
+ 	  EXTRACT_NUMBER_AND_INCR (mcnt, p);
+ 	  EXTRACT_NUMBER_AND_INCR (mcnt2, p);
+-	  fprintf (stderr, "/succeed_n to %td, %d times",
++	  fprintf (stderr, "/succeed_n to %ld, %d times",
+ 		   p - 2 + mcnt - start, mcnt2);
+ 	  break;
+ 
+ 	case jump_n:
+ 	  EXTRACT_NUMBER_AND_INCR (mcnt, p);
+ 	  EXTRACT_NUMBER_AND_INCR (mcnt2, p);
+-	  fprintf (stderr, "/jump_n to %td, %d times",
++	  fprintf (stderr, "/jump_n to %ld, %d times",
+ 		   p - 2 + mcnt - start, mcnt2);
+ 	  break;
+ 
+ 	case set_number_at:
+ 	  EXTRACT_NUMBER_AND_INCR (mcnt, p);
+ 	  EXTRACT_NUMBER_AND_INCR (mcnt2, p);
+-	  fprintf (stderr, "/set_number_at location %td to %d",
++	  fprintf (stderr, "/set_number_at location %ld to %d",
+ 		   p - 2 + mcnt - start, mcnt2);
+ 	  break;
+ 
+@@ -1079,7 +1079,7 @@
+       fprintf (stderr, "\n");
+     }
+ 
+-  fprintf (stderr, "%td:\tend of pattern.\n", p - start);
++  fprintf (stderr, "%ld:\tend of pattern.\n", p - start);
+ }
+ 
+ 
+@@ -1098,7 +1098,7 @@
+       print_fastmap (bufp->fastmap);
+     }
+ 
+-  printf ("re_nsub: %zu\t", bufp->re_nsub);
++  printf ("re_nsub: %lu\t", bufp->re_nsub);
+   printf ("regs_alloc: %d\t", bufp->regs_allocated);
+   printf ("can_be_null: %d\t", bufp->can_be_null);
+   printf ("no_sub: %d\t", bufp->no_sub);
+@@ -1379,8 +1379,8 @@
+ while (REMAINING_AVAIL_SLOTS <= space) {				\
+   if (!GROW_FAIL_STACK (fail_stack))					\
+     return -2;								\
+-  DEBUG_PRINT ("\n  Doubled stack; size now: %zd\n", (fail_stack).size);\
+-  DEBUG_PRINT ("	 slots available: %zd\n", REMAINING_AVAIL_SLOTS);\
++  DEBUG_PRINT ("\n  Doubled stack; size now: %ld\n", (fail_stack).size);\
++  DEBUG_PRINT ("	 slots available: %ld\n", REMAINING_AVAIL_SLOTS);\
+ }
+ 
+ /* Push register NUM onto the stack.  */
+@@ -1472,14 +1472,14 @@
+   									\
+   DEBUG_STATEMENT (nfailure_points_pushed++);				\
+   DEBUG_PRINT ("\nPUSH_FAILURE_POINT:\n");				\
+-  DEBUG_PRINT ("  Before push, next avail: %zd\n", (fail_stack).avail);	\
+-  DEBUG_PRINT ("			size: %zd\n", (fail_stack).size);\
++  DEBUG_PRINT ("  Before push, next avail: %ld\n", (fail_stack).avail);	\
++  DEBUG_PRINT ("			size: %ld\n", (fail_stack).size);\
+   									\
+   ENSURE_FAIL_STACK (NUM_NONREG_ITEMS);					\
+   									\
+   DEBUG_PRINT ("\n");							\
+   									\
+-  DEBUG_PRINT ("  Push frame index: %zd\n", fail_stack.frame);		\
++  DEBUG_PRINT ("  Push frame index: %ld\n", fail_stack.frame);		\
+   PUSH_FAILURE_INT (fail_stack.frame);					\
+   									\
+   DEBUG_PRINT ("  Push string %p: \"", string_place);			\
+@@ -1521,8 +1521,8 @@
+ 									\
+   /* Remove failure points and point to how many regs pushed.  */	\
+   DEBUG_PRINT ("POP_FAILURE_POINT:\n");					\
+-  DEBUG_PRINT ("  Before pop, next avail: %zd\n", fail_stack.avail);	\
+-  DEBUG_PRINT ("		     size: %zd\n", fail_stack.size);	\
++  DEBUG_PRINT ("  Before pop, next avail: %ld\n", fail_stack.avail);	\
++  DEBUG_PRINT ("		     size: %ld\n", fail_stack.size);	\
+ 									\
+   /* Pop the saved registers.  */					\
+   while (fail_stack.frame < fail_stack.avail)				\
+@@ -1541,7 +1541,7 @@
+   DEBUG_PRINT ("\"\n");							\
+ 									\
+   fail_stack.frame = POP_FAILURE_INT ();				\
+-  DEBUG_PRINT ("  Popping  frame index: %zd\n", fail_stack.frame);	\
++  DEBUG_PRINT ("  Popping  frame index: %ld\n", fail_stack.frame);	\
+ 									\
+   assert (fail_stack.avail >= 0);					\
+   assert (fail_stack.frame <= fail_stack.avail);			\
+@@ -5293,7 +5293,7 @@
+ 
+ 	  ptrdiff_t dcnt = POINTER_TO_OFFSET (d) - pos;
+ 
+-	  DEBUG_PRINT ("Returning %td from re_match_2.\n", dcnt);
++	  DEBUG_PRINT ("Returning %ld from re_match_2.\n", dcnt);
+ 
+ 	  FREE_VARIABLES ();
+ 	  return dcnt;
+@@ -5512,7 +5512,7 @@
+ 
+ 	  regstart[*p] = d;
+ 	  regend[*p] = NULL;	/* probably unnecessary.  -sm  */
+-	  DEBUG_PRINT ("  regstart: %td\n", POINTER_TO_OFFSET (regstart[*p]));
++	  DEBUG_PRINT ("  regstart: %ld\n", POINTER_TO_OFFSET (regstart[*p]));
+ 
+ 	  /* Move past the register number and inner group count.  */
+ 	  p += 1;
+@@ -5540,7 +5540,7 @@
+ 	     is *not* undone.  */
+ 
+ 	  regend[*p] = d;
+-	  DEBUG_PRINT ("      regend: %td\n", POINTER_TO_OFFSET (regend[*p]));
++	  DEBUG_PRINT ("      regend: %ld\n", POINTER_TO_OFFSET (regend[*p]));
+ 
+ 	  /* Move past the register number and the inner group count.  */
+ 	  p += 1;
+diff -u -r -w emacs-26.2/src/sysdep.c emacs-26.2-patched/src/sysdep.c
+--- emacs-26.2/src/sysdep.c	2019-01-07 14:26:07.000000000 +0000
++++ emacs-26.2-patched/src/sysdep.c	2019-05-12 10:01:27.153669720 +0000
+@@ -1047,12 +1047,16 @@
+    but if so, this does no harm,
+    and using the same name avoids wasting the other one's space.  */
+ 
++#if !defined(__sgi)
++
+ #if defined (USG)
+ unsigned char _sobuf[BUFSIZ+8];
+ #else
+ char _sobuf[BUFSIZ];
+ #endif
+ 
++#endif
++
+ /* Initialize the terminal mode on all tty devices that are currently
+    open. */
+ 
+@@ -1272,7 +1276,7 @@
+     }
+ #endif /* F_GETOWN */
+ 
+-#ifdef _IOFBF
++#if defined(_IOFBF) && !defined(__sgi)
+   /* This symbol is defined on recent USG systems.
+      Someone says without this call USG won't really buffer the file
+      even with a call to setbuf. */
+diff -u -r -w emacs-26.2/src/unexcw.c emacs-26.2-patched/src/unexcw.c
+--- emacs-26.2/src/unexcw.c	2019-01-07 14:26:07.000000000 +0000
++++ emacs-26.2-patched/src/unexcw.c	2019-05-12 10:01:27.156605800 +0000
+@@ -146,7 +146,7 @@
+ 	  assert (ret == my_edata - (char *) start_address);
+ 	  ++found_data;
+ 	  if (debug_unexcw)
+-	    printf ("         .data, mem start %#lx mem length %td\n",
++	    printf ("         .data, mem start %#lx mem length %ld\n",
+ 		    start_address, my_edata - (char *) start_address);
+ 	  if (debug_unexcw)
+ 	    printf ("         .data, file start %d file length %d\n",
+@@ -212,7 +212,7 @@
+ 		       sizeof (exe_header->section_header[i]));
+ 	      assert (ret == sizeof (exe_header->section_header[i]));
+ 	      if (debug_unexcw)
+-		printf ("         seek to %ld, write %zu\n",
++		printf ("         seek to %ld, write %lu\n",
+ 			(long) ((char *) &exe_header->section_header[i] -
+ 				(char *) exe_header),
+ 			sizeof (exe_header->section_header[i]));
+@@ -227,7 +227,7 @@
+ 		   my_endbss - (char *) start_address);
+ 	  assert (ret == (my_endbss - (char *) start_address));
+ 	  if (debug_unexcw)
+-	    printf ("         .bss, mem start %#lx mem length %td\n",
++	    printf ("         .bss, mem start %#lx mem length %ld\n",
+ 		    start_address, my_endbss - (char *) start_address);
+ 	  if (debug_unexcw)
+ 	    printf ("         .bss, file start %d file length %d\n",
+diff -u -r -w emacs-26.2/src/unexelf.c emacs-26.2-patched/src/unexelf.c
+--- emacs-26.2/src/unexelf.c	2019-01-07 14:26:07.000000000 +0000
++++ emacs-26.2-patched/src/unexelf.c	2019-05-12 10:01:27.160323080 +0000
+@@ -343,7 +343,7 @@
+   new_data2_offset = old_bss_offset;
+ 
+ #ifdef UNEXELF_DEBUG
+-  fprintf (stderr, "old_bss_index %td\n", old_bss_index);
++  fprintf (stderr, "old_bss_index %ld\n", old_bss_index);
+   DEBUG_LOG (old_bss_addr);
+   DEBUG_LOG (old_bss_size);
+   DEBUG_LOG (old_bss_offset);
+@@ -394,9 +394,9 @@
+ 
+ #ifdef UNEXELF_DEBUG
+   DEBUG_LOG (old_file_h->e_shoff);
+-  fprintf (stderr, "Old section count %td\n", (ptrdiff_t) old_file_h->e_shnum);
++  fprintf (stderr, "Old section count %ld\n", (ptrdiff_t) old_file_h->e_shnum);
+   DEBUG_LOG (new_file_h->e_shoff);
+-  fprintf (stderr, "New section count %td\n", (ptrdiff_t) new_file_h->e_shnum);
++  fprintf (stderr, "New section count %ld\n", (ptrdiff_t) new_file_h->e_shnum);
+ #endif
+ 
+   /* Fix up program header.  Extend the writable data segment so

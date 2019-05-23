@@ -1,0 +1,1 @@
+Currently compiles OK but the signal handling is currently broken when running as X windows client.
