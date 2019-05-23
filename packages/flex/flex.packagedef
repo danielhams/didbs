@@ -1,0 +1,15 @@
+packageSource=https://github.com/westes/flex/files/981163/flex-2.6.4.tar.gz
+packageFile=flex-2.6.4.tar.gz
+packageChecksum=2882e3179748cc9f9c23ec593d6adc8d
+packageDir=flex-2.6.4
+#packagePatch=
+
+packageExtraction=tarxfsystemhelper.sh
+expectedToolList=
+dependenciesList=stage1make,stage1tar,stage1gzip,stage1gawk
+envModifs=setupenv.sh
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=1
+disabled=0

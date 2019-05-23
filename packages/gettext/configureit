@@ -8,5 +8,8 @@ echo $INSTALLDIR
 echo $EXTRAARGS
 . ./setupenv.sh
 cd $BUILDDIR || exit -1
-./configure ac_cv_header_stdbool_h=no ac_cv_type__Bool=no --prefix=$INSTALLDIR || exit -1
+#autoreconf
+mkdir ../build-gettext
+cd ../build-gettext
+$BUILDDIR/configure ac_cv_header_stdbool_h=no ac_cv_type__Bool=no --prefix=$INSTALLDIR --disable-openmp || exit -1
 exit 0

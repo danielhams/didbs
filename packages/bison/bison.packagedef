@@ -4,17 +4,24 @@
 #packageDir=bison-2.7.1
 ##packagePatch=
 
-packageSource=ftp://ftp.gnu.org/pub/gnu/bison/bison-3.3.2.tar.gz
-packageFile=bison-3.3.2.tar.gz
-packageChecksum=a2d208a01a72eb98c2d7e3a2ec2bc51e
-packageDir=bison-3.3.2
-#packagePatch=
+#packageSource=ftp://ftp.gnu.org/pub/gnu/bison/bison-3.3.2.tar.gz
+#packageFile=bison-3.3.2.tar.gz
+#packageChecksum=a2d208a01a72eb98c2d7e3a2ec2bc51e
+#packageDir=bison-3.3.2
+##packagePatch=
+
+packageSource=ftp://ftp.gnu.org/pub/gnu/bison/bison-3.4.1.tar.gz
+packageFile=bison-3.4.1.tar.gz
+packageChecksum=43494fb3df056e1e4d95d051bba3a667
+packageDir=bison-3.4.1
+packagePatch=bison3_4_1.sgifixes.patch
 
 packageExtraction=tarxfsystemhelper.sh
 expectedToolList=
-dependenciesList=stage1make,stage1tar,stage1xz,stage1m4,stage1perl
+dependenciesList=stage1make,stage1tar,stage1xz,stage1m4,stage1perl,flex
 envModifs=setupenv.sh
 configureRecipe=configureit
 buildRecipe=buildit
 installRecipe=installit
 passesChecksIndicator=1
+disabled=0

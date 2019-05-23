@@ -1,0 +1,28 @@
+diff -u -r -w bison-3.4.1/data/skeletons/stack.hh bison-3.4.1-patched/data/skeletons/stack.hh
+--- bison-3.4.1/data/skeletons/stack.hh	2019-04-26 11:26:22.000000000 +0000
++++ bison-3.4.1-patched/data/skeletons/stack.hh	2019-05-23 10:53:14.849217920 +0000
+@@ -36,6 +36,12 @@
+       typedef typename S::const_reverse_iterator const_iterator;
+       typedef typename S::size_type size_type;
+ 
++#if defined(__sgi)
++      stack ()
++        : seq_ (200)
++      {}
++#endif
++
+       stack (size_type n = 200)
+         : seq_ (n)
+       {}
+diff -u -r -w bison-3.4.1/examples/c++/local.mk bison-3.4.1-patched/examples/c++/local.mk
+--- bison-3.4.1/examples/c++/local.mk	2019-05-02 12:15:14.000000000 +0000
++++ bison-3.4.1-patched/examples/c++/local.mk	2019-05-23 10:53:54.225564800 +0000
+@@ -14,7 +14,7 @@
+ ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ 
+ cxxdir = $(docdir)/%D%
+-include %D%/calc++/local.mk
++#include %D%/calc++/local.mk
+ 
+ ## -------- ##
+ ## Simple.  ##

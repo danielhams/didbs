@@ -1,4 +1,5 @@
-cldr-plurals generates huge amounts of output data and then attempts to diff it which results in memory exhaustion.
-Also, if your locale is non C, the following fail:
+gettext-tools: OK
 
-FAIL: msgmerge-compendium-5, FAIL: msginit-4
+gnulib-tests:
+
+FAIL: test-sigprocmask
