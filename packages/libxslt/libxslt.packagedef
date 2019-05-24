@@ -1,0 +1,15 @@
+packageSource=http://xmlsoft.org/sources/libxslt-1.1.33.tar.gz
+packageFile=libxslt-1.1.33.tar.gz
+packageChecksum=b3bd254a03e46d58f8ad1e4559cd2c2f
+packageDir=libxslt-1.1.33
+#packagePatch=
+
+packageExtraction=tarxfsystemhelper.sh
+expectedToolList=
+dependenciesList=make,tar,gzip,libxml2,docbook-xsl-nons
+envModifs=setupenv.sh
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=1
+disabled=0

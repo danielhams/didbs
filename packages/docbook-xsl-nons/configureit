@@ -7,6 +7,7 @@ echo $BUILDDIR
 echo $INSTALLDIR
 echo $EXTRAARGS
 . ./setupenv.sh
-cd $BUILDDIR || exit -1
-./configure --with-shared --with-normal --with-gpm --prefix=$INSTALLDIR || exit -1
+cd $BUILDDIR || exit 1
+
+# No configure
 exit 0

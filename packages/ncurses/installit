@@ -12,4 +12,6 @@ make install || exit -1
 cd $INSTALLDIR/lib
 ln -s -f libncurses.so libcurses.so || exit -1
 ln -s -f libncurses++.so libcurses++.so || exit -1
+ln -s -f libncurses.a libcurses.a || exit -1
+ln -s -f libncurses++.a libcurses++.a || exit -1
 exit 0

@@ -1,6 +1,6 @@
-diff -r -u -w git-2.17.0/builtin/describe.c git-2.17.0-patched/builtin/describe.c
---- git-2.17.0/builtin/describe.c	Mon Apr  2 18:44:04 2018
-+++ git-2.17.0-patched/builtin/describe.c	Thu Jul  5 23:06:46 2018
+diff -u -r -w git-2.17.0/builtin/describe.c git-2.17.0-patched/builtin/describe.c
+--- git-2.17.0/builtin/describe.c	2018-04-02 18:44:04.000000000 +0000
++++ git-2.17.0-patched/builtin/describe.c	2019-05-24 13:29:28.174432840 +0000
 @@ -470,7 +470,12 @@
  {
  	struct rev_info revs;
@@ -15,10 +15,9 @@ diff -r -u -w git-2.17.0/builtin/describe.c git-2.17.0-patched/builtin/describe.
  
  	argv_array_pushl(&args, "internal: The first arg is not parsed",
  		"--objects", "--in-commit-order", "--reverse", "HEAD",
-Only in git-2.17.0-patched/builtin: describe.c~
-diff -r -u -w git-2.17.0/builtin/get-tar-commit-id.c git-2.17.0-patched/builtin/get-tar-commit-id.c
---- git-2.17.0/builtin/get-tar-commit-id.c	Mon Apr  2 18:44:04 2018
-+++ git-2.17.0-patched/builtin/get-tar-commit-id.c	Thu Jul  5 23:07:22 2018
+diff -u -r -w git-2.17.0/builtin/get-tar-commit-id.c git-2.17.0-patched/builtin/get-tar-commit-id.c
+--- git-2.17.0/builtin/get-tar-commit-id.c	2018-04-02 18:44:04.000000000 +0000
++++ git-2.17.0-patched/builtin/get-tar-commit-id.c	2019-05-24 13:29:28.176921880 +0000
 @@ -3,9 +3,9 @@
   */
  #include "cache.h"
@@ -30,10 +29,9 @@ diff -r -u -w git-2.17.0/builtin/get-tar-commit-id.c git-2.17.0-patched/builtin/
  
  static const char builtin_get_tar_commit_id_usage[] =
  "git get-tar-commit-id";
-Only in git-2.17.0-patched/builtin: get-tar-commit-id.c~
-diff -r -u -w git-2.17.0/config.mak.uname git-2.17.0-patched/config.mak.uname
---- git-2.17.0/config.mak.uname	Mon Apr  2 18:44:04 2018
-+++ git-2.17.0-patched/config.mak.uname	Thu Jul  5 23:04:17 2018
+diff -u -r -w git-2.17.0/config.mak.uname git-2.17.0-patched/config.mak.uname
+--- git-2.17.0/config.mak.uname	2018-04-02 18:44:04.000000000 +0000
++++ git-2.17.0-patched/config.mak.uname	2019-05-24 13:29:28.180838280 +0000
 @@ -280,7 +280,7 @@
  	NO_MMAP = YesPlease
  	NO_REGEX = YesPlease
@@ -52,10 +50,9 @@ diff -r -u -w git-2.17.0/config.mak.uname git-2.17.0-patched/config.mak.uname
  	NEEDS_LIBGEN = YesPlease
  endif
  ifeq ($(uname_S),HP-UX)
-Only in git-2.17.0-patched: config.mak.uname.orig
-diff -r -u -w git-2.17.0/run-command.c git-2.17.0-patched/run-command.c
---- git-2.17.0/run-command.c	Mon Apr  2 18:44:04 2018
-+++ git-2.17.0-patched/run-command.c	Thu Jul  5 23:08:11 2018
+diff -u -r -w git-2.17.0/run-command.c git-2.17.0-patched/run-command.c
+--- git-2.17.0/run-command.c	2018-04-02 18:44:04.000000000 +0000
++++ git-2.17.0-patched/run-command.c	2019-05-24 13:29:28.187474760 +0000
 @@ -498,7 +498,7 @@
  #endif
  }
@@ -74,10 +71,25 @@ diff -r -u -w git-2.17.0/run-command.c git-2.17.0-patched/run-command.c
  	if (cmd->pid < 0)
  		error_errno("cannot fork() for %s", cmd->argv[0]);
  	else if (cmd->clean_on_exit)
-Only in git-2.17.0-patched: run-command.c~
-diff -r -u -w git-2.17.0/tar.h git-2.17.0-patched/tar.h
---- git-2.17.0/tar.h	Mon Apr  2 18:44:04 2018
-+++ git-2.17.0-patched/tar.h	Thu Jul  5 23:08:45 2018
+diff -u -r -w git-2.17.0/t/Makefile git-2.17.0-patched/t/Makefile
+--- git-2.17.0/t/Makefile	2018-04-02 18:44:04.000000000 +0000
++++ git-2.17.0-patched/t/Makefile	2019-05-24 13:30:51.665418520 +0000
+@@ -79,10 +79,8 @@
+ test-lint-filenames:
+ 	@# We do *not* pass a glob to ls-files but use grep instead, to catch
+ 	@# non-ASCII characters (which are quoted within double-quotes)
+-	@bad="$$(git -c core.quotepath=true ls-files 2>/dev/null | \
+-			grep '["*:<>?\\|]')"; \
+-		test -z "$$bad" || { \
+-		echo >&2 "non-portable file name(s): $$bad"; exit 1; }
++	@# Removed check below as IRIX bails on it (probably shell related)
++	@bad=""
+ 
+ aggregate-results-and-cleanup: $(T)
+ 	$(MAKE) aggregate-results
+diff -u -r -w git-2.17.0/tar.h git-2.17.0-patched/tar.h
+--- git-2.17.0/tar.h	2018-04-02 18:44:04.000000000 +0000
++++ git-2.17.0-patched/tar.h	2019-05-24 13:29:28.602479640 +0000
 @@ -1,3 +1,6 @@
 +#ifndef ___TAR_H
 +#define ___TAR_H

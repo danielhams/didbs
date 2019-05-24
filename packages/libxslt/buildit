@@ -8,5 +8,5 @@ echo $INSTALLDIR
 echo $EXTRAARGS
 . ./setupenv.sh
 cd $BUILDDIR || exit -1
-./configure --with-shared --with-normal --with-gpm --prefix=$INSTALLDIR || exit -1
+make -j $DIDBS_JOBS || exit -1
 exit 0

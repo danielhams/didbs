@@ -1,0 +1,88 @@
+#!/bin/sh
+
+BUILDDIR=$1
+INSTALLDIR=$2
+EXTRAARGS=$3
+echo $BUILDDIR
+echo $INSTALLDIR
+echo $EXTRAARGS
+. ./setupenv.sh
+cd $BUILDDIR || exit -1
+# no make install
+
+# File install
+$INSTALLDIR/bin/install -v -d -m755 $INSTALLDIR/share/xml/docbook/xml-dtd-4.5 || exit -1
+$INSTALLDIR/bin/install -v -d -m755 $INSTALLDIR/etc/xml || exit -1
+cp -v -af docbook.cat *.dtd ent/ *.mod $INSTALLDIR/share/xml/docbook/xml-dtd-4.5 || exit -1
+
+# Populate docbook catalog file
+if [ ! -e $INSTALLDIR/etc/xml/docbook ]; then
+    $INSTALLDIR/bin/xmlcatalog --noout --create $INSTALLDIR/etc/xml/docbook
+fi &&
+$INSTALLDIR/bin/xmlcatalog --noout --add "public" \
+    "-//OASIS//DTD DocBook XML V4.5//EN" \
+    "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" \
+    $INSTALLDIR/etc/xml/docbook &&
+$INSTALLDIR/bin/xmlcatalog --noout --add "public" \
+    "-//OASIS//DTD DocBook XML CALS Table Model V4.5//EN" \
+    "file://$INSTALLDIR/share/xml/docbook/xml-dtd-4.5/calstblx.dtd" \
+    $INSTALLDIR/etc/xml/docbook &&
+$INSTALLDIR/bin/xmlcatalog --noout --add "public" \
+    "-//OASIS//DTD XML Exchange Table Model 19990315//EN" \
+    "file://$INSTALLDIR/share/xml/docbook/xml-dtd-4.5/soextblx.dtd" \
+    $INSTALLDIR/etc/xml/docbook &&
+$INSTALLDIR/bin/xmlcatalog --noout --add "public" \
+    "-//OASIS//ELEMENTS DocBook XML Information Pool V4.5//EN" \
+    "file://$INSTALLDIR/share/xml/docbook/xml-dtd-4.5/dbpoolx.mod" \
+    $INSTALLDIR/etc/xml/docbook &&
+$INSTALLDIR/bin/xmlcatalog --noout --add "public" \
+    "-//OASIS//ELEMENTS DocBook XML Document Hierarchy V4.5//EN" \
+    "file://$INSTALLDIR/share/xml/docbook/xml-dtd-4.5/dbhierx.mod" \
+    $INSTALLDIR/etc/xml/docbook &&
+$INSTALLDIR/bin/xmlcatalog --noout --add "public" \
+    "-//OASIS//ELEMENTS DocBook XML HTML Tables V4.5//EN" \
+    "file://$INSTALLDIR/share/xml/docbook/xml-dtd-4.5/htmltblx.mod" \
+    $INSTALLDIR/etc/xml/docbook &&
+$INSTALLDIR/bin/xmlcatalog --noout --add "public" \
+    "-//OASIS//ENTITIES DocBook XML Notations V4.5//EN" \
+    "file://$INSTALLDIR/share/xml/docbook/xml-dtd-4.5/dbnotnx.mod" \
+    $INSTALLDIR/etc/xml/docbook &&
+$INSTALLDIR/bin/xmlcatalog --noout --add "public" \
+    "-//OASIS//ENTITIES DocBook XML Character Entities V4.5//EN" \
+    "file://$INSTALLDIR/share/xml/docbook/xml-dtd-4.5/dbcentx.mod" \
+    $INSTALLDIR/etc/xml/docbook &&
+$INSTALLDIR/bin/xmlcatalog --noout --add "public" \
+    "-//OASIS//ENTITIES DocBook XML Additional General Entities V4.5//EN" \
+    "file://$INSTALLDIR/share/xml/docbook/xml-dtd-4.5/dbgenent.mod" \
+    $INSTALLDIR/etc/xml/docbook &&
+$INSTALLDIR/bin/xmlcatalog --noout --add "rewriteSystem" \
+    "http://www.oasis-open.org/docbook/xml/4.5" \
+    "file://$INSTALLDIR/share/xml/docbook/xml-dtd-4.5" \
+    $INSTALLDIR/etc/xml/docbook &&
+$INSTALLDIR/bin/xmlcatalog --noout --add "rewriteURI" \
+    "http://www.oasis-open.org/docbook/xml/4.5" \
+    "file://$INSTALLDIR/share/xml/docbook/xml-dtd-4.5" \
+    $INSTALLDIR/etc/xml/docbook
+
+# Populate xml catalog file
+if [ ! -e $INSTALLDIR/etc/xml/catalog ]; then
+    $INSTALLDIR/bin/xmlcatalog --noout --create $INSTALLDIR/etc/xml/catalog
+fi &&
+$INSTALLDIR/bin/xmlcatalog --noout --add "delegatePublic" \
+    "-//OASIS//ENTITIES DocBook XML" \
+    "file://$INSTALLDIR/etc/xml/docbook" \
+    $INSTALLDIR/etc/xml/catalog &&
+$INSTALLDIR/bin/xmlcatalog --noout --add "delegatePublic" \
+    "-//OASIS//DTD DocBook XML" \
+    "file://$INSTALLDIR/etc/xml/docbook" \
+    $INSTALLDIR/etc/xml/catalog &&
+$INSTALLDIR/bin/xmlcatalog --noout --add "delegateSystem" \
+    "http://www.oasis-open.org/docbook/" \
+    "file://$INSTALLDIR/etc/xml/docbook" \
+    $INSTALLDIR/etc/xml/catalog &&
+$INSTALLDIR/bin/xmlcatalog --noout --add "delegateURI" \
+    "http://www.oasis-open.org/docbook/" \
+    "file://$INSTALLDIR/etc/xml/docbook" \
+    $INSTALLDIR/etc/xml/catalog
+
+exit 0

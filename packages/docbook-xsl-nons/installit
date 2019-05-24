@@ -1,0 +1,65 @@
+#!/bin/sh
+
+BUILDDIR=$1
+INSTALLDIR=$2
+EXTRAARGS=$3
+echo $BUILDDIR
+echo $INSTALLDIR
+echo $EXTRAARGS
+. ./setupenv.sh
+cd $BUILDDIR || exit -1
+# no make install
+
+# File install
+$INSTALLDIR/bin/install -v -m755 -d $INSTALLDIR/share/xml/docbook/xsl-stylesheets-nons-1.79.2 || exit 1
+
+cp -v -R VERSION assembly common eclipse epub epub3 extensions fo        \
+         highlighting html htmlhelp images javahelp lib manpages params  \
+         profiling roundtrip slides template tests tools webhelp website \
+         xhtml xhtml-1_1 xhtml5                                          \
+    $INSTALLDIR/share/xml/docbook/xsl-stylesheets-nons-1.79.2 &&
+
+ln -s VERSION $INSTALLDIR/share/xml/docbook/xsl-stylesheets-nons-1.79.2/VERSION.xsl &&
+
+$INSTALLDIR/bin/install -v -m644 -D README \
+                    $INSTALLDIR/share/doc/docbook-xsl-nons-1.79.2/README.txt &&
+$INSTALLDIR/bin/install -v -m644    RELEASE-NOTES* NEWS* \
+                    $INSTALLDIR/share/doc/docbook-xsl-nons-1.79.2
+
+# Catalog
+if [ ! -d $INSTALLDIR/etc/xml ]; then $INSTALLDIR/bin/install -v -m755 -d $INSTALLDIR/etc/xml; fi &&
+if [ ! -f $INSTALLDIR/etc/xml/catalog ]; then
+    $INSTALLDIR/bin/xmlcatalog --noout --create $INSTALLDIR/etc/xml/catalog
+fi &&
+
+$INSTALLDIR/bin/xmlcatalog --noout --add "rewriteSystem" \
+           "https://cdn.docbook.org/release/xsl-nons/1.79.2" \
+           "$INSTALLDIR/share/xml/docbook/xsl-stylesheets-nons-1.79.2" \
+    $INSTALLDIR/etc/xml/catalog &&
+
+$INSTALLDIR/bin/xmlcatalog --noout --add "rewriteURI" \
+           "https://cdn.docbook.org/release/xsl-nons/1.79.2" \
+           "$INSTALLDIR/share/xml/docbook/xsl-stylesheets-nons-1.79.2" \
+    $INSTALLDIR/etc/xml/catalog &&
+
+$INSTALLDIR/bin/xmlcatalog --noout --add "rewriteSystem" \
+           "https://cdn.docbook.org/release/xsl-nons/current" \
+           "$INSTALLDIR/share/xml/docbook/xsl-stylesheets-nons-1.79.2" \
+    $INSTALLDIR/etc/xml/catalog &&
+
+$INSTALLDIR/bin/xmlcatalog --noout --add "rewriteURI" \
+           "https://cdn.docbook.org/release/xsl-nons/current" \
+           "$INSTALLDIR/share/xml/docbook/xsl-stylesheets-nons-1.79.2" \
+    $INSTALLDIR/etc/xml/catalog &&
+
+$INSTALLDIR/bin/xmlcatalog --noout --add "rewriteSystem" \
+           "http://docbook.sourceforge.net/release/xsl/current" \
+           "$INSTALLDIR/share/xml/docbook/xsl-stylesheets-nons-1.79.2" \
+    $INSTALLDIR/etc/xml/catalog &&
+
+$INSTALLDIR/bin/xmlcatalog --noout --add "rewriteURI" \
+           "http://docbook.sourceforge.net/release/xsl/current" \
+           "$INSTALLDIR/share/xml/docbook/xsl-stylesheets-nons-1.79.2" \
+    $INSTALLDIR/etc/xml/catalog
+
+exit 0

@@ -1,0 +1,15 @@
+packageSource=https://github.com/docbook/xslt10-stylesheets/releases/download/release/1.79.2/docbook-xsl-nons-1.79.2.tar.bz2
+packageFile=docbook-xsl-nons-1.79.2.tar.bz2
+packageChecksum=2666d1488d6ced1551d15f31d7ed8c38
+packageDir=docbook-xsl-nons-1.79.2
+packagePatch=docbook-xsl-non-recursivefix.patch
+
+packageExtraction=tarxfsystemhelper.sh
+expectedToolList=
+dependenciesList=bzip,libxml2,coreutils
+envModifs=setupenv.sh
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=1
+disabled=0

@@ -1,0 +1,15 @@
+packageSource=http://docbook.org/xml/4.5/docbook-xml-4.5.zip
+packageFile=docbook-xml-4.5.zip
+packageChecksum=03083e288e87a7e829e437358da7ef9e
+packageDir=docbook-xml-4.5
+#packagePatch=
+
+packageExtraction=mkdirunzipsystemhelper.sh
+expectedToolList=
+dependenciesList=libxml2,unzip
+envModifs=setupenv.sh
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=1
+disabled=0

@@ -1,0 +1,27 @@
+diff -u -r -w docbook-xsl-nons-1.79.2/lib/lib.xsl docbook-xsl-nons-1.79.2-patched/lib/lib.xsl
+--- docbook-xsl-nons-1.79.2/lib/lib.xsl	2016-12-09 22:47:31.000000000 +0000
++++ docbook-xsl-nons-1.79.2-patched/lib/lib.xsl	2019-05-24 12:12:43.727958600 +0000
+@@ -6,7 +6,11 @@
+ 
+      This module implements DTD-independent functions
+ 
+-     ******************************************************************** --><xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
++     ******************************************************************** -->
++<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
++                xmlns:str="http://exslt.org/strings"
++                exclude-result-prefixes="str"
++                version="1.0">
+ 
+ <xsl:template name="dot.count">
+   <!-- Returns the number of "." characters in a string -->
+@@ -52,6 +56,9 @@
+   <xsl:param name="replacement"/>
+ 
+   <xsl:choose>
++    <xsl:when test="function-available('str:replace')">
++      <xsl:value-of select="str:replace($string, string($target), string($replacement))"/>
++    </xsl:when>
+     <xsl:when test="contains($string, $target)">
+       <xsl:variable name="rest">
+         <xsl:call-template name="string.subst">
+Only in docbook-xsl-nons-1.79.2-patched/lib: lib.xsl.orig

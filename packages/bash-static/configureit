@@ -1,0 +1,14 @@
+#!/bin/sh
+
+BUILDDIR=$1
+INSTALLDIR=$2
+EXTRAARGS=$3
+echo $BUILDDIR
+echo $INSTALLDIR
+echo $EXTRAARGS
+. ./setupenv.sh
+cd $BUILDDIR || exit -1
+mkdir ../build-bash
+cd ../build-bash
+$BUILDDIR/configure --prefix=$INSTALLDIR --enable-readline --without-bash-malloc --disable-nls --without-curses --enable-job-control --enable-static-link || exit -1
+exit 0
