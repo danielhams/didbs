@@ -14,7 +14,8 @@ packageSource=ftp://ftp.gnu.org/pub/gnu/bison/bison-3.4.1.tar.gz
 packageFile=bison-3.4.1.tar.gz
 packageChecksum=43494fb3df056e1e4d95d051bba3a667
 packageDir=bison-3.4.1
-packagePatch=bison3_4_1.sgifixes.patch
+# only needed if you want to test it
+#packagePatch=bison3_4_1.sgifixes.patch
 
 packageExtraction=tarxfsystemhelper.sh
 expectedToolList=

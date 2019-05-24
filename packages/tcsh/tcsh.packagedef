@@ -1,4 +1,4 @@
-packageSource=ftp://ftp.astron.com/pub/tcsh/tcsh-6.20.00.tar.gz
+packageSource=ftp://ftp.astron.com/pub/tcsh/old/tcsh-6.20.00.tar.gz
 packageFile=tcsh-6.20.00.tar.gz
 packageChecksum=59d40ef40a68e790d95e182069431834
 packageDir=tcsh-6.20.00

@@ -6,7 +6,7 @@ packageDir=docbook-xml-4.5
 
 packageExtraction=mkdirunzipsystemhelper.sh
 expectedToolList=
-dependenciesList=libxml2,unzip
+dependenciesList=libxml2,unzip,coreutils
 envModifs=setupenv.sh
 configureRecipe=configureit
 buildRecipe=buildit
