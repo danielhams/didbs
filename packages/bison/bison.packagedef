@@ -19,7 +19,7 @@ packageDir=bison-3.4.1
 
 packageExtraction=tarxfsystemhelper.sh
 expectedToolList=
-dependenciesList=stage1make,stage1tar,stage1xz,stage1m4,stage1perl,flex
+dependenciesList=stage1make,stage1tar,stage1xz,stage1m4,stage1perl,flex,help2man
 envModifs=setupenv.sh
 configureRecipe=configureit
 buildRecipe=buildit

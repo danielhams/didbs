@@ -1,0 +1,15 @@
+packageSource=https://ftp.gnu.org/pub/gnu/help2man/help2man-1.47.10.tar.xz
+packageFile=help2man-1.47.10.tar.xz
+packageChecksum=0d70833650a552e0af742882ba84f2ee
+packageDir=help2man-1.47.10
+#packagePatch=
+
+packageExtraction=tarxfsystemhelper.sh
+expectedToolList=
+dependenciesList=make,tar,gzip
+envModifs=setupenv.sh
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=1
+disabled=0

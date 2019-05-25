@@ -1,1 +1,35 @@
-Currently the tests don't run at all and I'm not entirely sure why (maybe /bin/sh hardcoded path, unclear)
+# You need to uncomment the patch in .packagedef and run autoreconf from the configure to "fix" the probs that don't allow testing.
+
+Results:
+
+
+ERROR: 531 tests were run,
+9 failed unexpectedly.
+41 tests were skipped.
+
+## ------------------------ ##
+## Summary of the failures. ##
+## ------------------------ ##
+Failed tests:
+GNU Bison 3.4.1 test suite test groups:
+
+ NUM: FILE-NAME:LINE     TEST-GROUP-NAME
+      KEYWORDS
+
+ 230: synclines.at:440   syncline escapes: lalr1.cc
+      c++
+ 231: synclines.at:440   syncline escapes: glr.cc
+      glr c++
+ 484: regression.at:1120 parse.error=verbose and YYSTACK_USE_ALLOCA
+ 497: c++.at:100         C++ Variant-based Symbols Unit Tests
+      variant c++
+ 504: c++.at:557         Variants lalr1.cc parse.assert api.token.constructor
+      variant c++
+ 505: c++.at:558         Variants lalr1.cc parse.assert api.token.constructor api.token.prefix={TOK_}
+      variant c++
+ 506: c++.at:559         Variants lalr1.cc parse.assert api.token.constructor api.token.prefix={TOK_} %locations
+      variant c++
+ 507: c++.at:560         Variants lalr1.cc parse.assert api.token.constructor api.token.prefix={TOK_} %locations api.value.automove
+      variant c++
+ 508: c++.at:570         Variants and Typed Midrule Actions
+      c++

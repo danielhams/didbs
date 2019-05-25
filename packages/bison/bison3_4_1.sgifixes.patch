@@ -1,6 +1,6 @@
 diff -u -r -w bison-3.4.1/data/skeletons/stack.hh bison-3.4.1-patched/data/skeletons/stack.hh
 --- bison-3.4.1/data/skeletons/stack.hh	2019-04-26 11:26:22.000000000 +0000
-+++ bison-3.4.1-patched/data/skeletons/stack.hh	2019-05-23 10:53:14.849217920 +0000
++++ bison-3.4.1-patched/data/skeletons/stack.hh	2019-05-25 12:51:45.259382960 +0000
 @@ -36,6 +36,12 @@
        typedef typename S::const_reverse_iterator const_iterator;
        typedef typename S::size_type size_type;
@@ -14,9 +14,18 @@ diff -u -r -w bison-3.4.1/data/skeletons/stack.hh bison-3.4.1-patched/data/skele
        stack (size_type n = 200)
          : seq_ (n)
        {}
+diff -u -r -w bison-3.4.1/examples/c/mfcalc/mfcalc.test bison-3.4.1-patched/examples/c/mfcalc/mfcalc.test
+--- bison-3.4.1/examples/c/mfcalc/mfcalc.test	2019-04-26 11:26:22.000000000 +0000
++++ bison-3.4.1-patched/examples/c/mfcalc/mfcalc.test	2019-05-25 12:50:20.502516240 +0000
+@@ -1,4 +1,4 @@
+-#! /bin/sh
++#! /usr/bin/env sh
+ 
+ # Copyright (C) 2005-2015, 2018-2019 Free Software Foundation, Inc.
+ #
 diff -u -r -w bison-3.4.1/examples/c++/local.mk bison-3.4.1-patched/examples/c++/local.mk
 --- bison-3.4.1/examples/c++/local.mk	2019-05-02 12:15:14.000000000 +0000
-+++ bison-3.4.1-patched/examples/c++/local.mk	2019-05-23 10:53:54.225564800 +0000
++++ bison-3.4.1-patched/examples/c++/local.mk	2019-05-25 12:49:52.583405120 +0000
 @@ -14,7 +14,7 @@
  ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
  
@@ -26,3 +35,92 @@ diff -u -r -w bison-3.4.1/examples/c++/local.mk bison-3.4.1-patched/examples/c++
  
  ## -------- ##
  ## Simple.  ##
+diff -u -r -w bison-3.4.1/examples/test bison-3.4.1-patched/examples/test
+--- bison-3.4.1/examples/test	2019-04-26 11:26:22.000000000 +0000
++++ bison-3.4.1-patched/examples/test	2019-05-25 12:50:44.981258720 +0000
+@@ -1,4 +1,4 @@
+-#! /bin/sh
++#! /usr/bin/env sh
+ 
+ # Copyright (C) 2005-2015, 2018-2019 Free Software Foundation, Inc.
+ #
+diff -u -r -w bison-3.4.1/m4/extern-inline.m4 bison-3.4.1-patched/m4/extern-inline.m4
+--- bison-3.4.1/m4/extern-inline.m4	2019-03-28 18:54:35.000000000 +0000
++++ bison-3.4.1-patched/m4/extern-inline.m4	2019-05-25 12:51:11.227844560 +0000
+@@ -86,6 +86,9 @@
+ # define _GL_INLINE static _GL_UNUSED
+ # define _GL_EXTERN_INLINE static _GL_UNUSED
+ #endif
++#if defined(__sgi)
++#  define _GL_INLINE extern inline
++#endif
+ 
+ /* In GCC 4.6 (inclusive) to 5.1 (exclusive),
+    suppress bogus "no previous prototype for 'FOO'"
+diff -u -r -w bison-3.4.1/m4/gnulib-common.m4 bison-3.4.1-patched/m4/gnulib-common.m4
+--- bison-3.4.1/m4/gnulib-common.m4	2019-04-21 16:55:30.000000000 +0000
++++ bison-3.4.1-patched/m4/gnulib-common.m4	2019-05-25 12:51:22.019976320 +0000
+@@ -33,6 +33,10 @@
+ #  define _Noreturn
+ # endif
+ #endif
++#if defined(__sgi)
++#  define _Noreturn
++#endif
++
+ ])
+   AH_VERBATIM([isoc99_inline],
+ [/* Work around a bug in Apple GCC 4.0.1 build 5465: In C99 mode, it supports
+@@ -53,6 +57,9 @@
+ #else
+ # define _GL_UNUSED
+ #endif
++#if defined(__sgi)
++# define _GL_UNUSED
++#endif
+ /* The name _UNUSED_PARAMETER_ is an earlier spelling, although the name
+    is a misnomer outside of parameter lists.  */
+ #define _UNUSED_PARAMETER_ _GL_UNUSED
+@@ -73,6 +80,9 @@
+ #else
+ # define _GL_ATTRIBUTE_PURE /* empty */
+ #endif
++#if defined(__sgi)
++# define _GL_ATTRIBUTE_PURE /* empty */
++#endif
+ 
+ /* The __const__ attribute was added in gcc 2.95.  */
+ #if __GNUC__ > 2 || (__GNUC__ == 2 && __GNUC_MINOR__ >= 95)
+@@ -80,6 +90,9 @@
+ #else
+ # define _GL_ATTRIBUTE_CONST /* empty */
+ #endif
++#if defined(__sgi)
++# define _GL_ATTRIBUTE_CONST /* empty */
++#endif
+ 
+ /* The __malloc__ attribute was added in gcc 3.  */
+ #if 3 <= __GNUC__
+@@ -87,6 +100,9 @@
+ #else
+ # define _GL_ATTRIBUTE_MALLOC /* empty */
+ #endif
++#if defined(__sgi)
++# define _GL_ATTRIBUTE_MALLOC /* empty */
++#endif
+ ])
+   AH_VERBATIM([async_safe],
+ [/* The _GL_ASYNC_SAFE marker should be attached to functions that are
+diff -u -r -w bison-3.4.1/tests/local.at bison-3.4.1-patched/tests/local.at
+--- bison-3.4.1/tests/local.at	2019-05-11 08:49:58.000000000 +0000
++++ bison-3.4.1-patched/tests/local.at	2019-05-25 12:20:06.629964880 +0000
+@@ -500,7 +500,9 @@
+ ]AT_LOCATION_IF([[
+ # if defined ]AT_YYLTYPE[_IS_TRIVIAL && ]AT_YYLTYPE[_IS_TRIVIAL
+ /* Print *YYLOCP on YYO. */
++# if !defined(__sgi)
+ __attribute__((__unused__))
++#endif
+ static int
+ location_print (FILE *yyo, ]AT_YYLTYPE[ const * const yylocp)
+ {
