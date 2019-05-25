@@ -1,0 +1,6 @@
+Both c and cpp tests have a bunch of this:
+
+ERROR:     4: not well-formed (invalid token) (line 1, offset 0)
+    reported from /builds/dan/bootstrapbuilds/expat/expat-2.2.6/tests/runtests.c, line 6694
+
+Which is probably some UTF BOM processing issue. Not going to look deeper for now.

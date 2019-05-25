@@ -1,0 +1,15 @@
+packageSource=https://github.com/libexpat/libexpat/releases/download/R_2_2_6/expat-2.2.6.tar.bz2
+packageFile=expat-2.2.6.tar.bz2
+packageChecksum=ca047ae951b40020ac831c28859161b2
+packageDir=expat-2.2.6
+packagePatch=expat.sgifixes.patch
+
+packageExtraction=tarxfsystemhelper.sh
+expectedToolList=
+dependenciesList=make,tar,bzip
+envModifs=setupenv.sh
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=1
+disabled=0

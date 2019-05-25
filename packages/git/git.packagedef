@@ -12,7 +12,7 @@ packagePatch=git2_17.fixconfigshell.patch
 
 packageExtraction=tarxfsystemhelper.sh
 expectedToolList=
-dependenciesList=make,tar,xz,diffutils,grep,ncurses,bash,openssl,curl,tk
+dependenciesList=make,tar,xz,diffutils,grep,ncurses,bash,openssl,curl,tk,expat
 envModifs=setupenv.sh
 configureRecipe=configureit
 buildRecipe=buildit

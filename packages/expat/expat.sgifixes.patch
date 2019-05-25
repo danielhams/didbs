@@ -1,0 +1,22 @@
+diff -u -r -w expat-2.2.6/test-driver-wrapper.sh expat-2.2.6-patched/test-driver-wrapper.sh
+--- expat-2.2.6/test-driver-wrapper.sh	2017-09-03 15:47:40.000000000 +0000
++++ expat-2.2.6-patched/test-driver-wrapper.sh	2019-05-25 13:31:01.318212480 +0000
+@@ -1,4 +1,4 @@
+-#! /bin/bash
++#! /usr/bin/env bash
+ #                          __  __            _
+ #                       ___\ \/ /_ __   __ _| |_
+ #                      / _ \\  /| '_ \ / _` | __|
+diff -u -r -w expat-2.2.6/tests/runtests.c expat-2.2.6-patched/tests/runtests.c
+--- expat-2.2.6/tests/runtests.c	2018-08-12 20:40:00.000000000 +0000
++++ expat-2.2.6-patched/tests/runtests.c	2019-05-25 13:30:21.722686640 +0000
+@@ -56,6 +56,9 @@
+  #endif
+     typedef unsigned __int64 uint64_t;
+ #else
++# if defined(__sgi)
++# define __c99
++#endif
+  #include <stdint.h> /* intptr_t uint64_t */
+ #endif
+ 

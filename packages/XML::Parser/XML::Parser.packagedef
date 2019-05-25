@@ -1,0 +1,15 @@
+packageSource=http://www.cpan.org/modules/by-module/XML/XML-Parser-2.44.tar.gz
+packageFile=XML-Parser-2.44.tar.gz
+packageChecksum=af4813fe3952362451201ced6fbce379
+packageDir=XML-Parser-2.44
+#packagePatch=
+
+packageExtraction=tarxfsystemhelper.sh
+expectedToolList=
+dependenciesList=make,tar,gzip,perl,expat
+envModifs=setupenv.sh
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=1
+disabled=0
