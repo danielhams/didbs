@@ -197,6 +197,8 @@ GetOptions(\%options,
            "buildshell=s" => \$buildshellpackage )
     or usage(true);
 
+$verbose = $verbose || $ENV{"V"}=="1";
+
 if( !defined($packageDir) || !defined($buildDir) || !defined($installDir))
 {
     $verbose && didbsprint "packageDir=$packageDir\n";
