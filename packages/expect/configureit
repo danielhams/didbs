@@ -8,5 +8,8 @@ echo $INSTALLDIR
 echo $EXTRAARGS
 . ./setupenv.sh
 cd $BUILDDIR || exit -1
-./configure --prefix=$INSTALLDIR --disable-silent-rules || exit -1
+#autoreconf
+mkdir ../build-expect
+cd ../build-expect
+$BUILDDIR/configure --prefix=$INSTALLDIR --disable-silent-rules || exit -1
 exit 0

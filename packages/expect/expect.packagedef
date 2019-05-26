@@ -2,8 +2,9 @@ packageSource=https://downloads.sourceforge.net/expect/expect5.45.4.tar.gz
 packageFile=expect5.45.4.tar.gz
 packageChecksum=00fce8de158422f5ccd2666512329bd2
 packageDir=expect5.45.4
+packagePatch=expect.sgifixes.patch
+
 packageExtraction=tarxfsystemhelper.sh
-#packagePatch=
 expectedToolList=
 dependenciesList=make,tar,gzip,autoconf,automake,libtool,tk
 envModifs=setupenv.sh

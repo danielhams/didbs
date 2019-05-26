@@ -1,0 +1,15 @@
+packageSource=http://download.savannah.nongnu.org/releases/libpipeline/libpipeline-1.5.1.tar.gz
+packageFile=libpipeline-1.5.1.tar.gz
+packageChecksum=4c8fe6cd85422baafd6e060f896c61bc
+packageDir=libpipeline-1.5.1
+#packagePatch=
+
+packageExtraction=tarxfsystemhelper.sh
+expectedToolList=
+dependenciesList=make,tar,gzip
+envModifs=setupenv.sh
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=1
+disabled=0

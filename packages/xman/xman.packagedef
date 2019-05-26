@@ -1,0 +1,15 @@
+packageSource=ftp://ftp.mirrorservice.org/sites/ftp.x.org/pub/individual/app/xman-1.1.4.tar.gz
+packageFile=xman-1.1.4.tar.gz
+packageChecksum=f4238c79ee7227ea193898fc159f31e5
+packageDir=xman-1.1.4
+packagePatch=xman.sgifixes.patch
+
+packageExtraction=tarxfsystemhelper.sh
+expectedToolList=
+dependenciesList=man-db
+envModifs=setupenv.sh
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=1
+disabled=0

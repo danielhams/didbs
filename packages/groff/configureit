@@ -8,6 +8,7 @@ echo $INSTALLDIR
 echo $EXTRAARGS
 . ./setupenv.sh
 cd $BUILDDIR || exit -1
-#cd ../build-dejagnu
-make install || exit -1
+mkdir ../build-groff
+cd ../build-groff
+PAGE=A4 $BUILDDIR/configure --prefix=$INSTALLDIR || exit -1
 exit 0

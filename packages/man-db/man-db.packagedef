@@ -1,0 +1,15 @@
+packageSource=http://download.savannah.nongnu.org/releases/man-db/man-db-2.8.5.tar.xz
+packageFile=man-db-2.8.5.tar.xz
+packageChecksum=c5c6c3434be14a5527d43b5ad0f09a13
+packageDir=man-db-2.8.5
+packagePatch=man-db.sgifixes.patch
+
+packageExtraction=tarxfsystemhelper.sh
+expectedToolList=
+dependenciesList=make,tar,xz,libxslt,less,libpipeline,berkeley-db,flex,gettext,groff
+envModifs=setupenv.sh
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=1
+disabled=0

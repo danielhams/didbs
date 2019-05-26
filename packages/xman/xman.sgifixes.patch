@@ -1,0 +1,12 @@
+diff -u -r -w xman-1.1.4/man.h xman-1.1.4-patched/man.h
+--- xman-1.1.4/man.h	2015-03-07 03:07:44.000000000 +0000
++++ xman-1.1.4-patched/man.h	2019-05-26 11:18:09.722783480 +0000
+@@ -274,7 +274,7 @@
+ void PopupWarning(ManpageGlobals * man_globals, const char *string);
+ void PositionCenter(Widget widget, int x, int y, int above, int left,
+                     int v_space, int h_space);
+-void PrintError(const char *string) _X_NORETURN;
++void PrintError(const char *string);
+ void RemoveGlobals(Widget w);
+ void SaveGlobals(Widget w, ManpageGlobals * globals);
+ void ParseEntry(const char *entry, char *path, char *sect, char *page);

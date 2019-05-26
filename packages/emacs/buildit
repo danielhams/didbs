@@ -8,5 +8,6 @@ echo $INSTALLDIR
 echo $EXTRAARGS
 . ./setupenv.sh
 cd $BUILDDIR || exit -1
+cd ../build-emacs
 make -j $DIDBS_JOBS || exit -1
 exit 0

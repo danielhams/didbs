@@ -9,6 +9,8 @@ echo $EXTRAARGS
 . ./setupenv.sh
 cd $BUILDDIR || exit -1
 autoreconf || exit -1
-./configure --prefix=$INSTALLDIR --disable-silent-rules || exit -1
+#mkdir ../build-dejagnu
+#cd ../build-dejagnu
+$BUILDDIR/configure --prefix=$INSTALLDIR --disable-silent-rules || exit -1
 chmod a+x ./runtest || exit -1
 exit 0
