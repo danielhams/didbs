@@ -37,7 +37,7 @@ sub patchit
     didbsprint "Copying patch file $fullpathpatch to $patchdest\n";
     cp($fullpathpatch,$patchdest) || die $!;
 
-    my $patchcmd = "$sl/patchhelper.sh $patchdest $patchfn";
+    my $patchcmd = "$sl/scripts/patchhelper.sh $patchdest $patchfn";
     didbsprint "patch command is $patchcmd\n";
     system($patchcmd) == 0 || die $!;
 

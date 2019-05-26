@@ -81,7 +81,7 @@ sub startshell
     # path to root of package build
     # install path
 
-    my $cmd = "$scriptLocation/buildshell.sh $scriptLocation $packageId $packageDir $packageBuildDir $installdir $envmodifs";
+    my $cmd = "$scriptLocation/scripts/buildshell.sh $scriptLocation $packageId $packageDir $packageBuildDir $installdir $envmodifs";
 #    didbsprint "About to execute $cmd\n";
     if( system($cmd) != 0 )
     {

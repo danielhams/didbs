@@ -70,7 +70,7 @@ sub extractit
         my $checksum = $self->{didbsPackage}->{packageChecksum};
 
         didbsprint "Package needs fetching from $sourceurl\n";
-        my $fetchcmd = $self->{scriptLocation}."/wgethelper.sh ".$self->{scriptLocation}." $destdir \"$sourceurl\"";
+        my $fetchcmd = $self->{scriptLocation}."/scripts/wgethelper.sh ".$self->{scriptLocation}." $destdir \"$sourceurl\"";
 
         # If the file exists check the signature
         my $fileexistsgood = 0;
