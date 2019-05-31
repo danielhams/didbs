@@ -1,0 +1,15 @@
+packageSource=ftp://gcc.gnu.org/pub/gcc/infrastructure/isl-0.18.tar.bz2
+packageFile=isl-0.18.tar.bz2
+packageChecksum=11436d6b205e516635b666090b94ab32
+packageDir=isl-0.18
+packagePatch=libisl.sgifixes.patch
+
+packageExtraction=tarxfsystemhelper.sh
+expectedToolList=
+dependenciesList=make,tar,bzip,gmp
+envModifs=setupenv.sh
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=1
+disabled=0

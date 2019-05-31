@@ -1,0 +1,17 @@
+#!/bin/sh
+
+BUILDDIR=$1
+INSTALLDIR=$2
+EXTRAARGS=$3
+echo $BUILDDIR
+echo $INSTALLDIR
+echo $EXTRAARGS
+. ./setupenv.sh
+cd $BUILDDIR || exit -1
+cd ../build-bu
+# Backup existing "ld" and restore after install
+cp $GBSTEST_INSTALL_DIR/bin/ld $GBSTEST_INSTALL_DIR/bin/ld.219
+make install || exit -1
+cp $GBSTEST_INSTALL_DIR/bin/ld $GBSTEST_INSTALL_DIR/bin/ld.232
+cp $GBSTEST_INSTALL_DIR/bin/ld.219 $GBSTEST_INSTALL_DIR/bin/ld
+exit 0

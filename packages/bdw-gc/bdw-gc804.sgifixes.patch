@@ -1,0 +1,26 @@
+diff -u -r -w gc-8.0.4/mark.c gc-8.0.4-patched/mark.c
+--- gc-8.0.4/mark.c	2019-03-02 08:54:41.000000000 +0000
++++ gc-8.0.4-patched/mark.c	2019-05-27 12:24:40.319445920 +0000
+@@ -1270,7 +1270,8 @@
+     /* TODO: Assert correct memory flags if GWW_VDB */
+     if (page_offset != 0)
+       displ = GC_page_size - page_offset;
+-    recycled_bytes = (bytes - displ) & ~(GC_page_size - 1);
++    //    recycled_bytes = (bytes - displ) & ~(GC_page_size - 1);
++    recycled_bytes = (bytes - displ) & (GC_page_size - 1);
+     GC_COND_LOG_PRINTF("Recycle %lu/%lu scratch-allocated bytes at %p\n",
+                        (unsigned long)recycled_bytes, (unsigned long)bytes,
+                        ptr);
+diff -u -r -w gc-8.0.4/tests/test_atomic_ops.c gc-8.0.4-patched/tests/test_atomic_ops.c
+--- gc-8.0.4/tests/test_atomic_ops.c	2019-03-02 08:54:41.000000000 +0000
++++ gc-8.0.4-patched/tests/test_atomic_ops.c	2019-05-27 12:24:02.741023840 +0000
+@@ -48,7 +48,9 @@
+         TA_assert(AO_test_and_set_acquire(&z) == AO_TS_SET);
+         AO_CLEAR(&z);
+ #   endif
++#if !defined(__sgi)
+     AO_compiler_barrier();
++#endif
+ #   ifdef AO_HAVE_nop_full
+       AO_nop_full();
+ #   endif

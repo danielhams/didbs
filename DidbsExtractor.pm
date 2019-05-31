@@ -116,7 +116,7 @@ sub extractit
         rmtree $extractdir || die $!;
         mkdirp( $extractdir );
         my $extractor = $self->{didbsPackage}->{packageExtraction};
-        my $fullpathext = $self->{scriptLocation}."/".$extractor;
+        my $fullpathext = $self->{scriptLocation}."/scripts/".$extractor;
         didbsprint "Extracting to $extractdir using $fullpathext\n";
         my $cmd = "$fullpathext $extractdir $fulldestfile";
         didbsprint "Command is $cmd\n";

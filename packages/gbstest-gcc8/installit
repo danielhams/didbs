@@ -8,6 +8,9 @@ echo $INSTALLDIR
 echo $EXTRAARGS
 . ./setupenv.sh
 cd $BUILDDIR || exit -1
-cd ../build-gc
-make -j $DIDBS_JOBS || exit -1
+cd ../build-gcc
+make install || exit -1
+cd $GBS8_INSTALL_DIR
+mv lib32/* lib32/
+rmdir lib32
 exit 0

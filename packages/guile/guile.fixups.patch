@@ -1,6 +1,6 @@
 diff -u -r -w guile-2.2.4/libguile/__scm.h guile-2.2.4-patched/libguile/__scm.h
 --- guile-2.2.4/libguile/__scm.h	2017-01-20 15:33:06.000000000 +0000
-+++ guile-2.2.4-patched/libguile/__scm.h	2019-04-07 10:09:18.524755240 +0000
++++ guile-2.2.4-patched/libguile/__scm.h	2019-05-27 13:05:27.090527680 +0000
 @@ -150,7 +150,7 @@
  /* SCM_API is a macro prepended to all function and data definitions
     which should be exported from libguile. */
@@ -10,10 +10,10 @@ diff -u -r -w guile-2.2.4/libguile/__scm.h guile-2.2.4-patched/libguile/__scm.h
  # define SCM_API extern __attribute__((__visibility__("default")))
  #elif defined BUILDING_LIBGUILE && defined _MSC_VER
  # define SCM_API __declspec(dllexport) extern
-Only in guile-2.2.4-patched/libguile: __scm.h~
+Only in guile-2.2.4-patched/libguile: __scm.h.orig
 diff -u -r -w guile-2.2.4/libguile/gc.h guile-2.2.4-patched/libguile/gc.h
 --- guile-2.2.4/libguile/gc.h	2017-01-20 15:33:06.000000000 +0000
-+++ guile-2.2.4-patched/libguile/gc.h	2019-04-07 10:16:03.899843760 +0000
++++ guile-2.2.4-patched/libguile/gc.h	2019-05-27 13:05:27.093366160 +0000
 @@ -184,6 +184,8 @@
    return cell;
  }
@@ -23,10 +23,10 @@ diff -u -r -w guile-2.2.4/libguile/gc.h guile-2.2.4-patched/libguile/gc.h
  SCM_INLINE_IMPLEMENTATION SCM
  scm_double_cell (scm_t_bits car, scm_t_bits cbr,
  		 scm_t_bits ccr, scm_t_bits cdr)
-Only in guile-2.2.4-patched/libguile: gc.h~
+Only in guile-2.2.4-patched/libguile: gc.h.orig
 diff -u -r -w guile-2.2.4/libguile/net_db.c guile-2.2.4-patched/libguile/net_db.c
 --- guile-2.2.4/libguile/net_db.c	2016-08-01 12:32:31.000000000 +0000
-+++ guile-2.2.4-patched/libguile/net_db.c	2019-04-07 10:26:31.423212720 +0000
++++ guile-2.2.4-patched/libguile/net_db.c	2019-05-27 13:05:27.097541840 +0000
 @@ -61,8 +61,10 @@
  
  #if defined HAVE_HSTRERROR && !HAVE_DECL_HSTRERROR
@@ -38,10 +38,10 @@ diff -u -r -w guile-2.2.4/libguile/net_db.c guile-2.2.4-patched/libguile/net_db.
  
  SCM_SYMBOL (scm_host_not_found_key, "host-not-found");
  SCM_SYMBOL (scm_try_again_key, "try-again");
-Only in guile-2.2.4-patched/libguile: net_db.c~
+Only in guile-2.2.4-patched/libguile: net_db.c.orig
 diff -u -r -w guile-2.2.4/libguile/srfi-14.i.c guile-2.2.4-patched/libguile/srfi-14.i.c
 --- guile-2.2.4/libguile/srfi-14.i.c	2016-06-17 10:37:10.000000000 +0000
-+++ guile-2.2.4-patched/libguile/srfi-14.i.c	2019-04-07 10:21:13.601289760 +0000
++++ guile-2.2.4-patched/libguile/srfi-14.i.c	2019-05-27 13:05:27.108845360 +0000
 @@ -7941,7 +7941,8 @@
    cs_ascii_ranges
  };
@@ -52,11 +52,24 @@ diff -u -r -w guile-2.2.4/libguile/srfi-14.i.c guile-2.2.4-patched/libguile/srfi
  };
  
  scm_t_char_set cs_empty = {
-Only in guile-2.2.4-patched/libguile: srfi-14.i.c~
+Only in guile-2.2.4-patched/libguile: srfi-14.i.c.orig
 diff -u -r -w guile-2.2.4/libguile/vm.c guile-2.2.4-patched/libguile/vm.c
 --- guile-2.2.4/libguile/vm.c	2018-06-29 21:58:08.000000000 +0000
-+++ guile-2.2.4-patched/libguile/vm.c	2019-04-07 10:25:08.157853800 +0000
-@@ -298,26 +298,31 @@
++++ guile-2.2.4-patched/libguile/vm.c	2019-05-27 13:38:42.434710800 +0000
+@@ -20,6 +20,12 @@
+ #  include <config.h>
+ #endif
+ 
++#if defined(__sgi)
++#include <sys/types.h>
++#include <sys/stat.h>
++#include <fcntl.h>
++#endif
++
+ #include <stdlib.h>
+ #include <alloca.h>
+ #include <alignof.h>
+@@ -298,26 +304,31 @@
  static void
  vm_dispatch_apply_hook (struct scm_vm *vp)
  {
@@ -93,19 +106,24 @@ diff -u -r -w guile-2.2.4/libguile/vm.c guile-2.2.4-patched/libguile/vm.c
  }
  
  static void
-@@ -786,7 +791,11 @@
+@@ -785,8 +796,16 @@
+   size *= sizeof (union scm_vm_stack_element);
  
  #if HAVE_SYS_MMAN_H
-   ret = mmap (NULL, size, PROT_READ | PROT_WRITE,
++
 +#if defined(__sgi)
-+              MAP_PRIVATE, -1, 0);
++  int tfd = open("/dev/zero", O_RDWR);
++  ret = mmap (NULL, size, PROT_READ | PROT_WRITE,
++              MAP_PRIVATE, tfd, 0);
++  close(tfd);
 +#else
+   ret = mmap (NULL, size, PROT_READ | PROT_WRITE,
                MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
 +#endif
    if (ret == NULL)
      /* Shouldn't happen.  */
      abort ();
-@@ -1173,7 +1182,8 @@
+@@ -1173,7 +1192,8 @@
        scm_dynwind_end ();
  
        /* Recurse.  */
@@ -115,4 +133,4 @@ diff -u -r -w guile-2.2.4/libguile/vm.c guile-2.2.4-patched/libguile/vm.c
      }
  }
  
-Only in guile-2.2.4-patched/libguile: vm.c~
+Only in guile-2.2.4-patched/libguile: vm.c.orig

@@ -3,7 +3,7 @@ packageFile=libatomic_ops-7.6.8.tar.gz
 packageChecksum=99128f05e3e3f4e0cd39aa23f23bbe0c
 packageDir=libatomic_ops-7.6.8
 packageExtraction=tarxfsystemhelper.sh
-packagePatch=lao.fixups.patch
+packagePatch=lao768.fixups.patch
 
 expectedToolList=
 dependenciesList=make,tar,gzip,pkgconfig
@@ -12,3 +12,4 @@ configureRecipe=configureit
 buildRecipe=buildit
 installRecipe=installit
 passesChecksIndicator=1
+disabled=1

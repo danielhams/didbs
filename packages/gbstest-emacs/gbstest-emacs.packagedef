@@ -11,10 +11,10 @@ packagePatch=emacs_26_2_needsgcc.patch
 
 packageExtraction=tarxfsystemhelper.sh
 expectedToolList=
-dependenciesList=make,tar,gzip,diffutils,grep,ncurses,libxpm,libjpeg,libpng
+dependenciesList=make,tar,gzip,diffutils,grep,ncurses,libxpm,libjpeg,libpng,gbstest-gcc8
 envModifs=setupenv.sh
 configureRecipe=configureit
 buildRecipe=buildit
 installRecipe=installit
-passesChecksIndicator=1
+passesChecksIndicator=0
 disabled=1

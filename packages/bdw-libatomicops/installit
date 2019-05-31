@@ -8,6 +8,6 @@ echo $INSTALLDIR
 echo $EXTRAARGS
 . ./setupenv.sh
 cd $BUILDDIR || exit -1
-cd ../ao-build
+cd ../build-ao
 make install || exit -1
 exit 0

@@ -1,0 +1,55 @@
+diff -u -r -w gc-7.6.8/mark.c gc-7.6.8-patched/mark.c
+--- gc-7.6.8/mark.c	2018-08-12 07:09:25.000000000 +0000
++++ gc-7.6.8-patched/mark.c	2019-05-27 12:42:25.435782560 +0000
+@@ -42,7 +42,11 @@
+   /* Avoid GC_noop6 calls to be optimized away. */
+ # if defined(GC_PTHREADS) && !defined(GC_WIN32_THREADS) \
+      || defined(PARALLEL_MARK)
++
++#if !defined(__sgi)
+     AO_compiler_barrier(); /* to serve as a special side-effect */
++#endif
++
+ # else
+     GC_noop1(0);
+ # endif
+diff -u -r -w gc-7.6.8/os_dep.c gc-7.6.8-patched/os_dep.c
+--- gc-7.6.8/os_dep.c	2018-08-12 07:09:25.000000000 +0000
++++ gc-7.6.8-patched/os_dep.c	2019-05-27 12:39:45.201104960 +0000
+@@ -2178,11 +2178,6 @@
+ STATIC ptr_t GC_unix_sbrk_get_mem(size_t bytes)
+ {
+   ptr_t result;
+-# ifdef IRIX5
+-    /* Bare sbrk isn't thread safe.  Play by malloc rules.      */
+-    /* The equivalent may be needed on other systems as well.   */
+-    __LOCK_MALLOC();
+-# endif
+   {
+     ptr_t cur_brk = (ptr_t)sbrk(0);
+     SBRK_ARG_T lsbs = (word)cur_brk & (GC_page_size-1);
+@@ -2210,9 +2205,6 @@
+     if (result == (ptr_t)(-1)) result = 0;
+   }
+  out:
+-# ifdef IRIX5
+-    __UNLOCK_MALLOC();
+-# endif
+   return(result);
+ }
+ 
+Only in gc-7.6.8-patched/: os_dep.c.orig
+diff -u -r -w gc-7.6.8/pthread_support.c gc-7.6.8-patched/pthread_support.c
+--- gc-7.6.8/pthread_support.c	2018-08-12 07:09:25.000000000 +0000
++++ gc-7.6.8-patched/pthread_support.c	2019-05-27 12:47:05.181693280 +0000
+@@ -26,6 +26,10 @@
+  * other Posix thread implementations.  We are trying to merge
+  * all flavors of pthread support code into this file.
+  */
++#if defined(__sgi)
++#define timespec __timespec
++extern int nanosleep(const timespec_t *, timespec_t *);
++#endif
+ 
+ #if defined(GC_PTHREADS) && !defined(GC_WIN32_THREADS)
+ 
