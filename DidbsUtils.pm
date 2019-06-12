@@ -3,18 +3,26 @@ use POSIX;
 use Exporter;
 use IO::Handle;
 
+use Time::HiRes qw(gettimeofday);
+
 @ISA = ('Exporter');
 @EXPORT=('mkdirp','sumfile','begins_with','didbsprint');
 
 use File::Basename;
 
 # Tweak to 1 to see date/time output
-my $useTimestamps=0;
+my $useTimestamps=1;
+
 sub didbsprint
 {
     my @args = @_;
     if($useTimestamps) {
-	print strftime("%F %T",localtime) . " ";
+	my @ts = gettimeofday();
+	my $microst = $ts[1] %1000000;
+	my $millis = floor($microst/1000);
+	my $micros = $microst%1000;
+	my $subsecstr = sprintf ".%0.3d.%0.3d", $millis, $micros;
+	print strftime("%F %T",localtime) . $subsecstr . " ";
     }
     print @args;
 }

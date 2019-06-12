@@ -29,11 +29,9 @@ sub findPackages
     }
     didbsprint "Looking for packages in $packageLocation\n";
 
-    $self->{v} && didbsprint "Before package ls\n";
-
     my @FOUNDPKGS = `ls $packageLocation/*/*.packagedef`;
 
-    $self->{v} && didbsprint "After package ls\n";
+    didbsprint "Completed package search of $packageLocation\n";
 
     chomp(@FOUNDPKGS);
     if( length(@FOUNDPKGS) == 0 )
@@ -43,6 +41,8 @@ sub findPackages
     }
 #    didbsprint "Have @FOUNDPKGS\n";
     my @knownPackages = ();
+
+    didbsprint "Reading package definitions...\n";
 
     foreach $foundpkg (@FOUNDPKGS)
     {
@@ -76,7 +76,8 @@ sub findPackages
     $self->{pidToPackage} = \%pidToPackage;
     my %donePackages;
 
-    $self->{v} && didbsprint "Working out dependencies and order....\n";
+    didbsprint "Computing package dependencies and order...\n";
+
     my $orderedRef = flattenAndSortDeps( \@knownPackages, \%pidToPackage, \%donePackages );
     if( $self->{v} )
     {
@@ -91,7 +92,8 @@ sub findPackages
     }
 
     $self->{knownPackages} = $orderedRef;
-    $self->{v} && didbsprint "Done package find\n";
+
+    didbsprint "Completed package dependencies and order...\n";
 }
 
 sub listPackages
