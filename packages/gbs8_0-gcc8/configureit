@@ -1,0 +1,16 @@
+#!/bin/sh
+
+BUILDDIR=$1
+INSTALLDIR=$2
+EXTRAARGS=$3
+echo $BUILDDIR
+echo $INSTALLDIR
+echo $EXTRAARGS
+. ./setupenv.sh
+cd $BUILDDIR || exit -1
+cd ..
+mkdir build-gcc
+cd build-gcc
+# GNU LD
+$BUILDDIR/configure --prefix=$GBS8_0_INSTALL_DIR --disable-silent-rules --disable-nls --disable-multilib --enable-obsolete --enable-languages=c,c++ --enable-bootstrap --with-gnu-ld --with-ld=$GBS8_0_INSTALL_DIR/bin/ld --with-gnu-as --with-as=$GBS8_0_INSTALL_DIR/bin/as --enable-shared --enable-static --enable-threads=posix --disable-lto --with-gmp=$INSTALLDIR --with-mpfr=$INSTALLDIR --with-system-zlib --enable-checking=release || exit -1
+exit 0

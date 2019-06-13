@@ -1,0 +1,14 @@
+#!/bin/sh
+
+BUILDDIR=$1
+INSTALLDIR=$2
+EXTRAARGS=$3
+echo $BUILDDIR
+echo $INSTALLDIR
+echo $EXTRAARGS
+. ./setupenv.sh
+cd $BUILDDIR || exit -1
+mkdir ../build-make
+cd ../build-make
+$BUILDDIR/configure gl_cv_func_select_supports0=no gl_cv_func_select_detects_ebadf=no --prefix=$GBS4_0_INSTALL_DIR || exit -1
+exit 0

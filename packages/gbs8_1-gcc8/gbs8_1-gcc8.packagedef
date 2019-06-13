@@ -1,0 +1,15 @@
+packageSource=ftp://ftp.mirrorservice.org/sites/sourceware.org/pub/gcc/releases/gcc-8.2.0/gcc-8.2.0.tar.gz
+packageFile=gcc-8.2.0.tar.gz
+packageChecksum=ee04f0c22a941f5f17d93809387f2729
+packageDir=gcc-8.2.0
+packagePatch=gcc8_2_0.sgidevfixes.patch
+
+packageExtraction=tarxfsystemhelper.sh
+expectedToolList=
+dependenciesList=gbs8_0-gcc8,gbs8_1-binutils
+envModifs=setupenv.sh
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=1
+disabled=0

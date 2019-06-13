@@ -1,0 +1,15 @@
+#!/bin/sh
+
+BUILDDIR=$1
+INSTALLDIR=$2
+EXTRAARGS=$3
+echo $BUILDDIR
+echo $INSTALLDIR
+echo $EXTRAARGS
+. ./setupenv.sh
+cd $BUILDDIR || exit -1
+mkdir ../build-bu
+cd ../build-bu
+$BUILDDIR/configure --prefix=$GBS8_0_INSTALL_DIR --libdir=$GBS8_0_INSTALL_DIR/lib --enable-werror=no --disable-nls --disable-iconv --disable-gprof --with-system-zlib || exit -1
+
+exit 0

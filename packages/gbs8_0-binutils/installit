@@ -1,0 +1,15 @@
+#!/bin/sh
+
+BUILDDIR=$1
+INSTALLDIR=$2
+EXTRAARGS=$3
+echo $BUILDDIR
+echo $INSTALLDIR
+echo $EXTRAARGS
+. ./setupenv.sh
+cd $BUILDDIR || exit -1
+cd ../build-bu
+make install || exit -1
+mv $GBS8_0_INSTALL_DIR/lib32/* $GBS8_0_INSTALL_DIR/lib
+rmdir $GBS8_0_INSTALL_DIR/lib32
+exit 0

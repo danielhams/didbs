@@ -87,7 +87,8 @@ sub findPackages
 	    my $curpkg = ${$pkg};
 	    my $pkgid = $curpkg->{packageId};
 	    my $sequenceNo = $curpkg->{sequenceNo};
-	    didbsprint "Package: $pkgid => $sequenceNo\n";
+	    my $dependencies = $curpkg->{dependenciesList};
+	    didbsprint "Package: $pkgid => $sequenceNo\t\t($dependencies)\n";
 	}
     }
 

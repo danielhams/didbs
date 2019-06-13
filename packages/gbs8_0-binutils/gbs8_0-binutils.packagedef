@@ -1,0 +1,16 @@
+## Still OK with gcc4.7.1
+packageSource=http://ftp.gnu.org/gnu/binutils/binutils-2.19.1a.tar.bz2
+packageFile=binutils-2.19.1a.tar.bz2
+packageChecksum=023222f392e9546bcbb0b4c0960729be
+packageDir=binutils-2.19.1
+packagePatch=binutils2_19.didbsfixes.patch
+
+packageExtraction=tarxfsystemhelper.sh
+expectedToolList=
+dependenciesList=make,tar,xz,bzip,gzip,dejagnu,zlib,bash,gbs4_1-gcc4
+envModifs=setupenv.sh
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=1
+disabled=0
