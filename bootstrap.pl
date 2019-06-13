@@ -21,7 +21,7 @@ STDERR->autoflush(1);
 STDOUT->autoflush(1);
 
 my $argc = ($#ARGV + 1);
-my $version = "0.0.5";
+my $version = "0.0.6";
 
 (my $configfile = basename($0)) =~ s/^(.*?)(?:\..*)?$/$1.conf/;
 my $scriptLocation = $FindBin::Bin;
@@ -602,7 +602,11 @@ sub checkPackage
 	if( $stoponuntested && !($curpkg->{passesChecksIndicator}) )
 	{
 	    didbsprint "This package ($packageId) is marked untested, please do the tests.\n";
-	    exit 0;
+	    # Only stop if we aren't dry running (pretend)
+	    if( !$dryrun )
+	    {
+		exit 0;
+	    }
 	}
 
 	my $curpkginstaller = DidbsInstaller->new( $scriptLocation,
