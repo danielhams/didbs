@@ -38,6 +38,7 @@ You'll need to setup your environment to pull the right directories (bash exampl
 If you want to use the included gcc4 or gcc8, after building they may be found here (so add to PATH and LD_LIBRARYN32_PATH as well):
 
 gcc4 actual -> /usr/didbs/0.0.6/gbs4_1
+
 gcc8 actual -> /usr/didbs/0.0.6/gbs8_1
 
 Please note that gcc8 is a work-in-progress (thanks to SGIDEV team) but seems to be pretty OK for compiling C.
