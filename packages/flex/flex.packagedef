@@ -6,7 +6,7 @@ packageDir=flex-2.6.4
 
 packageExtraction=tarxfsystemhelper.sh
 expectedToolList=
-dependenciesList=stage1make,stage1tar,stage1gzip,stage1gawk
+dependenciesList=make
 envModifs=setupenv.sh
 configureRecipe=configureit
 buildRecipe=buildit
