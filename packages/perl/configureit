@@ -7,6 +7,10 @@ echo $BUILDDIR
 echo $INSTALLDIR
 echo $EXTRAARGS
 . ./setupenv.sh
+cp ./tweakedconfig.sh $BUILDDIR/ || exit -1
 cd $BUILDDIR || exit -1
-./Configure -des -Dprefix=$INSTALLDIR -Dusethreads || exit -1
+perl -pi -e "s|DIDBSINSTALLPREFIX|${INSTALLDIR}|g" tweakedconfig.sh
+cp tweakedconfig.sh config.sh
+chmod u+x ./config.sh
+./Configure -S || exit -1
 exit 0
