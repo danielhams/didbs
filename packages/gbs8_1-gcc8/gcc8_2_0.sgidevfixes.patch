@@ -1299,7 +1299,7 @@ diff -u -r -w -N gcc-8.2.0/gcc/config/mips/driver-native.c gcc-8.2.0-patched/gcc
 diff -u -r -w -N gcc-8.2.0/gcc/config/mips/iris6.h gcc-8.2.0-patched/gcc/config/mips/iris6.h
 --- gcc-8.2.0/gcc/config/mips/iris6.h	1970-01-01 00:00:00.000000000 +0000
 +++ gcc-8.2.0-patched/gcc/config/mips/iris6.h	2019-05-31 13:47:36.349486120 +0000
-@@ -0,0 +1,375 @@
+@@ -0,0 +1,381 @@
 +/* Definitions of target machine for GNU compiler.  IRIX 6.5 version.
 +   Copyright (C) 1993, 1994, 1995, 1996, 1997, 1998, 2000,
 +   2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012
@@ -1345,6 +1345,8 @@ diff -u -r -w -N gcc-8.2.0/gcc/config/mips/iris6.h gcc-8.2.0-patched/gcc/config/
 +#else
 +# define MARCH_MTUNE_NATIVE_SPECS ""
 +#endif
++
++#define PREFERRRED_DEBUGGING_TYPE DWARF2_DEBUG
 +
 +/* Force the default ABI onto the command line in order to make the specs
 +   easier to write.  */
@@ -1524,6 +1526,10 @@ diff -u -r -w -N gcc-8.2.0/gcc/config/mips/iris6.h gcc-8.2.0-patched/gcc/config/
 +    {						\
 +      if (long_intmax == -1)			\
 +	long_intmax = mips_abi == ABI_64;	\
++      if (!global_options_set.x_dwarf_strict)	\
++      dwarf_strict = 1;			\
++      if (!global_options_set.x_dwarf_version)	\
++      dwarf_version = 2;			\
 +    }						\
 +  while (0)
 +
