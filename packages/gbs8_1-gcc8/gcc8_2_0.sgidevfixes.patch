@@ -1299,7 +1299,7 @@ diff -u -r -w -N gcc-8.2.0/gcc/config/mips/driver-native.c gcc-8.2.0-patched/gcc
 diff -u -r -w -N gcc-8.2.0/gcc/config/mips/iris6.h gcc-8.2.0-patched/gcc/config/mips/iris6.h
 --- gcc-8.2.0/gcc/config/mips/iris6.h	1970-01-01 00:00:00.000000000 +0000
 +++ gcc-8.2.0-patched/gcc/config/mips/iris6.h	2019-05-31 13:47:36.349486120 +0000
-@@ -0,0 +1,381 @@
+@@ -0,0 +1,382 @@
 +/* Definitions of target machine for GNU compiler.  IRIX 6.5 version.
 +   Copyright (C) 1993, 1994, 1995, 1996, 1997, 1998, 2000,
 +   2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012
@@ -1362,6 +1362,7 @@ diff -u -r -w -N gcc-8.2.0/gcc/config/mips/iris6.h gcc-8.2.0-patched/gcc/config/
 +
 +/* MIPS specific debugging info */
 +/* #define MIPS_DEBUGGING_INFO 1 */
++#define SGUG_DEBUGGING_INFO 1
 +
 +/* Force the generation of dwarf .debug_frame sections even if not
 +   compiling -g.  This guarantees that we can unwind the stack.  */
@@ -9346,3 +9347,148 @@ diff -u -r -w -N gcc-8.2.0/libstdc++-v3/testsuite/lib/libstdc++.exp gcc-8.2.0-pa
      if  [info exists env(AR)] {
  	set ar $env(AR)
      } else {
+diff --git gcc-8.2.0/gcc/dwarf2cfi.c gcc-8.2.0-patched/gcc/dwarf2cfi.c
+index 07e6a5a2887..3c211453e95 100644
+--- gcc-8.2.0/gcc/dwarf2cfi.c
++++ gcc-8.2.0-patched/gcc/dwarf2cfi.c
+@@ -797,6 +797,7 @@ def_cfa_0 (dw_cfa_location *old_cfa, dw_cfa_location *new_cfa)
+ 	cfi->dw_cfi_opc = DW_CFA_def_cfa_offset;
+       cfi->dw_cfi_oprnd1.dw_cfi_offset = const_offset;
+     }
++#ifndef SGUG_DEBUGGING_INFO /* SGI dbx thinks this means no offset. */
+   else if (new_cfa->offset.is_constant ()
+ 	   && known_eq (new_cfa->offset, old_cfa->offset)
+ 	   && old_cfa->reg != INVALID_REGNUM
+@@ -811,6 +812,7 @@ def_cfa_0 (dw_cfa_location *old_cfa, dw_cfa_location *new_cfa)
+       cfi->dw_cfi_opc = DW_CFA_def_cfa_register;
+       cfi->dw_cfi_oprnd1.dw_cfi_reg_num = new_cfa->reg;
+     }
++#endif
+   else if (new_cfa->indirect == 0
+ 	   && new_cfa->offset.is_constant (&const_offset))
+     {
+@@ -3488,6 +3490,10 @@ dwarf2out_do_cfi_asm (void)
+ {
+   int enc;
+ 
++#ifdef SGUG_DEBUGGING_INFO
++  return false;
++#endif
++
+   if (saved_do_cfi_asm != 0)
+     return saved_do_cfi_asm > 0;
+ 
+diff --git gcc-8.2.0/gcc/dwarf2out.c gcc-8.2.0-patched/gcc/dwarf2out.c
+index d94cf7dc928..ee118c4254e 100644
+--- gcc-8.2.0/gcc/dwarf2out.c
++++ gcc-8.2.0-patched/gcc/dwarf2out.c
+@@ -956,6 +956,11 @@ output_call_frame_info (int for_eh)
+   if (for_eh && targetm.terminate_dw2_eh_frame_info)
+     dw2_asm_output_data (4, 0, "End of Table");
+ 
++#ifdef SGUG_DEBUGGING_INFO
++  /* Work around Irix 6 assembler bug whereby labels at the end of a section
++     get a value of 0.  Putting .align 0 after the label fixes it.  */
++  ASM_OUTPUT_ALIGN (asm_out_file, 0);
++#endif
+   /* Turn off app to make assembly quicker.  */
+   if (flag_debug_asm)
+     app_disable ();
+@@ -19311,7 +19316,15 @@ add_data_member_location_attribute (dw_die_ref die,
+ 	  /* The DWARF2 standard says that we should assume that the structure
+ 	     address is already on the stack, so we can specify a structure
+ 	     field address by using DW_OP_plus_uconst.  */
++
++#ifdef SGUG_DEBUGGING_INFO
++	  /* ??? The SGI dwarf reader does not handle the DW_OP_plus_uconst
++	     operator correctly.  It works only if we leave the offset on the
++	     stack.  */
++	  op = DW_OP_constu;
++#else
+ 	  op = DW_OP_plus_uconst;
++#endif
+ 	  loc_descr = new_loc_descr (op, offset, 0);
+ 	}
+     }
+@@ -21698,6 +21711,17 @@ gen_array_type_die (tree type, dw_die_ref context_die)
+       return;
+     }
+ 
++  /* ??? The SGI dwarf reader fails for array of array of enum types
++     (e.g. const enum machine_mode insn_operand_mode[2][10]) unless the inner
++     array type comes before the outer array type.  We thus call gen_type_die
++     before we new_die and must prevent nested array types collapsing for this
++     target.  */
++
++#ifdef SGUG_DEBUGGING_INFO
++  gen_type_die (TREE_TYPE (type), context_die);
++  collapse_nested_arrays = false;
++#endif
++
+   array_die = new_die (DW_TAG_array_type, scope_die, type);
+   add_name_attribute (array_die, type_tag (type));
+   equate_type_number_to_die (type, array_die);
+@@ -21723,6 +21747,15 @@ gen_array_type_die (tree type, dw_die_ref context_die)
+   add_AT_unsigned (array_die, DW_AT_ordering, DW_ORD_row_major);
+ #endif
+ 
++#ifdef SGUG_DEBUGGING_INFO
++  /* The SGI compilers handle arrays of unknown bound by setting
++     AT_declaration and not emitting any subrange DIEs.  */
++  if (TREE_CODE (type) == ARRAY_TYPE
++      && ! TYPE_DOMAIN (type))
++    add_AT_flag (array_die, DW_AT_declaration, 1);
++  else
++#endif
++
+   if (TREE_CODE (type) == VECTOR_TYPE)
+     {
+       /* For VECTOR_TYPEs we use an array die with appropriate bounds.  */
+@@ -21745,6 +21778,10 @@ gen_array_type_die (tree type, dw_die_ref context_die)
+ 	element_type = TREE_TYPE (element_type);
+       }
+ 
++#ifndef SGUG_DEBUGGING_INFO
++  gen_type_die (element_type, context_die);
++#endif
++
+   add_type_attribute (array_die, element_type, TYPE_UNQUALIFIED,
+ 		      TREE_CODE (type) == ARRAY_TYPE
+ 		      && TYPE_REVERSE_STORAGE_ORDER (type),
+@@ -23031,6 +23068,11 @@ gen_subprogram_die (tree decl, dw_die_ref context_die)
+                                false);
+ 	}
+ 
++#ifdef SGUG_DEBUGGING_INFO
++      /* Add a reference to the FDE for this routine.  */
++      add_AT_fde_ref (subr_die, DW_AT_MIPS_fde, cfun->fde->fde_index);
++#endif
++
+       cfa_fb_offset = CFA_FRAME_BASE_OFFSET (decl);
+ 
+       /* We define the "frame base" as the function's CFA.  This is more
+@@ -24272,6 +24314,24 @@ gen_producer_string (void)
+   sprintf (tail, "%s %s", language_string, version_string);
+   tail += plen;
+ 
++  if (!dwarf_record_gcc_switches)
++    {
++#ifdef SGUG_DEBUGGING_INFO
++      /* The MIPS/SGI compilers place the 'cc' command line options in the
++        producer string.  The SGI debugger looks for -g, -g1, -g2, or -g3;
++        if they do not appear in the producer string, the debugger reaches
++        the conclusion that the object file is stripped and has no debugging
++        information.  To get the MIPS/SGI debugger to believe that there is
++        debugging information in the object file, we add a -g to the producer
++        string.  */
++      if (debug_info_level > DINFO_LEVEL_TERSE)
++       {
++         memcpy (tail, " -g", 3);
++         tail += 3;
++       }
++#endif
++    }
++
+   FOR_EACH_VEC_ELT (switches, j, p)
+     {
+       len = strlen (p);
