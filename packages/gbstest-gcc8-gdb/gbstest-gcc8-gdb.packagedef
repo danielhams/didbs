@@ -1,14 +1,21 @@
+# NOPE out of there, way too much effort for now.
 #packageSource=http://ftp.gnu.org/gnu/gdb/gdb-8.0.1.tar.gz
 #packageFile=gdb-8.0.1.tar.gz
 #packageChecksum=bb45869f8126a84ea2ba13a8c0e7c90e
 #packageDir=gdb-8.0.1
-##packagePatch=gdb8.0.1.fixups.patch
+##packagePatch=gdb801.fixups.patch
 
-packageSource=http://ftp.gnu.org/gnu/gdb/gdb-6.8a.tar.gz
-packageFile=gdb-6.8a.tar.gz
-packageChecksum=6bccd284284261e46ad5acfb5cf3a499
-packageDir=gdb-6.8
-packagePatch=gdb6.8a.fixups.patch
+packageSource=http://ftp.gnu.org/gnu/gdb/gdb-7.6.2.tar.gz
+packageFile=gdb-7.6.2.tar.gz
+packageChecksum=9ebf09fa76e4ca6034157086e9b20348
+packageDir=gdb-7.6.2
+packagePatch=gdb762.fixups.patch
+
+#packageSource=http://ftp.gnu.org/gnu/gdb/gdb-6.8a.tar.gz
+#packageFile=gdb-6.8a.tar.gz
+#packageChecksum=6bccd284284261e46ad5acfb5cf3a499
+#packageDir=gdb-6.8
+#packagePatch=gdb6.8a.fixups.patch
 
 packageExtraction=tarxfsystemhelper.sh
 expectedToolList=
@@ -17,5 +24,6 @@ envModifs=setupenv.sh
 configureRecipe=configureit
 buildRecipe=buildit
 installRecipe=installit
-passesChecksIndicator=0
-disabled=1
+# Kind of passes, enough for now, anyway
+passesChecksIndicator=1
+disabled=0
