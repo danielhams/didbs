@@ -1,8 +1,7 @@
-Only in binutils-2.32-patched: autom4te.cache
-diff -u -r -w binutils-2.32/bfd/elfxx-mips.c binutils-2.32-patched/bfd/elfxx-mips.c
---- binutils-2.32/bfd/elfxx-mips.c	2019-01-19 16:01:33.000000000 +0000
-+++ binutils-2.32-patched/bfd/elfxx-mips.c	2019-07-06 11:55:53.947600960 +0000
-@@ -4482,11 +4482,18 @@
+diff -u -r -w binutils-2.26.1/bfd/elfxx-mips.c binutils-2.26.1-patched/bfd/elfxx-mips.c
+--- binutils-2.26.1/bfd/elfxx-mips.c	2016-01-25 08:51:06.000000000 +0000
++++ binutils-2.26.1-patched/bfd/elfxx-mips.c	2019-07-06 09:21:43.611045520 +0000
+@@ -4428,11 +4428,18 @@
      {
        /* Make a final decision about whether the symbol belongs in the
  	 local or global GOT.  */
@@ -21,7 +20,7 @@ diff -u -r -w binutils-2.32/bfd/elfxx-mips.c binutils-2.32-patched/bfd/elfxx-mip
        else if (htab->is_vxworks
  	       && h->got_only_for_calls
  	       && h->root.plt.plist->mips_offset != MINUS_ONE)
-@@ -5019,10 +5026,12 @@
+@@ -4965,10 +4972,12 @@
  static bfd_boolean
  mips_elf_local_relocation_p (bfd *input_bfd,
  			     const Elf_Internal_Rela *relocation,
@@ -35,7 +34,7 @@ diff -u -r -w binutils-2.32/bfd/elfxx-mips.c binutils-2.32-patched/bfd/elfxx-mip
    size_t extsymoff;
  
    r_symndx = ELF_R_SYM (input_bfd, relocation->r_info);
-@@ -5034,6 +5043,20 @@
+@@ -4980,6 +4989,20 @@
    if (elf_bad_symtab (input_bfd) && local_sections[r_symndx] != NULL)
      return TRUE;
  
@@ -56,7 +55,7 @@ diff -u -r -w binutils-2.32/bfd/elfxx-mips.c binutils-2.32-patched/bfd/elfxx-mip
    return FALSE;
  }
  
-@@ -5414,7 +5437,7 @@
+@@ -5277,7 +5300,7 @@
       used in the array of hash table entries.  */
    symtab_hdr = &elf_tdata (input_bfd)->symtab_hdr;
    local_p = mips_elf_local_relocation_p (input_bfd, relocation,
@@ -65,50 +64,50 @@ diff -u -r -w binutils-2.32/bfd/elfxx-mips.c binutils-2.32-patched/bfd/elfxx-mip
    was_local_p = local_p;
    if (! elf_bad_symtab (input_bfd))
      extsymoff = symtab_hdr->sh_info;
-@@ -5737,7 +5760,11 @@
+@@ -5570,7 +5593,11 @@
+ 				&& (target_is_16_bit_code_p
  				    || target_is_micromips_code_p))));
  
-   resolved_to_zero = (h != NULL
--		      && UNDEFWEAK_NO_DYNAMIC_RELOC (info, &h->root));
-+		      && 
-+		      (UNDEFWEAK_NO_DYNAMIC_RELOC (info, &h->root)
-+		       &&
-+		       mips_elf_local_relocation_p(input_bfd, relocation, local_sections, TRUE))
-+		     );
+-  local_p = (h == NULL || mips_use_local_got_p (info, h));
++  local_p = (h == NULL || 
++	     (mips_use_local_got_p (info, h)
++	      &&
++	      mips_elf_local_relocation_p(input_bfd, relocation, local_sections, TRUE))
++	    );
  
-   switch (r_type)
-     {
-@@ -10156,7 +10183,7 @@
+   gp0 = _bfd_get_gp_value (input_bfd);
+   gp = _bfd_get_gp_value (abfd);
+@@ -9897,7 +9924,7 @@
    Elf_Internal_Sym *sym;
    asection *sec;
  
 -  if (mips_elf_local_relocation_p (input_bfd, rel, local_sections))
-+  if (mips_elf_local_relocation_p (input_bfd, rel, local_sections, FALSE))
++  if (mips_elf_local_relocation_p (input_bfd, rel, local_sections,FALSE))
      {
        r_type = ELF_R_TYPE (output_bfd, rel->r_info);
        if (gprel16_reloc_p (r_type)
-@@ -10272,7 +10299,7 @@
+@@ -10015,7 +10042,7 @@
  
        r_symndx = ELF_R_SYM (input_bfd, rel->r_info);
        symtab_hdr = &elf_tdata (input_bfd)->symtab_hdr;
 -      if (mips_elf_local_relocation_p (input_bfd, rel, local_sections))
-+      if (mips_elf_local_relocation_p (input_bfd, rel, local_sections, FALSE))
++      if (mips_elf_local_relocation_p (input_bfd, rel, local_sections,FALSE))
  	{
  	  sec = local_sections[r_symndx];
  	  h = NULL;
-@@ -10334,7 +10361,7 @@
+@@ -10077,7 +10104,7 @@
  	      if (hi16_reloc_p (r_type)
  		  || (got16_reloc_p (r_type)
  		      && mips_elf_local_relocation_p (input_bfd, rel,
 -						      local_sections)))
-+						      local_sections, FALSE)))
++						      local_sections,FALSE)))
  		{
  		  if (!mips_elf_add_lo16_rel_addend (input_bfd, rel, relend,
  						     contents, &addend))
-diff -u -r -w binutils-2.32/binutils/readelf.c binutils-2.32-patched/binutils/readelf.c
---- binutils-2.32/binutils/readelf.c	2019-01-19 16:01:33.000000000 +0000
-+++ binutils-2.32-patched/binutils/readelf.c	2019-07-06 11:54:50.085740160 +0000
-@@ -13514,7 +13514,9 @@
+diff -u -r -w binutils-2.26.1/binutils/readelf.c binutils-2.26.1-patched/binutils/readelf.c
+--- binutils-2.26.1/binutils/readelf.c	2015-11-13 08:27:41.000000000 +0000
++++ binutils-2.26.1-patched/binutils/readelf.c	2019-07-06 10:02:16.584788160 +0000
+@@ -12174,7 +12174,9 @@
  	{
  	  size_t maxlen = end - data;
  
@@ -119,21 +118,9 @@ diff -u -r -w binutils-2.32/binutils/readelf.c binutils-2.32-patched/binutils/re
  	  /* PR 11128: Use two separate invocations in order to work
               around bugs in the Solaris 8 implementation of printf.  */
  	  printf ("  [%6tx]  ", data - start);
-diff -u -r -w binutils-2.32/configure binutils-2.32-patched/configure
---- binutils-2.32/configure	2019-01-19 16:10:54.000000000 +0000
-+++ binutils-2.32-patched/configure	2019-07-06 11:25:36.816246320 +0000
-@@ -2777,7 +2777,7 @@
- # binutils, gas and ld appear in that order because it makes sense to run
- # "make check" in that particular order.
- # If --enable-gold is used, "gold" may replace "ld".
--host_tools="texinfo flex bison binutils gas ld fixincludes gcc cgen sid sim gdb gprof etc expect dejagnu m4 utils guile fastjar gnattools libcc1 gotools"
-+host_tools="flex bison binutils gas ld fixincludes gcc cgen sid sim gdb gprof etc expect dejagnu m4 utils guile fastjar gnattools libcc1 gotools"
- 
- # these libraries are built for the target environment, and are built after
- # the host libraries and the host tools (which may be a cross compiler)
-diff -u -r -w binutils-2.32/libiberty/testsuite/test-strtol.c binutils-2.32-patched/libiberty/testsuite/test-strtol.c
---- binutils-2.32/libiberty/testsuite/test-strtol.c	2019-01-19 16:01:34.000000000 +0000
-+++ binutils-2.32-patched/libiberty/testsuite/test-strtol.c	2019-07-06 11:55:16.991029040 +0000
+diff -u -r -w binutils-2.26.1/libiberty/testsuite/test-strtol.c binutils-2.26.1-patched/libiberty/testsuite/test-strtol.c
+--- binutils-2.26.1/libiberty/testsuite/test-strtol.c	2015-11-13 08:27:42.000000000 +0000
++++ binutils-2.26.1-patched/libiberty/testsuite/test-strtol.c	2019-07-06 10:07:15.631468720 +0000
 @@ -155,19 +155,19 @@
        /* Compare result */
        if (res != test_data[i].res)

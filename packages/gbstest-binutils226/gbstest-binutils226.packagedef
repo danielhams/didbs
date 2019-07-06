@@ -1,8 +1,8 @@
-packageSource=http://ftp.gnu.org/gnu/binutils/binutils-2.32.tar.xz
-packageFile=binutils-2.32.tar.xz
-packageChecksum=0d174cdaf85721c5723bf52355be41e6
-packageDir=binutils-2.32
-#packagePatch=binutils2_32.didbsfixes.patch
+packageSource=http://ftp.gnu.org/gnu/binutils/binutils-2.26.1.tar.gz
+packageFile=binutils-2.26.1.tar.gz
+packageChecksum=0a40e61a60f09796a2313aa7fcc7bb07
+packageDir=binutils-2.26.1
+packagePatch=binutils2_26.didbsfixes.patch
 
 packageExtraction=tarxfsystemhelper.sh
 expectedToolList=

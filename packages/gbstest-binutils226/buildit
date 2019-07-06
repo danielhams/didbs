@@ -9,8 +9,5 @@ echo $EXTRAARGS
 . ./setupenv.sh
 cd $BUILDDIR || exit -1
 cd ../build-bu
-make install || exit -1
-cd $GBSTEST_INSTALL_DIR
-mv lib32/* lib/
-rmdir lib32
+make -j $DIDS_JOBS || exit -1
 exit 0
