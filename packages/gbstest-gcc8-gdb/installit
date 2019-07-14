@@ -12,5 +12,6 @@ cd ../build-gdb
 make install || exit -1
 # Unneeded libiberty.a
 cd $GBSTEST_INSTALL_DIR
-rm -rf ./lib32
+mv ./lib32/* lib/
+rmdir ./lib32
 exit 0

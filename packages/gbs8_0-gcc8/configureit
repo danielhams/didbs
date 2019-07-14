@@ -13,5 +13,8 @@ mkdir build-gcc
 cd build-gcc
 # FORCED GNU LD (disables use of -B option)
 #$BUILDDIR/configure --prefix=$GBS8_0_INSTALL_DIR --disable-silent-rules --disable-nls --disable-multilib --enable-obsolete --enable-languages=c,c++ --enable-bootstrap --with-gnu-ld --with-ld=$GBS8_0_INSTALL_DIR/bin/ld --with-gnu-as --with-as=$GBS8_0_INSTALL_DIR/bin/as --enable-shared --enable-static --enable-threads=posix --disable-lto --with-gmp=$INSTALLDIR --with-mpfr=$INSTALLDIR --with-system-zlib --enable-checking=release || exit -1
-$BUILDDIR/configure --with-stage1-cflags="$STAGE1_CFLAGS" --prefix=$GBS8_0_INSTALL_DIR --disable-silent-rules --disable-nls --disable-multilib --enable-obsolete --enable-languages=c,c++ --enable-bootstrap --enable-shared --enable-static --enable-threads=posix --disable-lto --with-gmp=$INSTALLDIR --with-mpfr=$INSTALLDIR --with-system-zlib --enable-checking=release || exit -1
+#$BUILDDIR/configure --with-stage1-cflags="$STAGE1_CFLAGS" --prefix=$GBS8_0_INSTALL_DIR --disable-silent-rules --disable-nls --disable-multilib --enable-obsolete --enable-languages=c,c++ --enable-bootstrap --enable-shared --enable-static --enable-threads=posix --disable-lto --with-gmp=$INSTALLDIR --with-mpfr=$INSTALLDIR --with-system-zlib --enable-checking=release || exit -1
+
+$BUILDDIR/configure --prefix=$GBS8_0_INSTALL_DIR --disable-silent-rules --disable-nls --disable-multilib --enable-obsolete --enable-languages=c,c++ --disable-bootstrap --with-gnu-ld --with-ld=$GBS8_0_INSTALL_DIR/bin/ld --with-gnu-as --with-as=$GBS8_0_INSTALL_DIR/bin/as --enable-shared --enable-static --enable-threads=posix --disable-lto --with-gmp=$INSTALLDIR --with-mpfr=$INSTALLDIR --with-system-zlib --enable-checking=release || exit -1
+
 exit 0
