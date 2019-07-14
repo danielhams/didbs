@@ -1,0 +1,24 @@
+--- make-ca.sh-20170514	2019-07-14 08:27:32.478445080 +0000
++++ make-ca.sh-20170514-patched	2019-07-14 08:29:51.670012440 +0000
+@@ -1,4 +1,4 @@
+-#!/bin/bash
++#!/bin/env bash
+ # Begin /usr/sbin/make-ca.sh
+ #
+ # Script to create OpenSSL certs directory, GnuTLS certificate bundle, NSS
+@@ -26,11 +26,11 @@
+ # Set defaults
+ VERSION="20170425"
+ CERTDATA="certdata.txt"
+-PKIDIR="/etc/pki"
+-SSLDIR="/etc/ssl"
+-CERTUTIL="/usr/bin/certutil"
++PKIDIR="${INSTALLDIR}/etc/pki"
++SSLDIR="${INSTALLDIR}/etc/ssl"
++CERTUTIL="${INSTALLDIR}/bin/certutil"
+ KEYTOOL="/opt/jdk/bin/keytool"
+-OPENSSL="/usr/bin/openssl"
++OPENSSL="${INSTALLDIR}/bin/openssl"
+ ANCHORDIR="${PKIDIR}/anchors"
+ CABUNDLE="${SSLDIR}/ca-bundle.crt"
+ CERTDIR="${SSLDIR}/certs"

@@ -8,5 +8,5 @@ echo $INSTALLDIR
 echo $EXTRAARGS
 . ./setupenv.sh
 cd $BUILDDIR || exit -1
-./Configure --prefix=$INSTALLDIR --openssldir=$INSTALLDIR/ssl irix-mips4-cc threads shared || exit -1
+./Configure --prefix=$INSTALLDIR --openssldir=$INSTALLDIR/etc/ssl irix-mips4-cc threads shared || exit -1
 exit 0

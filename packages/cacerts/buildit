@@ -8,6 +8,6 @@ echo $INSTALLDIR
 echo $EXTRAARGS
 . ./setupenv.sh
 cd $BUILDDIR || exit -1
-cd ../build-curl || exit -1
-make install || exit -1
+cd build-cacerts
+
 exit 0

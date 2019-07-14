@@ -1,0 +1,15 @@
+packageSource=http://anduin.linuxfromscratch.org/BLFS/other/make-ca.sh-20170514
+packageFile=make-ca.sh-20170514
+packageChecksum=a21a04d6ff5c4645c748220dbaa9f221
+packageDir=
+packagePatch=cacerts.didbsfix.patch
+
+packageExtraction=donothing.sh
+expectedToolList=
+dependenciesList=openssl,wget-static
+envModifs=setupenv.sh
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=1
+disabled=0

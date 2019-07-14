@@ -1,0 +1,16 @@
+#!/bin/sh
+
+BUILDDIR=$1
+INSTALLDIR=$2
+EXTRAARGS=$3
+echo $BUILDDIR
+echo $INSTALLDIR
+echo $EXTRAARGS
+. ./setupenv.sh
+cd $BUILDDIR || exit -1
+cd build-cacerts
+export INSTALLDIR
+install -vm755 ../make-ca.sh-20170514 $INSTALLDIR/sbin/make-ca.sh || exit 1
+$INSTALLDIR/sbin/make-ca.sh || exit 1
+
+exit 0
