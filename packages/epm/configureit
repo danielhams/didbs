@@ -1,0 +1,16 @@
+#!/bin/sh
+
+BUILDDIR=$1
+INSTALLDIR=$2
+EXTRAARGS=$3
+echo $BUILDDIR
+echo $INSTALLDIR
+echo $EXTRAARGS
+. ./setupenv.sh
+cd $BUILDDIR || exit -1
+# EPM is a stupid package that can't use a separate build tree
+#mkdir -p ../build-epm
+#cd ../build-epm
+cp README.md README || exit
+$BUILDDIR/configure --prefix=$INSTALLDIR || exit -1
+exit 0

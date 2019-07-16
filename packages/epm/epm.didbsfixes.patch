@@ -1,0 +1,44 @@
+diff -r -u -w epm-4.4/configure epm-4.4-patched/configure
+--- epm-4.4/configure	2017-10-11 14:24:00.000000000 +0000
++++ epm-4.4-patched/configure	2019-07-14 20:12:06.881122080 +0000
+@@ -4811,16 +4811,8 @@
+ 			OPTIM="$OPTIM +DAportable"
+ 			;;
+         	IRIX*)
+-			if test -z "$OPTIM"; then
+-        			OPTIM="-O2"
+-			fi
+-			if test $uversion -ge 62; then
+-				OPTIM="$OPTIM -n32 -mips3"
+-				OPTIM="$OPTIM -OPT:Olimit=3000"
+-				OPTIM="-fullwarn -woff 1209,1506,1692 $OPTIM"
+-			else
+-				OPTIM="-fullwarn $OPTIM"
+-			fi
++			# DIDBS will provide cflags
++			OPTIM=""
+ 			;;
+ 		SunOS*)
+ 			# Solaris
+diff -r -u -w epm-4.4/configure.ac epm-4.4-patched/configure.ac
+--- epm-4.4/configure.ac	2017-10-11 14:24:00.000000000 +0000
++++ epm-4.4-patched/configure.ac	2019-07-14 20:11:35.214425280 +0000
+@@ -237,16 +237,8 @@
+ 			OPTIM="$OPTIM +DAportable"
+ 			;;
+         	IRIX*)
+-			if test -z "$OPTIM"; then
+-        			OPTIM="-O2"
+-			fi
+-			if test $uversion -ge 62; then
+-				OPTIM="$OPTIM -n32 -mips3"
+-				OPTIM="$OPTIM -OPT:Olimit=3000"
+-				OPTIM="-fullwarn -woff 1209,1506,1692 $OPTIM"
+-			else
+-				OPTIM="-fullwarn $OPTIM"
+-			fi
++			# DIDBS will provide cflags
++			OPTIM=""
+ 			;;
+ 		SunOS*)
+ 			# Solaris
