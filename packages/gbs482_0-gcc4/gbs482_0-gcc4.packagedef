@@ -1,8 +1,8 @@
-packageSource=ftp://ftp.mirrorservice.org/sites/sourceware.org/pub/gcc/releases/gcc-5.4.0/gcc-5.4.0.tar.gz
-packageFile=gcc-5.4.0.tar.gz
-packageChecksum=f2b4d5a580061711e68f0f506e402e1c
-packageDir=gcc-5.4.0
-packagePatch=gcc5_4_0.sgidevfixes.patch
+packageSource=ftp://ftp.mirrorservice.org/sites/sourceware.org/pub/gcc/releases/gcc-4.8.2/gcc-4.8.2.tar.gz
+packageFile=gcc-4.8.2.tar.gz
+packageChecksum=deca88241c1135e2ff9fa5486ab5957b
+packageDir=gcc-4.8.2
+packagePatch=gcc4_8_2.sgidevfixes.patch
 
 packageExtraction=tarxfsystemhelper.sh
 expectedToolList=

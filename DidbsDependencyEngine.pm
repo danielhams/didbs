@@ -29,7 +29,9 @@ sub findPackages
     }
     didbsprint "Looking for packages in $packageLocation\n";
 
-    my @FOUNDPKGS = `ls $packageLocation/*/*.packagedef`;
+    # Glob is _slightly_ quicker, and saves a "fork/exec", too
+#    my @FOUNDPKGS = `ls $packageLocation/*/*.packagedef`;
+    my @FOUNDPKGS = glob "$packageLocation/*/*.packagedef";
 
     didbsprint "Completed package search of $packageLocation\n";
 

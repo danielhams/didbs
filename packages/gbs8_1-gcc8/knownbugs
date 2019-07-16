@@ -1,1 +1,446 @@
-Currently bootstrapping fails and the math_core.h has to be modified by hand. I'm looking fix-includes of this.
+Unwinding broken at the moment.
+
+Run of C++ tests:
+
+Test run by dan on Mon Jul 15 13:00:06 2019
+Native configuration is mips-sgi-irix6.5
+
+                === g++ tests ===
+
+Schedule of variations:
+    unix
+
+Running target unix
+Using /builds/dan/bootstrapinstall/share/dejagnu/baseboards/unix.exp as board description file for target.
+Using /builds/dan/bootstrapinstall/share/dejagnu/config/unix.exp as generic interface file for target.
+Using /builds/dan/bootstrapbuilds/gbs8_1-gcc8/gcc-8.2.0/gcc/testsuite/config/default.exp as tool-and-target-specific interface file.
+Running /builds/dan/bootstrapbuilds/gbs8_1-gcc8/gcc-8.2.0/gcc/testsuite/g++.dg/asan/asan.exp ...
+Running /builds/dan/bootstrapbuilds/gbs8_1-gcc8/gcc-8.2.0/gcc/testsuite/g++.dg/bprob/bprob.exp ...
+Running /builds/dan/bootstrapbuilds/gbs8_1-gcc8/gcc-8.2.0/gcc/testsuite/g++.dg/charset/charset.exp ...
+Running /builds/dan/bootstrapbuilds/gbs8_1-gcc8/gcc-8.2.0/gcc/testsuite/g++.dg/compat/compat.exp ...
+Running /builds/dan/bootstrapbuilds/gbs8_1-gcc8/gcc-8.2.0/libstdc++-v3/testsuite/libstdc++-dg/conformance.exp ...
+Running /builds/dan/bootstrapbuilds/gbs8_1-gcc8/gcc-8.2.0/gcc/testsuite/g++.dg/compat/struct-layout-1.exp ...
+FAIL: 17_intro/headers/c++2011/linkage.cc (test for excess errors)
+FAIL: 18_support/exception_ptr/60612-terminate.cc (test for excess errors)
+FAIL: 18_support/exception_ptr/60612-unexpected.cc (test for excess errors)
+FAIL: 18_support/numeric_limits/epsilon.cc execution test
+Running /builds/dan/bootstrapbuilds/gbs8_1-gcc8/gcc-8.2.0/gcc/testsuite/g++.dg/debug/debug.exp ...
+Running /builds/dan/bootstrapbuilds/gbs8_1-gcc8/gcc-8.2.0/gcc/testsuite/g++.dg/debug/dwarf2/dwarf2.exp ...
+Running /builds/dan/bootstrapbuilds/gbs8_1-gcc8/gcc-8.2.0/gcc/testsuite/g++.dg/dfp/dfp.exp ...
+Running /builds/dan/bootstrapbuilds/gbs8_1-gcc8/gcc-8.2.0/gcc/testsuite/g++.dg/dg.exp ...
+XPASS: 21_strings/basic_string/cons/char/deduction.cc (test for excess errors)
+XPASS: 21_strings/basic_string/cons/wchar_t/deduction.cc (test for excess errors)
+FAIL: 21_strings/basic_string/inserters_extractors/wchar_t/1.cc execution test
+FAIL: 21_strings/basic_string/inserters_extractors/wchar_t/11.cc execution test
+FAIL: 21_strings/basic_string/inserters_extractors/wchar_t/5.cc execution test
+FAIL: 21_strings/basic_string/pthread18185.cc (test for excess errors)
+FAIL: 21_strings/basic_string_view/inserters/wchar_t/2.cc execution test
+FAIL: 22_locale/classification/isblank.cc execution test
+FAIL: 22_locale/ctype/is/wchar_t/1.cc execution test
+FAIL: 22_locale/ctype/cons/char/1.cc execution test
+FAIL: 22_locale/ctype/scan/wchar_t/1.cc execution test
+FAIL: g++.dg/cpp0x/udlit-general.C  -std=c++11 execution test
+FAIL: g++.dg/cpp0x/udlit-general.C  -std=c++14 execution test
+FAIL: 22_locale/money_get/get/wchar_t/19.cc execution test
+FAIL: 22_locale/money_get/get/wchar_t/8.cc execution test
+FAIL: 22_locale/num_put/put/char/14220.cc execution test
+FAIL: 22_locale/num_put/put/wchar_t/14220.cc execution test
+FAIL: 22_locale/time_get/get/wchar_t/1.cc execution test
+FAIL: g++.dg/ext/va-arg-pack-1.C  -std=gnu++98 execution test
+FAIL: g++.dg/ext/va-arg-pack-1.C  -std=gnu++11 execution test
+FAIL: g++.dg/ext/va-arg-pack-1.C  -std=gnu++14 execution test
+FAIL: g++.dg/init/new39.C  -std=c++98 execution test
+FAIL: g++.dg/init/new39.C  -std=c++11 execution test
+FAIL: g++.dg/init/new39.C  -std=c++14 execution test
+FAIL: 23_containers/unordered_map/profile/hash_map.cc (test for excess errors)
+FAIL: 23_containers/vector/capacity/resize/1.cc execution test
+FAIL: 26_numerics/complex/56111.cc (test for excess errors)
+FAIL: 26_numerics/complex/c99.cc (test for excess errors)
+FAIL: 26_numerics/complex/inserters_extractors/char/1.cc execution test
+FAIL: 26_numerics/headers/cmath/c99_classification_macros_c++11.cc (test for excess errors)
+FAIL: 26_numerics/headers/cmath/c99_classification_macros_c++98.cc (test for excess errors)
+FAIL: 26_numerics/headers/cmath/c99_classification_macros_c.cc (test for excess errors)
+FAIL: 26_numerics/headers/cmath/hypot.cc execution test
+FAIL: 26_numerics/complex/inserters_extractors/wchar_t/1.cc execution test
+FAIL: 26_numerics/random/bernoulli_distribution/operators/values.cc execution test
+FAIL: 26_numerics/random/binomial_distribution/operators/values.cc execution test
+Running /builds/dan/bootstrapbuilds/gbs8_1-gcc8/gcc-8.2.0/gcc/testsuite/g++.dg/gcov/gcov.exp ...
+Running /builds/dan/bootstrapbuilds/gbs8_1-gcc8/gcc-8.2.0/gcc/testsuite/g++.dg/goacc-gomp/goacc-gomp.exp ...
+Running /builds/dan/bootstrapbuilds/gbs8_1-gcc8/gcc-8.2.0/gcc/testsuite/g++.dg/goacc/goacc.exp ...
+Running /builds/dan/bootstrapbuilds/gbs8_1-gcc8/gcc-8.2.0/gcc/testsuite/g++.dg/gomp/gomp.exp ...
+WARNING: program timed out.
+FAIL: 26_numerics/random/binomial_distribution/operators/values2.cc execution test
+FAIL: 26_numerics/random/binomial_distribution/operators/values3.cc execution test
+FAIL: 26_numerics/random/binomial_distribution/operators/values4.cc execution test
+WARNING: program timed out.
+FAIL: 26_numerics/random/chi_squared_distribution/83833.cc execution test
+
+[1]+  Stopped                 make -j 3 check-c++
+[didbsshell dan@leafy build-gcc]$ fg
+make -j 3 check-c++
+WARNING: program timed out.
+FAIL: 26_numerics/random/binomial_distribution/operators/values5.cc execution test
+WARNING: program timed out.
+FAIL: 26_numerics/random/chi_squared_distribution/operators/serialize.cc execution test
+FAIL: 26_numerics/random/discrete_distribution/operators/values.cc execution test
+Running /builds/dan/bootstrapbuilds/gbs8_1-gcc8/gcc-8.2.0/gcc/testsuite/g++.dg/graphite/graphite.exp ...
+Running /builds/dan/bootstrapbuilds/gbs8_1-gcc8/gcc-8.2.0/gcc/testsuite/g++.dg/guality/guality.exp ...
+Running /builds/dan/bootstrapbuilds/gbs8_1-gcc8/gcc-8.2.0/gcc/testsuite/g++.dg/lto/lto.exp ...
+Running /builds/dan/bootstrapbuilds/gbs8_1-gcc8/gcc-8.2.0/gcc/testsuite/g++.dg/pch/pch.exp ...
+FAIL: 26_numerics/random/geometric_distribution/operators/values.cc execution test
+FAIL: ./uninst.H  -g (test for excess errors)
+FAIL: g++.dg/pch/uninst.C  -g -I. -Dwithout_PCH (test for excess errors)
+FAIL: ./uninst.H  -O2 -g (test for excess errors)
+FAIL: g++.dg/pch/uninst.C  -O2 -g -I. -Dwithout_PCH (test for excess errors)
+FAIL: ./uninst.H  -O2 (test for excess errors)
+FAIL: g++.dg/pch/uninst.C  -O2 -I. -Dwithout_PCH (test for excess errors)
+Running /builds/dan/bootstrapbuilds/gbs8_1-gcc8/gcc-8.2.0/gcc/testsuite/g++.dg/plugin/plugin.exp ...
+Running /builds/dan/bootstrapbuilds/gbs8_1-gcc8/gcc-8.2.0/gcc/testsuite/g++.dg/simulate-thread/simulate-thread.exp ...
+Running /builds/dan/bootstrapbuilds/gbs8_1-gcc8/gcc-8.2.0/gcc/testsuite/g++.dg/special/ecos.exp ...
+Running /builds/dan/bootstrapbuilds/gbs8_1-gcc8/gcc-8.2.0/gcc/testsuite/g++.dg/tls/tls.exp ...
+FAIL: g++.dg/tls/thread_local-order2.C  -std=c++11 execution test
+FAIL: g++.dg/tls/thread_local-order2.C  -std=c++14 execution test
+
+[1]+  Stopped                 make -j 3 check-c++
+[didbsshell dan@leafy build-gcc]$ fg
+make -j 3 check-c++
+Running /builds/dan/bootstrapbuilds/gbs8_1-gcc8/gcc-8.2.0/gcc/testsuite/g++.dg/tm/tm.exp ...
+FAIL: 26_numerics/random/knuth_b.cc execution test
+WARNING: program timed out.
+FAIL: 26_numerics/random/fisher_f_distribution/operators/serialize.cc execution test
+FAIL: g++.dg/tm/pr47530.C  -std=gnu++98  scan-tree-dump-times optimized "commitTransaction...; .tail call" 1
+FAIL: g++.dg/tm/pr47530.C  -std=gnu++11  scan-tree-dump-times optimized "commitTransaction...; .tail call" 1
+FAIL: g++.dg/tm/pr47530.C  -std=gnu++14  scan-tree-dump-times optimized "commitTransaction...; .tail call" 1
+Running /builds/dan/bootstrapbuilds/gbs8_1-gcc8/gcc-8.2.0/gcc/testsuite/g++.dg/torture/dg-torture.exp ...
+WARNING: program timed out.
+FAIL: 26_numerics/random/lognormal_distribution/operators/serialize.cc execution test
+WARNING: program timed out.
+FAIL: 26_numerics/random/gamma_distribution/operators/serialize.cc execution test
+WARNING: program timed out.
+FAIL: 26_numerics/random/negative_binomial_distribution/operators/serialize.cc execution test
+WARNING: program timed out.
+FAIL: 26_numerics/random/normal_distribution/operators/serialize.cc execution test
+FAIL: 26_numerics/random/poisson_distribution/operators/values.cc execution test
+WARNING: program timed out.
+FAIL: 26_numerics/random/negative_binomial_distribution/operators/values.cc execution test
+WARNING: program timed out.
+FAIL: 26_numerics/random/student_t_distribution/operators/serialize.cc execution test
+2837306:./12790-4.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./12790-4.exe: _ZNSt13basic_filebufIcSt11char_traitsIcEE5imbueERKSt6locale
+FAIL: 27_io/basic_filebuf/close/char/12790-4.cc execution test
+2834978:./4.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./4.exe: _ZNSt13basic_filebufIcSt11char_traitsIcEE9underflowEv
+FAIL: 27_io/basic_filebuf/close/char/4.cc execution test
+2837393:./12790-1.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./12790-1.exe: _ZNSt13basic_filebufIcSt11char_traitsIcEE5imbueERKSt6locale
+FAIL: 27_io/basic_filebuf/close/char/12790-1.cc execution test
+2840831:./12790-2.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./12790-2.exe: _ZNSt13basic_filebufIcSt11char_traitsIcEE6setbufEPci
+FAIL: 27_io/basic_filebuf/close/char/12790-2.cc execution test
+2841282:./5.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./5.exe: _ZNSt13basic_filebufIcSt11char_traitsIcEE9underflowEv
+FAIL: 27_io/basic_filebuf/close/char/5.cc execution test
+2841756:./12790-3.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./12790-3.exe: _ZNSt13basic_filebufIcSt11char_traitsIcEE5imbueERKSt6locale
+FAIL: 27_io/basic_filebuf/close/char/12790-3.cc execution test
+2840542:./9964.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./9964.exe: _ZNSt13basic_filebufIcSt11char_traitsIcEE8overflowEi
+FAIL: 27_io/basic_filebuf/close/char/9964.cc execution test
+2839681:./12790-4.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./12790-4.exe: _ZNSt13basic_filebufIwSt11char_traitsIwEE5imbueERKSt6locale
+FAIL: 27_io/basic_filebuf/close/wchar_t/12790-4.cc execution test
+2836213:./12790-1.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./12790-1.exe: _ZNSt13basic_filebufIwSt11char_traitsIwEE5imbueERKSt6locale
+FAIL: 27_io/basic_filebuf/close/wchar_t/12790-1.cc execution test
+2838435:./12790-2.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./12790-2.exe: _ZNSt13basic_filebufIwSt11char_traitsIwEE6setbufEPwi
+FAIL: 27_io/basic_filebuf/close/wchar_t/12790-2.cc execution test
+
+[1]+  Stopped                 make -j 3 check-c++
+[didbsshell dan@leafy build-gcc]$ fg
+make -j 3 check-c++
+2829689:./12790-3.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./12790-3.exe: _ZNSt13basic_filebufIwSt11char_traitsIwEE5imbueERKSt6locale
+FAIL: 27_io/basic_filebuf/close/wchar_t/12790-3.cc execution test
+2841776:./3.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./3.exe: _ZNSt13basic_filebufIcSt11char_traitsIcEE5imbueERKSt6locale
+FAIL: 27_io/basic_filebuf/imbue/char/3.cc execution test
+2839610:./1.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./1.exe: _ZNSt13basic_filebufIwSt11char_traitsIwEE5imbueERKSt6locale
+FAIL: 27_io/basic_filebuf/imbue/wchar_t/1.cc execution test
+2838881:./3.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./3.exe: _ZNSt13basic_filebufIwSt11char_traitsIwEE5imbueERKSt6locale
+FAIL: 27_io/basic_filebuf/imbue/wchar_t/3.cc execution test
+2838878:./1.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./1.exe: _ZNSt13basic_filebufIcSt11char_traitsIcEE5imbueERKSt6locale
+FAIL: 27_io/basic_filebuf/imbue/char/1.cc execution test
+2834822:./9182-2.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./9182-2.exe: _ZNSt13basic_filebufIcSt11char_traitsIcEE5imbueERKSt6locale
+FAIL: 27_io/basic_filebuf/overflow/char/9182-2.cc execution test
+2841977:./13858.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./13858.exe: _ZNSt13basic_filebufIwSt11char_traitsIwEE5imbueERKSt6locale
+FAIL: 27_io/basic_filebuf/overflow/wchar_t/13858.cc execution test
+2835673:./9761.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./9761.exe: _ZNSt13basic_filebufIcSt11char_traitsIcEE9underflowEv
+FAIL: 27_io/basic_filebuf/pbackfail/char/9761.cc execution test
+2817244:./13858.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./13858.exe: _ZNSt13basic_filebufIcSt11char_traitsIcEE5imbueERKSt6locale
+FAIL: 27_io/basic_filebuf/overflow/char/13858.cc execution test
+2841909:./9825.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./9825.exe: _ZNSt13basic_filebufIcSt11char_traitsIcEE6xsputnEPKci
+FAIL: 27_io/basic_filebuf/sbumpc/char/9825.cc execution test
+2817616:./12790-1.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./12790-1.exe: _ZNSt13basic_filebufIcSt11char_traitsIcEE5imbueERKSt6locale
+FAIL: 27_io/basic_filebuf/seekoff/char/12790-1.cc execution test
+2841956:./12790-2.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./12790-2.exe: _ZNSt13basic_filebufIcSt11char_traitsIcEE6setbufEPci
+FAIL: 27_io/basic_filebuf/seekoff/char/12790-2.cc execution test
+2828344:./12790-3.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./12790-3.exe: _ZNSt13basic_filebufIcSt11char_traitsIcEE5imbueERKSt6locale
+FAIL: 27_io/basic_filebuf/seekoff/char/12790-3.cc execution test
+2840993:./12790-4.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./12790-4.exe: _ZNSt13basic_filebufIcSt11char_traitsIcEE5imbueERKSt6locale
+FAIL: 27_io/basic_filebuf/seekoff/char/12790-4.cc execution test
+2842591:./26777.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./26777.exe: _ZNSt13basic_filebufIcSt11char_traitsIcEE6xsputnEPKci
+2842542:./12790-3.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./12790-3.exe: _ZNSt13basic_filebufIwSt11char_traitsIwEE5imbueERKSt6locale
+FAIL: 27_io/basic_filebuf/seekoff/wchar_t/12790-3.cc execution test
+2842902:./12790-4.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./12790-4.exe: _ZNSt13basic_filebufIwSt11char_traitsIwEE5imbueERKSt6locale
+FAIL: 27_io/basic_filebuf/seekoff/wchar_t/12790-4.cc execution test
+2841677:./3.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./3.exe: _ZNSt13basic_filebufIwSt11char_traitsIwEE8overflowEl
+FAIL: 27_io/basic_filebuf/seekoff/wchar_t/3.cc execution test
+2842235:./4.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./4.exe: _ZNSt13basic_filebufIwSt11char_traitsIwEE6xsputnEPKwi
+FAIL: 27_io/basic_filebuf/seekoff/wchar_t/4.cc execution test
+2837885:./9875_seekoff.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./9875_seekoff.exe: _ZNSt13basic_filebufIwSt11char_traitsIwEE5imbueERKSt6locale
+FAIL: 27_io/basic_filebuf/seekoff/wchar_t/9875_seekoff.cc execution test
+2843375:./12790-1.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./12790-1.exe: _ZNSt13basic_filebufIcSt11char_traitsIcEE5imbueERKSt6locale
+FAIL: 27_io/basic_filebuf/seekpos/char/12790-1.cc execution test
+2840930:./12790-2.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./12790-2.exe: _ZNSt13basic_filebufIcSt11char_traitsIcEE6setbufEPci
+FAIL: 27_io/basic_filebuf/seekpos/char/12790-2.cc execution test
+2843650:./12790-3.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./12790-3.exe: _ZNSt13basic_filebufIcSt11char_traitsIcEE5imbueERKSt6locale
+FAIL: 27_io/basic_filebuf/seekpos/char/12790-3.cc execution test
+2842144:./12790-4.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./12790-4.exe: _ZNSt13basic_filebufIcSt11char_traitsIcEE5imbueERKSt6locale
+FAIL: 27_io/basic_filebuf/seekpos/char/12790-4.cc execution test
+2771691:./1.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./1.exe: _ZNSt13basic_filebufIwSt11char_traitsIwEE7seekoffExSt12_Ios_SeekdirSt13_Ios_Openmode
+FAIL: 27_io/basic_filebuf/seekpos/wchar_t/1.cc execution test
+2843533:./12790-1.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./12790-1.exe: _ZNSt13basic_filebufIwSt11char_traitsIwEE5imbueERKSt6locale
+FAIL: 27_io/basic_filebuf/seekpos/wchar_t/12790-1.cc execution test
+2841484:./12790-2.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./12790-2.exe: _ZNSt13basic_filebufIwSt11char_traitsIwEE6setbufEPwi
+FAIL: 27_io/basic_filebuf/seekpos/wchar_t/12790-2.cc execution test
+2841354:./12790-3.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./12790-3.exe: _ZNSt13basic_filebufIwSt11char_traitsIwEE5imbueERKSt6locale
+FAIL: 27_io/basic_filebuf/seekpos/wchar_t/12790-3.cc execution test
+2841477:./12790-4.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./12790-4.exe: _ZNSt13basic_filebufIwSt11char_traitsIwEE5imbueERKSt6locale
+FAIL: 27_io/basic_filebuf/seekpos/wchar_t/12790-4.cc execution test
+2832490:./9875_seekpos.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./9875_seekpos.exe: _ZNSt13basic_filebufIwSt11char_traitsIwEE5imbueERKSt6locale
+FAIL: 27_io/basic_filebuf/seekpos/wchar_t/9875_seekpos.cc execution test
+2844269:./12875-1.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./12875-1.exe: _ZNSt13basic_filebufIcSt11char_traitsIcEE6xsgetnEPci
+FAIL: 27_io/basic_filebuf/setbuf/char/12875-1.cc execution test
+2843558:./12875-2.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./12875-2.exe: _ZNSt13basic_filebufIcSt11char_traitsIcEE6xsputnEPKci
+FAIL: 27_io/basic_filebuf/setbuf/char/12875-2.cc execution test
+2841786:./2.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./2.exe: _ZNSt13basic_filebufIcSt11char_traitsIcEE6setbufEPci
+FAIL: 27_io/basic_filebuf/setbuf/char/2.cc execution test
+2835153:./3.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./3.exe: _ZNSt13basic_filebufIcSt11char_traitsIcEE6setbufEPci
+FAIL: 27_io/basic_filebuf/setbuf/char/3.cc execution test
+2841352:./3.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./3.exe: _ZNSt13basic_filebufIcSt11char_traitsIcEE6xsgetnEPci
+FAIL: 27_io/basic_filebuf/sgetn/char/3.cc execution test
+2838073:./81395.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./81395.exe: _ZNSt13basic_filebufIcSt11char_traitsIcEE6xsputnEPKci
+FAIL: 27_io/basic_filebuf/sgetn/char/81395.cc execution test
+2842858:./9533-1.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./9533-1.exe: _ZNSt13basic_filebufIcSt11char_traitsIcEE9underflowEv
+2829807:./9533-1.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./9533-1.exe: _ZNSt13basic_filebufIcSt11char_traitsIcEE8overflowEi
+FAIL: 27_io/basic_filebuf/showmanyc/char/9533-1.cc execution test
+2844685:./9533-2.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./9533-2.exe: _ZNSt13basic_filebufIcSt11char_traitsIcEE6xsputnEPKci
+FAIL: 27_io/basic_filebuf/showmanyc/char/9533-2.cc execution test
+WARNING: program timed out.
+FAIL: 27_io/basic_filebuf/seekoff/char/26777.cc execution test
+2827365:./4.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./4.exe: _ZNSt13basic_filebufIcSt11char_traitsIcEE6xsputnEPKci
+FAIL: 27_io/basic_filebuf/seekoff/char/4.cc execution test
+2836932:./45628-1.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./45628-1.exe: _ZNSt13basic_filebufIcSt11char_traitsIcEE8overflowEi
+FAIL: 27_io/basic_filebuf/seekoff/char/45628-1.cc execution test
+2838241:./12790-1.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./12790-1.exe: _ZNSt13basic_filebufIwSt11char_traitsIwEE5imbueERKSt6locale
+FAIL: 27_io/basic_filebuf/seekoff/wchar_t/12790-1.cc execution test
+2844188:./12790-2.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./12790-2.exe: _ZNSt13basic_filebufIwSt11char_traitsIwEE6setbufEPwi
+FAIL: 27_io/basic_filebuf/seekoff/wchar_t/12790-2.cc execution test
+2804037:./59427.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./59427.exe: _ZNSt13basic_filebufIcSt11char_traitsIcEE8overflowEi
+FAIL: 27_io/basic_filebuf/sputc/char/59427.cc execution test
+2819549:./9701-2.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./9701-2.exe: _ZNSt13basic_filebufIcSt11char_traitsIcEE8overflowEi
+FAIL: 27_io/basic_filebuf/sputc/char/9701-2.cc execution test
+2827156:./9425.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./9425.exe: _ZNSt13basic_filebufIcSt11char_traitsIcEE9pbackfailEi
+FAIL: 27_io/basic_filebuf/sputbackc/char/9425.cc execution test
+2843256:./59427.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./59427.exe: _ZNSt13basic_filebufIcSt11char_traitsIcEE6xsputnEPKci
+FAIL: 27_io/basic_filebuf/sputn/char/59427.cc execution test
+2844305:./9182-1.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./9182-1.exe: _ZNSt13basic_filebufIcSt11char_traitsIcEE5imbueERKSt6locale
+FAIL: 27_io/basic_filebuf/sync/char/9182-1.cc execution test
+2844912:./9339.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./9339.exe: _ZNSt13basic_filebufIcSt11char_traitsIcEE6setbufEPci
+FAIL: 27_io/basic_filebuf/sputn/char/9339.cc execution test
+2842290:./9701-1.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./9701-1.exe: _ZNSt13basic_filebufIcSt11char_traitsIcEE8overflowEi
+FAIL: 27_io/basic_filebuf/sputn/char/9701-1.cc execution test
+2846009:./10096.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./10096.exe: _ZNSt13basic_filebufIcSt11char_traitsIcEE9underflowEv
+FAIL: 27_io/basic_filebuf/underflow/10096.cc execution test
+2835035:./1.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./1.exe: _ZNSt13basic_filebufIcSt11char_traitsIcEE9underflowEv
+FAIL: 27_io/basic_filebuf/underflow/char/1.cc execution test
+2844449:./2.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./2.exe: _ZNSt13basic_filebufIcSt11char_traitsIcEE8overflowEi
+FAIL: 27_io/basic_filebuf/underflow/char/2.cc execution test
+2841116:./3.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./3.exe: _ZNSt13basic_filebufIcSt11char_traitsIcEE8overflowEi
+FAIL: 27_io/basic_filebuf/underflow/char/3.cc execution test
+2841119:./45841.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./45841.exe: _ZNSt13basic_filebufIcSt11char_traitsIcEE8overflowEi
+FAIL: 27_io/basic_filebuf/underflow/char/45841.cc execution test
+2841831:./9027.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./9027.exe: _ZNSt13basic_filebufIcSt11char_traitsIcEE5imbueERKSt6locale
+FAIL: 27_io/basic_filebuf/underflow/char/9027.cc execution test
+2839588:./9178.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./9178.exe: _ZNSt13basic_filebufIwSt11char_traitsIwEE5imbueERKSt6locale
+FAIL: 27_io/basic_filebuf/underflow/wchar_t/9178.cc execution test
+2845970:./45841.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./45841.exe: _ZNSt13basic_filebufIwSt11char_traitsIwEE8overflowEl
+FAIL: 27_io/basic_filebuf/underflow/wchar_t/45841.cc execution test
+FAIL: 27_io/basic_istream/extractors_arithmetic/wchar_t/01.cc execution test
+FAIL: 27_io/basic_istream/extractors_arithmetic/char/12.cc execution test
+FAIL: 27_io/basic_istream/extractors_arithmetic/wchar_t/07.cc execution test
+FAIL: 27_io/basic_istream/extractors_arithmetic/wchar_t/08.cc execution test
+FAIL: 27_io/basic_istream/extractors_arithmetic/wchar_t/10.cc execution test
+FAIL: 27_io/basic_istream/extractors_arithmetic/wchar_t/12.cc execution test
+FAIL: 27_io/basic_istream/extractors_arithmetic/wchar_t/13.cc execution test
+FAIL: 27_io/basic_istream/extractors_character/wchar_t/1.cc execution test
+FAIL: 27_io/basic_istream/extractors_character/wchar_t/11095-i.cc execution test
+FAIL: 27_io/basic_istream/extractors_character/wchar_t/2.cc execution test
+FAIL: 27_io/basic_istream/extractors_character/wchar_t/3.cc execution test
+FAIL: 27_io/basic_istream/extractors_character/wchar_t/4.cc execution test
+FAIL: 27_io/basic_istream/sentry/wchar_t/2.cc execution test
+FAIL: 27_io/basic_istream/ws/wchar_t/1.cc execution test
+FAIL: 27_io/basic_istringstream/assign/1.cc execution test
+FAIL: 27_io/basic_istringstream/cons/move.cc execution test
+FAIL: 27_io/basic_ostream/inserters_arithmetic/char/4402.cc execution test
+FAIL: 27_io/basic_ostream/inserters_arithmetic/char/1.cc execution test
+FAIL: 27_io/basic_ostream/inserters_arithmetic/wchar_t/1.cc execution test
+FAIL: g++.dg/torture/type-generic-1.C   -O0  execution test
+FAIL: g++.dg/torture/type-generic-1.C   -O1  execution test
+FAIL: g++.dg/torture/type-generic-1.C   -O2  execution test
+FAIL: g++.dg/torture/type-generic-1.C   -O3 -g  execution test
+FAIL: g++.dg/torture/type-generic-1.C   -Os  execution test
+Running /builds/dan/bootstrapbuilds/gbs8_1-gcc8/gcc-8.2.0/gcc/testsuite/g++.dg/torture/stackalign/stackalign.exp ...
+Running /builds/dan/bootstrapbuilds/gbs8_1-gcc8/gcc-8.2.0/gcc/testsuite/g++.dg/tree-prof/tree-prof.exp ...
+Running /builds/dan/bootstrapbuilds/gbs8_1-gcc8/gcc-8.2.0/gcc/testsuite/g++.dg/tsan/tsan.exp ...
+Running /builds/dan/bootstrapbuilds/gbs8_1-gcc8/gcc-8.2.0/gcc/testsuite/g++.dg/ubsan/ubsan.exp ...
+Running /builds/dan/bootstrapbuilds/gbs8_1-gcc8/gcc-8.2.0/gcc/testsuite/g++.dg/vect/vect.exp ...
+Running /builds/dan/bootstrapbuilds/gbs8_1-gcc8/gcc-8.2.0/gcc/testsuite/g++.old-deja/old-deja.exp ...
+FAIL: 27_io/basic_stringstream/assign/1.cc execution test
+2861704:./14775.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./14775.exe: _ZNSt13basic_filebufIcSt11char_traitsIcEE7seekoffExSt12_Ios_SeekdirSt13_Ios_Openmode
+FAIL: 27_io/fpos/14775.cc execution test
+FAIL: 27_io/manipulators/extended/get_time/wchar_t/1.cc execution test
+FAIL: 27_io/manipulators/standard/wchar_t/quoted.cc execution test
+2865876:./7.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./7.exe: _ZNSt13basic_filebufIcSt11char_traitsIcEE9underflowEv
+2869778:./7.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./7.exe: _ZNSt13basic_filebufIcSt11char_traitsIcEE8overflowEi
+FAIL: 27_io/objects/char/7.cc execution test
+2871418:./7.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./7.exe: _ZNSt13basic_filebufIwSt11char_traitsIwEE9underflowEv
+2872458:./7.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./7.exe: _ZNSt13basic_filebufIwSt11char_traitsIwEE8overflowEl
+FAIL: 27_io/objects/wchar_t/7.cc execution test
+
+[1]+  Stopped                 make -j 3 check-c++
+[didbsshell dan@leafy build-gcc]$ fg
+make -j 3 check-c++
+
+[1]+  Stopped                 make -j 3 check-c++
+[didbsshell dan@leafy build-gcc]$ fg
+make -j 3 check-c++
+
+[1]+  Stopped                 make -j 3 check-c++
+[didbsshell dan@leafy build-gcc]$ fg
+make -j 3 check-c++
+FAIL: 28_regex/traits/wchar_t/isctype.cc execution test
+FAIL: 29_atomics/atomic_flag/cons/56012.cc (test for excess errors)
+FAIL: g++.old-deja/g++.robertl/eb130.C  -std=gnu++98 (test for excess errors)
+FAIL: g++.old-deja/g++.robertl/eb130.C  -std=gnu++11 (test for excess errors)
+FAIL: g++.old-deja/g++.robertl/eb130.C  -std=gnu++14 (test for excess errors)
+FAIL: backward/hash_set/check_construct_destroy.cc (test for excess errors)
+FAIL: backward/hash_map/23528.cc (test for excess errors)
+FAIL: backward/hash_set/requirements/explicit_instantiation.cc (test for excess errors)
+FAIL: backward/hash_map/25896.cc (test for excess errors)
+FAIL: backward/hash_map/requirements/explicit_instantiation.cc (test for excess errors)
+FAIL: backward/hash_set/1.cc (test for excess errors)
+FAIL: backward/hash_set/25896.cc (test for excess errors)
+Running /builds/dan/bootstrapbuilds/gbs8_1-gcc8/gcc-8.2.0/gcc/testsuite/g++.target/aarch64/sve/aarch64-sve.exp ...
+Running /builds/dan/bootstrapbuilds/gbs8_1-gcc8/gcc-8.2.0/gcc/testsuite/g++.target/arm/arm.exp ...
+
+                === g++ Summary ===
+
+# of expected passes            111526
+# of unexpected failures        27
+# of expected failures          499
+# of unsupported tests          5276
+/builds/dan/bootstrapbuilds/gbs8_1-gcc8/build-gcc/gcc/xg++  version 8.2.0 (GCC) 
+
+make[2]: Leaving directory '/builds/dan/bootstrapbuilds/gbs8_1-gcc8/build-gcc/gcc'
+FAIL: experimental/string_view/inserters/wchar_t/2.cc execution test
+make[1]: Leaving directory '/builds/dan/bootstrapbuilds/gbs8_1-gcc8/build-gcc/gcc'
+WARNING: Couldn't find the global config file.
+Using /builds/dan/bootstrapbuilds/gbs8_1-gcc8/gcc-8.2.0/libstdc++-v3/testsuite/lib/libstdc++.exp as tool init file.
+Test run by dan on Tue Jul 16 00:20:03 2019
+Native configuration is mips-sgi-irix6.5
+
+                === libstdc++ tests ===
+
+Schedule of variations:
+    unix
+
+Running target unix
+Using /builds/dan/bootstrapinstall/share/dejagnu/baseboards/unix.exp as board description file for target.
+Using /builds/dan/bootstrapinstall/share/dejagnu/config/unix.exp as generic interface file for target.
+Using /builds/dan/bootstrapbuilds/gbs8_1-gcc8/gcc-8.2.0/libstdc++-v3/testsuite/config/default.exp as tool-and-target-specific interface file.
+Running /builds/dan/bootstrapbuilds/gbs8_1-gcc8/gcc-8.2.0/libstdc++-v3/testsuite/libstdc++-abi/abi.exp ...
+Running /builds/dan/bootstrapbuilds/gbs8_1-gcc8/gcc-8.2.0/libstdc++-v3/testsuite/libstdc++-dg/conformance.exp ...
+FAIL: ext/array_allocator/check_allocate_max_size.cc (test for excess errors)
+FAIL: ext/array_allocator/check_deallocate_null.cc (test for excess errors)
+FAIL: ext/array_allocator/variadic_construct.cc (test for excess errors)
+FAIL: ext/array_allocator/26875.cc (test for excess errors)
+FAIL: ext/new_allocator/overaligned.cc (test for excess errors)
+WARNING: program timed out.
+FAIL: ext/pb_ds/regression/priority_queue_rand.cc execution test
+WARNING: program timed out.
+FAIL: ext/pb_ds/regression/hash_map_rand.cc execution test
+WARNING: program timed out.
+FAIL: ext/pb_ds/regression/trie_set_rand.cc execution test
+FAIL: ext/pool_allocator/overaligned.cc (test for excess errors)
+WARNING: program timed out.
+FAIL: ext/random/k_distribution/operators/serialize.cc execution test
+WARNING: program timed out.
+FAIL: ext/pb_ds/regression/hash_set_rand.cc execution test
+WARNING: program timed out.
+FAIL: ext/pb_ds/regression/tree_map_rand.cc execution test
+WARNING: program timed out.
+FAIL: ext/random/nakagami_distribution/operators/serialize.cc execution test
+WARNING: program timed out.
+FAIL: ext/pb_ds/regression/list_update_map_rand.cc execution test
+WARNING: program timed out.
+FAIL: ext/random/normal_mv_distribution/operators/serialize.cc execution test
+WARNING: program timed out.
+FAIL: ext/pb_ds/regression/list_update_set_rand.cc execution test
+WARNING: program timed out.
+FAIL: ext/random/rice_distribution/operators/serialize.cc execution test
+WARNING: program timed out.
+FAIL: ext/pb_ds/regression/tree_set_rand.cc execution test
+WARNING: program timed out.
+FAIL: ext/random/uniform_on_sphere_distribution/operators/generate.cc execution test
+WARNING: program timed out.
+FAIL: ext/random/uniform_inside_sphere_distribution/operators/generate.cc execution test
+WARNING: program timed out.
+FAIL: ext/random/uniform_on_sphere_distribution/operators/serialize.cc execution test
+WARNING: program timed out.
+FAIL: ext/random/uniform_inside_sphere_distribution/operators/serialize.cc execution test
+2964092:./10063-3.exe: rld: Fatal Error: attempted access to unresolvable symbol in ./10063-3.exe: _ZNSt13basic_filebufIcSt11char_traitsIcEE6xsputnEPKci
+FAIL: ext/stdio_filebuf/char/10063-3.cc execution test
+WARNING: program timed out.
+FAIL: ext/pb_ds/regression/trie_map_rand.cc execution test
+FAIL: special_functions/07_cyl_bessel_i/pr56216.cc (test for excess errors)
+FAIL: special_functions/14_expint/pr68397.cc execution test
+FAIL: tr1/5_numerical_facilities/special_functions/15_expint/pr68397.cc execution test
+Running /builds/dan/bootstrapbuilds/gbs8_1-gcc8/gcc-8.2.0/libstdc++-v3/testsuite/libstdc++-prettyprinters/prettyprinters.exp ...
+Running /builds/dan/bootstrapbuilds/gbs8_1-gcc8/gcc-8.2.0/libstdc++-v3/testsuite/libstdc++-prettyprinters/prettyprinters.exp ...
+Running /builds/dan/bootstrapbuilds/gbs8_1-gcc8/gcc-8.2.0/libstdc++-v3/testsuite/libstdc++-prettyprinters/prettyprinters.exp ...
+Running /builds/dan/bootstrapbuilds/gbs8_1-gcc8/gcc-8.2.0/libstdc++-v3/testsuite/libstdc++-xmethods/xmethods.exp ...
+Running /builds/dan/bootstrapbuilds/gbs8_1-gcc8/gcc-8.2.0/libstdc++-v3/testsuite/libstdc++-xmethods/xmethods.exp ...
+Running /builds/dan/bootstrapbuilds/gbs8_1-gcc8/gcc-8.2.0/libstdc++-v3/testsuite/libstdc++-xmethods/xmethods.exp ...
+
+                === libstdc++ Summary ===
+
+# of expected passes            640
+# of unexpected failures        10
+# of unsupported tests          50
+
+                === libstdc++ Summary ===
+
+# of expected passes            4474
+# of unexpected failures        68
+# of unexpected successes       2
+# of expected failures          28
+# of unresolved testcases       2
+# of unsupported tests          519
+
+                === libstdc++ Summary ===
+
+# of expected passes            4916
+# of unexpected failures        98
+# of expected failures          43
+# of unsupported tests          674
+make[4]: Leaving directory '/builds/dan/bootstrapbuilds/gbs8_1-gcc8/build-gcc/mips-sgi-irix6.5/libstdc++-v3/testsuite'
+make[3]: Leaving directory '/builds/dan/bootstrapbuilds/gbs8_1-gcc8/build-gcc/mips-sgi-irix6.5/libstdc++-v3/testsuite'
+make[2]: Leaving directory '/builds/dan/bootstrapbuilds/gbs8_1-gcc8/build-gcc/mips-sgi-irix6.5/libstdc++-v3/testsuite'
+Making check in python
+make[2]: Entering directory '/builds/dan/bootstrapbuilds/gbs8_1-gcc8/build-gcc/mips-sgi-irix6.5/libstdc++-v3/python'
+make[2]: Nothing to be done for 'check'.
+make[2]: Leaving directory '/builds/dan/bootstrapbuilds/gbs8_1-gcc8/build-gcc/mips-sgi-irix6.5/libstdc++-v3/python'
+make[2]: Entering directory '/builds/dan/bootstrapbuilds/gbs8_1-gcc8/build-gcc/mips-sgi-irix6.5/libstdc++-v3'
+true "AR_FLAGS=rc" "CC_FOR_BUILD=gcc" "CC_FOR_TARGET=/builds/dan/bootstrapbuilds/gbs8_1-gcc8/build-gcc/./gcc/xgcc -B/builds/dan/bootstrapbuilds/gbs8_1-gcc8/build-gcc/./gcc/" "CFLAGS=-g -O2" "CXXFLAGS=-g -O2" "CFLAGS_FOR_BUILD=-g -O2" "CFLAGS_FOR_TARGET=-g -O2" "INSTALL=/builds/dan/bootstrapinstall/bin/install -c" "INSTALL_DATA=/builds/dan/bootstrapinstall/bin/install -c -m 644" "INSTALL_PROGRAM=/builds/dan/bootstrapinstall/bin/install -c" "INSTALL_SCRIPT=/builds/dan/bootstrapinstall/bin/install -c" "LDFLAGS=" "LIBCFLAGS=-g -O2" "LIBCFLAGS_FOR_TARGET=-g -O2" "MAKE=make" "MAKEINFO=/builds/dan/bootstrapbuilds/gbs8_1-gcc8/gcc-8.2.0/missing makeinfo --split-size=5000000  " "SHELL=/builds/dan/bootstrapinstall/bin/bash" "RUNTESTFLAGS=" "exec_prefix=/builds/dan/bootstrapinstall/gbs8_1" "infodir=/builds/dan/bootstrapinstall/gbs8_1/share/info" "libdir=/builds/dan/bootstrapinstall/gbs8_1/lib" "includedir=/builds/dan/bootstrapinstall/gbs8_1/include" "prefix=/builds/dan/bootstrapinstall/gbs8_1" "tooldir=/builds/dan/bootstrapinstall/gbs8_1/mips-sgi-irix6.5" "gxx_include_dir=/builds/dan/bootstrapinstall/gbs8_1/include/c++/8.2.0" "AR=/builds/dan/bootstrapinstall/gbs8_1/mips-sgi-irix6.5/bin/ar" "AS=/builds/dan/bootstrapbuilds/gbs8_1-gcc8/build-gcc/./gcc/as" "LD=/builds/dan/bootstrapbuilds/gbs8_1-gcc8/build-gcc/./gcc/collect-ld" "RANLIB=/builds/dan/bootstrapinstall/gbs8_1/mips-sgi-irix6.5/bin/ranlib" "NM=/builds/dan/bootstrapbuilds/gbs8_1-gcc8/build-gcc/./gcc/nm" "NM_FOR_BUILD=" "NM_FOR_TARGET=/builds/dan/bootstrapinstall/gbs8_1/mips-sgi-irix6.5/bin/nm" "DESTDIR=" "WERROR=" DO=all multi-do # make
+make[2]: Leaving directory '/builds/dan/bootstrapbuilds/gbs8_1-gcc8/build-gcc/mips-sgi-irix6.5/libstdc++-v3'
+make[1]: Leaving directory '/builds/dan/bootstrapbuilds/gbs8_1-gcc8/build-gcc/mips-sgi-irix6.5/libstdc++-v3'
