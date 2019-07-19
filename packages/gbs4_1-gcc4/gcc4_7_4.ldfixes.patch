@@ -1,0 +1,14 @@
+diff -u -r -w gcc-4.7.4/libgcc/config/mips/t-slibgcc-irix gcc-4.7.4-patched/libgcc/config/mips/t-slibgcc-irix
+--- gcc-4.7.4/libgcc/config/mips/t-slibgcc-irix	2011-11-02 10:49:46.000000000 +0000
++++ gcc-4.7.4-patched/libgcc/config/mips/t-slibgcc-irix	2019-07-16 21:21:21.665774840 +0000
+@@ -1,7 +1,8 @@
+ # Build a shared libgcc library with the SGI linker.
+ 
+-SHLIB_LDFLAGS = -Wl,-soname,$(SHLIB_SONAME) \
+-	-Wl,-exports_file,$(SHLIB_MAP)
++SHLIB_LDFLAGS = -Wl,-soname,$(SHLIB_SONAME)
++# \
++#	-Wl,-exports_file,$(SHLIB_MAP)
+ 
+ SHLIB_MKMAP = $(srcdir)/mkmap-flat.awk
+ SHLIB_MAPFILES = libgcc-std.ver
