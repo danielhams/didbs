@@ -1,0 +1,15 @@
+packageSource=https://netix.dl.sourceforge.net/project/materm/mrxvt%20source/0.5.4/mrxvt-0.5.4.tar.gz
+packageFile=mrxvt-0.5.4.tar.gz
+packageChecksum=0232c8868484751dcb931a28f0756f69
+packageDir=mrxvt-0.5.4
+packagePatch=mrxvt.sgifixes.patch
+
+packageExtraction=tarxfsystemhelper.sh
+expectedToolList=
+dependenciesList=make,tar,gzip
+envModifs=setupenv.sh
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=1
+disabled=0
