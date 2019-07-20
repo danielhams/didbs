@@ -3,3 +3,26 @@
 The errors from the ssl tests are related to not having CA certs in /etc/ssl.
 
 I'll live with this for now.
+
+Details:
+
+== Tests result: FAILURE ==
+
+352 tests OK.
+
+11 tests failed:
+    test_ctypes test_distutils test_fileio test_gzip test_httpservers
+    test_locale test_multiprocessing test_os test_posix test_time
+    test_urllib2_localnet
+
+41 tests skipped:
+    test_aepack test_al test_applesingle test_bsddb185 test_bsddb3
+    test_cd test_cl test_codecmaps_cn test_codecmaps_hk
+    test_codecmaps_jp test_codecmaps_kr test_codecmaps_tw test_curses
+    test_dl test_epoll test_gdb test_gdbm test_gl test_imgfile
+    test_ioctl test_kqueue test_linuxaudiodev test_macos
+    test_macostools test_msilib test_ossaudiodev test_pep277
+    test_scriptpackages test_smtpnet test_socketserver test_startfile
+    test_sunaudiodev test_timeout test_tk test_ttk_guionly
+    test_urllib2net test_urllibnet test_wait4 test_winreg
+    test_winsound test_zipfile64
