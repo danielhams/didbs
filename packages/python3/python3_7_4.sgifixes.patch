@@ -1,0 +1,307 @@
+Only in Python-3.7.4-patched/Lib: unixccompiler.py
+diff -u -r -w Python-3.7.4/Modules/_decimal/libmpdec/mpdecimal.c Python-3.7.4-patched/Modules/_decimal/libmpdec/mpdecimal.c
+--- Python-3.7.4/Modules/_decimal/libmpdec/mpdecimal.c	2019-07-08 19:03:50.000000000 +0000
++++ Python-3.7.4-patched/Modules/_decimal/libmpdec/mpdecimal.c	2019-07-20 15:24:55.077169440 +0000
+@@ -68,6 +68,8 @@
+ #else
+   #ifdef TEST_COVERAGE
+     #define ALWAYS_INLINE
++  #elif defined(__sgi)
++    #define ALWAYS_INLINE
+   #else
+     #define ALWAYS_INLINE inline __attribute__ ((always_inline))
+   #endif
+Only in Python-3.7.4-patched/Modules/_decimal/libmpdec: mpdecimal.c.orig
+diff -u -r -w Python-3.7.4/Modules/_decimal/libmpdec/mpdecimal.h Python-3.7.4-patched/Modules/_decimal/libmpdec/mpdecimal.h
+--- Python-3.7.4/Modules/_decimal/libmpdec/mpdecimal.h	2019-07-08 19:03:50.000000000 +0000
++++ Python-3.7.4-patched/Modules/_decimal/libmpdec/mpdecimal.h	2019-07-20 15:24:51.226632480 +0000
+@@ -119,6 +119,11 @@
+ /*                              Configuration                                 */
+ /******************************************************************************/
+ 
++#if defined(__sgi)
++  #define CONFIG_32
++  #define ANSI
++#endif
++
+ #if defined(UNIVERSAL)
+   #if defined(CONFIG_64) || defined(CONFIG_32)
+     #error "cannot use CONFIG_64 or CONFIG_32 with UNIVERSAL."
+Only in Python-3.7.4-patched/Modules/_decimal/libmpdec: mpdecimal.h.orig
+diff -u -r -w Python-3.7.4/Modules/posixmodule.c Python-3.7.4-patched/Modules/posixmodule.c
+--- Python-3.7.4/Modules/posixmodule.c	2019-07-08 19:03:50.000000000 +0000
++++ Python-3.7.4-patched/Modules/posixmodule.c	2019-07-20 15:25:17.094309680 +0000
+@@ -8,7 +8,10 @@
+    of the compiler used.  Different compilers define their own feature
+    test macro, e.g. '_MSC_VER'. */
+ 
+-
++#if defined(__sgi)
++#include <sys/mpconf.h>
++#include <sys/sysinfo.h>
++#endif
+ 
+ #ifdef __APPLE__
+    /*
+@@ -9305,7 +9308,6 @@
+ #endif /* MS_WINDOWS */
+ #endif /* HAVE_PUTENV */
+ 
+-
+ #ifdef HAVE_UNSETENV
+ /*[clinic input]
+ os.unsetenv
+@@ -9345,6 +9347,70 @@
+ #endif /* HAVE_UNSETENV */
+ 
+ 
++#if defined(__sgi)
++
++int
++unsetenv(const char *name)
++{
++  extern char **environ;
++  char **ep, **sp;
++  size_t len;
++
++  if (name == NULL || name[0] == '\0' || strchr(name, '=') != NULL) {
++    errno = EINVAL;
++    return -1;
++  }
++
++  len = strlen(name);
++
++  for (ep = environ; *ep != NULL; )
++    if (strncmp(*ep, name, len) == 0 && (*ep)[len] == '=') {
++
++      /* Remove found entry by shifting all successive entries
++	 back one element */
++
++      for (sp = ep; *sp != NULL; sp++)
++	*sp = *(sp + 1);
++
++      /* Continue around the loop to further instances of 'name' */
++
++    } else {
++      ep++;
++    }
++
++  return 0;
++}
++
++int
++setenv(const char *name, const char *value, int overwrite)
++{
++  char *es;
++
++  if (name == NULL || name[0] == '\0' || strchr(name, '=') != NULL ||
++      value == NULL) {
++    errno = EINVAL;
++    return -1;
++  }
++
++  if (getenv(name) != NULL && overwrite == 0)
++    return 0;
++
++  unsetenv(name);             /* Remove all occurrences */
++
++  es = malloc(strlen(name) + strlen(value) + 2);
++  /* +2 for '=' and null terminator */
++  if (es == NULL)
++    return -1;
++
++  strcpy(es, name);
++  strcat(es, "=");
++  strcat(es, value);
++
++  return (putenv(es) != 0) ? -1 : 0;
++}
++
++#endif
++
+ /*[clinic input]
+ os.strerror
+ 
+@@ -11415,6 +11481,8 @@
+     ncpu = mpctl(MPC_GETNUMSPUS, NULL, NULL);
+ #elif defined(HAVE_SYSCONF) && defined(_SC_NPROCESSORS_ONLN)
+     ncpu = sysconf(_SC_NPROCESSORS_ONLN);
++#elif defined(__sgi)
++    ncpu = mpconf(_MIPS_MP_NPROCESSORS);
+ #elif defined(__DragonFly__) || \
+       defined(__OpenBSD__)   || \
+       defined(__FreeBSD__)   || \
+diff -u -r -w Python-3.7.4/Modules/socketmodule.c Python-3.7.4-patched/Modules/socketmodule.c
+--- Python-3.7.4/Modules/socketmodule.c	2019-07-08 19:03:50.000000000 +0000
++++ Python-3.7.4-patched/Modules/socketmodule.c	2019-07-20 15:25:22.787366640 +0000
+@@ -83,6 +83,11 @@
+ 
+ */
+ 
++#if defined(__sgi)
++# define NI_NUMERICHOST  0x00000002  /* return numeric form of hostname */
++# include <sys/socket.h>
++#endif
++
+ #ifdef __APPLE__
+ #include <AvailabilityMacros.h>
+ /* for getaddrinfo thread safety test on old versions of OS X */
+Only in Python-3.7.4-patched/Modules: socketmodule.c.orig
+diff -u -r -w Python-3.7.4/Objects/dict-common.h Python-3.7.4-patched/Objects/dict-common.h
+--- Python-3.7.4/Objects/dict-common.h	2019-07-08 19:03:50.000000000 +0000
++++ Python-3.7.4-patched/Objects/dict-common.h	2019-07-20 15:25:53.480709600 +0000
+@@ -59,7 +59,7 @@
+        - 8 bytes otherwise (int64_t*)
+ 
+        Dynamically sized, SIZEOF_VOID_P is minimum. */
+-    char dk_indices[];  /* char is required to avoid strict aliasing. */
++    char dk_indices[8];  /* char is required to avoid strict aliasing. */
+ 
+     /* "PyDictKeyEntry dk_entries[dk_usable];" array follows:
+        see the DK_ENTRIES() macro */
+diff -u -r -w Python-3.7.4/configure.ac Python-3.7.4-patched/configure.ac
+--- Python-3.7.4/configure.ac	2019-07-08 19:03:50.000000000 +0000
++++ Python-3.7.4-patched/configure.ac	2019-07-20 15:26:20.089938800 +0000
+@@ -404,6 +404,7 @@
+ 	linux*) MACHDEP="linux";;
+ 	cygwin*) MACHDEP="cygwin";;
+ 	darwin*) MACHDEP="darwin";;
++	irix6*)	 MACHDEP="irix6";;
+ 	'')	MACHDEP="unknown";;
+     esac
+ fi
+@@ -526,6 +527,23 @@
+   AC_DEFINE(_POSIX_C_SOURCE, 200809L, Define to activate features from IEEE Stds 1003.1-2008)
+ fi
+ 
++#
++# SGI compilers allow the specification of the both the ABI and the
++# ISA on the command line.  Depending on the values of these switches,
++# different and often incompatible code will be generated.
++#
++# The SGI_ABI variable can be used to modify the CC and LDFLAGS and
++# thus supply support for various ABI/ISA combinations.  The MACHDEP
++# variable is also adjusted.
++#
++AC_SUBST(SGI_ABI)
++if test ! -z "$SGI_ABI"
++then
++        CC="cc $SGI_ABI"
++        LDFLAGS="$SGI_ABI $LDFLAGS"
++        MACHDEP=`echo "${MACHDEP}${SGI_ABI}" | sed 's/ *//g'`
++fi
++
+ # On HP-UX mbstate_t requires _INCLUDE__STDC_A1_SOURCE
+ case $ac_sys_system in
+   hp*|HP*)
+@@ -918,25 +936,25 @@
+ #endif
+ EOF
+ 
+-if $CPP $CPPFLAGS conftest.c >conftest.out 2>/dev/null; then
+-  ANDROID_API_LEVEL=`sed -n -e '/__ANDROID_API__/d' -e 's/^android_api = //p' conftest.out`
+-  _arm_arch=`sed -n -e '/__ARM_ARCH/d' -e 's/^arm_arch = //p' conftest.out`
+-  AC_MSG_RESULT([$ANDROID_API_LEVEL])
+-  if test -z "$ANDROID_API_LEVEL"; then
+-    echo 'Fatal: you must define __ANDROID_API__'
+-    exit 1
+-  fi
+-  AC_DEFINE_UNQUOTED(ANDROID_API_LEVEL, $ANDROID_API_LEVEL, [The Android API level.])
+-
+-  AC_MSG_CHECKING([for the Android arm ABI])
+-  AC_MSG_RESULT([$_arm_arch])
+-  if test "$_arm_arch" = 7; then
+-    BASECFLAGS="${BASECFLAGS} -mfloat-abi=softfp -mfpu=vfpv3-d16"
+-    LDFLAGS="${LDFLAGS} -march=armv7-a -Wl,--fix-cortex-a8"
+-  fi
+-else
++dnl if $CPP $CPPFLAGS conftest.c >conftest.out 2>/dev/null; then
++dnl  ANDROID_API_LEVEL=`sed -n -e '/__ANDROID_API__/d' -e 's/^android_api = //p' conftest.out`
++dnl   _arm_arch=`sed -n -e '/__ARM_ARCH/d' -e 's/^arm_arch = //p' conftest.out`
++dnl   AC_MSG_RESULT([$ANDROID_API_LEVEL])
++dnl   if test -z "$ANDROID_API_LEVEL"; then
++dnl     echo 'Fatal: you must define __ANDROID_API__'
++dnl     exit 1
++dnl   fi
++dnl   AC_DEFINE_UNQUOTED(ANDROID_API_LEVEL, $ANDROID_API_LEVEL, [The Android API level.])
++
++dnl   AC_MSG_CHECKING([for the Android arm ABI])
++dnl   AC_MSG_RESULT([$_arm_arch])
++dnl   if test "$_arm_arch" = 7; then
++dnl     BASECFLAGS="${BASECFLAGS} -mfloat-abi=softfp -mfpu=vfpv3-d16"
++dnl     LDFLAGS="${LDFLAGS} -march=armv7-a -Wl,--fix-cortex-a8"
++dnl   fi
++dnl else
+   AC_MSG_RESULT([not Android])
+-fi
++dnl fi
+ rm -f conftest.c conftest.out
+ 
+ # Check for unsupported systems
+@@ -1548,7 +1566,7 @@
+ 	;;
+ 
+     *)
+-	OPT="-O"
++	OPT="-O1"
+ 	;;
+     esac
+ fi
+@@ -2622,6 +2640,10 @@
+ 		else
+ 			LDSHARED="ld -Bshareable"
+ 		fi;;
++	IRIX*/6*)
++		LDSHARED='ld $(SGI_ABI) -shared'
++		LDCXXSHARED='ld $(SGI_ABI) -shared'
++		;;
+ 	OpenBSD*)
+ 		if [[ "`$CC -dM -E - </dev/null | grep __ELF__`" != "" ]]
+ 		then
+@@ -4576,13 +4598,13 @@
+ #include <sys/stat.h>
+ 
+ int main(void) {
+-  sem_t *a = sem_open("/autoconf", O_CREAT, S_IRUSR|S_IWUSR, 0);
++  sem_t *a = sem_open("/tmp/autoconf", O_CREAT, S_IRUSR|S_IWUSR, 0);
+   if (a == SEM_FAILED) {
+     perror("sem_open");
+     return 1;
+   }
+   sem_close(a);
+-  sem_unlink("/autoconf");
++  sem_unlink("/tmp/autoconf");
+   return 0;
+ }
+ ]])],
+@@ -4608,7 +4630,7 @@
+ #include <sys/stat.h>
+ 
+ int main(void){
+-  sem_t *a = sem_open("/autocftw", O_CREAT, S_IRUSR|S_IWUSR, 0);
++  sem_t *a = sem_open("/tmp/autocftw", O_CREAT, S_IRUSR|S_IWUSR, 0);
+   int count;
+   int res;
+   if(a==SEM_FAILED){
+@@ -4618,7 +4640,7 @@
+   }
+   res = sem_getvalue(a, &count);
+   sem_close(a);
+-  sem_unlink("/autocftw");
++  sem_unlink("/tmp/autocftw");
+   return res==-1 ? 1 : 0;
+ }
+ ]])],
+diff -u -r -w Python-3.7.4/pyconfig.h.in Python-3.7.4-patched/pyconfig.h.in
+--- Python-3.7.4/pyconfig.h.in	2019-07-08 19:03:50.000000000 +0000
++++ Python-3.7.4-patched/pyconfig.h.in	2019-07-20 15:26:27.000995520 +0000
+@@ -12,9 +12,6 @@
+    support for AIX C++ shared extension modules. */
+ #undef AIX_GENUINE_CPLUSPLUS
+ 
+-/* The Android API level. */
+-#undef ANDROID_API_LEVEL
+-
+ /* Define if C doubles are 64-bit IEEE 754 binary format, stored in ARM
+    mixed-endian order (byte order 45670123) */
+ #undef DOUBLE_IS_ARM_MIXED_ENDIAN_IEEE754
