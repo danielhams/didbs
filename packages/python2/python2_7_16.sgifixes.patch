@@ -1,0 +1,342 @@
+diff -u -r -w Python-2.7.16/Include/Python.h Python-2.7.16-patched/Include/Python.h
+--- Python-2.7.16/Include/Python.h	2019-03-02 18:17:42.000000000 +0000
++++ Python-2.7.16-patched/Include/Python.h	2019-07-19 23:58:09.706983400 +0000
+@@ -26,9 +26,9 @@
+ #error "Python's source code assumes C's unsigned char is an 8-bit type."
+ #endif
+ 
+-#if defined(__sgi) && defined(WITH_THREAD) && !defined(_SGI_MP_SOURCE)
+-#define _SGI_MP_SOURCE
+-#endif
++//#if defined(__sgi) && defined(WITH_THREAD) && !defined(_SGI_MP_SOURCE)
++//#define _SGI_MP_SOURCE
++//#endif
+ 
+ #include <stdio.h>
+ #ifndef NULL
+@@ -41,6 +41,10 @@
+ #endif
+ #include <stdlib.h>
+ #ifdef HAVE_UNISTD_H
++# if defined(__sgi)
++#  include <sys/time.h>
++#  undef select
++# endif
+ #include <unistd.h>
+ #endif
+ #ifdef HAVE_CRYPT_H
+diff -u -r -w Python-2.7.16/Lib/distutils/ccompiler.py Python-2.7.16-patched/Lib/distutils/ccompiler.py
+--- Python-2.7.16/Lib/distutils/ccompiler.py	2019-03-02 18:17:42.000000000 +0000
++++ Python-2.7.16-patched/Lib/distutils/ccompiler.py	2019-07-19 23:58:09.714803640 +0000
+@@ -671,6 +671,7 @@
+                         runtime_library_dirs=None, export_symbols=None,
+                         debug=0, extra_preargs=None, extra_postargs=None,
+                         build_temp=None, target_lang=None):
++        log.info("In link shared lib")
+         self.link(CCompiler.SHARED_LIBRARY, objects,
+                   self.library_filename(output_libname, lib_type='shared'),
+                   output_dir,
+@@ -684,6 +685,7 @@
+                            runtime_library_dirs=None, export_symbols=None,
+                            debug=0, extra_preargs=None, extra_postargs=None,
+                            build_temp=None, target_lang=None):
++        log.info("In link shared object")
+         self.link(CCompiler.SHARED_OBJECT, objects,
+                   output_filename, output_dir,
+                   libraries, library_dirs, runtime_library_dirs,
+diff -u -r -w Python-2.7.16/Lib/distutils/sysconfig.py Python-2.7.16-patched/Lib/distutils/sysconfig.py
+--- Python-2.7.16/Lib/distutils/sysconfig.py	2019-03-02 18:17:42.000000000 +0000
++++ Python-2.7.16-patched/Lib/distutils/sysconfig.py	2019-07-19 23:58:09.718764200 +0000
+@@ -197,11 +197,11 @@
+             ldshared = ldshared + ' ' + os.environ['LDFLAGS']
+         if 'CFLAGS' in os.environ:
+             cflags = opt + ' ' + os.environ['CFLAGS']
+-            ldshared = ldshared + ' ' + os.environ['CFLAGS']
++#            ldshared = ldshared + ' ' + os.environ['CFLAGS']
+         if 'CPPFLAGS' in os.environ:
+             cpp = cpp + ' ' + os.environ['CPPFLAGS']
+             cflags = cflags + ' ' + os.environ['CPPFLAGS']
+-            ldshared = ldshared + ' ' + os.environ['CPPFLAGS']
++#            ldshared = ldshared + ' ' + os.environ['CPPFLAGS']
+         if 'AR' in os.environ:
+             ar = os.environ['AR']
+         if 'ARFLAGS' in os.environ:
+@@ -210,6 +210,7 @@
+             archiver = ar + ' ' + ar_flags
+ 
+         cc_cmd = cc + ' ' + cflags
++        print("Setting linker_so=%s",ldshared)
+         compiler.set_executables(
+             preprocessor=cpp,
+             compiler=cc_cmd,
+diff -u -r -w Python-2.7.16/Lib/distutils/unixccompiler.py Python-2.7.16-patched/Lib/distutils/unixccompiler.py
+--- Python-2.7.16/Lib/distutils/unixccompiler.py	2019-03-02 18:17:42.000000000 +0000
++++ Python-2.7.16-patched/Lib/distutils/unixccompiler.py	2019-07-19 23:58:09.722502760 +0000
+@@ -59,8 +59,8 @@
+                    'compiler'     : ["cc"],
+                    'compiler_so'  : ["cc"],
+                    'compiler_cxx' : ["cc"],
+-                   'linker_so'    : ["cc", "-shared"],
+-                   'linker_exe'   : ["cc"],
++                   'linker_so'    : ["ld", "-shared"],
++                   'linker_exe'   : ["ld"],
+                    'archiver'     : ["ar", "-cr"],
+                    'ranlib'       : None,
+                   }
+@@ -157,9 +157,11 @@
+         objects, output_dir = self._fix_object_args(objects, output_dir)
+         libraries, library_dirs, runtime_library_dirs = \
+             self._fix_lib_args(libraries, library_dirs, runtime_library_dirs)
+-
++        log.info("in unixccompiler.py link")
++        log.info("linker_so=%s",self.linker_so)
+         lib_opts = gen_lib_options(self, library_dirs, runtime_library_dirs,
+                                    libraries)
++        log.info("lib_opts=%s",lib_opts)
+         if type(output_dir) not in (StringType, NoneType):
+             raise TypeError, "'output_dir' must be a string or None"
+         if output_dir is not None:
+@@ -168,6 +170,7 @@
+         if self._need_link(objects, output_filename):
+             ld_args = (objects + self.objects +
+                        lib_opts + ['-o', output_filename])
++            log.info("ld_args=%s extra_preargs=%s extra_postargs=%s",ld_args,extra_preargs,extra_postargs)
+             if debug:
+                 ld_args[:0] = ['-g']
+             if extra_preargs:
+@@ -177,8 +180,10 @@
+             self.mkpath(os.path.dirname(output_filename))
+             try:
+                 if target_desc == CCompiler.EXECUTABLE:
++                    log.info("choice of linker_exe")
+                     linker = self.linker_exe[:]
+                 else:
++                    log.info("choice of linker_so=%s",self.linker_so)
+                     linker = self.linker_so[:]
+                 if target_lang == "c++" and self.compiler_cxx:
+                     # skip over environment variable settings if /usr/bin/env
+@@ -197,6 +202,7 @@
+                 if sys.platform == 'darwin':
+                     linker = _osx_support.compiler_fixup(linker, ld_args)
+ 
++                log.info("spawn of linker=%s with ld_args=%s",linker,ld_args)
+                 self.spawn(linker + ld_args)
+             except DistutilsExecError, msg:
+                 raise LinkError, msg
+diff -u -r -w Python-2.7.16/Lib/multiprocessing/__init__.py Python-2.7.16-patched/Lib/multiprocessing/__init__.py
+--- Python-2.7.16/Lib/multiprocessing/__init__.py	2019-03-02 18:17:42.000000000 +0000
++++ Python-2.7.16-patched/Lib/multiprocessing/__init__.py	2019-07-19 23:58:09.725817000 +0000
+@@ -124,6 +124,12 @@
+                 num = int(p.read())
+         except ValueError:
+             num = 0
++    elif 'irix' in sys.platform:
++        try:
++            with os.popen('/usr/sbin/sysconf NPROC_ONLN') as p:
++                num = int(p.read())
++        except (ValueError, OSError, AttributeError):
++            num = 0
+     else:
+         try:
+             num = os.sysconf('SC_NPROCESSORS_ONLN')
+diff -u -r -w Python-2.7.16/Modules/mathmodule.c Python-2.7.16-patched/Modules/mathmodule.c
+--- Python-2.7.16/Modules/mathmodule.c	2019-03-02 18:17:42.000000000 +0000
++++ Python-2.7.16-patched/Modules/mathmodule.c	2019-07-19 23:58:34.843299080 +0000
+@@ -52,6 +52,8 @@
+    returned.
+  */
+ 
++#include <math.h>
++
+ #include "Python.h"
+ #include "_math.h"
+ 
+diff -u -r -w Python-2.7.16/Modules/socketmodule.c Python-2.7.16-patched/Modules/socketmodule.c
+--- Python-2.7.16/Modules/socketmodule.c	2019-03-02 18:17:42.000000000 +0000
++++ Python-2.7.16-patched/Modules/socketmodule.c	2019-07-19 23:58:25.589370120 +0000
+@@ -81,6 +81,10 @@
+ 
+ */
+ 
++#if defined(__sgi)
++#define NI_NUMERICHOST  0x00000002  /* return numeric form of hostname */
++#endif
++
+ #ifdef __APPLE__
+ #include <AvailabilityMacros.h>
+ /* for getaddrinfo thread safety test on old versions of OS X */
+diff -u -r -w Python-2.7.16/configure Python-2.7.16-patched/configure
+--- Python-2.7.16/configure	2019-03-02 18:17:42.000000000 +0000
++++ Python-2.7.16-patched/configure	2019-07-19 23:58:09.778516440 +0000
+@@ -3313,7 +3313,7 @@
+ 	cygwin*) MACHDEP="cygwin";;
+ 	darwin*) MACHDEP="darwin";;
+ 	atheos*) MACHDEP="atheos";;
+-        irix646) MACHDEP="irix6";;
++        irix6*) MACHDEP="irix6";;
+ 	'')	MACHDEP="unknown";;
+     esac
+ fi
+@@ -3585,6 +3585,8 @@
+ (it is also a good idea to do 'make clean' before compiling)" "$LINENO" 5
+ fi
+ 
++echo "Before MACHDEP check, CC=$CC"
++
+ if test "$MACHDEP" = "irix6" && test "$CC" != "gcc"; then
+     # Normally, MIPSpro CC treats #error directives as warnings, which means
+     # a successful exit code is returned (0).  This is a problem because IRIX
+@@ -6034,7 +6036,7 @@
+ 	;;
+ 
+     *)
+-	OPT="-O"
++	OPT="-O1"
+ 	;;
+     esac
+ fi
+@@ -8584,7 +8586,7 @@
+ 		LDSHARED="\$(BINLIBDEST)/config/ld_so_beos \$(LIBDIR)/$LDLIBRARY"
+ 		;;
+ 	IRIX/5*) LDSHARED="ld -shared";;
+-	IRIX*/6*) LDSHARED="ld ${SGI_ABI} -shared -all";;
++	IRIX*/6*) LDSHARED="ld ${SGI_ABI} -shared";;
+ 	SunOS/5*)
+ 		if test "$GCC" = "yes" ; then
+ 			LDSHARED='$(CC) -shared'
+@@ -8817,6 +8819,7 @@
+ { $as_echo "$as_me:${as_lineno-$LINENO}: result: $LINKFORSHARED" >&5
+ $as_echo "$LINKFORSHARED" >&6; }
+ 
++echo "CCSHARED is $CCSHARED"
+ 
+ 
+ { $as_echo "$as_me:${as_lineno-$LINENO}: checking CFLAGSFORSHARED" >&5
+@@ -13302,13 +13305,13 @@
+ #include <sys/stat.h>
+ 
+ int main(void) {
+-  sem_t *a = sem_open("/autoconf", O_CREAT, S_IRUSR|S_IWUSR, 0);
++  sem_t *a = sem_open("/tmp/autoconf", O_CREAT, S_IRUSR|S_IWUSR, 0);
+   if (a == SEM_FAILED) {
+     perror("sem_open");
+     return 1;
+   }
+   sem_close(a);
+-  sem_unlink("/autoconf");
++  sem_unlink("/tmp/autoconf");
+   return 0;
+ }
+ 
+@@ -13353,7 +13356,7 @@
+ #include <sys/stat.h>
+ 
+ int main(void){
+-  sem_t *a = sem_open("/autocftw", O_CREAT, S_IRUSR|S_IWUSR, 0);
++  sem_t *a = sem_open("/tmp/autocftw", O_CREAT, S_IRUSR|S_IWUSR, 0);
+   int count;
+   int res;
+   if(a==SEM_FAILED){
+@@ -13363,7 +13366,7 @@
+   }
+   res = sem_getvalue(a, &count);
+   sem_close(a);
+-  sem_unlink("/autocftw");
++  sem_unlink("/tmp/autocftw");
+   return res==-1 ? 1 : 0;
+ }
+ 
+diff -u -r -w Python-2.7.16/configure.ac Python-2.7.16-patched/configure.ac
+--- Python-2.7.16/configure.ac	2019-03-02 18:17:42.000000000 +0000
++++ Python-2.7.16-patched/configure.ac	2019-07-19 23:58:46.437726920 +0000
+@@ -366,7 +366,7 @@
+ 	cygwin*) MACHDEP="cygwin";;
+ 	darwin*) MACHDEP="darwin";;
+ 	atheos*) MACHDEP="atheos";;
+-        irix646) MACHDEP="irix6";;
++        irix6*) MACHDEP="irix6";;
+ 	'')	MACHDEP="unknown";;
+     esac
+ fi
+@@ -614,6 +614,8 @@
+ (it is also a good idea to do 'make clean' before compiling)])
+ fi
+ 
++echo "Before MACHDEP check, CC=$CC"
++
+ if test "$MACHDEP" = "irix6" && test "$CC" != "gcc"; then
+     # Normally, MIPSpro CC treats #error directives as warnings, which means
+     # a successful exit code is returned (0).  This is a problem because IRIX
+@@ -934,6 +936,12 @@
+ 	  esac
+ 	  INSTSONAME="$LDLIBRARY".$SOVERSION
+ 	  ;;
++    Irix*)
++	  LDLIBRARY='libpython$(VERSION).so'
++	  BLDLIBRARY='-L. -lpython$(VERSION)'
++	  RUNSHARED=LD_LIBRARYN32_PATH=`pwd`${LD_LIBRARYN32_PATH:+:${LD_LIBRARYN32_PATH}}
++	  INSTSONAME="$LDLIBRARY".$SOVERSION
++	  ;;
+     hp*|HP*)
+ 	  case `uname -m` in
+ 		ia64)
+@@ -1106,7 +1114,7 @@
+ 	;;
+ 
+     *)
+-	OPT="-O"
++	OPT="-O1"
+ 	;;
+     esac
+ fi
+@@ -2164,7 +2172,7 @@
+ 		LDSHARED="\$(BINLIBDEST)/config/ld_so_beos \$(LIBDIR)/$LDLIBRARY"
+ 		;;
+ 	IRIX/5*) LDSHARED="ld -shared";;
+-	IRIX*/6*) LDSHARED="ld ${SGI_ABI} -shared -all";;
++	IRIX*/6*) LDSHARED="ld ${SGI_ABI} -shared";;
+ 	SunOS/5*) 
+ 		if test "$GCC" = "yes" ; then
+ 			LDSHARED='$(CC) -shared'
+@@ -2392,6 +2400,7 @@
+ fi
+ AC_MSG_RESULT($LINKFORSHARED)
+ 
++echo "CCSHARED is $CCSHARED"
+ 
+ AC_SUBST(CFLAGSFORSHARED)
+ AC_MSG_CHECKING(CFLAGSFORSHARED)
+@@ -4039,13 +4048,13 @@
+ #include <sys/stat.h>
+ 
+ int main(void) {
+-  sem_t *a = sem_open("/autoconf", O_CREAT, S_IRUSR|S_IWUSR, 0);
++  sem_t *a = sem_open("/tmp/autoconf", O_CREAT, S_IRUSR|S_IWUSR, 0);
+   if (a == SEM_FAILED) {
+     perror("sem_open");
+     return 1;
+   }
+   sem_close(a);
+-  sem_unlink("/autoconf");
++  sem_unlink("/tmp/autoconf");
+   return 0;
+ }
+ ]])],
+@@ -4071,7 +4080,7 @@
+ #include <sys/stat.h>
+ 
+ int main(void){
+-  sem_t *a = sem_open("/autocftw", O_CREAT, S_IRUSR|S_IWUSR, 0);
++  sem_t *a = sem_open("/tmp/autocftw", O_CREAT, S_IRUSR|S_IWUSR, 0);
+   int count;
+   int res;
+   if(a==SEM_FAILED){
+@@ -4081,7 +4090,7 @@
+   }
+   res = sem_getvalue(a, &count);
+   sem_close(a);
+-  sem_unlink("/autocftw");
++  sem_unlink("/tmp/autocftw");
+   return res==-1 ? 1 : 0;
+ }
+ ]])],

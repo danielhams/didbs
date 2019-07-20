@@ -1,3 +1,5 @@
-Errors from cmath and core dump when it gets to the _ctypes part of the testing. As far as I can tell so far, this is due to decrementing a reference counter that doesn't exist.
+# Passes-ish. Still some errors in ctypes test to follow up.
 
-Still lots of work to do here.
+The errors from the ssl tests are related to not having CA certs in /etc/ssl.
+
+I'll live with this for now.
