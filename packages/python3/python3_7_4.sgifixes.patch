@@ -1,6 +1,6 @@
 diff -u -r -w Python-3.7.4/Lib/distutils/sysconfig.py Python-3.7.4-patched/Lib/distutils/sysconfig.py
 --- Python-3.7.4/Lib/distutils/sysconfig.py	2019-07-08 19:03:50.000000000 +0000
-+++ Python-3.7.4-patched/Lib/distutils/sysconfig.py	2019-07-20 23:03:38.871468840 +0000
++++ Python-3.7.4-patched/Lib/distutils/sysconfig.py	2019-07-21 00:01:22.501583000 +0000
 @@ -213,11 +213,11 @@
              ldshared = ldshared + ' ' + os.environ['LDFLAGS']
          if 'CFLAGS' in os.environ:
@@ -18,7 +18,7 @@ diff -u -r -w Python-3.7.4/Lib/distutils/sysconfig.py Python-3.7.4-patched/Lib/d
 Only in Python-3.7.4-patched/Lib/distutils: sysconfig.py.orig
 diff -u -r -w Python-3.7.4/Lib/distutils/unixccompiler.py Python-3.7.4-patched/Lib/distutils/unixccompiler.py
 --- Python-3.7.4/Lib/distutils/unixccompiler.py	2019-07-08 19:03:50.000000000 +0000
-+++ Python-3.7.4-patched/Lib/distutils/unixccompiler.py	2019-07-20 23:03:38.875263240 +0000
++++ Python-3.7.4-patched/Lib/distutils/unixccompiler.py	2019-07-21 00:01:22.505339080 +0000
 @@ -56,8 +56,8 @@
                     'compiler'     : ["cc"],
                     'compiler_so'  : ["cc"],
@@ -33,7 +33,7 @@ diff -u -r -w Python-3.7.4/Lib/distutils/unixccompiler.py Python-3.7.4-patched/L
 Only in Python-3.7.4-patched/Lib/distutils: unixccompiler.py.orig
 diff -u -r -w Python-3.7.4/Modules/_decimal/libmpdec/mpdecimal.c Python-3.7.4-patched/Modules/_decimal/libmpdec/mpdecimal.c
 --- Python-3.7.4/Modules/_decimal/libmpdec/mpdecimal.c	2019-07-08 19:03:50.000000000 +0000
-+++ Python-3.7.4-patched/Modules/_decimal/libmpdec/mpdecimal.c	2019-07-20 23:03:39.358760920 +0000
++++ Python-3.7.4-patched/Modules/_decimal/libmpdec/mpdecimal.c	2019-07-21 00:01:22.562455240 +0000
 @@ -68,6 +68,8 @@
  #else
    #ifdef TEST_COVERAGE
@@ -46,7 +46,7 @@ diff -u -r -w Python-3.7.4/Modules/_decimal/libmpdec/mpdecimal.c Python-3.7.4-pa
 Only in Python-3.7.4-patched/Modules/_decimal/libmpdec: mpdecimal.c.orig
 diff -u -r -w Python-3.7.4/Modules/_decimal/libmpdec/mpdecimal.h Python-3.7.4-patched/Modules/_decimal/libmpdec/mpdecimal.h
 --- Python-3.7.4/Modules/_decimal/libmpdec/mpdecimal.h	2019-07-08 19:03:50.000000000 +0000
-+++ Python-3.7.4-patched/Modules/_decimal/libmpdec/mpdecimal.h	2019-07-20 23:03:39.365372360 +0000
++++ Python-3.7.4-patched/Modules/_decimal/libmpdec/mpdecimal.h	2019-07-21 00:01:22.570704040 +0000
 @@ -119,6 +119,11 @@
  /*                              Configuration                                 */
  /******************************************************************************/
@@ -62,7 +62,7 @@ diff -u -r -w Python-3.7.4/Modules/_decimal/libmpdec/mpdecimal.h Python-3.7.4-pa
 Only in Python-3.7.4-patched/Modules/_decimal/libmpdec: mpdecimal.h.orig
 diff -u -r -w Python-3.7.4/Modules/addrinfo.h Python-3.7.4-patched/Modules/addrinfo.h
 --- Python-3.7.4/Modules/addrinfo.h	2019-07-08 19:03:50.000000000 +0000
-+++ Python-3.7.4-patched/Modules/addrinfo.h	2019-07-20 23:04:16.698941080 +0000
++++ Python-3.7.4-patched/Modules/addrinfo.h	2019-07-21 00:01:22.573709800 +0000
 @@ -26,6 +26,11 @@
   * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
   * SUCH DAMAGE.
@@ -75,9 +75,10 @@ diff -u -r -w Python-3.7.4/Modules/addrinfo.h Python-3.7.4-patched/Modules/addri
  
  #ifndef HAVE_GETADDRINFO
  
+Only in Python-3.7.4-patched/Modules: addrinfo.h.orig
 diff -u -r -w Python-3.7.4/Modules/posixmodule.c Python-3.7.4-patched/Modules/posixmodule.c
 --- Python-3.7.4/Modules/posixmodule.c	2019-07-08 19:03:50.000000000 +0000
-+++ Python-3.7.4-patched/Modules/posixmodule.c	2019-07-20 23:03:39.398168600 +0000
++++ Python-3.7.4-patched/Modules/posixmodule.c	2019-07-21 00:01:40.139969000 +0000
 @@ -8,7 +8,10 @@
     of the compiler used.  Different compilers define their own feature
     test macro, e.g. '_MSC_VER'. */
@@ -85,7 +86,7 @@ diff -u -r -w Python-3.7.4/Modules/posixmodule.c Python-3.7.4-patched/Modules/po
 -
 +#if defined(__sgi)
 +#include <sys/mpconf.h>
-+#include <sys/sysinfo.h>
++//#include <sys/sysinfo.h>
 +#endif
  
  #ifdef __APPLE__
@@ -181,13 +182,17 @@ diff -u -r -w Python-3.7.4/Modules/posixmodule.c Python-3.7.4-patched/Modules/po
 Only in Python-3.7.4-patched/Modules: posixmodule.c.orig
 diff -u -r -w Python-3.7.4/Modules/socketmodule.c Python-3.7.4-patched/Modules/socketmodule.c
 --- Python-3.7.4/Modules/socketmodule.c	2019-07-08 19:03:50.000000000 +0000
-+++ Python-3.7.4-patched/Modules/socketmodule.c	2019-07-20 23:03:58.442007640 +0000
-@@ -83,6 +83,20 @@
++++ Python-3.7.4-patched/Modules/socketmodule.c	2019-07-21 00:01:47.642119920 +0000
+@@ -83,6 +83,24 @@
  
  */
  
 +#if defined(__sgi)
 +# define NI_NUMERICHOST  0x00000002  /* return numeric form of hostname */
++typedef unsigned short u_short;
++typedef unsigned char u_char;
++typedef unsigned int u_int;
++typedef unsigned long u_long;
 +# include <sys/socket.h>
 +# include <sys/types.h>
 +# include <sys/socket.h>
@@ -203,7 +208,7 @@ diff -u -r -w Python-3.7.4/Modules/socketmodule.c Python-3.7.4-patched/Modules/s
  #ifdef __APPLE__
  #include <AvailabilityMacros.h>
  /* for getaddrinfo thread safety test on old versions of OS X */
-@@ -241,7 +255,7 @@
+@@ -241,7 +259,7 @@
  #endif
  
  
@@ -215,7 +220,7 @@ diff -u -r -w Python-3.7.4/Modules/socketmodule.c Python-3.7.4-patched/Modules/s
 Only in Python-3.7.4-patched/Modules: socketmodule.c.orig
 diff -u -r -w Python-3.7.4/Objects/dict-common.h Python-3.7.4-patched/Objects/dict-common.h
 --- Python-3.7.4/Objects/dict-common.h	2019-07-08 19:03:50.000000000 +0000
-+++ Python-3.7.4-patched/Objects/dict-common.h	2019-07-20 23:03:39.426051480 +0000
++++ Python-3.7.4-patched/Objects/dict-common.h	2019-07-21 00:01:23.379110880 +0000
 @@ -59,7 +59,7 @@
         - 8 bytes otherwise (int64_t*)
  
@@ -228,7 +233,7 @@ diff -u -r -w Python-3.7.4/Objects/dict-common.h Python-3.7.4-patched/Objects/di
 Only in Python-3.7.4-patched/Objects: dict-common.h.orig
 diff -u -r -w Python-3.7.4/Python/pytime.c Python-3.7.4-patched/Python/pytime.c
 --- Python-3.7.4/Python/pytime.c	2019-07-08 19:03:50.000000000 +0000
-+++ Python-3.7.4-patched/Python/pytime.c	2019-07-20 23:03:39.430588920 +0000
++++ Python-3.7.4-patched/Python/pytime.c	2019-07-21 00:01:23.383775680 +0000
 @@ -882,6 +882,9 @@
  #ifdef CLOCK_HIGHRES
      const clockid_t clk_id = CLOCK_HIGHRES;
@@ -242,7 +247,7 @@ diff -u -r -w Python-3.7.4/Python/pytime.c Python-3.7.4-patched/Python/pytime.c
 Only in Python-3.7.4-patched/Python: pytime.c.orig
 diff -u -r -w Python-3.7.4/configure.ac Python-3.7.4-patched/configure.ac
 --- Python-3.7.4/configure.ac	2019-07-08 19:03:50.000000000 +0000
-+++ Python-3.7.4-patched/configure.ac	2019-07-20 23:03:39.447944760 +0000
++++ Python-3.7.4-patched/configure.ac	2019-07-21 00:01:23.424924320 +0000
 @@ -404,6 +404,7 @@
  	linux*) MACHDEP="linux";;
  	cygwin*) MACHDEP="cygwin";;
@@ -376,7 +381,7 @@ diff -u -r -w Python-3.7.4/configure.ac Python-3.7.4-patched/configure.ac
 Only in Python-3.7.4-patched: configure.ac.orig
 diff -u -r -w Python-3.7.4/pyconfig.h.in Python-3.7.4-patched/pyconfig.h.in
 --- Python-3.7.4/pyconfig.h.in	2019-07-08 19:03:50.000000000 +0000
-+++ Python-3.7.4-patched/pyconfig.h.in	2019-07-20 23:03:39.454610040 +0000
++++ Python-3.7.4-patched/pyconfig.h.in	2019-07-21 00:01:23.431253840 +0000
 @@ -12,9 +12,6 @@
     support for AIX C++ shared extension modules. */
  #undef AIX_GENUINE_CPLUSPLUS
