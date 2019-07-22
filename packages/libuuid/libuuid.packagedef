@@ -1,9 +1,14 @@
-packageSource=https://downloads.sourceforge.net/project/libuuid/libuuid-1.0.3.tar.gz
-packageFile=libuuid-1.0.3.tar.gz
-packageDir=libuuid-1.0.3
-packageChecksum=d44d866d06286c08ba0846aba1086d68
-packagePatch=libuuid1_0_3.sgifixes.patch
+#packageSource=https://downloads.sourceforge.net/project/libuuid/libuuid-1.0.3.tar.gz
+#packageFile=libuuid-1.0.3.tar.gz
+#packageDir=libuuid-1.0.3
+#packageChecksum=d44d866d06286c08ba0846aba1086d68
+#packagePatch=libuuid1_0_3.sgifixes.patch
 
+packageSource=https://mirrors.edge.kernel.org/pub/linux/utils/util-linux/v2.34/util-linux-2.34.tar.gz
+packageFile=util-linux-2.34.tar.gz
+packageDir=util-linux-2.34
+packageChecksum=2de7e0ce03d3e73a0b45647b7a3a27d2
+packagePatch=libuuid.sgifixes.patch
 packageExtraction=tarxfsystemhelper.sh
 expectedToolList=
 dependenciesList=make,tar,gzip,perl
