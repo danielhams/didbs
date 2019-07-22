@@ -8,5 +8,5 @@ echo $INSTALLDIR
 echo $EXTRAARGS
 . ./setupenv.sh
 cd $BUILDDIR || exit -1
-ac_cv_func_uuid_create=no ac_cv_header_uuid_h=no HAVE_UUID_CREATE=0 ./configure --prefix=$INSTALLDIR --with-ssl=openssl --without-libuuid || exit -1
+./configure --prefix=$INSTALLDIR --with-ssl=openssl || exit -1
 exit 0

@@ -11,9 +11,10 @@ packagePatch=wgetstatic1_20_1.sgifixes.patch
 
 packageExtraction=guntarsystemhelper.sh
 expectedToolList=
-dependenciesList=make,pkgconfig,openssl
+dependenciesList=make,pkgconfig,openssl,libuuid
 envModifs=setupenv.sh
 configureRecipe=configureit
 buildRecipe=buildit
 installRecipe=installit
 passesChecksIndicator=1
+disabled=0
