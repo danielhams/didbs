@@ -1,9 +1,10 @@
-packageSource=http://http.debian.net/debian/pool/main/o/ossp-uuid/ossp-uuid_1.6.2.orig.tar.gz
-packageFile=ossp-uuid_1.6.2.orig.tar.gz
-packageChecksum=5db0d43a9022a6ebbbc25337ae28942f
-packageDir=uuid-1.6.2
+packageSource=https://downloads.sourceforge.net/project/libuuid/libuuid-1.0.3.tar.gz
+packageFile=libuuid-1.0.3.tar.gz
+packageDir=libuuid-1.0.3
+packageChecksum=d44d866d06286c08ba0846aba1086d68
+packagePatch=libuuid1_0_3.sgifixes.patch
+
 packageExtraction=tarxfsystemhelper.sh
-#packagePatch=
 expectedToolList=
 dependenciesList=make,tar,gzip,perl
 envModifs=setupenv.sh
@@ -11,3 +12,4 @@ configureRecipe=configureit
 buildRecipe=buildit
 installRecipe=installit
 passesChecksIndicator=1
+disabled=0
