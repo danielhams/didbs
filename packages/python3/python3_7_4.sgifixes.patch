@@ -1,6 +1,6 @@
 diff -u -r -w Python-3.7.4/Lib/distutils/sysconfig.py Python-3.7.4-patched/Lib/distutils/sysconfig.py
 --- Python-3.7.4/Lib/distutils/sysconfig.py	2019-07-08 19:03:50.000000000 +0000
-+++ Python-3.7.4-patched/Lib/distutils/sysconfig.py	2019-07-22 08:52:15.099651560 +0000
++++ Python-3.7.4-patched/Lib/distutils/sysconfig.py	2019-07-22 12:26:50.226374040 +0000
 @@ -213,11 +213,11 @@
              ldshared = ldshared + ' ' + os.environ['LDFLAGS']
          if 'CFLAGS' in os.environ:
@@ -17,7 +17,7 @@ diff -u -r -w Python-3.7.4/Lib/distutils/sysconfig.py Python-3.7.4-patched/Lib/d
          if 'ARFLAGS' in os.environ:
 diff -u -r -w Python-3.7.4/Lib/distutils/unixccompiler.py Python-3.7.4-patched/Lib/distutils/unixccompiler.py
 --- Python-3.7.4/Lib/distutils/unixccompiler.py	2019-07-08 19:03:50.000000000 +0000
-+++ Python-3.7.4-patched/Lib/distutils/unixccompiler.py	2019-07-22 08:52:15.103232680 +0000
++++ Python-3.7.4-patched/Lib/distutils/unixccompiler.py	2019-07-22 12:26:50.229342280 +0000
 @@ -56,8 +56,8 @@
                     'compiler'     : ["cc"],
                     'compiler_so'  : ["cc"],
@@ -31,7 +31,7 @@ diff -u -r -w Python-3.7.4/Lib/distutils/unixccompiler.py Python-3.7.4-patched/L
                    }
 diff -u -r -w Python-3.7.4/Modules/_decimal/libmpdec/mpdecimal.c Python-3.7.4-patched/Modules/_decimal/libmpdec/mpdecimal.c
 --- Python-3.7.4/Modules/_decimal/libmpdec/mpdecimal.c	2019-07-08 19:03:50.000000000 +0000
-+++ Python-3.7.4-patched/Modules/_decimal/libmpdec/mpdecimal.c	2019-07-22 08:52:15.129836440 +0000
++++ Python-3.7.4-patched/Modules/_decimal/libmpdec/mpdecimal.c	2019-07-22 12:26:50.253228760 +0000
 @@ -68,6 +68,8 @@
  #else
    #ifdef TEST_COVERAGE
@@ -43,7 +43,7 @@ diff -u -r -w Python-3.7.4/Modules/_decimal/libmpdec/mpdecimal.c Python-3.7.4-pa
    #endif
 diff -u -r -w Python-3.7.4/Modules/_decimal/libmpdec/mpdecimal.h Python-3.7.4-patched/Modules/_decimal/libmpdec/mpdecimal.h
 --- Python-3.7.4/Modules/_decimal/libmpdec/mpdecimal.h	2019-07-08 19:03:50.000000000 +0000
-+++ Python-3.7.4-patched/Modules/_decimal/libmpdec/mpdecimal.h	2019-07-22 08:52:15.136124360 +0000
++++ Python-3.7.4-patched/Modules/_decimal/libmpdec/mpdecimal.h	2019-07-22 12:26:50.258920280 +0000
 @@ -119,6 +119,11 @@
  /*                              Configuration                                 */
  /******************************************************************************/
@@ -58,7 +58,7 @@ diff -u -r -w Python-3.7.4/Modules/_decimal/libmpdec/mpdecimal.h Python-3.7.4-pa
      #error "cannot use CONFIG_64 or CONFIG_32 with UNIVERSAL."
 diff -u -r -w Python-3.7.4/Modules/_ssl.c Python-3.7.4-patched/Modules/_ssl.c
 --- Python-3.7.4/Modules/_ssl.c	2019-07-08 19:03:50.000000000 +0000
-+++ Python-3.7.4-patched/Modules/_ssl.c	2019-07-22 08:53:20.907878520 +0000
++++ Python-3.7.4-patched/Modules/_ssl.c	2019-07-22 12:26:50.278321160 +0000
 @@ -14,6 +14,9 @@
         http://bugs.python.org/issue8108#msg102867 ?
  */
@@ -71,7 +71,7 @@ diff -u -r -w Python-3.7.4/Modules/_ssl.c Python-3.7.4-patched/Modules/_ssl.c
  #include "Python.h"
 diff -u -r -w Python-3.7.4/Modules/addrinfo.h Python-3.7.4-patched/Modules/addrinfo.h
 --- Python-3.7.4/Modules/addrinfo.h	2019-07-08 19:03:50.000000000 +0000
-+++ Python-3.7.4-patched/Modules/addrinfo.h	2019-07-22 08:52:15.138854120 +0000
++++ Python-3.7.4-patched/Modules/addrinfo.h	2019-07-22 12:26:50.280660040 +0000
 @@ -26,6 +26,11 @@
   * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
   * SUCH DAMAGE.
@@ -86,7 +86,7 @@ diff -u -r -w Python-3.7.4/Modules/addrinfo.h Python-3.7.4-patched/Modules/addri
  
 diff -u -r -w Python-3.7.4/Modules/posixmodule.c Python-3.7.4-patched/Modules/posixmodule.c
 --- Python-3.7.4/Modules/posixmodule.c	2019-07-08 19:03:50.000000000 +0000
-+++ Python-3.7.4-patched/Modules/posixmodule.c	2019-07-22 08:52:15.170521960 +0000
++++ Python-3.7.4-patched/Modules/posixmodule.c	2019-07-22 12:26:50.316307400 +0000
 @@ -8,7 +8,10 @@
     of the compiler used.  Different compilers define their own feature
     test macro, e.g. '_MSC_VER'. */
@@ -189,7 +189,7 @@ diff -u -r -w Python-3.7.4/Modules/posixmodule.c Python-3.7.4-patched/Modules/po
        defined(__FreeBSD__)   || \
 diff -u -r -w Python-3.7.4/Modules/socketmodule.c Python-3.7.4-patched/Modules/socketmodule.c
 --- Python-3.7.4/Modules/socketmodule.c	2019-07-08 19:03:50.000000000 +0000
-+++ Python-3.7.4-patched/Modules/socketmodule.c	2019-07-22 08:52:56.360519480 +0000
++++ Python-3.7.4-patched/Modules/socketmodule.c	2019-07-22 12:26:50.340401480 +0000
 @@ -83,6 +83,24 @@
  
  */
@@ -226,7 +226,7 @@ diff -u -r -w Python-3.7.4/Modules/socketmodule.c Python-3.7.4-patched/Modules/s
     MIPSPro 7.x in ANSI C mode (default) */
 diff -u -r -w Python-3.7.4/Objects/dict-common.h Python-3.7.4-patched/Objects/dict-common.h
 --- Python-3.7.4/Objects/dict-common.h	2019-07-08 19:03:50.000000000 +0000
-+++ Python-3.7.4-patched/Objects/dict-common.h	2019-07-22 08:52:15.198848600 +0000
++++ Python-3.7.4-patched/Objects/dict-common.h	2019-07-22 12:26:50.342654840 +0000
 @@ -59,7 +59,7 @@
         - 8 bytes otherwise (int64_t*)
  
@@ -238,7 +238,7 @@ diff -u -r -w Python-3.7.4/Objects/dict-common.h Python-3.7.4-patched/Objects/di
         see the DK_ENTRIES() macro */
 diff -u -r -w Python-3.7.4/Python/pytime.c Python-3.7.4-patched/Python/pytime.c
 --- Python-3.7.4/Python/pytime.c	2019-07-08 19:03:50.000000000 +0000
-+++ Python-3.7.4-patched/Python/pytime.c	2019-07-22 08:52:15.203094280 +0000
++++ Python-3.7.4-patched/Python/pytime.c	2019-07-22 12:26:50.346533400 +0000
 @@ -882,6 +882,9 @@
  #ifdef CLOCK_HIGHRES
      const clockid_t clk_id = CLOCK_HIGHRES;
@@ -249,9 +249,158 @@ diff -u -r -w Python-3.7.4/Python/pytime.c Python-3.7.4-patched/Python/pytime.c
  #else
      const clockid_t clk_id = CLOCK_MONOTONIC;
      const char *implementation = "clock_gettime(CLOCK_MONOTONIC)";
+diff -u -r -w Python-3.7.4/configure Python-3.7.4-patched/configure
+--- Python-3.7.4/configure	2019-07-08 19:03:50.000000000 +0000
++++ Python-3.7.4-patched/configure	2019-07-22 12:26:50.396026120 +0000
+@@ -730,6 +730,7 @@
+ CC
+ EXPORT_MACOSX_DEPLOYMENT_TARGET
+ CONFIGURE_MACOSX_DEPLOYMENT_TARGET
++SGI_ABI
+ _PYTHON_HOST_PLATFORM
+ MACHDEP
+ FRAMEWORKINSTALLAPPSPREFIX
+@@ -3286,6 +3287,7 @@
+ 	linux*) MACHDEP="linux";;
+ 	cygwin*) MACHDEP="cygwin";;
+ 	darwin*) MACHDEP="darwin";;
++	irix6*)	 MACHDEP="irix6";;
+ 	'')	MACHDEP="unknown";;
+     esac
+ fi
+@@ -3415,6 +3417,23 @@
+ 
+ fi
+ 
++#
++# SGI compilers allow the specification of the both the ABI and the
++# ISA on the command line.  Depending on the values of these switches,
++# different and often incompatible code will be generated.
++#
++# The SGI_ABI variable can be used to modify the CC and LDFLAGS and
++# thus supply support for various ABI/ISA combinations.  The MACHDEP
++# variable is also adjusted.
++#
++
++if test ! -z "$SGI_ABI"
++then
++        CC="cc $SGI_ABI"
++        LDFLAGS="$SGI_ABI $LDFLAGS"
++        MACHDEP=`echo "${MACHDEP}${SGI_ABI}" | sed 's/ *//g'`
++fi
++
+ # On HP-UX mbstate_t requires _INCLUDE__STDC_A1_SOURCE
+ case $ac_sys_system in
+   hp*|HP*)
+@@ -5658,33 +5677,9 @@
+ #endif
+ EOF
+ 
+-if $CPP $CPPFLAGS conftest.c >conftest.out 2>/dev/null; then
+-  ANDROID_API_LEVEL=`sed -n -e '/__ANDROID_API__/d' -e 's/^android_api = //p' conftest.out`
+-  _arm_arch=`sed -n -e '/__ARM_ARCH/d' -e 's/^arm_arch = //p' conftest.out`
+-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ANDROID_API_LEVEL" >&5
+-$as_echo "$ANDROID_API_LEVEL" >&6; }
+-  if test -z "$ANDROID_API_LEVEL"; then
+-    echo 'Fatal: you must define __ANDROID_API__'
+-    exit 1
+-  fi
+-
+-cat >>confdefs.h <<_ACEOF
+-#define ANDROID_API_LEVEL $ANDROID_API_LEVEL
+-_ACEOF
+ 
+-
+-  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for the Android arm ABI" >&5
+-$as_echo_n "checking for the Android arm ABI... " >&6; }
+-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $_arm_arch" >&5
+-$as_echo "$_arm_arch" >&6; }
+-  if test "$_arm_arch" = 7; then
+-    BASECFLAGS="${BASECFLAGS} -mfloat-abi=softfp -mfpu=vfpv3-d16"
+-    LDFLAGS="${LDFLAGS} -march=armv7-a -Wl,--fix-cortex-a8"
+-  fi
+-else
+   { $as_echo "$as_me:${as_lineno-$LINENO}: result: not Android" >&5
+ $as_echo "not Android" >&6; }
+-fi
+ rm -f conftest.c conftest.out
+ 
+ # Check for unsupported systems
+@@ -6916,7 +6911,7 @@
+ 	;;
+ 
+     *)
+-	OPT="-O"
++	OPT="-O1"
+ 	;;
+     esac
+ fi
+@@ -9451,6 +9446,10 @@
+ 		else
+ 			LDSHARED="ld -Bshareable"
+ 		fi;;
++	IRIX*/6*)
++		LDSHARED='ld $(SGI_ABI) -shared'
++		LDCXXSHARED='ld $(SGI_ABI) -shared'
++		;;
+ 	OpenBSD*)
+ 		if [ "`$CC -dM -E - </dev/null | grep __ELF__`" != "" ]
+ 		then
+@@ -9809,7 +9808,7 @@
+ $as_echo_n "checking for uuid_create... " >&6; }
+ cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+ /* end confdefs.h.  */
+-#include <uuid.h>
++#include <uuid/uuid.h>
+ int
+ main ()
+ {
+@@ -9841,7 +9840,7 @@
+ $as_echo_n "checking for uuid_enc_be... " >&6; }
+ cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+ /* end confdefs.h.  */
+-#include <uuid.h>
++#include <uuid/uuid.h>
+ int
+ main ()
+ {
+@@ -14680,13 +14679,13 @@
+ #include <sys/stat.h>
+ 
+ int main(void) {
+-  sem_t *a = sem_open("/autoconf", O_CREAT, S_IRUSR|S_IWUSR, 0);
++  sem_t *a = sem_open("/tmp/autoconf", O_CREAT, S_IRUSR|S_IWUSR, 0);
+   if (a == SEM_FAILED) {
+     perror("sem_open");
+     return 1;
+   }
+   sem_close(a);
+-  sem_unlink("/autoconf");
++  sem_unlink("/tmp/autoconf");
+   return 0;
+ }
+ 
+@@ -14731,7 +14730,7 @@
+ #include <sys/stat.h>
+ 
+ int main(void){
+-  sem_t *a = sem_open("/autocftw", O_CREAT, S_IRUSR|S_IWUSR, 0);
++  sem_t *a = sem_open("/tmp/autocftw", O_CREAT, S_IRUSR|S_IWUSR, 0);
+   int count;
+   int res;
+   if(a==SEM_FAILED){
+@@ -14741,7 +14740,7 @@
+   }
+   res = sem_getvalue(a, &count);
+   sem_close(a);
+-  sem_unlink("/autocftw");
++  sem_unlink("/tmp/autocftw");
+   return res==-1 ? 1 : 0;
+ }
+ 
 diff -u -r -w Python-3.7.4/configure.ac Python-3.7.4-patched/configure.ac
 --- Python-3.7.4/configure.ac	2019-07-08 19:03:50.000000000 +0000
-+++ Python-3.7.4-patched/configure.ac	2019-07-22 08:52:15.221411000 +0000
++++ Python-3.7.4-patched/configure.ac	2019-07-22 12:26:50.414257240 +0000
 @@ -404,6 +404,7 @@
  	linux*) MACHDEP="linux";;
  	cygwin*) MACHDEP="cygwin";;
@@ -348,6 +497,24 @@ diff -u -r -w Python-3.7.4/configure.ac Python-3.7.4-patched/configure.ac
  	OpenBSD*)
  		if [[ "`$CC -dM -E - </dev/null | grep __ELF__`" != "" ]]
  		then
+@@ -2805,7 +2827,7 @@
+ # AIX provides support for RFC4122 (uuid) in libc.a starting with AIX 6.1 (anno 2007)
+ # FreeBSD and OpenBSD provides support as well
+ AC_MSG_CHECKING(for uuid_create)
+-AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <uuid.h>]], [[
++AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <uuid/uuid.h>]], [[
+ #ifndef uuid_create
+ void *x = uuid_create
+ #endif
+@@ -2818,7 +2840,7 @@
+ # Little-endian FreeBSD, OpenBSD and NetBSD needs encoding into an octet
+ # stream in big-endian byte-order
+ AC_MSG_CHECKING(for uuid_enc_be)
+-AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <uuid.h>]], [[
++AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <uuid/uuid.h>]], [[
+ #ifndef uuid_enc_be
+ void *x = uuid_enc_be
+ #endif
 @@ -4576,13 +4598,13 @@
  #include <sys/stat.h>
  
@@ -384,7 +551,7 @@ diff -u -r -w Python-3.7.4/configure.ac Python-3.7.4-patched/configure.ac
  ]])],
 diff -u -r -w Python-3.7.4/pyconfig.h.in Python-3.7.4-patched/pyconfig.h.in
 --- Python-3.7.4/pyconfig.h.in	2019-07-08 19:03:50.000000000 +0000
-+++ Python-3.7.4-patched/pyconfig.h.in	2019-07-22 08:52:15.227570920 +0000
++++ Python-3.7.4-patched/pyconfig.h.in	2019-07-22 12:26:50.419891800 +0000
 @@ -12,9 +12,6 @@
     support for AIX C++ shared extension modules. */
  #undef AIX_GENUINE_CPLUSPLUS
@@ -395,3 +562,15 @@ diff -u -r -w Python-3.7.4/pyconfig.h.in Python-3.7.4-patched/pyconfig.h.in
  /* Define if C doubles are 64-bit IEEE 754 binary format, stored in ARM
     mixed-endian order (byte order 45670123) */
  #undef DOUBLE_IS_ARM_MIXED_ENDIAN_IEEE754
+diff -u -r -w Python-3.7.4/setup.py Python-3.7.4-patched/setup.py
+--- Python-3.7.4/setup.py	2019-07-08 19:03:50.000000000 +0000
++++ Python-3.7.4-patched/setup.py	2019-07-22 12:27:01.418040240 +0000
+@@ -1669,7 +1669,7 @@
+             missing.append('_tkinter')
+ 
+         # Build the _uuid module if possible
+-        uuid_incs = find_file("uuid.h", inc_dirs, ["/usr/include/uuid"])
++        uuid_incs = find_file("uuid/uuid.h", inc_dirs, ["/usr/include/uuid"])
+         if uuid_incs is not None:
+             if self.compiler.find_library_file(lib_dirs, 'uuid'):
+                 uuid_libs = ['uuid']

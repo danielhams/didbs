@@ -9,5 +9,5 @@ echo $EXTRAARGS
 . ./setupenv.sh
 cd $BUILDDIR || exit -1
 autoreconf || exit -1
-ac_cv_header_uuid_h=no ac_cv_header_uuid_uuid_h=no ./configure --enable-shared --prefix=$INSTALLDIR --with-system-ffi --with-system-expat --with-ensurepip=yes || exit -1
+./configure --enable-shared --prefix=$INSTALLDIR --with-system-ffi --with-system-expat --with-ensurepip=yes || exit -1
 exit 0
