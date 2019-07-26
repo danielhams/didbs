@@ -8,6 +8,7 @@ echo $INSTALLDIR
 echo $EXTRAARGS
 . ./setupenv.sh
 cd $BUILDDIR || exit -1
+autoreconf
 mkdir ../build-libffi
 cd ../build-libffi
 $BUILDDIR/configure --prefix=$INSTALLDIR --disable-silent-rules || exit -1
