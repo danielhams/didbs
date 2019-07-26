@@ -12,7 +12,7 @@ packagePatch=python2_7_16.sgifixes.patch
 
 packageExtraction=tarxfsystemhelper.sh
 expectedToolList=
-dependenciesList=make,tar,xz,perl,openssl,berkeley-db
+dependenciesList=make,tar,xz,perl,openssl,berkeley-db,libffi
 envModifs=setupenv.sh
 configureRecipe=configureit
 buildRecipe=buildit
