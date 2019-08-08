@@ -6,10 +6,10 @@ packagePatch=gcc5_4_0.sgidevfixes.patch
 
 packageExtraction=tarxfsystemhelper.sh
 expectedToolList=
-dependenciesList=make,tar,bzip,autoconf,automake,libtool,gmp,mpfr,mpc,gbs4_1-gcc4,libisl
+dependenciesList=make,tar,bzip,autoconf,automake,libtool,gmp,mpfr,mpc,gbs4_2-gcc4,libisl
 envModifs=setupenv.sh
 configureRecipe=configureit
 buildRecipe=buildit
 installRecipe=installit
-passesChecksIndicator=0
-disabled=1
+passesChecksIndicator=1
+disabled=0

@@ -24,10 +24,10 @@ packagePatch=gcc4_8_2_sgugfixes.patch
 
 packageExtraction=tarxfsystemhelper.sh
 expectedToolList=
-dependenciesList=make,tar,bzip,autoconf,automake,libtool,gmp,mpfr,mpc,gbs4_1-binutils
+dependenciesList=make,tar,bzip,autoconf,automake,libtool,gmp,mpfr,mpc,gbs4_2-binutils
 envModifs=setupenv.sh
 configureRecipe=configureit
 buildRecipe=buildit
 installRecipe=installit
-passesChecksIndicator=0
+passesChecksIndicator=1
 disabled=0

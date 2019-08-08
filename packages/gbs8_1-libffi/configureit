@@ -1,0 +1,15 @@
+#!/bin/sh
+
+BUILDDIR=$1
+INSTALLDIR=$2
+EXTRAARGS=$3
+echo $BUILDDIR
+echo $INSTALLDIR
+echo $EXTRAARGS
+. ./setupenv.sh
+cd $BUILDDIR || exit -1
+autoreconf
+mkdir ../build-libffi
+cd ../build-libffi
+$BUILDDIR/configure --prefix=$GBS8_1_INSTALL_DIR --disable-silent-rules || exit -1
+exit 0

@@ -1,0 +1,112 @@
+diff -u -r -w libffi-3.2.1/configure.ac libffi-3.2.1-patched/configure.ac
+--- libffi-3.2.1/configure.ac	2014-11-12 11:56:51.000000000 +0000
++++ libffi-3.2.1-patched/configure.ac	2019-07-26 19:46:32.453454520 +0000
+@@ -57,8 +57,8 @@
+ fi
+ 
+ cat > local.exp <<EOF
+-set CC_FOR_TARGET "$CC"
+-set CXX_FOR_TARGET "$CXX"
++set CC_FOR_TARGET "$CC $CFLAGS"
++set CXX_FOR_TARGET "$CXX $CXXFLAGS"
+ EOF
+ 
+ AM_MAINTAINER_MODE
+Only in libffi-3.2.1-patched: configure.ac.orig
+diff -u -r -w libffi-3.2.1/include/ffi.h.in libffi-3.2.1-patched/include/ffi.h.in
+--- libffi-3.2.1/include/ffi.h.in	2014-11-08 12:47:24.000000000 +0000
++++ libffi-3.2.1-patched/include/ffi.h.in	2019-07-26 19:46:54.674481880 +0000
+@@ -103,6 +103,11 @@
+ #   undef  FFI_64_BIT_MAX
+ #   define FFI_64_BIT_MAX 9223372036854775807LL
+ #  endif
++#  ifdef  __sgi /* IRIX has LONGLONG_MAX */
++#   define FFI_LONG_LONG_MAX LONGLONG_MAX
++#   undef  FFI_64_BIT_MAX
++#   define FFI_64_BIT_MAX 9223372036854775807LL
++#  endif
+ # endif
+ #endif
+ 
+@@ -310,6 +315,8 @@
+ 
+ #ifdef _MSC_VER
+ __declspec(align(8))
++#elif defined(__sgi)
++# pragma pack (8)
+ #endif
+ typedef struct {
+ #if @FFI_EXEC_TRAMPOLINE_TABLE@
+@@ -325,8 +332,8 @@
+ } ffi_closure __attribute__((aligned (8)));
+ #else
+ } ffi_closure;
+-# ifdef __sgi
+-#  pragma pack 0
++# if defined(__sgi)
++#  pragma pack (0)
+ # endif
+ #endif
+ 
+@@ -346,8 +353,8 @@
+ 		      void *user_data,
+ 		      void*codeloc);
+ 
+-#ifdef __sgi
+-# pragma pack 8
++#if defined(__sgi)
++# pragma pack (8)
+ #endif
+ typedef struct {
+ #if @FFI_EXEC_TRAMPOLINE_TABLE@
+@@ -400,6 +407,10 @@
+ 
+ } ffi_java_raw_closure;
+ 
++#if defined(__sgi)
++# pragma pack (0)
++#endif
++
+ ffi_status
+ ffi_prep_raw_closure (ffi_raw_closure*,
+ 		      ffi_cif *cif,
+Only in libffi-3.2.1-patched/include: ffi.h.in.orig
+diff -u -r -w libffi-3.2.1/testsuite/libffi.call/cls_ulong_va.c libffi-3.2.1-patched/testsuite/libffi.call/cls_ulong_va.c
+--- libffi-3.2.1/testsuite/libffi.call/cls_ulong_va.c	2014-11-08 12:47:24.000000000 +0000
++++ libffi-3.2.1-patched/testsuite/libffi.call/cls_ulong_va.c	2019-07-26 19:46:32.457907640 +0000
+@@ -13,9 +13,9 @@
+ static void cls_ret_T_fn(ffi_cif* cif __UNUSED__, void* resp, void** args,
+ 			 void* userdata __UNUSED__)
+  {
+-   *(T *)resp = *(T *)args[0];
++   *(ffi_arg *)resp = *(T *)args[0];
+ 
+-   printf("%ld: %ld %ld\n", *(T *)resp, *(T *)args[0], *(T *)args[1]);
++   printf("%ld: %ld %ld\n", (long)*(ffi_arg *)resp, *(T *)args[0], *(T *)args[1]);
+  }
+ 
+ typedef T (*cls_ret_T)(T, ...);
+Only in libffi-3.2.1-patched/testsuite/libffi.call: cls_ulong_va.c.orig
+diff -u -r -w libffi-3.2.1/testsuite/libffi.call/ffitest.h libffi-3.2.1-patched/testsuite/libffi.call/ffitest.h
+--- libffi-3.2.1/testsuite/libffi.call/ffitest.h	2014-11-08 12:47:24.000000000 +0000
++++ libffi-3.2.1-patched/testsuite/libffi.call/ffitest.h	2019-07-26 19:46:32.459819400 +0000
+@@ -6,8 +6,10 @@
+ #include "fficonfig.h"
+ 
+ #if defined HAVE_STDINT_H
++# if !(defined(__cplusplus) && defined(__sgi) && !defined(__GNUC__) )
+ #include <stdint.h>
+ #endif
++#endif
+ 
+ #if defined HAVE_INTTYPES_H
+ #include <inttypes.h>
+@@ -109,6 +111,7 @@
+ #endif
+ /* This doesn't match <inttypes.h>, which has "u" here, but the arguments
+    are uintptr_t, which is always unsigned long.  */
++#undef PRIuPTR
+ #define PRIuPTR "lu"
+ #endif
+ 
+Only in libffi-3.2.1-patched/testsuite/libffi.call: ffitest.h.orig

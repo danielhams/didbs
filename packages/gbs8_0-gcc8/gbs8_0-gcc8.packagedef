@@ -6,7 +6,7 @@ packagePatch=gcc8_2_0.sgidevfixes.patch
 
 packageExtraction=tarxfsystemhelper.sh
 expectedToolList=
-dependenciesList=make,tar,bzip,autoconf,automake,libtool,gmp,mpfr,mpc,gbs4_1-gcc4,gbs8_0-binutils,libisl
+dependenciesList=make,tar,bzip,autoconf,automake,libtool,gmp,mpfr,mpc,gbs4_1-gcc4,gbs8_0-binutils,libisl,gbs8_0-libffi
 envModifs=setupenv.sh
 configureRecipe=configureit
 buildRecipe=buildit

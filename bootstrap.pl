@@ -44,11 +44,13 @@ use Getopt::Long;
 my $packageDir = undef;
 my $buildDir = undef;
 my $installDir = undef;
+#my $didbsabi = undef;
 my $verbose = 0;
 my $clean = 0;
 my $clean_all = 0;
 my $stoponuntested = 0;
 my $dryrun = 0;
+my $buildpackage = undef;
 my $buildshellpackage = undef;
 
 sub supressenv
@@ -105,19 +107,28 @@ sub usage
     print <<EOUSAGE
 Setup: bootstrap.pl [maintenance options]
 Run  : bootstrap.pl
-Maintenance Options:
+Maintenance Options: (# = not yet working)
 \t-p /pathforpackages\t--packagedir /pathforpackages
 \t-b /pathforbuilding\t--builddir /pathforbuilding
 \t-i /pathforinstall \t--installdir /pathforinstall
+#\t-e n32/64          \t--elfwidth n32/64      (n32)
+#\t-a mips3/mips4     \t--isa mips3/mips4      (mips3)
+#\t-c mipspro/gcc     \t--compiler mipspro/gcc (mipspro)
 \t-v                 \t--verbose
-\t                   \t--clean              (non-stage0 builds)
-\t                   \t--clean-all          (builds + installs)
+\t                   \t--clean                (non-stage0 builds)
+\t                   \t--clean-all            (builds + installs)
 \t                   \t--stoponuntested
 \t                   \t--dryrun
+#\t                   \t--build PACKAGENAME
 \t                   \t--buildshell PACKAGENAME
+#\t                   \t--release RELEASEID    (create tooling .inst)
 
 On first run you must provide the package, build and installation directories
-that this bootstrapper will use.
+that this bootstrapper will use. Without specifying it didbs will default to
+n32, mips3, mipspro.
+
+If a tooling installation is found (via /usr/didbs/didbs-tooling-*.txt) the
+most recent will be picked up and stage0/stage1 builds will be skipped.
 
 When running the script without arguments, the script will attempt to determine
 and build currently missing packages. Using the --stoponuntested flag will halt
@@ -151,6 +162,10 @@ sub writeconfig
         {
             printf FH "--".$key . " " . $hash{$key} . "\n";
         }
+#	elsif( $key eq "abi" )
+#	{
+#	    printf FH "--".$key . " " . $hash{$key} . "\n";
+#	}
         elsif( $key eq "verbose" )
         {
             if( $hash{$key} eq 1 )
@@ -189,21 +204,26 @@ GetOptions(\%options,
            "packagedir|p=s" => \$packageDir,
            "builddir|b=s" => \$buildDir,
            "installdir|i=s" => \$installDir,
+#	   "abi|a=s" => \$didbsabi,
            "verbose|v" => \$verbose,
            "clean" => \$clean,
            "clean-all" => \$clean_all,
            "stoponuntested" => \$stoponuntested,
            "dryrun" => \$dryrun,
+	   "build=s" => \$buildpackage,
            "buildshell=s" => \$buildshellpackage )
     or usage(true);
 
 $verbose = $verbose || $ENV{"V"}=="1";
 
-if( !defined($packageDir) || !defined($buildDir) || !defined($installDir))
+#if( !defined($packageDir) || !defined($buildDir) || !defined($installDir)
+#    || !defined($didbsabi))
+if( !defined($packageDir) || !defined($buildDir) || !defined($installDir) )
 {
     $verbose && didbsprint "packageDir=$packageDir\n";
     $verbose && didbsprint "buildDir=$buildDir\n";
     $verbose && didbsprint "installDir=$installDir\n";
+#    $verbose && didbsprint "abi=$didbsabi\n";
     usage(true);
 }
 
@@ -288,6 +308,7 @@ if( $clean_all )
 $options{"packagedir"} = $packageDir;
 $options{"builddir"} = $buildDir;
 $options{"installdir"} = $installDir;
+#$options{"dibsabi"} = $didbsabi;
 $options{"verbose"} = $verbose;
 $options{"stoponuntested"} = $stoponuntested;
 
@@ -385,7 +406,10 @@ my $origpath = $ENV{"PATH"};
 $ENV{"PATH"} = "$installDir/bin:$origpath";
 my $origPkgCpath = $ENV{"PKG_CONFIG_PATH"};
 $ENV{"PKG_CONFIG_PATH"} = "$pkgConfigPath/lib/pkgconfig:$origPkgCpath";
-$ENV{"DIDSB_INSTALL_DIR"} = $installDir;
+$ENV{"DIDBS_INSTALL_DIR"} = $installDir;
+#$ENV{"DIDBS_ABI"} = $didbsabi;
+#$ENV{"DIDBS_ABI_SWITCH"} = "--$didbsabi";
+
 didbsprint "Modify the above in defaultenv.vars\n";
 print"\n";
 
@@ -437,6 +461,7 @@ if( $buildshellpackage )
 
 my %foundPackageStates = ();
 
+# Full tree build
 foreach $pkg (@{$foundPackagesRef})
 {
     my $curpkg = ${$pkg};
