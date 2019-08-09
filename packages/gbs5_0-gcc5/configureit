@@ -8,7 +8,7 @@ echo $INSTALLDIR
 echo $EXTRAARGS
 . ./setupenv.sh
 cd $BUILDDIR || exit -1
-echo "sgugver1" >gcc-5.4.0/gcc/DEV-PHASE || exit 1
+echo "sgugver1" >gcc/DEV-PHASE || exit 1
 cd ..
 mkdir build-gcc
 cd build-gcc
