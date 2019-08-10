@@ -36,7 +36,7 @@ Suggested approach:
 * rm 0.1.0.tar
 * nedit defaultenv.vars
 * Set the DIDBS_JOBS to CPU+1, or just one if RAM is < 512Mb, save, exit
-* ./bootstrap.pl -p /usr/didbs/0_1_0_package -b /usr/didbs/0_1_0_build -i /usr/didbs/0.1.0 -v # (this sets up paths)
+* ./bootstrap.pl -p /usr/didbs/0_1_0_package -b /usr/didbs/0_1_0_build -i /usr/didbs/0_1_0 -v # (this sets up paths)
 * ./bootstrap.pl # (This builds the stage0 pieces)
 * ./bootstrap.pl # (This builds the stage1 then release packages)
 
