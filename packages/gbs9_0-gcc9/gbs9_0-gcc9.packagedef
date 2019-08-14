@@ -1,0 +1,15 @@
+packageSource=ftp://ftp.mirrorservice.org/sites/sourceware.org/pub/gcc/releases/gcc-9.1.0/gcc-9.1.0.tar.gz
+packageFile=gcc-9.1.0.tar.gz
+packageChecksum=21cda7bbe39c95d0e81694433608a7be
+packageDir=gcc-9.1.0
+packagePatch=gcc9_1_0.sgidevfixes.patch
+
+packageExtraction=tarxfsystemhelper.sh
+expectedToolList=
+dependenciesList=make,tar,bzip,autoconf,automake,libtool,gmp,mpfr,mpc,gbs9_0-binutils
+envModifs=setupenv.sh
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=1
+disabled=1
