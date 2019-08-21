@@ -11,5 +11,5 @@ cd $BUILDDIR || exit -1
 cd ..
 mkdir build-libiconv
 cd build-libiconv
-$BUILDDIR/configure --prefix=$INSTALLDIR --enable-static --enable-dynamic --disable-nls || exit -1
+$BUILDDIR/configure --prefix=$INSTALLDIR --libdir=$INSTALLDIR/$DIDBS_LIBDIR --enable-static --enable-dynamic --disable-nls || exit -1
 exit 0

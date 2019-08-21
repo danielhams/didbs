@@ -50,9 +50,8 @@ sub startshell
     my $packageId = $self->{packageId};
     my $packageDirRoot = $self->{packageDir};
     my $didbsPackageDir = ${$self->{didbsPackage}}->{packageDir};
-    my $packageDir = $scriptLocation .
-	"/packages/" .
-	$packageId;
+    my $packageDefsDir = $self->{packageDefsDir};
+    my $packageDir = $packageDefsDir . "/" . $packageId;
     my $builddir = $self->{buildDir};
     my $packageBuildDir =
 	$builddir .
@@ -65,13 +64,13 @@ sub startshell
 
     my $envmodifs = $packageDir . "/" .
 	${$self->{didbsPackage}}->{envModifs};
-#    didbsprint "scriptLocation is $scriptLocation\n";
-#    didbsprint "packageId is $packageId\n";
-#    didbsprint "packageDir is $packageDir\n";
-#    didbsprint "packageBuildDir is $packageBuildDir\n";
-#    didbsprint "didbsPackageDir is $didbsPackageDir\n";
-#    didbsprint "builddir is $builddir\n";
-#    didbsprint "installdir is $installdir\n";
+    didbsprint "scriptLocation is $scriptLocation\n";
+    didbsprint "packageId is $packageId\n";
+    didbsprint "packageDir is $packageDir\n";
+    didbsprint "packageBuildDir is $packageBuildDir\n";
+    didbsprint "didbsPackageDir is $didbsPackageDir\n";
+    didbsprint "builddir is $builddir\n";
+    didbsprint "installdir is $installdir\n";
 
     # Need
     # script path

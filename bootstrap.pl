@@ -21,7 +21,7 @@ STDERR->autoflush(1);
 STDOUT->autoflush(1);
 
 my $argc = ($#ARGV + 1);
-my $version = "0.1.0";
+my $version = "0.1.1beta";
 
 (my $configfile = basename($0)) =~ s/^(.*?)(?:\..*)?$/$1.conf/;
 my $scriptLocation = $FindBin::Bin;
@@ -44,7 +44,9 @@ use Getopt::Long;
 my $packageDir = undef;
 my $buildDir = undef;
 my $installDir = undef;
-#my $didbsabi = undef;
+my $didbselfwidth = "n32";
+my $didbsisa = "mips3";
+my $didbscompiler = "mipspro";
 my $verbose = 0;
 my $clean = 0;
 my $clean_all = 0;
@@ -111,9 +113,9 @@ Maintenance Options: (# = not yet working)
 \t-p /pathforpackages\t--packagedir /pathforpackages
 \t-b /pathforbuilding\t--builddir /pathforbuilding
 \t-i /pathforinstall \t--installdir /pathforinstall
-#\t-e n32/64          \t--elfwidth n32/64      (n32)
-#\t-a mips3/mips4     \t--isa mips3/mips4      (mips3)
-#\t-c mipspro/gcc     \t--compiler mipspro/gcc (mipspro)
+\t-e n32/64          \t--elfwidth n32/64      (n32)
+\t-a mips3/mips4     \t--isa mips3/mips4      (mips3)
+\t-c mipspro/gcc     \t--compiler mipspro/gcc (mipspro)
 \t-v                 \t--verbose
 \t                   \t--clean                (non-stage0 builds)
 \t                   \t--clean-all            (builds + installs)
@@ -124,8 +126,8 @@ Maintenance Options: (# = not yet working)
 #\t                   \t--release RELEASEID    (create tooling .inst)
 
 On first run you must provide the package, build and installation directories
-that this bootstrapper will use. Without specifying it didbs will default to
-n32, mips3, mipspro.
+that this bootstrapper will use. If not specified, didbs will default to n32,
+mips3, mipspro.
 
 If a tooling installation is found (via /usr/didbs/didbs-tooling-*.txt) the
 most recent will be picked up and stage0/stage1 builds will be skipped.
@@ -158,7 +160,10 @@ sub writeconfig
     {
         if( $key eq "packagedir" ||
             $key eq "builddir" ||
-            $key eq "installdir" )
+            $key eq "installdir" ||
+	    $key eq "elfwidth" ||
+	    $key eq "isa" ||
+	    $key eq "compiler")
         {
             printf FH "--".$key . " " . $hash{$key} . "\n";
         }
@@ -204,7 +209,9 @@ GetOptions(\%options,
            "packagedir|p=s" => \$packageDir,
            "builddir|b=s" => \$buildDir,
            "installdir|i=s" => \$installDir,
-#	   "abi|a=s" => \$didbsabi,
+	   "elfwidth|e=s" => \$didbselfwidth,
+	   "isa|a=s" => \$didbsisa,
+	   "compiler|c=s" => \$didbscompiler,
            "verbose|v" => \$verbose,
            "clean" => \$clean,
            "clean-all" => \$clean_all,
@@ -218,12 +225,16 @@ $verbose = $verbose || $ENV{"V"}=="1";
 
 #if( !defined($packageDir) || !defined($buildDir) || !defined($installDir)
 #    || !defined($didbsabi))
-if( !defined($packageDir) || !defined($buildDir) || !defined($installDir) )
+if( !defined($packageDir) || !defined($buildDir) || !defined($installDir)
+ || !defined($didbselfwidth) || !defined($didbsisa) || !defined($didbscompiler)
+  )
 {
     $verbose && didbsprint "packageDir=$packageDir\n";
     $verbose && didbsprint "buildDir=$buildDir\n";
     $verbose && didbsprint "installDir=$installDir\n";
-#    $verbose && didbsprint "abi=$didbsabi\n";
+    $verbose && didbsprint "elfwidth=$didbselfwidth\n";
+    $verbose && didbsprint "isa=$didbsisa\n";
+    $verbose && didbsprint "compiler=$didbscompiler\n";
     usage(true);
 }
 
@@ -308,7 +319,9 @@ if( $clean_all )
 $options{"packagedir"} = $packageDir;
 $options{"builddir"} = $buildDir;
 $options{"installdir"} = $installDir;
-#$options{"dibsabi"} = $didbsabi;
+$options{"elfwidth"} = $didbselfwidth;
+$options{"isa"} = $didbsisa;
+$options{"compiler"} = $didbscompiler;
 $options{"verbose"} = $verbose;
 $options{"stoponuntested"} = $stoponuntested;
 
@@ -322,16 +335,19 @@ if($verbose)
     }
 }
 
-my $onlyDryrunArguments = (($argc eq 1) && ($dryrun eq 1));
+my $onlyDryrunArguments = (($argc == 1) && ($dryrun == 1)) ? 1 : 0;
+my $nonDestructiveParameters = ($onlyDryrunArguments || ($buildshellpackage ne "")) ? 1 : 0;
 
-my $parametersUpdated = ($userfoundconf eq 0 || $argc >= 1) && ($onlyDryrunArguments eq 0);
+my $parametersUpdated = ($usingfoundconf == 0 || $argc >= 1) && ($nonDestructiveParameters == 0)
+    ? 1 : 0;
 
 if($verbose)
 {
-    didbsprint "userfoundconf=$userfoundconf\n";
+    didbsprint "usingfoundconf=$usingfoundconf\n";
     didbsprint "argc=$argc\n";
     didbsprint "dryrun=$dryrun\n";
     didbsprint "onlyDryrunArguments=$onlyDryrunArguments\n";
+    didbsprint "nonDestructiveParameters=$nonDestructiveParameters\n";
     didbsprint "parametersUpdated=$parametersUpdated\n";
 }
 
@@ -382,6 +398,65 @@ foreach $var (keys %envvars)
     $ENV{$var} = $val;
 }
 
+# And set up the necessary env vars computed from
+# the elfwidth,isa and compiler
+my $didbsarchcflags="";
+my $didbsarchldflags="";
+my $didbslibdir="";
+
+if( $didbscompiler eq "mipspro" ) {
+    if( $didbsisa eq "mips3" ) {
+	$didbsarchcflags .= "-mips3 ";
+	$didbsarchldflags .= "-mips3 ";
+    }
+    elsif( $didbsisa eq "mips4" ) {
+	$didbsarchcflags .= "-mips4 ";
+	$didbsarchldflags .= "-mips4 ";
+    }
+    else {
+	didbsprint "Error: unknown isa:$didbselfwidth\n";
+	exit(1);
+    }
+
+    if( $didbselfwidth eq "n32" ) {
+	$didbsarchcflags .= "-n32 ";
+	$didbsarchldflags .= "-n32 ";
+	$didbslibdir = "lib32";
+    } elsif ( $didbselfwidth eq "n64" ) {
+	$didbsarchcflags .= "-64 ";
+	$didbsarchldflags .= "-64 ";
+	$didbslibdir = "lib64";
+	didbsprint "Error: 64 bit compile not yet supported\n";
+    }
+    else {
+	didbsprint "Error: unknown elfwidth:$didbselfwidth\n";
+	exit(1);
+    }
+
+    $ENV{"DIDBS_CC"}=$ENV{"DIDBS_MP_CC"};
+    $ENV{"DIDBS_CXX"}=$ENV{"DIDBS_MP_CXX"};
+}
+else
+{
+    # GCC setup here....
+    didbsprint "Error: gcc not yet supported\n";
+    exit(1);
+}
+
+$ENV{"DIDBS_ARCH_CFLAGS"} = $didbsarchcflags;
+$ENV{"DIDBS_ARCH_CXXFLAGS"} = $didbsarchcflags;
+$ENV{"DIDBS_ARCH_LDFLAGS"} = $didbsarchldflags;
+$ENV{"DIDBS_LIBDIR"} = $didbslibdir;
+
+if( $verbose ) {
+    didbsprint "CC            = '".$ENV{"DIDBS_CC"}."'\n";
+    didbsprint "CXX           = '".$ENV{"DIDBS_CXX"}."'\n";
+    didbsprint "arch CFLAGS   = '$didbsarchcflags'\n";
+    didbsprint "arch CXXFLAGS = '$didbsarchcflags'\n";
+    didbsprint "arch LDFLAGS  = '$didbsarchldflags'\n";
+    didbsprint "libdir        = '$didbslibdir'\n";
+}
+
 # Check if the stage0 (stage1?) builds
 # are already complete
 my $stageChecker = DidbsStageChecker->new( $scriptLocation,
@@ -407,8 +482,8 @@ $ENV{"PATH"} = "$installDir/bin:$origpath";
 my $origPkgCpath = $ENV{"PKG_CONFIG_PATH"};
 $ENV{"PKG_CONFIG_PATH"} = "$pkgConfigPath/lib/pkgconfig:$origPkgCpath";
 $ENV{"DIDBS_INSTALL_DIR"} = $installDir;
-#$ENV{"DIDBS_ABI"} = $didbsabi;
-#$ENV{"DIDBS_ABI_SWITCH"} = "--$didbsabi";
+$ENV{"DIDBS_ISA"} = $didbsisa;
+$ENV{"DIDBS_ISA_SWITCH"} = "-$didbsisa";
 
 didbsprint "Modify the above in defaultenv.vars\n";
 print"\n";
@@ -430,6 +505,10 @@ my $said = $stageChecker->getStageAdjustedInstallDir();
 my $pathToStage0Root = $stageChecker->getPathToStage0Root();
 $ENV{"STAGE0ROOT"}=$pathToStage0Root;
 
+#didbsprint "packageDefsDir=$packageDefsDir\n";
+#didbsprint "sapd=$sapd\n";
+#didbsprint "pathToStage0Root=$pathToStage0Root\n";
+
 # Fast quit for buildshell
 if( $buildshellpackage )
 {
@@ -444,8 +523,8 @@ if( $buildshellpackage )
 					      $packageDefsDir,
 					      $buildshellpackage,
 					      $packageDir,
-					      $buildDir,
-					      $installDir,
+					      $sabd,
+					      $said,
 					      $pathToStage0Root,
 					      $bsPackage );
 

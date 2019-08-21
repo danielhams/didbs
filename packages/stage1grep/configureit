@@ -8,5 +8,5 @@ echo $INSTALLDIR
 echo $EXTRAARGS
 . ./setupenv.sh
 cd $BUILDDIR || exit -1
-./configure --prefix=$INSTALLDIR --disable-silent-rules || exit -1
+./configure --prefix=$INSTALLDIR --libdir=$INSTALLDIR/$DIDBS_LIBDDIR --disable-silent-rules || exit -1
 exit 0

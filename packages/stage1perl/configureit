@@ -9,4 +9,9 @@ echo $EXTRAARGS
 . ./setupenv.sh
 cd $BUILDDIR || exit -1
 ./Configure -des -Dprefix=$INSTALLDIR -Dusethreads || exit -1
+# Rewrite installation lib directory
+LIBDIR_REGEXP="s|$INSTALLDIR/lib/|$INSTALLDIR/$DIDBS_LIBDIR/|g"
+perl -pi -e "$LIBDIR_REGEXP" config.sh || exit -1
+MIPSVER_REGEXP="s|\-n32|-n32 $DIDBS_ISA_SWITCH|g"
+perl -pi -e "$MIPSVER_REGEXP" config.sh || exit -1
 exit 0

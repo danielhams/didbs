@@ -180,10 +180,19 @@ sub modifyPathForCurrentStage
 
     my $extraBinPath = $self->getStageAdjustedInstallDir() . "/bin";
     $self->prependEnvVarPath("PATH", $extraBinPath);
-    my $extraLibPath = $self->getStageAdjustedInstallDir() . "/lib";
+    my $extraLibPath;
+    my $extraPkgConfigPath;
+    if( ${DIDBS_LIBDIR} eq "lib32" ) {
+	$extraLibPath = $self->getStageAdjustedInstallDir() . "/lib32";
+	$self->prependEnvVarPath("LD_LIBRARYN32_PATH", $extraLibPath);
+	$extraPkgConfigPath = $self->getStageAdjustedInstallDir() . "/lib32/pkgconfig";
+    }
+    else {
+	$extraLibPath = $self->getStageAdjustedInstallDir() . "/lib64";
+	$self->prependEnvVarPath("LD_LIBRARYN64_PATH", $extraLibPath);
+	$extraPkgConfigPath = $self->getStageAdjustedInstallDir() . "/lib64/pkgconfig";
+    }
     $self->prependEnvVarPath("LD_LIBRARY_PATH", $extraLibPath);
-    $self->prependEnvVarPath("LD_LIBRARYN32_PATH", $extraLibPath);
-    my $extraPkgConfigPath = $self->getStageAdjustedInstallDir() . "/lib/pkgconfig";
     $self->prependEnvVarPath("PKG_CONFIG_PATH", $extraPkgConfigPath);
 }
 
