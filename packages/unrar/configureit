@@ -10,4 +10,6 @@ echo $EXTRAARGS
 # Only a makefile for unrar
 #cd $BUILDDIR || exit -1
 #./configure --prefix=$INSTALLDIR || exit -1
+# Rewrite the makefile to install in the target ISA directory
+
 exit 0

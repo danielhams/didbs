@@ -10,5 +10,5 @@ echo $EXTRAARGS
 cd $BUILDDIR || exit -1
 mkdir -p ../build-expat
 cd ../build-expat
-$BUILDDIR/configure --without-docbook --prefix=$INSTALLDIR || exit -1
+$BUILDDIR/configure --without-docbook --prefix=$INSTALLDIR --libdir=$INSTALLDIR/$DIDBS_LIBDIR || exit -1
 exit 0

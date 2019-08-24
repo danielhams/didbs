@@ -9,5 +9,5 @@ echo $EXTRAARGS
 . ./setupenv.sh
 cd $BUILDDIR || exit -1
 export MAN_INSTALLDIR=$INSTALLDIR
-./configure --prefix=$MAN_INSTALLDIR --docdir=$MAN_INSTALLDIR/share/doc/man-db-2.8.5 --sysconfdir=$MAN_INSTALLDIR/etc --disable-setuid --with-systemdtmpfilesdir= --with-systemdsystemunitdir= --enable-mandirs=IRIX || exit -1
+./configure --prefix=$MAN_INSTALLDIR --docdir=$MAN_INSTALLDIR/share/doc/man-db-2.8.5 --sysconfdir=$MAN_INSTALLDIR/etc --libdir=$INSTALLDIR/$DIDBS_LIBDIR --disable-setuid --with-systemdtmpfilesdir= --with-systemdsystemunitdir= --enable-mandirs=IRIX || exit -1
 exit 0

@@ -12,5 +12,5 @@ echo "sgugver1" >gcc/DEV-PHASE || exit 1
 cd ..
 mkdir build-gcc
 cd build-gcc
-$BUILDDIR/configure --prefix=$GBS4_2_INSTALL_DIR --disable-silent-rules --disable-nls --disable-multilib --enable-obsolete --enable-languages=c,c++ --disable-bootstrap --enable-shared --enable-static --enable-threads=posix --disable-lto --with-gmp=$INSTALLDIR --with-mpfr=$INSTALLDIR --with-system-zlib --enable-checking=release --with-bugurl=$SGUG_URL || exit -1
+$BUILDDIR/configure --prefix=$GBS4_2_INSTALL_DIR --libdir=$GBS4_2_INSTALL_DIR/$DIDBS_LIBDIR --disable-silent-rules --disable-nls --disable-multilib --enable-obsolete --enable-languages=c,c++ --disable-bootstrap --enable-shared --enable-static --enable-threads=posix --disable-lto --with-gmp=$INSTALLDIR --with-mpfr=$INSTALLDIR --with-system-zlib --enable-checking=release --with-bugurl=$SGUG_URL || exit -1
 exit 0

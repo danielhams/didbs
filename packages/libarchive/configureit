@@ -8,6 +8,5 @@ echo $INSTALLDIR
 echo $EXTRAARGS
 . ./setupenv.sh
 cd $BUILDDIR || exit -1
-#./configure --disable-bsdtar --disable-bsdcpio --disable-bsdcat --prefix=$INSTALLDIR || exit -1
-./configure --disable-bsdcpio --disable-bsdcat --prefix=$INSTALLDIR || exit -1
+./configure --disable-bsdcpio --disable-bsdcat --prefix=$INSTALLDIR --libdir=$INSTALLDIR/$DIDBS_LIBDIR || exit -1
 exit 0

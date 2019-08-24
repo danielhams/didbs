@@ -10,4 +10,7 @@ echo $EXTRAARGS
 cd $BUILDDIR || exit -1
 cd ../build-groff
 make install || exit -1
+cd $INSTALLDIR
+mv lib/* $DIDBS_LIBDIR/ || exit -1
+rmdir lib || exit -1
 exit 0

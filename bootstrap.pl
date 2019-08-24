@@ -427,6 +427,7 @@ if( $didbscompiler eq "mipspro" ) {
 	$didbsarchldflags .= "-64 ";
 	$didbslibdir = "lib64";
 	didbsprint "Error: 64 bit compile not yet supported\n";
+	exit(1);
     }
     else {
 	didbsprint "Error: unknown elfwidth:$didbselfwidth\n";

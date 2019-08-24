@@ -13,4 +13,9 @@ perl -pi -e "s|DIDBSINSTALLPREFIX|${INSTALLDIR}|g" tweakedconfig.sh
 cp tweakedconfig.sh config.sh
 chmod u+x ./config.sh
 ./Configure -S || exit -1
+# Rewrite installation lib directory
+LIBDIR_REGEXP="s|$INSTALLDIR/lib/|$INSTALLDIR/$DIDBS_LIBDIR/|g"
+perl -pi -e "$LIBDIR_REGEXP" config.sh || exit -1
+MIPSVER_REGEXP="s|\'c99|\'c99 -n32 $DIDBS_ISA_SWITCH|g"
+perl -pi -e "$MIPSVER_REGEXP" config.sh || exit -1
 exit 0

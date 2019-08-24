@@ -8,5 +8,5 @@ echo $INSTALLDIR
 echo $EXTRAARGS
 . ./setupenv.sh
 cd $BUILDDIR || exit -1
-./configure --with-iconv=$INSTALLDIR/lib --without-python --with-threads --prefix=$INSTALLDIR || exit -1
+./configure --with-iconv=$INSTALLDIR/$DIDBS_LIBDIR --without-python --with-threads --prefix=$INSTALLDIR --libdir=$INSTALLDIR/$DIDBS_LIBDIR || exit -1
 exit 0

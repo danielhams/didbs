@@ -10,5 +10,5 @@ echo $EXTRAARGS
 cd $BUILDDIR || exit -1
 mkdir -p ../build-isl
 cd ../build-isl
-$BUILDDIR/configure --prefix=$INSTALLDIR || exit -1
+$BUILDDIR/configure --prefix=$INSTALLDIR --libdir=$INSTALLDIR/$DIDBS_LIBDIR || exit -1
 exit 0

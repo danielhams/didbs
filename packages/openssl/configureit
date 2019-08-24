@@ -8,5 +8,18 @@ echo $INSTALLDIR
 echo $EXTRAARGS
 . ./setupenv.sh
 cd $BUILDDIR || exit -1
-./Configure --prefix=$INSTALLDIR --openssldir=$INSTALLDIR/etc/ssl irix-mips4-cc threads shared || exit -1
+if [ "ne$DIDBS_LIBDIR" == "nelib32" ]; then
+    if [ "ne$DIDBS_ISA" == "nemips3" ]; then
+	SSL_TARGET_BUILD="irix-mips3-cc"
+    else
+	SSL_TARGET_BUILD="irix-mips4-cc"
+    fi
+else
+    if [ "ne$DIDBS_ISA" == "nemips3" ]; then
+	SSL_TARGET_BUILD="irix-mips3-cc-64"
+    else
+	SSL_TARGET_BUILD="irix-mips4-cc-64"
+    fi
+fi
+./Configure --prefix=$INSTALLDIR --openssldir=$INSTALLDIR/etc/ssl --libdir=$INSTALLDIR/$DIDBS_LIBDIR $SSL_TARGET_BUILD threads shared || exit -1
 exit 0

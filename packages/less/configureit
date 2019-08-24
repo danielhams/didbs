@@ -9,5 +9,5 @@ echo $EXTRAARGS
 . ./setupenv.sh
 cd $BUILDDIR || exit -1
 chmod u+x ./install.sh
-./configure --prefix=$INSTALLDIR || exit -1
+./configure --prefix=$INSTALLDIR --libdir=$INSTALLDIR/$DIDBS_LIBDIR || exit -1
 exit 0

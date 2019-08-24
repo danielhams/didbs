@@ -11,6 +11,6 @@ cd $BUILDDIR || exit -1
 cd ..
 mkdir build-gdb
 cd build-gdb
-$BUILDDIR/configure --prefix=$GBS8_1_INSTALL_DIR --enable-werror=no --disable-nls --disable-iconv --disable-gprof --with-system-zlib --with-curses=ncurses|| exit -1
+$BUILDDIR/configure --prefix=$GBS8_1_INSTALL_DIR --libdir=$GBS8_1_INSTALL_DIR/$DIDBS_LIBDIR --enable-werror=no --disable-nls --disable-iconv --disable-gprof --with-system-zlib --with-system-readline --with-curses=ncurses|| exit -1
 
 exit 0

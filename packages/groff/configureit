@@ -10,5 +10,5 @@ echo $EXTRAARGS
 cd $BUILDDIR || exit -1
 mkdir ../build-groff
 cd ../build-groff
-PAGE=A4 $BUILDDIR/configure --prefix=$INSTALLDIR || exit -1
+PAGE=A4 $BUILDDIR/configure --prefix=$INSTALLDIR --libdir=$INSTALLDIR/$DIDBS_LIBDIR || exit -1
 exit 0

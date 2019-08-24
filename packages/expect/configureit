@@ -11,5 +11,5 @@ cd $BUILDDIR || exit -1
 #autoreconf
 mkdir ../build-expect
 cd ../build-expect
-$BUILDDIR/configure --prefix=$INSTALLDIR --disable-silent-rules || exit -1
+$BUILDDIR/configure --prefix=$INSTALLDIR --libdir=$INSTALLDIR/$DIDBS_LIBDIR --disable-silent-rules || exit -1
 exit 0

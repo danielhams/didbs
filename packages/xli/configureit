@@ -24,4 +24,7 @@ cp $EXTRAARGS/packages/xli/xli.replacementMakefile $BUILDDIR/Makefile || exit 1
 # replace <!--INSTALLDIR--> with the actual installdir
 perl -p -i -e "s{REALINSTALLDIR}{$INSTALLDIR}g" $BUILDDIR/Makefile || exit 1
 
+# replace mips4 with the actual isa
+perl -p -i -e "s{mips4}{$DIDBS_ISA}g" $BUILDDIR/Makefile || exit 1
+
 exit 0

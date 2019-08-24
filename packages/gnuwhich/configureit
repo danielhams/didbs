@@ -13,5 +13,5 @@ cd $BUILDDIR || exit -1
 #rm aclocal.m4 || exit -1
 #touch ChangeLog || exit -1
 #autoreconf -f -i || exit -1
-./configure --prefix=$INSTALLDIR --disable-silent-rules || exit -1
+./configure --prefix=$INSTALLDIR --libdir=$INSTALLDIR/$DIDBS_LIBDIR --disable-silent-rules || exit -1
 exit 0

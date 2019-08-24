@@ -182,7 +182,8 @@ sub modifyPathForCurrentStage
     $self->prependEnvVarPath("PATH", $extraBinPath);
     my $extraLibPath;
     my $extraPkgConfigPath;
-    if( ${DIDBS_LIBDIR} eq "lib32" ) {
+
+    if( $ENV{DIDBS_LIBDIR} eq "lib32" ) {
 	$extraLibPath = $self->getStageAdjustedInstallDir() . "/lib32";
 	$self->prependEnvVarPath("LD_LIBRARYN32_PATH", $extraLibPath);
 	$extraPkgConfigPath = $self->getStageAdjustedInstallDir() . "/lib32/pkgconfig";

@@ -12,5 +12,5 @@ autoreconf || exit -1
 cd $BUILDDIR/unix || exit -1
 autoreconf || exit -1
 export tcl_cv_cc_visibility_hidden=no
-./configure tcl_cv_cc_visibility_hidden=no --prefix=$INSTALLDIR --disable-silent-rules --with-system-sqlite || exit -1
+./configure tcl_cv_cc_visibility_hidden=no --prefix=$INSTALLDIR --libdir=$INSTALLDIR/$DIDBS_LIBDIR --disable-silent-rules --with-system-sqlite || exit -1
 exit 0

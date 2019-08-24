@@ -8,5 +8,5 @@ echo $INSTALLDIR
 echo $EXTRAARGS
 . ./setupenv.sh
 cd $BUILDDIR || exit -1
-gl_cv_func_select_supports0=no gl_cv_func_select_detects_ebadf=no gl_cv_func_strtod_works=no gl_cv_func_c99_strtold=no utils_cv_xlc=no ./configure --prefix=$INSTALLDIR || exit -1
+gl_cv_func_select_supports0=no gl_cv_func_select_detects_ebadf=no gl_cv_func_strtod_works=no gl_cv_func_c99_strtold=no utils_cv_xlc=no ./configure --prefix=$INSTALLDIR --libdir=$INSTALLDIR/$DIDBS_LIBDIR || exit -1
 exit 0

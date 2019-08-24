@@ -10,5 +10,5 @@ echo $EXTRAARGS
 cd $BUILDDIR || exit -1
 mkdir ../build-bash
 cd ../build-bash
-$BUILDDIR/configure --prefix=$INSTALLDIR --enable-readline --without-bash-malloc --disable-nls --without-curses --enable-job-control --enable-static-link || exit -1
+$BUILDDIR/configure --prefix=$INSTALLDIR --libdir=$INSTALLDIR/$DIDBS_LIBDIR --enable-readline --without-bash-malloc --disable-nls --without-curses --enable-job-control --enable-static-link || exit -1
 exit 0

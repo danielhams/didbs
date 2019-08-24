@@ -10,5 +10,5 @@ echo $EXTRAARGS
 cd $BUILDDIR || exit -1
 mkdir ../build-mrxvt
 cd ../build-mrxvt
-$BUILDDIR/configure --prefix=$INSTALLDIR --enable-sgi-scroll || exit -1
+$BUILDDIR/configure --prefix=$INSTALLDIR --libdir=$INSTALLDIR/$DIDBS_LIBDIR --enable-sgi-scroll || exit -1
 exit 0

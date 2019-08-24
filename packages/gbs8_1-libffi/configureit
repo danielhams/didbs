@@ -11,5 +11,5 @@ cd $BUILDDIR || exit -1
 autoreconf
 mkdir ../build-libffi
 cd ../build-libffi
-$BUILDDIR/configure --prefix=$GBS8_1_INSTALL_DIR --disable-silent-rules || exit -1
+$BUILDDIR/configure --prefix=$GBS8_1_INSTALL_DIR --libdir=$GBS8_1_INSTALL_DIR/$DIDBS_LIBDIR --disable-silent-rules || exit -1
 exit 0
