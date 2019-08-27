@@ -10,7 +10,4 @@ echo $EXTRAARGS
 cd $BUILDDIR || exit -1
 cd ../build-bu
 make install || exit -1
-cd $GBS9_0_INSTALL_DIR
-mv ./lib32/* ./lib/
-rmdir ./lib32
 exit 0

@@ -61,7 +61,6 @@ sub extractit
 
     if( $self->getState() ne FETCHED )
     {
-        didbsprint "Unfetched package. Fetching.\n";
         mkdirp($destdir);
         my $destfile = $self->{didbsPackage}->{packageFile};
         my $fulldestfile = $destdir."/".$destfile;
@@ -69,7 +68,7 @@ sub extractit
         my $sourceurl = $self->{didbsPackage}->{packageSource};
         my $checksum = $self->{didbsPackage}->{packageChecksum};
 
-        didbsprint "Package needs fetching from $sourceurl\n";
+        didbsprint "Checking for already downloaded archive from $sourceurl\n";
         my $fetchcmd = $self->{scriptLocation}."/scripts/wgethelper.sh ".$self->{scriptLocation}." $destdir \"$sourceurl\"";
 
         # If the file exists check the signature

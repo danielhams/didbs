@@ -21,7 +21,7 @@ STDERR->autoflush(1);
 STDOUT->autoflush(1);
 
 my $argc = ($#ARGV + 1);
-my $version = "0.1.1beta";
+my $version = "0.1.1";
 
 (my $configfile = basename($0)) =~ s/^(.*?)(?:\..*)?$/$1.conf/;
 my $scriptLocation = $FindBin::Bin;
@@ -606,7 +606,7 @@ sub checkPackage
 
     if( $curpkgstate->getState() ne INSTALLED )
     {
-	didbsprint "Package $packageId needs updating...\n";
+	didbsprint "Checking status of package $packageId...\n";
 	# Wait for a return
 	#<STDIN>;
 
