@@ -16,12 +16,13 @@ use DidbsBuilder;
 use DidbsInstaller;
 use DidbsPackageShell;
 use DidbsUtils;
+use DidbsDependencyWriter;
 
 STDERR->autoflush(1);
 STDOUT->autoflush(1);
 
 my $argc = ($#ARGV + 1);
-my $version = "0.1.1";
+my $version = "0.1.2alpha";
 
 (my $configfile = basename($0)) =~ s/^(.*?)(?:\..*)?$/$1.conf/;
 my $scriptLocation = $FindBin::Bin;
@@ -561,6 +562,15 @@ foreach $pkg (@{$foundPackagesRef})
 
 didbsprint "Processed ".@{$foundPackagesRef}." packages.\n";
 
+#if( $verbose )
+#{
+    my $dependenciesWriter = DidbsDependencyWriter->new($version,
+							$scriptLocation,
+							$foundPackagesRef,
+							\%foundPackageStates);
+    $dependenciesWriter->writeDependencies();
+#}
+
 exit 0;
 
 sub checkPackage
@@ -737,6 +747,7 @@ sub checkPackage
 	}
 	else
 	{
+	    didbsprint "  Package would need building..\n";
 	    $curpkgstate->fakeNewInstalledDate();
 	}
     }

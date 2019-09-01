@@ -47,3 +47,6 @@ tmp
 bootstrap.conf*
 
 core
+
+# auto-generated dependencies files
+deps.*

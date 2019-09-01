@@ -7,6 +7,15 @@ echo $BUILDDIR
 echo $INSTALLDIR
 echo $EXTRAARGS
 . ./setupenv.sh
+MIPS4_PATCH="binutils2_23.didbsfixes_mips4default.patch"
+cp $MIPS4_PATCH $BUILDDIR/.. || exit 1
+cd $BUILDDIR/.. || exit -1
+# Rewrite the default ISA if it's not mips3
+# The defaults are set in the "mips_parse_cpu" function inside
+# the gas/config/tc-mips.c file
+if [ "ne$DIDBS_ISA" == "nemips4" ]; then
+    patch -p0 <$MIPS4_PATCH || exit -1
+fi
 cd $BUILDDIR || exit -1
 cd ..
 mkdir build-bu

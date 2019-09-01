@@ -8,7 +8,7 @@ echo $INSTALLDIR
 echo $EXTRAARGS
 . ./setupenv.sh
 cd $BUILDDIR || exit -1
-echo "sgugver1.1$DIDBS_ISA" >gcc/DEV-PHASE || exit 1
+echo "sgugver1.2$DIDBS_ISA" >gcc/DEV-PHASE || exit 1
 # Rewrite the default ISA and ABI to what we want
 cd gcc
 if [ "ne$DIDBS_ISA" == "nemips4" ]; then
