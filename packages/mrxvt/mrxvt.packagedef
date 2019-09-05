@@ -6,7 +6,7 @@ packagePatch=mrxvt.sgifixes.patch
 
 packageExtraction=tarxfsystemhelper.sh
 expectedToolList=
-dependenciesList=make,tar,gzip
+dependenciesList=make,tar,gzip,libjpeg,libpng,zlib
 envModifs=setupenv.sh
 configureRecipe=configureit
 buildRecipe=buildit

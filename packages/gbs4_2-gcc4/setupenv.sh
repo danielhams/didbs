@@ -1,5 +1,5 @@
 #
-GBS4_1_INSTALL_DIR="$INSTALLDIR/gbs4_1"
+GBS4_1_INSTALL_DIR="/usr/didbs/current/gbs4_2"
 GBS4_2_INSTALL_DIR="$INSTALLDIR/gbs4_2"
 
 CC=gcc

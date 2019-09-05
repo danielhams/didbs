@@ -20,7 +20,8 @@ packagePatch=binutils2_23.didbsfixes.patch
 
 packageExtraction=tarxfsystemhelper.sh
 expectedToolList=
-dependenciesList=gbs8_0-gcc8
+#dependenciesList=gbs8_0-gcc8
+dependenciesList=make,tar,xz,bzip,dejagnu,zlib,gbs5_0-gcc5
 envModifs=setupenv.sh
 configureRecipe=configureit
 buildRecipe=buildit

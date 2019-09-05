@@ -6,7 +6,8 @@ packagePatch=libffi-3.2.1_irix.patch
 
 packageExtraction=tarxfsystemhelper.sh
 expectedToolList=
-dependenciesList=make,tar,gzip,pkgconfig,gbs8_0-gcc8
+#dependenciesList=make,tar,gzip,pkgconfig,gbs8_0-gcc8
+dependenciesList=make,tar,gzip,pkgconfig,gbs5_0-gcc5
 envModifs=setupenv.sh
 configureRecipe=configureit
 buildRecipe=buildit

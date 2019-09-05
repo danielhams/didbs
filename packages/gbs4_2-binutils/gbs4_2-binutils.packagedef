@@ -33,7 +33,8 @@ packagePatch=binutils2_23.didbsfixes.patch
 
 packageExtraction=tarxfsystemhelper.sh
 expectedToolList=
-dependenciesList=make,tar,xz,bzip,dejagnu,gbs4_1-gcc4
+#dependenciesList=make,tar,xz,bzip,dejagnu,zlib,gbs4_1-gcc4
+dependenciesList=make,tar,xz,bzip,dejagnu,zlib
 envModifs=setupenv.sh
 configureRecipe=configureit
 buildRecipe=buildit

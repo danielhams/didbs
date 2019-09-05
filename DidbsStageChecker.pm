@@ -155,7 +155,13 @@ sub callMissingStage
 	lc($self->{missingStageString}).
 	"/stage.finished";
     didbsprint "Touching stage complete file - $cmd\n";
-    system($cmd) == 0 || die !$;
+    system($cmd) == 0 || die $!;
+    ## Now remove the build directory (but not the binaries)
+    $cmd = "rm -rf $self->{buildDir}/".
+	lc($self->{missingStageString}).
+	"/build";
+    didbsprint "Cleaning up build dirs with '$cmd'\n";
+    system($cmd) == 0 || die $!;
 }
 
 sub prependEnvVarPath

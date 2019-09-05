@@ -1,5 +1,5 @@
 #
-GBS8_0_INSTALL_DIR="$INSTALLDIR/gbs8_0"
+GBS8_0_INSTALL_DIR="/usr/didbs/current/gbs8_1"
 GBS8_1_INSTALL_DIR="$INSTALLDIR/gbs8_1"
 
 CC="gcc"
