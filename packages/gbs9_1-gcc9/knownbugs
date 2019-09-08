@@ -1,1 +1,2 @@
-NOT WORKING!
+Getting there now :-)
+Compiles OK, generates correct mips3 or mips4 code - but due to the crt*.o files the mips4 compiler will not be able to create mips3 code.

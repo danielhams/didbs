@@ -8,12 +8,14 @@ echo $INSTALLDIR
 echo $EXTRAARGS
 . ./setupenv.sh
 cd $BUILDDIR || exit -1
-echo "sgugver1.2$DIDBS_ISA" >gcc/DEV-PHASE || exit 1
+echo "sgugver1.3$DIDBS_ISA" >gcc/DEV-PHASE || exit 1
 # Rewrite the default ISA and ABI to what we want
 cd gcc
-if [ "ne$DIDBS_ISA" == "nemips4" ]; then
+if [ "ne$DIDBS_ISA" = "nemips4" ]; then
+    echo "Patching default ISA to mips4"
     REWRITE_REGEXP="s|MIPS_ISA_DEFAULT=3 MIPS_ABI_DEFAULT=ABI_N32|MIPS_ISA_DEFAULT=4 MIPS_ABI_DEFAULT=ABI_N32|"
 else
+    echo "Default ISA is mips3"
     REWRITE_REGEXP="s|MIPS_ISA_DEFAULT=3 MIPS_ABI_DEFAULT=ABI_N32|MIPS_ISA_DEFAULT=3 MIPS_ABI_DEFAULT=ABI_N32|"
 fi
 perl -pi -e "$REWRITE_REGEXP" config.gcc
@@ -22,5 +24,5 @@ cd $BUILDDIR/..
 mkdir build-gcc
 cd build-gcc
 # GNU LD
-$BUILDDIR/configure --prefix=$GBS5_0_INSTALL_DIR --libdir=$GBS5_0_INSTALL_DIR/$DIDBS_LIBDIR --disable-silent-rules --disable-nls --disable-multilib --enable-obsolete --enable-languages=c,c++ --disable-bootstrap --enable-shared --enable-static --enable-threads=posix --enable-tls=no --disable-lto --with-gmp=$INSTALLDIR --with-mpfr=$INSTALLDIR --with-system-zlib --enable-checking=release --with-bugurl=$SGUG_URL || exit -1
+$BUILDDIR/configure --prefix=$GBS5_0_INSTALL_DIR --libdir=$GBS5_0_INSTALL_DIR/$DIDBS_LIBDIR --disable-silent-rules --disable-nls --disable-multilib --enable-obsolete --enable-languages=c,c++ --disable-bootstrap --enable-shared --enable-static --enable-threads=posix --enable-tls=no --enable-lto --with-gmp=$INSTALLDIR --with-mpfr=$INSTALLDIR --with-system-zlib --enable-checking=release --with-bugurl=$SGUG_URL || exit -1
 exit 0

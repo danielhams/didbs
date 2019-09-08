@@ -13,8 +13,11 @@ cd $BUILDDIR/.. || exit -1
 # Rewrite the default ISA if it's not mips3
 # The defaults are set in the "mips_parse_cpu" function inside
 # the gas/config/tc-mips.c file
-if [ "ne$DIDBS_ISA" == "nemips4" ]; then
+if [ "ne$DIDBS_ISA" = "nemips4" ]; then
+    echo "Patching default ISA to mips4"
     patch -p0 <$MIPS4_PATCH || exit -1
+else
+    echo "Default ISA is mips3"
 fi
 cd $BUILDDIR || exit -1
 cd ..

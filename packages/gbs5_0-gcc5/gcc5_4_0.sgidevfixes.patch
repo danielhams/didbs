@@ -1,6 +1,30 @@
-diff -N -u -r -w gcc-5.4.0/fixincludes/Makefile.in gcc-5.4.0-patched/fixincludes/Makefile.in
+diff -N -r -u -w gcc-5.4.0/configure gcc-5.4.0-patched/configure
+--- gcc-5.4.0/configure	2015-05-03 18:29:57.000000000 +0000
++++ gcc-5.4.0-patched/configure	2019-09-08 12:32:31.671407440 +0000
+@@ -3167,7 +3167,7 @@
+ 	;;
+     *-*-netbsd* | *-*-freebsd* | *-*-openbsd* | *-*-dragonfly*)
+ 	;;
+-    *-*-solaris2* | *-*-hpux11*)
++    *-*-solaris2* | *-*-hpux11* | mips*-*-irix6*)
+ 	;;
+     *-*-darwin* | *-*-aix*)
+ 	;;
+diff -N -r -u -w gcc-5.4.0/configure.ac gcc-5.4.0-patched/configure.ac
+--- gcc-5.4.0/configure.ac	2015-05-03 18:29:57.000000000 +0000
++++ gcc-5.4.0-patched/configure.ac	2019-09-08 12:32:15.937026880 +0000
+@@ -535,7 +535,7 @@
+ 	;;
+     *-*-netbsd* | *-*-freebsd* | *-*-openbsd* | *-*-dragonfly*)
+ 	;;
+-    *-*-solaris2* | *-*-hpux11*)
++    *-*-solaris2* | *-*-hpux11* | mips*-*-irix6*)
+ 	;;
+     *-*-darwin* | *-*-aix*)
+ 	;;
+diff -N -r -u -w gcc-5.4.0/fixincludes/Makefile.in gcc-5.4.0-patched/fixincludes/Makefile.in
 --- gcc-5.4.0/fixincludes/Makefile.in	2013-12-20 12:07:52.000000000 +0000
-+++ gcc-5.4.0-patched/fixincludes/Makefile.in	2019-08-09 15:29:49.724654800 +0000
++++ gcc-5.4.0-patched/fixincludes/Makefile.in	2019-09-08 12:28:58.103690840 +0000
 @@ -49,7 +49,7 @@
  target_noncanonical:=@target_noncanonical@
  
@@ -10,9 +34,9 @@ diff -N -u -r -w gcc-5.4.0/fixincludes/Makefile.in gcc-5.4.0-patched/fixincludes
  
  # Directory in which the compiler finds libraries etc.
  libsubdir = $(libdir)/gcc/$(target_noncanonical)/$(gcc_version)
-diff -N -u -r -w gcc-5.4.0/fixincludes/aclocal.m4 gcc-5.4.0-patched/fixincludes/aclocal.m4
+diff -N -r -u -w gcc-5.4.0/fixincludes/aclocal.m4 gcc-5.4.0-patched/fixincludes/aclocal.m4
 --- gcc-5.4.0/fixincludes/aclocal.m4	2012-05-29 20:28:57.000000000 +0000
-+++ gcc-5.4.0-patched/fixincludes/aclocal.m4	2019-08-09 15:29:49.783499120 +0000
++++ gcc-5.4.0-patched/fixincludes/aclocal.m4	2019-09-08 12:28:58.107257960 +0000
 @@ -1,7 +1,8 @@
 -# generated automatically by aclocal 1.11.1 -*- Autoconf -*-
 +# generated automatically by aclocal 1.11.6 -*- Autoconf -*-
@@ -24,9 +48,9 @@ diff -N -u -r -w gcc-5.4.0/fixincludes/aclocal.m4 gcc-5.4.0-patched/fixincludes/
  # This file is free software; the Free Software Foundation
  # gives unlimited permission to copy and/or distribute it,
  # with or without modifications, as long as this notice is preserved.
-diff -N -u -r -w gcc-5.4.0/fixincludes/check.tpl gcc-5.4.0-patched/fixincludes/check.tpl
+diff -N -r -u -w gcc-5.4.0/fixincludes/check.tpl gcc-5.4.0-patched/fixincludes/check.tpl
 --- gcc-5.4.0/fixincludes/check.tpl	2012-10-29 16:44:34.000000000 +0000
-+++ gcc-5.4.0-patched/fixincludes/check.tpl	2019-08-09 15:29:49.796182480 +0000
++++ gcc-5.4.0-patched/fixincludes/check.tpl	2019-09-08 12:28:58.149997560 +0000
 @@ -123,6 +123,11 @@
  exec < ${TESTDIR}/LIST
  while read f
@@ -51,9 +75,9 @@ diff -N -u -r -w gcc-5.4.0/fixincludes/check.tpl gcc-5.4.0-patched/fixincludes/c
  
  exitok=`
  exec < ${TESTDIR}/LIST
-diff -N -u -r -w gcc-5.4.0/fixincludes/configure gcc-5.4.0-patched/fixincludes/configure
+diff -N -r -u -w gcc-5.4.0/fixincludes/configure gcc-5.4.0-patched/fixincludes/configure
 --- gcc-5.4.0/fixincludes/configure	2012-05-29 20:28:57.000000000 +0000
-+++ gcc-5.4.0-patched/fixincludes/configure	2019-08-09 15:29:49.852811600 +0000
++++ gcc-5.4.0-patched/fixincludes/configure	2019-09-08 12:28:58.215795880 +0000
 @@ -590,6 +590,7 @@
  
  ac_subst_vars='LTLIBOBJS
@@ -169,9 +193,9 @@ diff -N -u -r -w gcc-5.4.0/fixincludes/configure gcc-5.4.0-patched/fixincludes/c
  ac_config_headers="$ac_config_headers config.h"
  
  ac_config_files="$ac_config_files Makefile mkheaders.almost:mkheaders.in"
-diff -N -u -r -w gcc-5.4.0/fixincludes/configure.ac gcc-5.4.0-patched/fixincludes/configure.ac
+diff -N -r -u -w gcc-5.4.0/fixincludes/configure.ac gcc-5.4.0-patched/fixincludes/configure.ac
 --- gcc-5.4.0/fixincludes/configure.ac	2012-05-29 20:28:57.000000000 +0000
-+++ gcc-5.4.0-patched/fixincludes/configure.ac	2019-08-09 15:29:49.894180160 +0000
++++ gcc-5.4.0-patched/fixincludes/configure.ac	2019-09-08 12:28:58.228592600 +0000
 @@ -114,6 +114,9 @@
  AC_DEFINE_UNQUOTED([SED_PROGRAM], "${SED}",
     [Defined to the best working sed program on the host system])
@@ -182,9 +206,9 @@ diff -N -u -r -w gcc-5.4.0/fixincludes/configure.ac gcc-5.4.0-patched/fixinclude
  AC_CONFIG_HEADERS(config.h, [echo timestamp > stamp-h])
  AC_CONFIG_FILES(Makefile mkheaders.almost:mkheaders.in)
  AC_OUTPUT
-diff -N -u -r -w gcc-5.4.0/fixincludes/fixfixes.c gcc-5.4.0-patched/fixincludes/fixfixes.c
+diff -N -r -u -w gcc-5.4.0/fixincludes/fixfixes.c gcc-5.4.0-patched/fixincludes/fixfixes.c
 --- gcc-5.4.0/fixincludes/fixfixes.c	2009-04-09 16:00:19.000000000 +0000
-+++ gcc-5.4.0-patched/fixincludes/fixfixes.c	2019-08-09 15:29:49.915624800 +0000
++++ gcc-5.4.0-patched/fixincludes/fixfixes.c	2019-09-08 12:28:58.233865720 +0000
 @@ -790,7 +790,8 @@
        return EXIT_FAILURE;
      }
@@ -195,9 +219,9 @@ diff -N -u -r -w gcc-5.4.0/fixincludes/fixfixes.c gcc-5.4.0-patched/fixincludes/
    fclose (stdout);
    fclose (stdin);
    unlink (argv[4]);
-diff -N -u -r -w gcc-5.4.0/fixincludes/fixinc.in gcc-5.4.0-patched/fixincludes/fixinc.in
+diff -N -r -u -w gcc-5.4.0/fixincludes/fixinc.in gcc-5.4.0-patched/fixincludes/fixinc.in
 --- gcc-5.4.0/fixincludes/fixinc.in	2012-10-28 21:42:48.000000000 +0000
-+++ gcc-5.4.0-patched/fixincludes/fixinc.in	2019-08-09 15:29:49.935760240 +0000
++++ gcc-5.4.0-patched/fixincludes/fixinc.in	2019-09-08 12:28:58.258229160 +0000
 @@ -41,7 +41,7 @@
  
  # Make sure it exists.
@@ -216,9 +240,9 @@ diff -N -u -r -w gcc-5.4.0/fixincludes/fixinc.in gcc-5.4.0-patched/fixincludes/f
            done
          fi
  
-diff -N -u -r -w gcc-5.4.0/fixincludes/fixincl.c gcc-5.4.0-patched/fixincludes/fixincl.c
+diff -N -r -u -w gcc-5.4.0/fixincludes/fixincl.c gcc-5.4.0-patched/fixincludes/fixincl.c
 --- gcc-5.4.0/fixincludes/fixincl.c	2015-01-31 13:14:56.000000000 +0000
-+++ gcc-5.4.0-patched/fixincludes/fixincl.c	2019-08-09 15:29:49.974483120 +0000
++++ gcc-5.4.0-patched/fixincludes/fixincl.c	2019-09-08 12:28:58.284368840 +0000
 @@ -74,9 +74,12 @@
  #endif /* DO_STATS */
  
@@ -365,9 +389,9 @@ diff -N -u -r -w gcc-5.4.0/fixincludes/fixincl.c gcc-5.4.0-patched/fixincludes/f
    /*
     *  There is only one fix that uses a shell script as of this writing.
     *  I hope to nuke it anyway, it does not apply to DOS and it would
-diff -N -u -r -w gcc-5.4.0/fixincludes/fixincl.tpl gcc-5.4.0-patched/fixincludes/fixincl.tpl
+diff -N -r -u -w gcc-5.4.0/fixincludes/fixincl.tpl gcc-5.4.0-patched/fixincludes/fixincl.tpl
 --- gcc-5.4.0/fixincludes/fixincl.tpl	2015-01-28 20:21:34.000000000 +0000
-+++ gcc-5.4.0-patched/fixincludes/fixincl.tpl	2019-08-09 15:29:50.004175680 +0000
++++ gcc-5.4.0-patched/fixincludes/fixincl.tpl	2019-09-08 12:28:58.287867480 +0000
 @@ -1,7 +1,7 @@
  [= AutoGen5 Template -*- Mode: C -*-
  x=fixincl.x =]
@@ -377,9 +401,9 @@ diff -N -u -r -w gcc-5.4.0/fixincludes/fixincl.tpl gcc-5.4.0-patched/fixincludes
       (dne "-D" " * " "/* ")
       (dne " * " "/* ") ) =]
   */
-diff -N -u -r -w gcc-5.4.0/fixincludes/fixincl.x gcc-5.4.0-patched/fixincludes/fixincl.x
+diff -N -r -u -w gcc-5.4.0/fixincludes/fixincl.x gcc-5.4.0-patched/fixincludes/fixincl.x
 --- gcc-5.4.0/fixincludes/fixincl.x	2016-02-01 20:25:12.000000000 +0000
-+++ gcc-5.4.0-patched/fixincludes/fixincl.x	2019-08-09 15:29:50.045480560 +0000
++++ gcc-5.4.0-patched/fixincludes/fixincl.x	2019-09-08 12:28:58.396409800 +0000
 @@ -2,11 +2,11 @@
   * 
   * DO NOT EDIT THIS FILE   (fixincl.x)
@@ -2196,9 +2220,9 @@ diff -N -u -r -w gcc-5.4.0/fixincludes/fixincl.x gcc-5.4.0-patched/fixincludes/f
    {  zStatsswtchName,    zStatsswtchList,
       apzStatsswtchMachs,
       STATSSWTCH_TEST_CT, FD_MACH_ONLY | FD_SUBROUTINE,
-diff -N -u -r -w gcc-5.4.0/fixincludes/fixlib.c gcc-5.4.0-patched/fixincludes/fixlib.c
+diff -N -r -u -w gcc-5.4.0/fixincludes/fixlib.c gcc-5.4.0-patched/fixincludes/fixlib.c
 --- gcc-5.4.0/fixincludes/fixlib.c	2009-04-09 16:00:19.000000000 +0000
-+++ gcc-5.4.0-patched/fixincludes/fixlib.c	2019-08-09 15:29:50.065451360 +0000
++++ gcc-5.4.0-patched/fixincludes/fixlib.c	2019-09-08 12:28:58.432229000 +0000
 @@ -278,3 +278,141 @@
  }
  
@@ -2341,9 +2365,9 @@ diff -N -u -r -w gcc-5.4.0/fixincludes/fixlib.c gcc-5.4.0-patched/fixincludes/fi
 +}
 +
 +#endif /* defined(__MINGW32__) */
-diff -N -u -r -w gcc-5.4.0/fixincludes/fixlib.h gcc-5.4.0-patched/fixincludes/fixlib.h
+diff -N -r -u -w gcc-5.4.0/fixincludes/fixlib.h gcc-5.4.0-patched/fixincludes/fixlib.h
 --- gcc-5.4.0/fixincludes/fixlib.h	2015-01-28 20:21:34.000000000 +0000
-+++ gcc-5.4.0-patched/fixincludes/fixlib.h	2019-08-09 15:29:50.091818320 +0000
++++ gcc-5.4.0-patched/fixincludes/fixlib.h	2019-09-08 12:28:58.440058760 +0000
 @@ -269,4 +269,19 @@
  t_bool mn_get_regexps ( regex_t** label_re, regex_t** name_re, tCC *who );
  
@@ -2364,9 +2388,9 @@ diff -N -u -r -w gcc-5.4.0/fixincludes/fixlib.h gcc-5.4.0-patched/fixincludes/fi
 +#endif /* defined(__MINGW32__) */
 +
  #endif /* ! GCC_FIXLIB_H */
-diff -N -u -r -w gcc-5.4.0/fixincludes/inclhack.def gcc-5.4.0-patched/fixincludes/inclhack.def
+diff -N -r -u -w gcc-5.4.0/fixincludes/inclhack.def gcc-5.4.0-patched/fixincludes/inclhack.def
 --- gcc-5.4.0/fixincludes/inclhack.def	2016-02-01 20:22:43.000000000 +0000
-+++ gcc-5.4.0-patched/fixincludes/inclhack.def	2019-08-09 15:29:50.215616880 +0000
++++ gcc-5.4.0-patched/fixincludes/inclhack.def	2019-09-08 12:28:58.502951720 +0000
 @@ -427,122 +427,6 @@
  };
  
@@ -3177,9 +3201,9 @@ diff -N -u -r -w gcc-5.4.0/fixincludes/inclhack.def gcc-5.4.0-patched/fixinclude
   *  a missing semi-colon at the end of the statsswtch structure definition.
   */
  fix = {
-diff -N -u -r -w gcc-5.4.0/fixincludes/mkfixinc.sh gcc-5.4.0-patched/fixincludes/mkfixinc.sh
+diff -N -r -u -w gcc-5.4.0/fixincludes/mkfixinc.sh gcc-5.4.0-patched/fixincludes/mkfixinc.sh
 --- gcc-5.4.0/fixincludes/mkfixinc.sh	2012-10-28 21:42:48.000000000 +0000
-+++ gcc-5.4.0-patched/fixincludes/mkfixinc.sh	2019-08-09 15:29:50.238585840 +0000
++++ gcc-5.4.0-patched/fixincludes/mkfixinc.sh	2019-09-08 12:28:58.518751320 +0000
 @@ -14,12 +14,12 @@
      i?86-*-cygwin* | \
      i?86-*-mingw32* | \
@@ -3195,9 +3219,9 @@ diff -N -u -r -w gcc-5.4.0/fixincludes/mkfixinc.sh gcc-5.4.0-patched/fixincludes
  	#  IF there is no include fixing,
  	#  THEN create a no-op fixer and exit
  	(echo "#! /bin/sh" ; echo "exit 0" ) > ${target}
-diff -N -u -r -w gcc-5.4.0/fixincludes/tests/base/AvailabilityInternal.h gcc-5.4.0-patched/fixincludes/tests/base/AvailabilityInternal.h
+diff -N -r -u -w gcc-5.4.0/fixincludes/tests/base/AvailabilityInternal.h gcc-5.4.0-patched/fixincludes/tests/base/AvailabilityInternal.h
 --- gcc-5.4.0/fixincludes/tests/base/AvailabilityInternal.h	1970-01-01 00:00:00.000000000 +0000
-+++ gcc-5.4.0-patched/fixincludes/tests/base/AvailabilityInternal.h	2019-08-09 15:29:51.904168000 +0000
++++ gcc-5.4.0-patched/fixincludes/tests/base/AvailabilityInternal.h	2019-09-08 12:28:58.570600440 +0000
 @@ -0,0 +1,31 @@
 +/*  DO NOT EDIT THIS FILE.
 +
@@ -3230,9 +3254,9 @@ diff -N -u -r -w gcc-5.4.0/fixincludes/tests/base/AvailabilityInternal.h gcc-5.4
 +    #define __API_D(msg,x)
 +#endif
 +#endif  /* DARWIN_AVAILABILITYINTERNAL_CHECK */
-diff -N -u -r -w gcc-5.4.0/fixincludes/tests/base/alloca.h gcc-5.4.0-patched/fixincludes/tests/base/alloca.h
+diff -N -r -u -w gcc-5.4.0/fixincludes/tests/base/alloca.h gcc-5.4.0-patched/fixincludes/tests/base/alloca.h
 --- gcc-5.4.0/fixincludes/tests/base/alloca.h	1970-01-01 00:00:00.000000000 +0000
-+++ gcc-5.4.0-patched/fixincludes/tests/base/alloca.h	2019-08-09 15:29:52.024098160 +0000
++++ gcc-5.4.0-patched/fixincludes/tests/base/alloca.h	2019-09-08 12:28:58.572892840 +0000
 @@ -0,0 +1,18 @@
 +/*  DO NOT EDIT THIS FILE.
 +
@@ -3252,9 +3276,9 @@ diff -N -u -r -w gcc-5.4.0/fixincludes/tests/base/alloca.h gcc-5.4.0-patched/fix
 +
 +#ifndef _STDDEF_INCLUDED
 +#endif  /* HPPA_HPUX11_ALLOCA_CHECK */
-diff -N -u -r -w gcc-5.4.0/fixincludes/tests/base/complex.h gcc-5.4.0-patched/fixincludes/tests/base/complex.h
+diff -N -r -u -w gcc-5.4.0/fixincludes/tests/base/complex.h gcc-5.4.0-patched/fixincludes/tests/base/complex.h
 --- gcc-5.4.0/fixincludes/tests/base/complex.h	2012-03-14 16:33:37.000000000 +0000
-+++ gcc-5.4.0-patched/fixincludes/tests/base/complex.h	2019-08-09 15:29:52.524184440 +0000
++++ gcc-5.4.0-patched/fixincludes/tests/base/complex.h	2019-09-08 12:28:58.607357000 +0000
 @@ -21,6 +21,12 @@
  #endif  /* HPUX_IMAGINARY_I_CHECK */
  
@@ -3268,9 +3292,9 @@ diff -N -u -r -w gcc-5.4.0/fixincludes/tests/base/complex.h gcc-5.4.0-patched/fi
  #if defined( SOLARIS_COMPLEX_CHECK )
  #define _Complex_I (__extension__ 1.0iF)
  #define	complex		_Complex
-diff -N -u -r -w gcc-5.4.0/fixincludes/tests/base/i386/setjmp.h gcc-5.4.0-patched/fixincludes/tests/base/i386/setjmp.h
+diff -N -r -u -w gcc-5.4.0/fixincludes/tests/base/i386/setjmp.h gcc-5.4.0-patched/fixincludes/tests/base/i386/setjmp.h
 --- gcc-5.4.0/fixincludes/tests/base/i386/setjmp.h	1970-01-01 00:00:00.000000000 +0000
-+++ gcc-5.4.0-patched/fixincludes/tests/base/i386/setjmp.h	2019-08-09 15:29:53.424161080 +0000
++++ gcc-5.4.0-patched/fixincludes/tests/base/i386/setjmp.h	2019-09-08 12:28:58.782238040 +0000
 @@ -0,0 +1,14 @@
 +/*  DO NOT EDIT THIS FILE.
 +
@@ -3286,9 +3310,9 @@ diff -N -u -r -w gcc-5.4.0/fixincludes/tests/base/i386/setjmp.h gcc-5.4.0-patche
 +#if defined( DARWIN_LONGJMP_NORETURN_CHECK )
 +void siglongjmp(sigjmp_buf, int) __attribute__ ((__noreturn__));
 +#endif  /* DARWIN_LONGJMP_NORETURN_CHECK */
-diff -N -u -r -w gcc-5.4.0/fixincludes/tests/base/internal/math_core.h gcc-5.4.0-patched/fixincludes/tests/base/internal/math_core.h
+diff -N -r -u -w gcc-5.4.0/fixincludes/tests/base/internal/math_core.h gcc-5.4.0-patched/fixincludes/tests/base/internal/math_core.h
 --- gcc-5.4.0/fixincludes/tests/base/internal/math_core.h	1970-01-01 00:00:00.000000000 +0000
-+++ gcc-5.4.0-patched/fixincludes/tests/base/internal/math_core.h	2019-08-09 15:29:53.444229800 +0000
++++ gcc-5.4.0-patched/fixincludes/tests/base/internal/math_core.h	2019-09-08 12:28:58.792756520 +0000
 @@ -0,0 +1,39 @@
 +/*  DO NOT EDIT THIS FILE.
 +
@@ -3329,9 +3353,9 @@ diff -N -u -r -w gcc-5.4.0/fixincludes/tests/base/internal/math_core.h gcc-5.4.0
 +   : _islessl(x,y))
 +
 +#endif  /* IRIX___GENERIC2_CHECK */
-diff -N -u -r -w gcc-5.4.0/fixincludes/tests/base/internal/sgimacros.h gcc-5.4.0-patched/fixincludes/tests/base/internal/sgimacros.h
+diff -N -r -u -w gcc-5.4.0/fixincludes/tests/base/internal/sgimacros.h gcc-5.4.0-patched/fixincludes/tests/base/internal/sgimacros.h
 --- gcc-5.4.0/fixincludes/tests/base/internal/sgimacros.h	1970-01-01 00:00:00.000000000 +0000
-+++ gcc-5.4.0-patched/fixincludes/tests/base/internal/sgimacros.h	2019-08-09 15:29:53.454365800 +0000
++++ gcc-5.4.0-patched/fixincludes/tests/base/internal/sgimacros.h	2019-09-08 12:28:58.794936200 +0000
 @@ -0,0 +1,17 @@
 +/*  DO NOT EDIT THIS FILE.
 +
@@ -3350,9 +3374,9 @@ diff -N -u -r -w gcc-5.4.0/fixincludes/tests/base/internal/sgimacros.h gcc-5.4.0
 +#  define __restrict restrict
 +#  endif
 +#endif  /* IRIX___RESTRICT_CHECK */
-diff -N -u -r -w gcc-5.4.0/fixincludes/tests/base/internal/wchar_core.h gcc-5.4.0-patched/fixincludes/tests/base/internal/wchar_core.h
+diff -N -r -u -w gcc-5.4.0/fixincludes/tests/base/internal/wchar_core.h gcc-5.4.0-patched/fixincludes/tests/base/internal/wchar_core.h
 --- gcc-5.4.0/fixincludes/tests/base/internal/wchar_core.h	1970-01-01 00:00:00.000000000 +0000
-+++ gcc-5.4.0-patched/fixincludes/tests/base/internal/wchar_core.h	2019-08-09 15:29:53.484132520 +0000
++++ gcc-5.4.0-patched/fixincludes/tests/base/internal/wchar_core.h	2019-09-08 12:28:58.796921080 +0000
 @@ -0,0 +1,15 @@
 +/*  DO NOT EDIT THIS FILE.
 +
@@ -3369,9 +3393,9 @@ diff -N -u -r -w gcc-5.4.0/fixincludes/tests/base/internal/wchar_core.h gcc-5.4.
 +#if _NO_XOPEN5 && !defined(__c99)
 +extern size_t wcsftime(wchar_t *, __SGI_LIBC_NAMESPACE_QUALIFIER size_t, const char *, const struct tm *);
 +#endif  /* IRIX_WCSFTIME_CHECK */
-diff -N -u -r -w gcc-5.4.0/fixincludes/tests/base/iso/setjmp_iso.h gcc-5.4.0-patched/fixincludes/tests/base/iso/setjmp_iso.h
+diff -N -r -u -w gcc-5.4.0/fixincludes/tests/base/iso/setjmp_iso.h gcc-5.4.0-patched/fixincludes/tests/base/iso/setjmp_iso.h
 --- gcc-5.4.0/fixincludes/tests/base/iso/setjmp_iso.h	1970-01-01 00:00:00.000000000 +0000
-+++ gcc-5.4.0-patched/fixincludes/tests/base/iso/setjmp_iso.h	2019-08-09 15:28:23.959416800 +0000
++++ gcc-5.4.0-patched/fixincludes/tests/base/iso/setjmp_iso.h	2019-09-08 12:28:58.808473400 +0000
 @@ -0,0 +1,14 @@
 +/*  DO NOT EDIT THIS FILE.
 +
@@ -3387,9 +3411,9 @@ diff -N -u -r -w gcc-5.4.0/fixincludes/tests/base/iso/setjmp_iso.h gcc-5.4.0-pat
 +#if defined( SOLARIS_LONGJMP_NORETURN_CHECK )
 +extern void longjmp(jmp_buf, int) __attribute__ ((__noreturn__));
 +#endif  /* SOLARIS_LONGJMP_NORETURN_CHECK */
-diff -N -u -r -w gcc-5.4.0/fixincludes/tests/base/iso/stdio_iso.h gcc-5.4.0-patched/fixincludes/tests/base/iso/stdio_iso.h
+diff -N -r -u -w gcc-5.4.0/fixincludes/tests/base/iso/stdio_iso.h gcc-5.4.0-patched/fixincludes/tests/base/iso/stdio_iso.h
 --- gcc-5.4.0/fixincludes/tests/base/iso/stdio_iso.h	2011-08-10 09:43:38.000000000 +0000
-+++ gcc-5.4.0-patched/fixincludes/tests/base/iso/stdio_iso.h	2019-08-09 15:29:50.854118200 +0000
++++ gcc-5.4.0-patched/fixincludes/tests/base/iso/stdio_iso.h	2019-09-08 12:28:58.819797640 +0000
 @@ -12,3 +12,16 @@
  #if defined( SOLARIS_GETC_STRICT_STDC_CHECK )
  #if	!defined(_REENTRANT) && !defined(_LP64) && (!defined(_STRICT_STDC) || (__cplusplus >= 199711L))
@@ -3407,9 +3431,9 @@ diff -N -u -r -w gcc-5.4.0/fixincludes/tests/base/iso/stdio_iso.h gcc-5.4.0-patc
 +#if __STDC_VERSION__ < 201112L && __cplusplus < 201402L
 +extern char	*gets(char *) __ATTR_DEPRECATED;
 +#endif  /* SOLARIS_GETS_CXX14_CHECK */
-diff -N -u -r -w gcc-5.4.0/fixincludes/tests/base/iso/stdlib_c99.h gcc-5.4.0-patched/fixincludes/tests/base/iso/stdlib_c99.h
+diff -N -r -u -w gcc-5.4.0/fixincludes/tests/base/iso/stdlib_c99.h gcc-5.4.0-patched/fixincludes/tests/base/iso/stdlib_c99.h
 --- gcc-5.4.0/fixincludes/tests/base/iso/stdlib_c99.h	1970-01-01 00:00:00.000000000 +0000
-+++ gcc-5.4.0-patched/fixincludes/tests/base/iso/stdlib_c99.h	2019-08-09 15:29:50.892631800 +0000
++++ gcc-5.4.0-patched/fixincludes/tests/base/iso/stdlib_c99.h	2019-09-08 12:28:58.822487400 +0000
 @@ -0,0 +1,14 @@
 +/*  DO NOT EDIT THIS FILE.
 +
@@ -3425,9 +3449,9 @@ diff -N -u -r -w gcc-5.4.0/fixincludes/tests/base/iso/stdlib_c99.h gcc-5.4.0-pat
 +#if defined( SOLARIS_STDLIB_NORETURN_CHECK )
 +extern void quick_exit(int) __attribute__((__noreturn__));
 +#endif  /* SOLARIS_STDLIB_NORETURN_CHECK */
-diff -N -u -r -w gcc-5.4.0/fixincludes/tests/base/math.h gcc-5.4.0-patched/fixincludes/tests/base/math.h
+diff -N -r -u -w gcc-5.4.0/fixincludes/tests/base/math.h gcc-5.4.0-patched/fixincludes/tests/base/math.h
 --- gcc-5.4.0/fixincludes/tests/base/math.h	2012-10-28 21:42:48.000000000 +0000
-+++ gcc-5.4.0-patched/fixincludes/tests/base/math.h	2019-08-09 15:29:51.434207560 +0000
++++ gcc-5.4.0-patched/fixincludes/tests/base/math.h	2019-09-08 12:28:58.842963640 +0000
 @@ -85,6 +85,12 @@
  #endif  /* RS6000_DOUBLE_CHECK */
  
@@ -3441,9 +3465,9 @@ diff -N -u -r -w gcc-5.4.0/fixincludes/tests/base/math.h gcc-5.4.0-patched/fixin
  #if defined( STRICT_ANSI_NOT_CTD_CHECK )
  #if 1 && \
  && defined(mumbling) |& ( !defined(__STRICT_ANSI__)) \
-diff -N -u -r -w gcc-5.4.0/fixincludes/tests/base/os/trace.h gcc-5.4.0-patched/fixincludes/tests/base/os/trace.h
+diff -N -r -u -w gcc-5.4.0/fixincludes/tests/base/os/trace.h gcc-5.4.0-patched/fixincludes/tests/base/os/trace.h
 --- gcc-5.4.0/fixincludes/tests/base/os/trace.h	1970-01-01 00:00:00.000000000 +0000
-+++ gcc-5.4.0-patched/fixincludes/tests/base/os/trace.h	2019-08-09 15:29:50.964541080 +0000
++++ gcc-5.4.0-patched/fixincludes/tests/base/os/trace.h	2019-09-08 12:28:58.853586600 +0000
 @@ -0,0 +1,38 @@
 +/*  DO NOT EDIT THIS FILE.
 +
@@ -3483,9 +3507,9 @@ diff -N -u -r -w gcc-5.4.0/fixincludes/tests/base/os/trace.h gcc-5.4.0-patched/f
 +_os_trace_internal(void *dso, uint8_t type, const char *format, const uint8_t *buf, size_t buf_size, os_trace_payload_t payload);
 +#endif
 +#endif  /* DARWIN_OS_TRACE_3_CHECK */
-diff -N -u -r -w gcc-5.4.0/fixincludes/tests/base/pthread.h gcc-5.4.0-patched/fixincludes/tests/base/pthread.h
+diff -N -r -u -w gcc-5.4.0/fixincludes/tests/base/pthread.h gcc-5.4.0-patched/fixincludes/tests/base/pthread.h
 --- gcc-5.4.0/fixincludes/tests/base/pthread.h	2014-04-22 13:30:59.000000000 +0000
-+++ gcc-5.4.0-patched/fixincludes/tests/base/pthread.h	2019-08-09 15:29:52.547757080 +0000
++++ gcc-5.4.0-patched/fixincludes/tests/base/pthread.h	2019-09-08 12:28:58.870128920 +0000
 @@ -91,6 +91,13 @@
  #endif  /* GLIBC_MUTEX_INIT_CHECK */
  
@@ -3500,9 +3524,9 @@ diff -N -u -r -w gcc-5.4.0/fixincludes/tests/base/pthread.h gcc-5.4.0-patched/fi
  #if defined( PTHREAD_INCOMPLETE_STRUCT_ARGUMENT_CHECK )
  extern int __sigsetjmp (struct __jmp_buf_tag *__env, int __savemask);
  #endif  /* PTHREAD_INCOMPLETE_STRUCT_ARGUMENT_CHECK */
-diff -N -u -r -w gcc-5.4.0/fixincludes/tests/base/setjmp.h gcc-5.4.0-patched/fixincludes/tests/base/setjmp.h
+diff -N -r -u -w gcc-5.4.0/fixincludes/tests/base/setjmp.h gcc-5.4.0-patched/fixincludes/tests/base/setjmp.h
 --- gcc-5.4.0/fixincludes/tests/base/setjmp.h	1970-01-01 00:00:00.000000000 +0000
-+++ gcc-5.4.0-patched/fixincludes/tests/base/setjmp.h	2019-08-09 15:29:52.287523760 +0000
++++ gcc-5.4.0-patched/fixincludes/tests/base/setjmp.h	2019-09-08 12:28:58.872377080 +0000
 @@ -0,0 +1,14 @@
 +/*  DO NOT EDIT THIS FILE.
 +
@@ -3518,9 +3542,9 @@ diff -N -u -r -w gcc-5.4.0/fixincludes/tests/base/setjmp.h gcc-5.4.0-patched/fix
 +#if defined( HPUX_LONGJMP_CHECK )
 +extern void	longjmp __((jmp_buf, int)) __attribute__ ((__noreturn__));
 +#endif  /* HPUX_LONGJMP_CHECK */
-diff -N -u -r -w gcc-5.4.0/fixincludes/tests/base/standards.h gcc-5.4.0-patched/fixincludes/tests/base/standards.h
+diff -N -r -u -w gcc-5.4.0/fixincludes/tests/base/standards.h gcc-5.4.0-patched/fixincludes/tests/base/standards.h
 --- gcc-5.4.0/fixincludes/tests/base/standards.h	1970-01-01 00:00:00.000000000 +0000
-+++ gcc-5.4.0-patched/fixincludes/tests/base/standards.h	2019-08-09 15:28:23.992657920 +0000
++++ gcc-5.4.0-patched/fixincludes/tests/base/standards.h	2019-09-08 12:28:58.906634520 +0000
 @@ -0,0 +1,14 @@
 +/*  DO NOT EDIT THIS FILE.
 +
@@ -3536,9 +3560,9 @@ diff -N -u -r -w gcc-5.4.0/fixincludes/tests/base/standards.h gcc-5.4.0-patched/
 +#if defined( ALPHA___EXTERN_PREFIX_STANDARDS_CHECK )
 +#if (_ISO_C_SOURCE>=19990L) && !defined(_LIBC_POLLUTION_H_) && !defined(__DECC) && !defined(__PRAGMA_EXTERN_PREFIX)
 +#endif  /* ALPHA___EXTERN_PREFIX_STANDARDS_CHECK */
-diff -N -u -r -w gcc-5.4.0/fixincludes/tests/base/stdint-irix65.h gcc-5.4.0-patched/fixincludes/tests/base/stdint-irix65.h
+diff -N -r -u -w gcc-5.4.0/fixincludes/tests/base/stdint-irix65.h gcc-5.4.0-patched/fixincludes/tests/base/stdint-irix65.h
 --- gcc-5.4.0/fixincludes/tests/base/stdint-irix65.h	1970-01-01 00:00:00.000000000 +0000
-+++ gcc-5.4.0-patched/fixincludes/tests/base/stdint-irix65.h	2019-08-09 15:29:52.570991480 +0000
++++ gcc-5.4.0-patched/fixincludes/tests/base/stdint-irix65.h	2019-09-08 12:28:58.909561720 +0000
 @@ -0,0 +1,40 @@
 +/*  DO NOT EDIT THIS FILE.
 +
@@ -3580,9 +3604,9 @@ diff -N -u -r -w gcc-5.4.0/fixincludes/tests/base/stdint-irix65.h gcc-5.4.0-patc
 +#define INTMAX_C(x)             (x ## LL)
 +#define UINTMAX_C(x)            (x ## ULL)
 +#endif  /* IRIX_STDINT_C99_MACROS_CHECK */
-diff -N -u -r -w gcc-5.4.0/fixincludes/tests/base/stdint.h gcc-5.4.0-patched/fixincludes/tests/base/stdint.h
+diff -N -r -u -w gcc-5.4.0/fixincludes/tests/base/stdint.h gcc-5.4.0-patched/fixincludes/tests/base/stdint.h
 --- gcc-5.4.0/fixincludes/tests/base/stdint.h	2012-03-14 16:33:37.000000000 +0000
-+++ gcc-5.4.0-patched/fixincludes/tests/base/stdint.h	2019-08-09 15:29:52.614209800 +0000
++++ gcc-5.4.0-patched/fixincludes/tests/base/stdint.h	2019-09-08 12:28:58.912337720 +0000
 @@ -14,3 +14,10 @@
  # define UINT8_C(c)	c
  # define UINT16_C(c)	c
@@ -3594,9 +3618,9 @@ diff -N -u -r -w gcc-5.4.0/fixincludes/tests/base/stdint.h gcc-5.4.0-patched/fix
 +#error This header file is to be used only for c99 mode compilations
 +#else
 +#endif  /* IRIX_STDINT_C99_MODE_CHECK */
-diff -N -u -r -w gcc-5.4.0/fixincludes/tests/base/stdio.h gcc-5.4.0-patched/fixincludes/tests/base/stdio.h
+diff -N -r -u -w gcc-5.4.0/fixincludes/tests/base/stdio.h gcc-5.4.0-patched/fixincludes/tests/base/stdio.h
 --- gcc-5.4.0/fixincludes/tests/base/stdio.h	2016-02-01 20:22:43.000000000 +0000
-+++ gcc-5.4.0-patched/fixincludes/tests/base/stdio.h	2019-08-09 15:29:51.483244680 +0000
++++ gcc-5.4.0-patched/fixincludes/tests/base/stdio.h	2019-09-08 12:28:58.929248760 +0000
 @@ -90,6 +90,13 @@
  #endif  /* SOLARIS_STD___FILBUF_CHECK */
  
@@ -3611,9 +3635,9 @@ diff -N -u -r -w gcc-5.4.0/fixincludes/tests/base/stdio.h gcc-5.4.0-patched/fixi
  #if defined( STDIO_STDARG_H_CHECK )
  
  #endif  /* STDIO_STDARG_H_CHECK */
-diff -N -u -r -w gcc-5.4.0/fixincludes/tests/base/stdlib.h gcc-5.4.0-patched/fixincludes/tests/base/stdlib.h
+diff -N -r -u -w gcc-5.4.0/fixincludes/tests/base/stdlib.h gcc-5.4.0-patched/fixincludes/tests/base/stdlib.h
 --- gcc-5.4.0/fixincludes/tests/base/stdlib.h	2015-02-17 14:45:48.000000000 +0000
-+++ gcc-5.4.0-patched/fixincludes/tests/base/stdlib.h	2019-08-09 15:29:51.252435720 +0000
++++ gcc-5.4.0-patched/fixincludes/tests/base/stdlib.h	2019-09-08 12:28:58.940567240 +0000
 @@ -9,6 +9,36 @@
  
  
@@ -3651,9 +3675,9 @@ diff -N -u -r -w gcc-5.4.0/fixincludes/tests/base/stdlib.h gcc-5.4.0-patched/fix
  #if defined( AIX_STRTOF_CONST_CHECK )
  extern float    strtof(const char *, char **);
  #endif  /* AIX_STRTOF_CONST_CHECK */
-diff -N -u -r -w gcc-5.4.0/fixincludes/tests/base/sys/asm.h gcc-5.4.0-patched/fixincludes/tests/base/sys/asm.h
+diff -N -r -u -w gcc-5.4.0/fixincludes/tests/base/sys/asm.h gcc-5.4.0-patched/fixincludes/tests/base/sys/asm.h
 --- gcc-5.4.0/fixincludes/tests/base/sys/asm.h	1970-01-01 00:00:00.000000000 +0000
-+++ gcc-5.4.0-patched/fixincludes/tests/base/sys/asm.h	2019-08-09 15:28:24.044319120 +0000
++++ gcc-5.4.0-patched/fixincludes/tests/base/sys/asm.h	2019-09-08 12:28:58.961813880 +0000
 @@ -0,0 +1,14 @@
 +/*  DO NOT EDIT THIS FILE.
 +
@@ -3669,9 +3693,9 @@ diff -N -u -r -w gcc-5.4.0/fixincludes/tests/base/sys/asm.h gcc-5.4.0-patched/fi
 +#if defined( IRIX_ASM_APOSTROPHE_CHECK )
 +	# and we are on vacation
 +#endif  /* IRIX_ASM_APOSTROPHE_CHECK */
-diff -N -u -r -w gcc-5.4.0/fixincludes/tests/base/sys/int_types.h gcc-5.4.0-patched/fixincludes/tests/base/sys/int_types.h
+diff -N -r -u -w gcc-5.4.0/fixincludes/tests/base/sys/int_types.h gcc-5.4.0-patched/fixincludes/tests/base/sys/int_types.h
 --- gcc-5.4.0/fixincludes/tests/base/sys/int_types.h	1970-01-01 00:00:00.000000000 +0000
-+++ gcc-5.4.0-patched/fixincludes/tests/base/sys/int_types.h	2019-08-09 15:28:24.050527120 +0000
++++ gcc-5.4.0-patched/fixincludes/tests/base/sys/int_types.h	2019-09-08 12:28:58.963956040 +0000
 @@ -0,0 +1,20 @@
 +/*  DO NOT EDIT THIS FILE.
 +
@@ -3693,9 +3717,9 @@ diff -N -u -r -w gcc-5.4.0/fixincludes/tests/base/sys/int_types.h gcc-5.4.0-patc
 +typedef int64_t			intmax_t;
 +#endif
 +#endif  /* SOLARIS_INT_TYPES_CHECK */
-diff -N -u -r -w gcc-5.4.0/fixincludes/tests/base/sys/pthread.h gcc-5.4.0-patched/fixincludes/tests/base/sys/pthread.h
+diff -N -r -u -w gcc-5.4.0/fixincludes/tests/base/sys/pthread.h gcc-5.4.0-patched/fixincludes/tests/base/sys/pthread.h
 --- gcc-5.4.0/fixincludes/tests/base/sys/pthread.h	2015-03-28 17:27:22.000000000 +0000
-+++ gcc-5.4.0-patched/fixincludes/tests/base/sys/pthread.h	2019-08-09 15:29:53.975360960 +0000
++++ gcc-5.4.0-patched/fixincludes/tests/base/sys/pthread.h	2019-09-08 12:28:58.971760600 +0000
 @@ -14,8 +14,13 @@
  #endif  /* HPUX11_LWP_RWLOCK_VALID_CHECK */
  
@@ -3711,9 +3735,9 @@ diff -N -u -r -w gcc-5.4.0/fixincludes/tests/base/sys/pthread.h gcc-5.4.0-patche
  #endif  /* HPUX11_PTHREAD_CONST_CHECK */
  
  
-diff -N -u -r -w gcc-5.4.0/fixincludes/tests/base/sys/socket.h gcc-5.4.0-patched/fixincludes/tests/base/sys/socket.h
+diff -N -r -u -w gcc-5.4.0/fixincludes/tests/base/sys/socket.h gcc-5.4.0-patched/fixincludes/tests/base/sys/socket.h
 --- gcc-5.4.0/fixincludes/tests/base/sys/socket.h	2015-05-22 14:13:11.000000000 +0000
-+++ gcc-5.4.0-patched/fixincludes/tests/base/sys/socket.h	2019-08-09 15:29:54.394161200 +0000
++++ gcc-5.4.0-patched/fixincludes/tests/base/sys/socket.h	2019-09-08 12:28:58.989025240 +0000
 @@ -37,3 +37,13 @@
  #endif
  
@@ -3728,9 +3752,9 @@ diff -N -u -r -w gcc-5.4.0/fixincludes/tests/base/sys/socket.h gcc-5.4.0-patched
 +typedef u_int32_t socklen_t;
 +#endif /* _NO_XOPEN4 && _NO_XOPEN5 */
 +#endif  /* IRIX_SOCKLEN_T_CHECK */
-diff -N -u -r -w gcc-5.4.0/fixincludes/tests/base/sys/va_list.h gcc-5.4.0-patched/fixincludes/tests/base/sys/va_list.h
+diff -N -r -u -w gcc-5.4.0/fixincludes/tests/base/sys/va_list.h gcc-5.4.0-patched/fixincludes/tests/base/sys/va_list.h
 --- gcc-5.4.0/fixincludes/tests/base/sys/va_list.h	1970-01-01 00:00:00.000000000 +0000
-+++ gcc-5.4.0-patched/fixincludes/tests/base/sys/va_list.h	2019-08-09 15:28:24.086681600 +0000
++++ gcc-5.4.0-patched/fixincludes/tests/base/sys/va_list.h	2019-09-08 12:28:58.991249720 +0000
 @@ -0,0 +1,22 @@
 +/*  DO NOT EDIT THIS FILE.
 +
@@ -3754,9 +3778,9 @@ diff -N -u -r -w gcc-5.4.0/fixincludes/tests/base/sys/va_list.h gcc-5.4.0-patche
 +#endif
 +#endif
 +#endif  /* SOLARIS_SYS_VA_LIST_CHECK */
-diff -N -u -r -w gcc-5.4.0/gcc/config/mips/driver-native.c gcc-5.4.0-patched/gcc/config/mips/driver-native.c
+diff -N -r -u -w gcc-5.4.0/gcc/config/mips/driver-native.c gcc-5.4.0-patched/gcc/config/mips/driver-native.c
 --- gcc-5.4.0/gcc/config/mips/driver-native.c	2015-01-05 12:33:28.000000000 +0000
-+++ gcc-5.4.0-patched/gcc/config/mips/driver-native.c	2019-08-09 15:28:24.113790240 +0000
++++ gcc-5.4.0-patched/gcc/config/mips/driver-native.c	2019-09-08 12:28:59.008102920 +0000
 @@ -22,6 +22,59 @@
  #include "coretypes.h"
  #include "tm.h"
@@ -3846,9 +3870,9 @@ diff -N -u -r -w gcc-5.4.0/gcc/config/mips/driver-native.c gcc-5.4.0-patched/gcc
  
    if (cpu == NULL)
      return NULL;
-diff -N -u -r -w gcc-5.4.0/gcc/config/mips/iris6.h gcc-5.4.0-patched/gcc/config/mips/iris6.h
+diff -N -r -u -w gcc-5.4.0/gcc/config/mips/iris6.h gcc-5.4.0-patched/gcc/config/mips/iris6.h
 --- gcc-5.4.0/gcc/config/mips/iris6.h	1970-01-01 00:00:00.000000000 +0000
-+++ gcc-5.4.0-patched/gcc/config/mips/iris6.h	2019-08-09 15:28:24.118013440 +0000
++++ gcc-5.4.0-patched/gcc/config/mips/iris6.h	2019-09-08 12:28:59.012218440 +0000
 @@ -0,0 +1,385 @@
 +/* Definitions of target machine for GNU compiler.  IRIX 6.5 version.
 +   Copyright (C) 1993, 1994, 1995, 1996, 1997, 1998, 2000,
@@ -4235,9 +4259,9 @@ diff -N -u -r -w gcc-5.4.0/gcc/config/mips/iris6.h gcc-5.4.0-patched/gcc/config/
 +#define MIPS_DEFAULT_GVALUE 0
 +
 +#define MIPS_TFMODE_FORMAT mips_extended_format
-diff -N -u -r -w gcc-5.4.0/gcc/config/mips/iris6.opt gcc-5.4.0-patched/gcc/config/mips/iris6.opt
+diff -N -r -u -w gcc-5.4.0/gcc/config/mips/iris6.opt gcc-5.4.0-patched/gcc/config/mips/iris6.opt
 --- gcc-5.4.0/gcc/config/mips/iris6.opt	1970-01-01 00:00:00.000000000 +0000
-+++ gcc-5.4.0-patched/gcc/config/mips/iris6.opt	2019-08-09 15:28:24.120547360 +0000
++++ gcc-5.4.0-patched/gcc/config/mips/iris6.opt	2019-09-08 12:28:59.014613160 +0000
 @@ -0,0 +1,45 @@
 +; IRIX 6.5 options.
 +
@@ -4284,9 +4308,9 @@ diff -N -u -r -w gcc-5.4.0/gcc/config/mips/iris6.opt gcc-5.4.0-patched/gcc/confi
 +Driver
 +
 +; This comment is to ensure we retain the blank line above.
-diff -N -u -r -w gcc-5.4.0/gcc/config/mips/irix6-c.c gcc-5.4.0-patched/gcc/config/mips/irix6-c.c
+diff -N -r -u -w gcc-5.4.0/gcc/config/mips/irix6-c.c gcc-5.4.0-patched/gcc/config/mips/irix6-c.c
 --- gcc-5.4.0/gcc/config/mips/irix6-c.c	1970-01-01 00:00:00.000000000 +0000
-+++ gcc-5.4.0-patched/gcc/config/mips/irix6-c.c	2019-08-09 15:28:24.123118160 +0000
++++ gcc-5.4.0-patched/gcc/config/mips/irix6-c.c	2019-09-08 12:28:59.016778840 +0000
 @@ -0,0 +1,57 @@
 +/* IRIX 6 support needed only by C/C++ frontends.
 +   Copyright (C) 2012 Free Software Foundation, Inc.
@@ -4345,9 +4369,9 @@ diff -N -u -r -w gcc-5.4.0/gcc/config/mips/irix6-c.c gcc-5.4.0-patched/gcc/confi
 +       mips_option_override after C_COMMON_OVERRIDE_OPTIONS.  */
 +    long_intmax = mips_abi == ABI_64;
 +}
-diff -N -u -r -w gcc-5.4.0/gcc/config/mips/mips.c gcc-5.4.0-patched/gcc/config/mips/mips.c
+diff -N -r -u -w gcc-5.4.0/gcc/config/mips/mips.c gcc-5.4.0-patched/gcc/config/mips/mips.c
 --- gcc-5.4.0/gcc/config/mips/mips.c	2015-08-05 12:20:59.000000000 +0000
-+++ gcc-5.4.0-patched/gcc/config/mips/mips.c	2019-08-09 15:28:24.235175040 +0000
++++ gcc-5.4.0-patched/gcc/config/mips/mips.c	2019-09-08 12:28:59.175198840 +0000
 @@ -613,6 +613,12 @@
  enum processor mips_arch;
  const struct mips_cpu_info *mips_arch_info;
@@ -4399,9 +4423,9 @@ diff -N -u -r -w gcc-5.4.0/gcc/config/mips/mips.c gcc-5.4.0-patched/gcc/config/m
    /* Make sure that the user didn't turn off paired single support when
       MIPS-3D support is requested.  */
    if (TARGET_MIPS3D
-diff -N -u -r -w gcc-5.4.0/gcc/config/mips/mips.h gcc-5.4.0-patched/gcc/config/mips/mips.h
+diff -N -r -u -w gcc-5.4.0/gcc/config/mips/mips.h gcc-5.4.0-patched/gcc/config/mips/mips.h
 --- gcc-5.4.0/gcc/config/mips/mips.h	2015-01-19 23:05:41.000000000 +0000
-+++ gcc-5.4.0-patched/gcc/config/mips/mips.h	2019-08-09 15:28:24.252787200 +0000
++++ gcc-5.4.0-patched/gcc/config/mips/mips.h	2019-09-08 12:28:59.212137080 +0000
 @@ -164,7 +164,9 @@
  
  /* True if .gpword or .gpdword should be used for switch tables.  */
@@ -4413,9 +4437,9 @@ diff -N -u -r -w gcc-5.4.0/gcc/config/mips/mips.h gcc-5.4.0-patched/gcc/config/m
  
  /* True if the output must have a writable .eh_frame.
     See ASM_PREFERRED_EH_DATA_FORMAT for details.  */
-diff -N -u -r -w gcc-5.4.0/gcc/config/mips/t-irix6 gcc-5.4.0-patched/gcc/config/mips/t-irix6
+diff -N -r -u -w gcc-5.4.0/gcc/config/mips/t-irix6 gcc-5.4.0-patched/gcc/config/mips/t-irix6
 --- gcc-5.4.0/gcc/config/mips/t-irix6	2011-06-03 18:16:44.000000000 +0000
-+++ gcc-5.4.0-patched/gcc/config/mips/t-irix6	2019-08-09 15:28:24.315766000 +0000
++++ gcc-5.4.0-patched/gcc/config/mips/t-irix6	2019-09-08 12:28:59.214654680 +0000
 @@ -2,3 +2,7 @@
  MULTILIB_DIRNAMES=n32 64
  MULTILIB_MATCHES=
@@ -4424,9 +4448,9 @@ diff -N -u -r -w gcc-5.4.0/gcc/config/mips/t-irix6 gcc-5.4.0-patched/gcc/config/
 +irix6-c.o: $(srcdir)/config/mips/irix6-c.c $(CONFIG_H) $(SYSTEM_H) coretypes.h \
 +  tree.h $(TM_H) $(C_COMMON_H)
 +	$(COMPILER) -c $(ALL_COMPILERFLAGS) $(ALL_CPPFLAGS) $(INCLUDES) $<
-diff -N -u -r -w gcc-5.4.0/gcc/config.gcc gcc-5.4.0-patched/gcc/config.gcc
+diff -N -r -u -w gcc-5.4.0/gcc/config.gcc gcc-5.4.0-patched/gcc/config.gcc
 --- gcc-5.4.0/gcc/config.gcc	2015-09-10 15:17:53.000000000 +0000
-+++ gcc-5.4.0-patched/gcc/config.gcc	2019-08-09 15:28:24.332826240 +0000
++++ gcc-5.4.0-patched/gcc/config.gcc	2019-09-08 12:28:59.252008120 +0000
 @@ -1982,6 +1982,28 @@
  	cxx_target_objs="${cxx_target_objs} microblaze-c.o"
  	tmake_file="${tmake_file} microblaze/t-microblaze"
@@ -4456,9 +4480,9 @@ diff -N -u -r -w gcc-5.4.0/gcc/config.gcc gcc-5.4.0-patched/gcc/config.gcc
  mips*-*-netbsd*)			# NetBSD/mips, either endian.
  	target_cpu_default="MASK_ABICALLS"
  	tm_file="elfos.h ${tm_file} mips/elf.h netbsd.h netbsd-elf.h mips/netbsd.h"
-diff -N -u -r -w gcc-5.4.0/gcc/config.host gcc-5.4.0-patched/gcc/config.host
+diff -N -r -u -w gcc-5.4.0/gcc/config.host gcc-5.4.0-patched/gcc/config.host
 --- gcc-5.4.0/gcc/config.host	2015-01-09 14:06:02.000000000 +0000
-+++ gcc-5.4.0-patched/gcc/config.host	2019-08-09 15:28:24.367253200 +0000
++++ gcc-5.4.0-patched/gcc/config.host	2019-09-08 12:28:59.264130040 +0000
 @@ -125,9 +125,9 @@
  	;;
      esac
@@ -4471,9 +4495,9 @@ diff -N -u -r -w gcc-5.4.0/gcc/config.host gcc-5.4.0-patched/gcc/config.host
  	host_extra_gcc_objs="driver-native.o"
  	host_xmake_file="${host_xmake_file} mips/x-native"
        ;;
-diff -N -u -r -w gcc-5.4.0/gcc/configure gcc-5.4.0-patched/gcc/configure
+diff -N -r -u -w gcc-5.4.0/gcc/configure gcc-5.4.0-patched/gcc/configure
 --- gcc-5.4.0/gcc/configure	2016-05-21 09:35:25.000000000 +0000
-+++ gcc-5.4.0-patched/gcc/configure	2019-08-09 15:28:24.572408840 +0000
++++ gcc-5.4.0-patched/gcc/configure	2019-09-08 12:28:59.464621080 +0000
 @@ -7179,8 +7179,17 @@
        ;;
  
@@ -4492,9 +4516,9 @@ diff -N -u -r -w gcc-5.4.0/gcc/configure gcc-5.4.0-patched/gcc/configure
      *)
        { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: fixed-point is not supported for this target, ignored" >&5
  $as_echo "$as_me: WARNING: fixed-point is not supported for this target, ignored" >&2;}
-diff -N -u -r -w gcc-5.4.0/gcc/configure.ac gcc-5.4.0-patched/gcc/configure.ac
+diff -N -r -u -w gcc-5.4.0/gcc/configure.ac gcc-5.4.0-patched/gcc/configure.ac
 --- gcc-5.4.0/gcc/configure.ac	2016-05-21 09:35:25.000000000 +0000
-+++ gcc-5.4.0-patched/gcc/configure.ac	2019-08-09 15:28:24.638129320 +0000
++++ gcc-5.4.0-patched/gcc/configure.ac	2019-09-08 12:28:59.490873480 +0000
 @@ -721,8 +721,16 @@
        ;;
  
@@ -4523,9 +4547,9 @@ diff -N -u -r -w gcc-5.4.0/gcc/configure.ac gcc-5.4.0-patched/gcc/configure.ac
        # Solaris 2 ld always supports -Bstatic/-Bdynamic.
        *-*-solaris2*)
          gcc_cv_ld_static_dynamic=yes
-diff -N -u -r -w gcc-5.4.0/gcc/dwarf2cfi.c gcc-5.4.0-patched/gcc/dwarf2cfi.c
+diff -N -r -u -w gcc-5.4.0/gcc/dwarf2cfi.c gcc-5.4.0-patched/gcc/dwarf2cfi.c
 --- gcc-5.4.0/gcc/dwarf2cfi.c	2015-01-15 13:28:42.000000000 +0000
-+++ gcc-5.4.0-patched/gcc/dwarf2cfi.c	2019-08-09 15:28:24.652396680 +0000
++++ gcc-5.4.0-patched/gcc/dwarf2cfi.c	2019-09-08 12:28:59.534852280 +0000
 @@ -804,6 +804,7 @@
  	cfi->dw_cfi_opc = DW_CFA_def_cfa_offset;
        cfi->dw_cfi_oprnd1.dw_cfi_offset = new_cfa->offset;
@@ -4630,9 +4654,9 @@ diff -N -u -r -w gcc-5.4.0/gcc/dwarf2cfi.c gcc-5.4.0-patched/gcc/dwarf2cfi.c
    if (saved_do_cfi_asm != 0)
      return saved_do_cfi_asm > 0;
  
-diff -N -u -r -w gcc-5.4.0/gcc/dwarf2out.c gcc-5.4.0-patched/gcc/dwarf2out.c
+diff -N -r -u -w gcc-5.4.0/gcc/dwarf2out.c gcc-5.4.0-patched/gcc/dwarf2out.c
 --- gcc-5.4.0/gcc/dwarf2out.c	2016-05-20 09:51:06.000000000 +0000
-+++ gcc-5.4.0-patched/gcc/dwarf2out.c	2019-08-09 15:28:24.843018520 +0000
++++ gcc-5.4.0-patched/gcc/dwarf2out.c	2019-09-08 12:28:59.732458360 +0000
 @@ -964,6 +964,12 @@
  
    if (for_eh && targetm.terminate_dw2_eh_frame_info)
@@ -4742,9 +4766,9 @@ diff -N -u -r -w gcc-5.4.0/gcc/dwarf2out.c gcc-5.4.0-patched/gcc/dwarf2out.c
    FOR_EACH_VEC_ELT (switches, j, p)
      {
        len = strlen (p);
-diff -N -u -r -w gcc-5.4.0/libgcc/config/mips/irix-crti.S gcc-5.4.0-patched/libgcc/config/mips/irix-crti.S
+diff -N -r -u -w gcc-5.4.0/libgcc/config/mips/irix-crti.S gcc-5.4.0-patched/libgcc/config/mips/irix-crti.S
 --- gcc-5.4.0/libgcc/config/mips/irix-crti.S	1970-01-01 00:00:00.000000000 +0000
-+++ gcc-5.4.0-patched/libgcc/config/mips/irix-crti.S	2019-08-09 15:28:24.846858280 +0000
++++ gcc-5.4.0-patched/libgcc/config/mips/irix-crti.S	2019-09-08 12:28:59.735986280 +0000
 @@ -0,0 +1,71 @@
 +/* Copyright (C) 2004, 2008, 2011 Free Software Foundation, Inc.
 +
@@ -4817,9 +4841,9 @@ diff -N -u -r -w gcc-5.4.0/libgcc/config/mips/irix-crti.S gcc-5.4.0-patched/libg
 +.hidden __gcc_init
 +.hidden __gcc_fini
 +
-diff -N -u -r -w gcc-5.4.0/libgcc/config/mips/irix-crtn.S gcc-5.4.0-patched/libgcc/config/mips/irix-crtn.S
+diff -N -r -u -w gcc-5.4.0/libgcc/config/mips/irix-crtn.S gcc-5.4.0-patched/libgcc/config/mips/irix-crtn.S
 --- gcc-5.4.0/libgcc/config/mips/irix-crtn.S	1970-01-01 00:00:00.000000000 +0000
-+++ gcc-5.4.0-patched/libgcc/config/mips/irix-crtn.S	2019-08-09 15:28:24.849349720 +0000
++++ gcc-5.4.0-patched/libgcc/config/mips/irix-crtn.S	2019-09-08 12:28:59.738167480 +0000
 @@ -0,0 +1,38 @@
 +/* Copyright (C) 2004, 2011 Free Software Foundation, Inc.
 +
@@ -4859,9 +4883,9 @@ diff -N -u -r -w gcc-5.4.0/libgcc/config/mips/irix-crtn.S gcc-5.4.0-patched/libg
 +	ld	$28,8($sp)
 +	jr	$31
 +	daddiu	$sp,$sp,16
-diff -N -u -r -w gcc-5.4.0/libgcc/config/mips/irix6-unwind.h gcc-5.4.0-patched/libgcc/config/mips/irix6-unwind.h
+diff -N -r -u -w gcc-5.4.0/libgcc/config/mips/irix6-unwind.h gcc-5.4.0-patched/libgcc/config/mips/irix6-unwind.h
 --- gcc-5.4.0/libgcc/config/mips/irix6-unwind.h	1970-01-01 00:00:00.000000000 +0000
-+++ gcc-5.4.0-patched/libgcc/config/mips/irix6-unwind.h	2019-08-09 15:28:24.852407800 +0000
++++ gcc-5.4.0-patched/libgcc/config/mips/irix6-unwind.h	2019-09-08 12:28:59.759805240 +0000
 @@ -0,0 +1,180 @@
 +/* DWARF2 EH unwinding support for MIPS IRIX 6.
 +   Copyright (C) 2011 Free Software Foundation, Inc.
@@ -5043,9 +5067,9 @@ diff -N -u -r -w gcc-5.4.0/libgcc/config/mips/irix6-unwind.h gcc-5.4.0-patched/l
 +
 +  return _URC_NO_REASON;
 +}
-diff -N -u -r -w gcc-5.4.0/libgcc/config/mips/t-irix6 gcc-5.4.0-patched/libgcc/config/mips/t-irix6
+diff -N -r -u -w gcc-5.4.0/libgcc/config/mips/t-irix6 gcc-5.4.0-patched/libgcc/config/mips/t-irix6
 --- gcc-5.4.0/libgcc/config/mips/t-irix6	1970-01-01 00:00:00.000000000 +0000
-+++ gcc-5.4.0-patched/libgcc/config/mips/t-irix6	2019-08-09 15:28:24.875018360 +0000
++++ gcc-5.4.0-patched/libgcc/config/mips/t-irix6	2019-09-08 12:28:59.762147560 +0000
 @@ -0,0 +1,24 @@
 +# Copyright (C) 1995, 1996, 1997, 1998, 2000, 2001, 2002, 2003, 2004, 2005,
 +# 2006, 2010, 2011 Free Software Foundation, Inc.
@@ -5071,9 +5095,9 @@ diff -N -u -r -w gcc-5.4.0/libgcc/config/mips/t-irix6 gcc-5.4.0-patched/libgcc/c
 +
 +irix-crtn.o: $(srcdir)/config/mips/irix-crtn.S
 +	$(crt_compile) -c $<
-diff -N -u -r -w gcc-5.4.0/libgcc/config/mips/t-slibgcc-irix gcc-5.4.0-patched/libgcc/config/mips/t-slibgcc-irix
+diff -N -r -u -w gcc-5.4.0/libgcc/config/mips/t-slibgcc-irix gcc-5.4.0-patched/libgcc/config/mips/t-slibgcc-irix
 --- gcc-5.4.0/libgcc/config/mips/t-slibgcc-irix	1970-01-01 00:00:00.000000000 +0000
-+++ gcc-5.4.0-patched/libgcc/config/mips/t-slibgcc-irix	2019-08-09 15:28:24.877898840 +0000
++++ gcc-5.4.0-patched/libgcc/config/mips/t-slibgcc-irix	2019-09-08 12:28:59.764184120 +0000
 @@ -0,0 +1,9 @@
 +# Build a shared libgcc library with the SGI linker.
 +
@@ -5084,9 +5108,9 @@ diff -N -u -r -w gcc-5.4.0/libgcc/config/mips/t-slibgcc-irix gcc-5.4.0-patched/l
 +SHLIB_MKMAP = $(srcdir)/mkmap-flat.awk
 +SHLIB_MAPFILES = libgcc-std.ver
 +SHLIB_LC =
-diff -N -u -r -w gcc-5.4.0/libgcc/config.host gcc-5.4.0-patched/libgcc/config.host
+diff -N -r -u -w gcc-5.4.0/libgcc/config.host gcc-5.4.0-patched/libgcc/config.host
 --- gcc-5.4.0/libgcc/config.host	2016-05-17 07:17:53.000000000 +0000
-+++ gcc-5.4.0-patched/libgcc/config.host	2019-08-09 15:28:24.893072360 +0000
++++ gcc-5.4.0-patched/libgcc/config.host	2019-09-08 12:28:59.784100520 +0000
 @@ -823,6 +823,11 @@
  	tmake_file="${tmake_file} microblaze/t-microblaze t-fdpbit"
  	extra_parts="$extra_parts crtbeginS.o crtendS.o crtbeginT.o crti.o crtn.o"
@@ -5099,9 +5123,24 @@ diff -N -u -r -w gcc-5.4.0/libgcc/config.host gcc-5.4.0-patched/libgcc/config.ho
  microblaze*-*-rtems*)
  	tmake_file="${tmake_file} microblaze/t-microblaze t-fdpbit"
  	extra_parts="$extra_parts crtbeginS.o crtendS.o crtbeginT.o crti.o crtn.o"
-diff -N -u -r -w gcc-5.4.0/libstdc++-v3/config/os/irix/atomic_word.h gcc-5.4.0-patched/libstdc++-v3/config/os/irix/atomic_word.h
+diff -N -r -u -w gcc-5.4.0/libgomp/configure.tgt gcc-5.4.0-patched/libgomp/configure.tgt
+--- gcc-5.4.0/libgomp/configure.tgt	2015-03-13 10:57:07.000000000 +0000
++++ gcc-5.4.0-patched/libgomp/configure.tgt	2019-09-08 12:31:29.907511520 +0000
+@@ -145,6 +145,11 @@
+ 	XLDFLAGS="${XLDFLAGS} -lpthread"
+ 	;;
+ 
++  mips-sgi-irix*)
++	# Need to link with -lpthread so libgomp.so is self-contained.
++	XLDFLAGS="${XLDFLAGS} -lpthread"
++	;;
++
+   *-*-aix*)
+ 	config_path="posix"
+ 	# Need to link with -lpthread so libgomp.so is self-contained.
+diff -N -r -u -w gcc-5.4.0/libstdc++-v3/config/os/irix/atomic_word.h gcc-5.4.0-patched/libstdc++-v3/config/os/irix/atomic_word.h
 --- gcc-5.4.0/libstdc++-v3/config/os/irix/atomic_word.h	1970-01-01 00:00:00.000000000 +0000
-+++ gcc-5.4.0-patched/libstdc++-v3/config/os/irix/atomic_word.h	2019-08-09 15:28:24.917344680 +0000
++++ gcc-5.4.0-patched/libstdc++-v3/config/os/irix/atomic_word.h	2019-09-08 12:28:59.858732280 +0000
 @@ -0,0 +1,35 @@
 +// Low-level type for atomic operations -*- C++ -*-
 +
@@ -5138,9 +5177,9 @@ diff -N -u -r -w gcc-5.4.0/libstdc++-v3/config/os/irix/atomic_word.h gcc-5.4.0-p
 +typedef long _Atomic_word;
 +
 +#endif 
-diff -N -u -r -w gcc-5.4.0/libstdc++-v3/config/os/irix/atomicity.h gcc-5.4.0-patched/libstdc++-v3/config/os/irix/atomicity.h
+diff -N -r -u -w gcc-5.4.0/libstdc++-v3/config/os/irix/atomicity.h gcc-5.4.0-patched/libstdc++-v3/config/os/irix/atomicity.h
 --- gcc-5.4.0/libstdc++-v3/config/os/irix/atomicity.h	1970-01-01 00:00:00.000000000 +0000
-+++ gcc-5.4.0-patched/libstdc++-v3/config/os/irix/atomicity.h	2019-08-09 15:28:24.920060360 +0000
++++ gcc-5.4.0-patched/libstdc++-v3/config/os/irix/atomicity.h	2019-09-08 12:28:59.860997000 +0000
 @@ -0,0 +1,41 @@
 +// Low-level functions for atomic operations: IRIX version  -*- C++ -*-
 +
@@ -5183,9 +5222,9 @@ diff -N -u -r -w gcc-5.4.0/libstdc++-v3/config/os/irix/atomicity.h gcc-5.4.0-pat
 +
 +_GLIBCXX_END_NAMESPACE_VERSION
 +} // namespace
-diff -N -u -r -w gcc-5.4.0/libstdc++-v3/config/os/irix/irix6.5/ctype_base.h gcc-5.4.0-patched/libstdc++-v3/config/os/irix/irix6.5/ctype_base.h
+diff -N -r -u -w gcc-5.4.0/libstdc++-v3/config/os/irix/irix6.5/ctype_base.h gcc-5.4.0-patched/libstdc++-v3/config/os/irix/irix6.5/ctype_base.h
 --- gcc-5.4.0/libstdc++-v3/config/os/irix/irix6.5/ctype_base.h	1970-01-01 00:00:00.000000000 +0000
-+++ gcc-5.4.0-patched/libstdc++-v3/config/os/irix/irix6.5/ctype_base.h	2019-08-09 15:28:24.930512440 +0000
++++ gcc-5.4.0-patched/libstdc++-v3/config/os/irix/irix6.5/ctype_base.h	2019-09-08 12:28:59.879624920 +0000
 @@ -0,0 +1,65 @@
 +// Locale support -*- C++ -*-
 +
@@ -5252,9 +5291,9 @@ diff -N -u -r -w gcc-5.4.0/libstdc++-v3/config/os/irix/irix6.5/ctype_base.h gcc-
 +
 +_GLIBCXX_END_NAMESPACE_VERSION
 +} // namespace
-diff -N -u -r -w gcc-5.4.0/libstdc++-v3/config/os/irix/irix6.5/ctype_configure_char.cc gcc-5.4.0-patched/libstdc++-v3/config/os/irix/irix6.5/ctype_configure_char.cc
+diff -N -r -u -w gcc-5.4.0/libstdc++-v3/config/os/irix/irix6.5/ctype_configure_char.cc gcc-5.4.0-patched/libstdc++-v3/config/os/irix/irix6.5/ctype_configure_char.cc
 --- gcc-5.4.0/libstdc++-v3/config/os/irix/irix6.5/ctype_configure_char.cc	1970-01-01 00:00:00.000000000 +0000
-+++ gcc-5.4.0-patched/libstdc++-v3/config/os/irix/irix6.5/ctype_configure_char.cc	2019-08-09 15:28:24.933461480 +0000
++++ gcc-5.4.0-patched/libstdc++-v3/config/os/irix/irix6.5/ctype_configure_char.cc	2019-09-08 12:28:59.882111000 +0000
 @@ -0,0 +1,101 @@
 +// Locale support -*- C++ -*-
 +
@@ -5357,9 +5396,9 @@ diff -N -u -r -w gcc-5.4.0/libstdc++-v3/config/os/irix/irix6.5/ctype_configure_c
 +
 +_GLIBCXX_END_NAMESPACE_VERSION
 +} // namespace
-diff -N -u -r -w gcc-5.4.0/libstdc++-v3/config/os/irix/irix6.5/ctype_inline.h gcc-5.4.0-patched/libstdc++-v3/config/os/irix/irix6.5/ctype_inline.h
+diff -N -r -u -w gcc-5.4.0/libstdc++-v3/config/os/irix/irix6.5/ctype_inline.h gcc-5.4.0-patched/libstdc++-v3/config/os/irix/irix6.5/ctype_inline.h
 --- gcc-5.4.0/libstdc++-v3/config/os/irix/irix6.5/ctype_inline.h	1970-01-01 00:00:00.000000000 +0000
-+++ gcc-5.4.0-patched/libstdc++-v3/config/os/irix/irix6.5/ctype_inline.h	2019-08-09 15:28:24.937374520 +0000
++++ gcc-5.4.0-patched/libstdc++-v3/config/os/irix/irix6.5/ctype_inline.h	2019-09-08 12:28:59.885923720 +0000
 @@ -0,0 +1,74 @@
 +// Locale support -*- C++ -*-
 +
@@ -5435,9 +5474,9 @@ diff -N -u -r -w gcc-5.4.0/libstdc++-v3/config/os/irix/irix6.5/ctype_inline.h gc
 +
 +_GLIBCXX_END_NAMESPACE_VERSION
 +} // namespace
-diff -N -u -r -w gcc-5.4.0/libstdc++-v3/config/os/irix/irix6.5/os_defines.h gcc-5.4.0-patched/libstdc++-v3/config/os/irix/irix6.5/os_defines.h
+diff -N -r -u -w gcc-5.4.0/libstdc++-v3/config/os/irix/irix6.5/os_defines.h gcc-5.4.0-patched/libstdc++-v3/config/os/irix/irix6.5/os_defines.h
 --- gcc-5.4.0/libstdc++-v3/config/os/irix/irix6.5/os_defines.h	1970-01-01 00:00:00.000000000 +0000
-+++ gcc-5.4.0-patched/libstdc++-v3/config/os/irix/irix6.5/os_defines.h	2019-08-09 15:28:24.940069240 +0000
++++ gcc-5.4.0-patched/libstdc++-v3/config/os/irix/irix6.5/os_defines.h	2019-09-08 12:28:59.888508120 +0000
 @@ -0,0 +1,60 @@
 +// Specific definitions for IRIX  -*- C++ -*-
 +
@@ -5499,9 +5538,9 @@ diff -N -u -r -w gcc-5.4.0/libstdc++-v3/config/os/irix/irix6.5/os_defines.h gcc-
 +
 +#endif
 +
-diff -N -u -r -w gcc-5.4.0/libstdc++-v3/configure.host gcc-5.4.0-patched/libstdc++-v3/configure.host
+diff -N -r -u -w gcc-5.4.0/libstdc++-v3/configure.host gcc-5.4.0-patched/libstdc++-v3/configure.host
 --- gcc-5.4.0/libstdc++-v3/configure.host	2015-06-24 10:59:28.000000000 +0000
-+++ gcc-5.4.0-patched/libstdc++-v3/configure.host	2019-08-09 15:28:24.950387800 +0000
++++ gcc-5.4.0-patched/libstdc++-v3/configure.host	2019-09-08 12:28:59.906130520 +0000
 @@ -285,6 +285,15 @@
    hpux*)
      os_include_dir="os/hpux"
