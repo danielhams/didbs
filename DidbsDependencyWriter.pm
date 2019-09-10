@@ -21,7 +21,7 @@ sub new
 sub writeDependencies
 {
     my $self = shift;
-    didbsprint "Would write dependencies\n";
+    didbsprint "Writing dependency .dot and .csv\n";
 
     @foundPackages = @{$self->{foundPackagesRef}};
     %pkgStates = %{$self->{packageStatesRef}};

@@ -25,5 +25,4 @@ mkdir build-gcc
 cd build-gcc
 # No D front end for now.
 $BUILDDIR/configure --prefix=$GBS9_1_INSTALL_DIR --libdir=$GBS9_1_INSTALL_DIR/$DIDBS_LIBDIR --disable-silent-rules --disable-nls --disable-multilib --enable-obsolete --enable-languages=c,c++ --disable-bootstrap --enable-shared --enable-static --enable-threads=posix --enable-tls=no --enable-lto --with-gmp=$INSTALLDIR --with-gmp-lib=$INSTALLDIR/$DIDBS_LIBDIR --with-system-zlib --enable-checking=release --with-bugurl=$SGUG_URL || exit -1
-exit -1
 exit 0
