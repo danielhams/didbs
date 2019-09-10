@@ -20,6 +20,7 @@ Suggested approach:
 (1) Do everything as your user, I do not recommend use of root or installing into /usr/local or other existing directories. If you have to do things as root, I consider that a bug!
 
 (Example for n32, mips3, mipspro)
+```
 * As root
 * Create /usr/didbs
 * chown myuser:people /usr/didbs # (have to do this as root, of course)
@@ -36,11 +37,13 @@ Suggested approach:
 * ./bootstrap.pl -p /usr/didbs/0_1_package -b /usr/didbs/0_*_*_n32_mips3_mp_build -i /usr/didbs/0_*_*_n32_mips3_mp -e n32 -a mips3 -c mipspro # (replace * - this sets up paths)
 * ./bootstrap.pl # (This builds the stage0 pieces)
 * ./bootstrap.pl # (This builds the stage1 then release packages)
+```
 
 ## Using the installed tools
 
 You'll need to setup your environment to pull the right directories (bash example):
 
+```
 * export PATH=/usr/didbs/0_*_*_n32_mips3_mp/bin:$PATH
 * export LD_LIBRARYN32_PATH=/usr/didbs/0_*_*_n32_mips3_mp/lib32:$LD_LIBRARYN32_PATH
 * export PKG_CONFIG_PATH=/usr/didbs/0_*_*_n32_mips3_mp/lib32/pkgconfig:$PKG_CONFIG_PATH
@@ -55,5 +58,6 @@ gcc5 actual -> /usr/didbs/0_*_*_n32_mips3_mp/gbs5_0
 gcc8 actual -> /usr/didbs/0_*_*_n32_mips3_mp/gbs8_1
 
 gcc9 actual -> /usr/didbs/0_*_*_n32_mips3_mp/gbs9_1
+```
 
 If you have issues with headers, it's maybe a mismatch of version and you may need to regenerate the GCC "fixed" headers.
