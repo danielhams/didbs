@@ -22,7 +22,7 @@ STDERR->autoflush(1);
 STDOUT->autoflush(1);
 
 my $argc = ($#ARGV + 1);
-my $version = "0.1.3";
+my $version = "0.1.4";
 
 (my $configfile = basename($0)) =~ s/^(.*?)(?:\..*)?$/$1.conf/;
 my $scriptLocation = $FindBin::Bin;
