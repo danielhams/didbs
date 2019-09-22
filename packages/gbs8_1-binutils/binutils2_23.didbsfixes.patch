@@ -1,6 +1,6 @@
-diff -r -u -w binutils-2.23.2/bfd/elfxx-mips.c binutils-2.23.2-patched/bfd/elfxx-mips.c
+diff -N -r -u -w binutils-2.23.2/bfd/elfxx-mips.c binutils-2.23.2-patched/bfd/elfxx-mips.c
 --- binutils-2.23.2/bfd/elfxx-mips.c	2013-03-25 08:06:20.000000000 +0000
-+++ binutils-2.23.2-patched/bfd/elfxx-mips.c	2019-07-14 11:12:51.573366040 +0000
++++ binutils-2.23.2-patched/bfd/elfxx-mips.c	2019-09-22 13:25:50.404567680 +0000
 @@ -4036,10 +4036,13 @@
  	 Note that the former condition does not always imply the
  	 latter: symbols do not bind locally if they are completely
@@ -74,7 +74,19 @@ diff -r -u -w binutils-2.23.2/bfd/elfxx-mips.c binutils-2.23.2-patched/bfd/elfxx
  
    gp0 = _bfd_get_gp_value (input_bfd);
    gp = _bfd_get_gp_value (abfd);
-@@ -9318,7 +9340,7 @@
+@@ -7352,6 +7374,11 @@
+ 	     _bfd_mips_elf_finish_dynamic_symbol.  */
+ 	  s = bfd_get_linker_section (abfd, ".rld_map");
+ 	  BFD_ASSERT (s != NULL);
++	  if(s == NULL) {
++	    _bfd_error_handler( _( "Warning: %B missing .rld_map in data section" ),
++				abfd );
++	    return FALSE;
++	  }
+ 
+ 	  name = SGI_COMPAT (abfd) ? "__rld_map" : "__RLD_MAP";
+ 	  bh = NULL;
+@@ -9318,7 +9345,7 @@
    Elf_Internal_Sym *sym;
    asection *sec;
  
@@ -83,7 +95,7 @@ diff -r -u -w binutils-2.23.2/bfd/elfxx-mips.c binutils-2.23.2-patched/bfd/elfxx
      {
        r_type = ELF_R_TYPE (output_bfd, rel->r_info);
        if (gprel16_reloc_p (r_type)
-@@ -9436,7 +9458,7 @@
+@@ -9436,7 +9463,7 @@
  
        r_symndx = ELF_R_SYM (input_bfd, rel->r_info);
        symtab_hdr = &elf_tdata (input_bfd)->symtab_hdr;
@@ -92,7 +104,7 @@ diff -r -u -w binutils-2.23.2/bfd/elfxx-mips.c binutils-2.23.2-patched/bfd/elfxx
  	{
  	  sec = local_sections[r_symndx];
  	  h = NULL;
-@@ -9498,7 +9520,7 @@
+@@ -9498,7 +9525,7 @@
  	      if (hi16_reloc_p (r_type)
  		  || (got16_reloc_p (r_type)
  		      && mips_elf_local_relocation_p (input_bfd, rel,
@@ -101,9 +113,9 @@ diff -r -u -w binutils-2.23.2/bfd/elfxx-mips.c binutils-2.23.2-patched/bfd/elfxx
  		{
  		  if (!mips_elf_add_lo16_rel_addend (input_bfd, rel, relend,
  						     contents, &addend))
-diff -r -u -w binutils-2.23.2/binutils/readelf.c binutils-2.23.2-patched/binutils/readelf.c
+diff -N -r -u -w binutils-2.23.2/binutils/readelf.c binutils-2.23.2-patched/binutils/readelf.c
 --- binutils-2.23.2/binutils/readelf.c	2013-03-25 08:06:21.000000000 +0000
-+++ binutils-2.23.2-patched/binutils/readelf.c	2019-07-14 11:13:31.496596120 +0000
++++ binutils-2.23.2-patched/binutils/readelf.c	2019-09-21 05:05:52.474941800 +0000
 @@ -10468,7 +10468,9 @@
  
        if (data < end)

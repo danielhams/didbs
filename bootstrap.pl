@@ -466,7 +466,7 @@ my $stageChecker = DidbsStageChecker->new( $scriptLocation,
 					   $buildDir,
 					   $installDir );
 
-if( $stageChecker->stagesMissing() )
+if( !defined($buildshellpackage) && $stageChecker->stagesMissing() )
 {
     $verbose && didbsprint "Needed stages are missing..\n";
     $stageChecker->callMissingStage();
