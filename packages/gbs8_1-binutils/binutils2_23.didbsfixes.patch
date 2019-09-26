@@ -1,6 +1,36 @@
+diff -N -r -u -w binutils-2.23.2/bfd/elflink.c binutils-2.23.2-patched/bfd/elflink.c
+--- binutils-2.23.2/bfd/elflink.c	2013-03-25 08:06:20.000000000 +0000
++++ binutils-2.23.2-patched/bfd/elflink.c	2019-09-23 21:42:25.551584160 +0000
+@@ -4287,16 +4287,18 @@
+ 		  /* PR binutils/2735 */
+ 		  if (normal_bfd == NULL)
+ 		    (*_bfd_error_handler)
+-		      (_("Warning: alignment %u of common symbol `%s' in %B"
+-			 " is greater than the alignment (%u) of its section %A"),
+-		       common_bfd, h->root.u.def.section,
+-		       1 << common_align, name, 1 << normal_align);
++		      /* xgettext:c-format */
++		      (_("warning: alignment %u of common symbol `%s' in %pB is"
++			 " greater than the alignment (%u) of its section %pA"),
++		       1 << common_align, name, common_bfd,
++		       1 << normal_align, h->root.u.def.section);
+ 		  else
+ 		    (*_bfd_error_handler)
+-		      (_("Warning: alignment %u of symbol `%s' in %B"
+-			 " is smaller than %u in %B"),
+-		       normal_bfd, common_bfd,
+-		       1 << normal_align, name, 1 << common_align);
++		      /* xgettext:c-format */
++		      (_("warning: alignment %u of symbol `%s' in %pB"
++			 " is smaller than %u in %pB"),
++		       1 << normal_align, name, normal_bfd,
++		       1 << common_align, common_bfd);
+ 		}
+ 	    }
+ 
 diff -N -r -u -w binutils-2.23.2/bfd/elfxx-mips.c binutils-2.23.2-patched/bfd/elfxx-mips.c
 --- binutils-2.23.2/bfd/elfxx-mips.c	2013-03-25 08:06:20.000000000 +0000
-+++ binutils-2.23.2-patched/bfd/elfxx-mips.c	2019-09-22 13:25:50.404567680 +0000
++++ binutils-2.23.2-patched/bfd/elfxx-mips.c	2019-09-23 21:41:00.739372680 +0000
 @@ -4036,10 +4036,13 @@
  	 Note that the former condition does not always imply the
  	 latter: symbols do not bind locally if they are completely
@@ -115,7 +145,7 @@ diff -N -r -u -w binutils-2.23.2/bfd/elfxx-mips.c binutils-2.23.2-patched/bfd/el
  						     contents, &addend))
 diff -N -r -u -w binutils-2.23.2/binutils/readelf.c binutils-2.23.2-patched/binutils/readelf.c
 --- binutils-2.23.2/binutils/readelf.c	2013-03-25 08:06:21.000000000 +0000
-+++ binutils-2.23.2-patched/binutils/readelf.c	2019-09-21 05:05:52.474941800 +0000
++++ binutils-2.23.2-patched/binutils/readelf.c	2019-09-23 21:41:00.772296520 +0000
 @@ -10468,7 +10468,9 @@
  
        if (data < end)
