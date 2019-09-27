@@ -1,6 +1,6 @@
 #export WHICH_GCC_ROOT=/usr/didbs/0_1_4_n32_mips4_mp/gbs9_1
 #export WHICH_GCC_ROOT=/usr/didbs/0_1_4_n32_mips4_mp/gbs4_2
-#export WHICH_GCC_ROOT=/usr/didbs/0_1_4_n32_mips4_mp/gbs8_1
+export WHICH_GCC_ROOT=/usr/didbs/0_1_4_n32_mips4_mp/gbs8_1
 
 CPPFLAGS="-I$INSTALLDIR/include"
 
