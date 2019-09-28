@@ -10,6 +10,12 @@ echo $EXTRAARGS
 cd $BUILDDIR || exit 1
 mkdir -p build-cacerts
 cd build-cacerts
-$INSTALLDIR/bin/wget-static --no-check-certificate "https://hg.mozilla.org/releases/mozilla-release/raw-file/default/security/nss/lib/ckfw/builtins/certdata.txt" || exit 1
+$INSTALLDIR/bin/wget-static --no-check-certificate "http://anduin.linuxfromscratch.org/BLFS/other/certdata.txt"
+SUM=`$INSTALLDIR/bin/sha256sum certdata.txt|cut -d " " -f 1`
+echo "SUM=$SUM"
+if [[ "ne$SUM" != "ne482aefa6cad5a313225952592d17994989bcf14be4675c6238a75a680e35249b" ]]; then
+    echo "SHASUM of cert data failed! Refusing to continue"
+    exit 1
+fi
 
 exit 0
