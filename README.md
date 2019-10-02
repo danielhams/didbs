@@ -14,6 +14,7 @@ A perl script and some minimal supporting tools to allow bootstrapping of some r
 * Minimum of ~2Gb of RAM
 * Beefy CPU if you want to build everything (2*600mhz min)
 * A previously extracted didbs release >= 0.1.3-n32-m3mp (n32, mips3, MIPSpro)
+ (didbs releases are posted on the SGUG (Silicon Graphics User Group) forums in the development section [here](https://forums.sgi.sh/))
 
 Suggested approach:
 
