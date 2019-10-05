@@ -1,0 +1,16 @@
+packageSource=https://github.com/dex4er/fakechroot/releases/download/2.20.1/fakechroot-2.20.1.tar.gz
+packageFile=fakechroot-2.20.1.tar.gz
+packageChecksum=bf67c9b3a5f282f310ba8beda2fc6057
+packageDir=fakechroot-2.20.1
+packagePatch=fakechroot.sgifixes.patch
+
+packageExtraction=tarxfsystemhelper.sh
+expectedToolList=
+dependenciesList=make,tar,gzip,gbs9_1-gcc9
+envModifs=setupenv.sh
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=0
+# Buggered if I can get this working for now.
+disabled=1

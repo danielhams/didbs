@@ -1,0 +1,15 @@
+packageSource=ftp://anduin.linuxfromscratch.org/BLFS/popt/popt-1.16.tar.gz
+packageFile=popt-1.16.tar.gz
+packageChecksum=3743beefa3dd6247a73f8f7a32c14c33
+packageDir=popt-1.16
+#packagePatch=
+
+packageExtraction=tarxfsystemhelper.sh
+expectedToolList=
+dependenciesList=make,tar,gzip,gbs9_1-gcc9
+envModifs=setupenv.sh
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=1
+disabled=0

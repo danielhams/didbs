@@ -1,0 +1,17 @@
+packageSource=http://ftp.rpm.org/releases/rpm-4.15.x/rpm-4.15.0.tar.bz2
+packageFile=rpm-4.15.0.tar.bz2
+packageChecksum=461a045d9c26e07625c7e3067064b090
+packageDir=rpm-4.15.0
+packagePatch=rpm.sgifixups.patch
+
+packageExtraction=tarxfsystemhelper.sh
+expectedToolList=
+# No python for now, an ugly parallel lib install happens
+dependenciesList=make,tar,bzip,gbs9_1-gcc9,libpopt,python3,astronfile,zlib,openssl,berkeley-db
+dependenciesList=make,tar,bzip,gbs9_1-gcc9,libpopt,astronfile,zlib,openssl,berkeley-db
+envModifs=setupenv.sh
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=1
+disabled=0

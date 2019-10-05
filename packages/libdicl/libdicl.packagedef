@@ -1,0 +1,15 @@
+packageSource=https://github.com/danielhams/dicl/archive/0.1.0.tar.gz
+packageFile=0.1.0.tar.gz
+packageChecksum=bf63d688fcf8ea5fcfec752f5a747401
+packageDir=dicl-0.1.0
+#packagePatch=
+
+packageExtraction=tarxfsystemhelper.sh
+expectedToolList=
+dependenciesList=make,tar,gzip,autoconf,automake,libtool,git
+envModifs=setupenv.sh
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=1
+disabled=0

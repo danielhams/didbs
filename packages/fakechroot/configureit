@@ -1,0 +1,14 @@
+#!/bin/sh
+
+BUILDDIR=$1
+INSTALLDIR=$2
+EXTRAARGS=$3
+echo $BUILDDIR
+echo $INSTALLDIR
+echo $EXTRAARGS
+. ./setupenv.sh
+cd $BUILDDIR || exit -1
+#mkdir ../build-fakechroot
+#cd ../build-fakechroot
+$BUILDDIR/configure --disable-silent-rules --prefix=$RPM_INSTALL_DIR --libdir=$RPM_INSTALL_DIR/$DIDBS_LIBDIR || exit -1
+exit 0
