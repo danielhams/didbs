@@ -398,6 +398,8 @@ foreach $var (keys %envvars)
     $verbose && didbsprint " setting $var=$val\n";
     $ENV{$var} = $val;
 }
+# And an env var to allow GCC versions to reflect the didbs version
+$ENV{"DIDBS_VERSION"} = $version;
 
 # And set up the necessary env vars computed from
 # the elfwidth,isa and compiler
