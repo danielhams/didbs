@@ -1,0 +1,14 @@
+#!/bin/sh
+
+BUILDDIR=$1
+INSTALLDIR=$2
+EXTRAARGS=$3
+echo $BUILDDIR
+echo $INSTALLDIR
+echo $EXTRAARGS
+. ./setupenv.sh
+cd $BUILDDIR || exit -1
+cd ../build-gdb
+make install || exit -1
+cd $GBS9_1_INSTALL_DIR
+exit 0

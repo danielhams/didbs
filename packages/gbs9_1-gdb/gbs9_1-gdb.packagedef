@@ -6,11 +6,11 @@ packagePatch=gdb762.fixups.patch
 
 packageExtraction=tarxfsystemhelper.sh
 expectedToolList=
-dependenciesList=make,tar,gzip,dejagnu,gbs8_1-gcc8
+dependenciesList=make,tar,gzip,dejagnu,gbs9_1-gcc9
 envModifs=setupenv.sh
 configureRecipe=configureit
 buildRecipe=buildit
 installRecipe=installit
 # Kind of passes, enough for now, anyway
 passesChecksIndicator=1
-disabled=1
+disabled=0
