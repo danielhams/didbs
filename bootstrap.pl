@@ -130,8 +130,9 @@ On first run you must provide the package, build and installation directories
 that this bootstrapper will use. If not specified, didbs will default to n32,
 mips3, mipspro.
 
-If a tooling installation is found (via /usr/didbs/didbs-tooling-*.txt) the
-most recent will be picked up and stage0/stage1 builds will be skipped.
+Didbs bootstrap building relies on the use of a previous didbs release
+extracted and symbolically linked to '/usr/didbs/current'. This tooling must be
+the "n32" "mips3" "mipspro" release to allow building any variation.
 
 When running the script without arguments, the script will attempt to determine
 and build currently missing packages. Using the --stoponuntested flag will halt
@@ -202,7 +203,6 @@ if( $usingfoundconf == 1 )
 {
     didbsprint "Adding found config.\n To start fresh, rm $scriptLocation/$configfile\n";
 }
-didbsprint "TODO: Check for build prerequisites (7.4.4m, sed etc - see toolstocheckfor.txt)\n";
 
 my %options = ();
 
@@ -238,6 +238,20 @@ if( !defined($packageDir) || !defined($buildDir) || !defined($installDir)
     $verbose && didbsprint "compiler=$didbscompiler\n";
     usage(true);
 }
+
+my $compatibleDidbsCurrent = compatibledidbscurrent($verbose,$version);
+if( !$compatibleDidbsCurrent )
+{
+    print <<EOINCOMPATIBLEDIDBSCURRENT
+ERROR
+Starting with 0.1.6alpha, running bootstrap requires an existing compatible
+didbs release behind a symbolic link at /usr/didbs/current.
+Unable to continue.
+EOINCOMPATIBLEDIDBSCURRENT
+;
+    exit -1;
+}
+
 
 sub prompt
 {
