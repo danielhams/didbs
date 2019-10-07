@@ -1,0 +1,15 @@
+packageSource=http://www.cpan.org/modules/by-module/Getopt/Getopt-ArgvFile-1.11.tar.gz
+packageFile=Getopt-ArgvFile-1.11.tar.gz
+packageChecksum=42117db2af4a24c062b2da25d4fdf756
+packageDir=Getopt-ArgvFile-1.11
+#packagePatch=
+
+packageExtraction=tarxfsystemhelper.sh
+expectedToolList=
+dependenciesList=make,tar,gzip,perl,expat
+envModifs=setupenv.sh
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=1
+disabled=0
