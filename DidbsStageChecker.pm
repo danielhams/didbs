@@ -89,6 +89,10 @@ sub getPathToStage0Root
 
 sub calcMissingStage
 {
+    # We rely on a previous didbs release now for stage0 binaries
+    return undef;
+
+    ## Old code just in case this becomes useful....
     my $self = shift;
     
     didbsprint "Checking if there is a missing stage...\n";

@@ -43,7 +43,8 @@ sub configureit
     didbsprint "Checking if $packageId begins with stage1.\n";
     if( begins_with($packageId,"stage1") )
     {
-	$extraargs=$self->{pathToStage0Root};
+#	$extraargs=$self->{pathToStage0Root};
+	$extraargs="/usr/didbs/current";
     }
     else
     {

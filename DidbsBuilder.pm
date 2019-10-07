@@ -44,7 +44,8 @@ sub buildit
     my $extraargs;
     if( begins_with($packageId,"stage1") )
     {
-	$extraargs=$self->{pathToStage0Root};
+#	$extraargs=$self->{pathToStage0Root};
+	$extraargs="/usr/didbs/current";
     }
     else
     {

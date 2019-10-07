@@ -1,5 +1,7 @@
 package DidbsPackage;
 
+#use Digest::SHA;
+
 use DidbsUtils;
 
 # Contents read from packages/packageId.packagedef - contains:
@@ -115,6 +117,9 @@ sub readPackageDef
 	    die "Package $packageId specifies envModifs but file not found.";
 	}
     }
+
+    # Compute a sha256 sum of the contents of the package dir
+#    my $packageSha = Digest::SHA->new("sha256");
 }
 
 1;
