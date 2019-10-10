@@ -4,7 +4,7 @@
 
 A perl script and some minimal supporting tools to allow bootstrapping of some recent open source tools on Irix 6.5.X, mips4.
 
-Be aware - this build process will create the exact same content that may be found in the existing didbs releases! If you just want to "use" the software built by didbs - just do fetch an existing didbs release and skip this build. (See below for link).
+Be aware - this build process will create the exact same content that may be found in the existing didbs releases! If you just want to "use" the software built by didbs - just go fetch an existing didbs release and skip this build. (See below for link).
 
 ## Needs
 
