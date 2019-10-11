@@ -22,7 +22,8 @@ sub didbsprint
 	my $microst = $ts[1] %1000000;
 	my $millis = floor($microst/1000);
 	my $micros = $microst%1000;
-	my $subsecstr = sprintf ".%0.3d.%0.3d", $millis, $micros;
+#	my $subsecstr = sprintf ".%0.3d.%0.3d", $millis, $micros;
+	my $subsecstr = sprintf ".%0.3d", $millis;
 	print strftime("%F %T",localtime) . $subsecstr . " ";
     }
     print @args;
@@ -82,19 +83,20 @@ sub compatibledidbscurrent
     my $dirBehindLink = abs_path('/usr/didbs/current');
     my $dirIsOk=0;
     if( defined($dirBehindLink) && -e $dirBehindLink ) {
-#	didbsprint "dirBehindLink is $dirBehindLink\n";
+	$verbose && didbsprint "dirBehindLink is $dirBehindLink\n";
 	my($dirMajVer,$dirGenVer,$dirMinVer,$dirRest) =
-	    $dirBehindLink =~ m/(\d)_(\d)_(\d)(_.+)/;
-#	didbsprint "Matched $dirMajVer $dirGenVer $dirMinVer $dirRest\n";
+	    $dirBehindLink =~ m/(\d)_(\d)_(\d)[^_]*(_.+)/;
+	$verbose && didbsprint "Matched $dirMajVer $dirGenVer $dirMinVer $dirRest\n";
 	if( $dirRest == "_n32_mips3_mp" ) {
-#	    didbsprint "Elf width, ISA + compiler OK\n";
-	    # Version check min is 0.1.3
+	    $verbose && didbsprint "Elf width, ISA + compiler OK\n";
+	    # Version check min is 0.1.6 (starting from 0.1.6)
+	    # due to the need for a particular didbs perl version.
 	    # max is current script minus one
 	    if( ($dirMajVer > 0)
 		||
 		($dirGenVer > 1)
 		||
-		($dirMinVer >= 3 ) ) {
+		($dirMinVer >= 6 ) ) {
 #		didbsprint "Min version check ok\n";
 		# Check the version is less or the same
 		if( ($dirMajVer < $scriptMajVer)
@@ -106,11 +108,11 @@ sub compatibledidbscurrent
 		    $dirIsOk=1;
 		}
 		else {
-#		    didbsprint "Max version test failure!\n";
+		    $verbose && didbsprint "Max version test failure!\n";
 		}
 	    }
 	    else {
-#		didbsprint "Min version test failure!\n";
+		$verbose && didbsprint "Min version test failure!\n";
 	    }
 	}
     }

@@ -1,8 +1,9 @@
-#!/usr/bin/perl
+#!/usr/didbs/current/bin/perl
+
 use File::Basename qw/basename/;
 use FindBin;
 use lib ".";
-use lib "$FindBin::Bin/lib";
+#use lib "$FindBin::Bin/lib";
 
 # Packages specific to the tooling
 use DidbsStageChecker;
@@ -415,12 +416,19 @@ foreach $var (keys %envvars)
 # And an env var to allow GCC versions to reflect the didbs version
 $ENV{"DIDBS_VERSION"} = $version;
 
+# A hash of the default env, suppressed env and params for the build
+my $didbsenvhash=DidbsPackageHasher::calculateEnvHash(
+    $scriptdir."defaultenv.vars",
+    $scriptdir."suppressenv.vars",
+    $didbselfwidth,
+    $didbsisa,
+    $didbscompiler );
+
 # And set up the necessary env vars computed from
 # the elfwidth,isa and compiler
 my $didbsarchcflags="";
 my $didbsarchldflags="";
 my $didbslibdir="";
-
 if( $didbscompiler eq "mipspro" ) {
     if( $didbsisa eq "mips3" ) {
 	$didbsarchcflags .= "-mips3 ";
@@ -457,8 +465,37 @@ if( $didbscompiler eq "mipspro" ) {
 else
 {
     # GCC setup here....
-    didbsprint "Error: gcc not yet supported\n";
-    exit(1);
+    if( $didbsisa eq "mips3" ) {
+	$didbsarchcflags .= "-mips3 ";
+	$didbsarchldflags .= "-mips3 ";
+    }
+    elsif( $didbsisa eq "mips4" ) {
+	$didbsarchcflags .= "-mips4 ";
+	$didbsarchldflags .= "-mips4 ";
+    }
+    else {
+	didbsprint "Error: unknown isa:$didbselfwidth\n";
+	exit(1);
+    }
+
+    if( $didbselfwidth eq "n32" ) {
+	$didbsarchcflags .= "-n32 ";
+	$didbsarchldflags .= "-n32 ";
+	$didbslibdir = "lib32";
+    } elsif ( $didbselfwidth eq "n64" ) {
+	$didbsarchcflags .= "-64 ";
+	$didbsarchldflags .= "-64 ";
+	$didbslibdir = "lib64";
+	didbsprint "Error: 64 bit compile not yet supported\n";
+	exit(1);
+    }
+    else {
+	didbsprint "Error: unknown elfwidth:$didbselfwidth\n";
+	exit(1);
+    }
+
+    $ENV{"DIDBS_CC"}=$ENV{"DIDBS_GCC_CC"};
+    $ENV{"DIDBS_CXX"}=$ENV{"DIDBS_GCC_CXX"};
 }
 
 $ENV{"DIDBS_ARCH_CFLAGS"} = $didbsarchcflags;
@@ -473,6 +510,7 @@ if( $verbose ) {
     didbsprint "arch CXXFLAGS = '$didbsarchcflags'\n";
     didbsprint "arch LDFLAGS  = '$didbsarchldflags'\n";
     didbsprint "libdir        = '$didbslibdir'\n";
+    didbsprint "env hash      = '$didbsenvhash'\n";
 }
 
 # Check if the stage0 (stage1?) builds
@@ -556,16 +594,27 @@ if( $buildshellpackage )
     exit 0;
 }
 
+# Ensure our "didbsversions" directory exists
+if( !$dryrun )
+{
+    my $didbsVersionsDir = "$installDir/didbsversions";
+    if( ! -e $didbsVersionsDir ) {
+	mkdirp("$didbsVersionsDir") || die "Unable to create versions dir: $!";
+    }
+}
+
 my %foundPackageStates = ();
 
 # Full tree build
+didbsprint "Checking for outdated/missing packages...\n";
 foreach $pkg (@{$foundPackagesRef})
 {
     my $curpkg = ${$pkg};
     my $pkgid = $curpkg->{packageId};
     $verbose && didbsprint "Checking status of package '$pkgid'...\n";
 
-    checkPackage( $pkg,
+    checkPackage( $didbsenvhash,
+		  $pkg,
 		  $scriptLocation,
 		  $packageDefsDir,
 		  $sapd,
@@ -591,7 +640,8 @@ exit 0;
 
 sub checkPackage
 {
-    my( $pkgRef,
+    my( $didbsenvhash,
+	$pkgRef,
 	$scriptLocation,
 	$packageDefsDir,
 	$packageDir,
@@ -610,6 +660,7 @@ sub checkPackage
     my $curpkgstate = DidbsPackageState->new($verbose,
 					     $scriptLocation,
 					     $packageDefsDir,
+					     $didbsenvhash,
 					     $packageId,
 					     $packageDir,
 					     $buildDir,
@@ -763,7 +814,7 @@ sub checkPackage
 	}
 	else
 	{
-	    didbsprint "  Package would need building..\n";
+	    didbsprint "  Package needs building...\n";
 	    $curpkgstate->fakeNewInstalledDate();
 	}
     }

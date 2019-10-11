@@ -13,7 +13,7 @@ cd build-cacerts
 $INSTALLDIR/bin/wget-static --no-check-certificate "http://anduin.linuxfromscratch.org/BLFS/other/certdata.txt"
 SUM=`$INSTALLDIR/bin/sha256sum certdata.txt|cut -d " " -f 1`
 echo "SUM=$SUM"
-if [[ "ne$SUM" != "ne9149b70c2e7c9dab36e1eb5ca78ed94d181bd9634c13c6b5be6b894cc2b5e8e4" ]]; then
+if [[ "ne$SUM" != "neacd76572b0ec47e18b63b96d8ae8c995644b97eb968397a51f4ff5da0cd64c80" ]]; then
     echo "SHASUM of cert data failed! Refusing to continue"
     exit 1
 fi

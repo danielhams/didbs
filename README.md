@@ -16,7 +16,7 @@ Be aware - this build process will create the exact same content that may be fou
 * Roughly 20Gb diskspace
 * Minimum of ~2Gb of RAM
 * Beefy CPU if you want to build everything (2*600mhz min)
-* A previously extracted didbs release >= 0.1.3-n32-m3mp (n32, mips3, MIPSpro)
+* A previously extracted didbs release >= 0.1.6-n32-m3mp (n32, mips3, MIPSpro)
 
 If you are looking for an already built didbs release - didbs releases are posted on the SGUG (Silicon Graphics User Group) forums in the development section [here](https://forums.sgi.sh/).
 
@@ -31,16 +31,15 @@ Suggested approach:
 * chown myuser:people /usr/didbs # (have to do this as root, of course)
 * As your user
 * Extract previous didbs release
-* cd /usr/didbs; tar xf usr-didbs-0.1.3-n32m3mp.tar.gz
+* cd /usr/didbs; tar xf usr-didbs-0.1.6-n32m3mp.tar.gz
 * Link up a "current"
-* cd /usr/didbs; ln -s 0_1_3_n32_mips3_mp current
+* cd /usr/didbs; ln -s 0_1_6_n32_mips3_mp current
 * (Setup paths to include the bin and lib32 of the above)
 * cd ~; git clone https://github.com/danielhams/didbs.git
 * cd ~/didbs
 * nedit defaultenv.vars
 * Set the DIDBS_JOBS to CPU+1, or just one if RAM is < 512Mb, save, exit
 * ./bootstrap.pl -p /usr/didbs/0_1_package -b /usr/didbs/0_*_*_n32_mips3_mp_build -i /usr/didbs/0_*_*_n32_mips3_mp -e n32 -a mips3 -c mipspro # (replace * - this sets up paths)
-* ./bootstrap.pl # (This builds the stage0 pieces)
 * ./bootstrap.pl # (This builds the stage1 then release packages)
 ```
 
@@ -53,7 +52,7 @@ You'll need to setup your environment to pull the right directories (bash exampl
 * export LD_LIBRARYN32_PATH=/usr/didbs/0_*_*_n32_mips3_mp/lib32:$LD_LIBRARYN32_PATH
 * export PKG_CONFIG_PATH=/usr/didbs/0_*_*_n32_mips3_mp/lib32/pkgconfig:$PKG_CONFIG_PATH
 
-If you want to use the included gcc4, gcc5 or gcc8, after building they may be found here (so add to PATH and LD_LIBRARYN32_PATH as well):
+If you want to use the included gcc(4|5|8|9) - after building they may be found here (so add to PATH and LD_LIBRARYN32_PATH as well):
 
 gcc4 actual -> /usr/didbs/0_*_*_n32_mips3_mp/gbs4_2
 
