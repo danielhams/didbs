@@ -1,9 +1,3 @@
-#packageSource=https://www.python.org/ftp/python/2.7.16/Python-2.7.16.tgz
-#packageFile=Python-2.7.16.tgz
-#packageChecksum=f1a2ace631068444831d01485466ece0
-#packageDir=Python-2.7.16
-#packagePatch=python2_7_16.sgifixes.patch
-
 packageSource=https://www.python.org/ftp/python/3.7.4/Python-3.7.4.tgz
 packageFile=Python-3.7.4.tgz
 packageChecksum=68111671e5b2db4aef7b9ab01bf0f9be
@@ -19,3 +13,4 @@ buildRecipe=buildit
 installRecipe=installit
 passesChecksIndicator=1
 disabled=1
+compilers=gcc
