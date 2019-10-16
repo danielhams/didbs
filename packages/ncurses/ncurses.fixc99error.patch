@@ -1,6 +1,109 @@
+Only in ncurses-6.1-patched: Makefile
+Only in ncurses-6.1-patched/c++: Makefile
+diff -r -u -w ncurses-6.1/c++/cursesapp.cc ncurses-6.1-patched/c++/cursesapp.cc
+--- ncurses-6.1/c++/cursesapp.cc	2008-08-16 18:15:35.000000000 +0000
++++ ncurses-6.1-patched/c++/cursesapp.cc	2019-10-14 18:35:21.733529000 +0000
+@@ -32,6 +32,13 @@
+  *      and: Thomas E. Dickey                                               *
+  ****************************************************************************/
+ 
++#if defined(__sgi) && defined(__GNUC__)
++#include <cstdio>
++#include <cstdarg>
++#include <wctype.h>
++#include <internal/wchar_core.h>
++#endif
++
+ #include "internal.h"
+ #include "cursesapp.h"
+ 
+diff -r -u -w ncurses-6.1/c++/cursesf.cc ncurses-6.1-patched/c++/cursesf.cc
+--- ncurses-6.1/c++/cursesf.cc	2011-09-17 23:12:10.000000000 +0000
++++ ncurses-6.1-patched/c++/cursesf.cc	2019-10-14 18:31:38.060248800 +0000
+@@ -31,6 +31,13 @@
+  *   Author: Juergen Pfeifer, 1997                                          *
+  ****************************************************************************/
+ 
++#if defined(__sgi) && defined(__GNUC__)
++#include <cstdio>
++#include <cstdarg>
++#include <wctype.h>
++#include <internal/wchar_core.h>
++#endif
++
+ #include "internal.h"
+ #include "cursesf.h"
+ #include "cursesapp.h"
+diff -r -u -w ncurses-6.1/c++/cursesm.cc ncurses-6.1-patched/c++/cursesm.cc
+--- ncurses-6.1/c++/cursesm.cc	2017-06-26 09:32:53.000000000 +0000
++++ ncurses-6.1-patched/c++/cursesm.cc	2019-10-14 18:31:55.661348280 +0000
+@@ -31,6 +31,13 @@
+  *   Author: Juergen Pfeifer, 1997                                          *
+  ****************************************************************************/
+ 
++#if defined(__sgi) && defined(__GNUC__)
++#include <cstdio>
++#include <cstdarg>
++#include <wctype.h>
++#include <internal/wchar_core.h>
++#endif
++
+ #include "internal.h"
+ #include "cursesm.h"
+ #include "cursesapp.h"
+diff -r -u -w ncurses-6.1/c++/cursesp.cc ncurses-6.1-patched/c++/cursesp.cc
+--- ncurses-6.1/c++/cursesp.cc	2005-08-06 23:12:36.000000000 +0000
++++ ncurses-6.1-patched/c++/cursesp.cc	2019-10-14 18:34:13.425113400 +0000
+@@ -31,6 +31,13 @@
+  *   Author: Juergen Pfeifer, 1993, 1997                                    *
+  ****************************************************************************/
+ 
++#if defined(__sgi) && defined(__GNUC__)
++#include <cstdio>
++#include <cstdarg>
++#include <wctype.h>
++#include <internal/wchar_core.h>
++#endif
++
+ #include "internal.h"
+ #include "cursesp.h"
+ 
+diff -r -u -w ncurses-6.1/c++/cursespad.cc ncurses-6.1-patched/c++/cursespad.cc
+--- ncurses-6.1/c++/cursespad.cc	2013-03-30 19:45:36.000000000 +0000
++++ ncurses-6.1-patched/c++/cursespad.cc	2019-10-14 18:33:31.171799800 +0000
+@@ -31,6 +31,13 @@
+  *   Author: Juergen Pfeifer, 1999                                          *
+  ****************************************************************************/
+ 
++#if defined(__sgi) && defined(__GNUC__)
++#include <cstdio>
++#include <cstdarg>
++#include <wctype.h>
++#include <internal/wchar_core.h>
++#endif
++
+ #include "internal.h"
+ 
+ #include <cursesw.h>
+diff -r -u -w ncurses-6.1/c++/cursesw.cc ncurses-6.1-patched/c++/cursesw.cc
+--- ncurses-6.1/c++/cursesw.cc	2014-02-01 22:10:42.000000000 +0000
++++ ncurses-6.1-patched/c++/cursesw.cc	2019-10-14 18:32:50.460036480 +0000
+@@ -38,6 +38,12 @@
+  * of the original code remains in this version: it consists only of
+  * changes introduced since 1995.
+  */
++#if defined(__sgi) && defined(__GNUC__)
++#include <cstdio>
++#include <cstdarg>
++#include <wctype.h>
++#include <internal/wchar_core.h>
++#endif
+ 
+ #include "internal.h"
+ #include "cursesw.h"
 diff -r -u -w ncurses-6.1/c++/cursesw.h ncurses-6.1-patched/c++/cursesw.h
 --- ncurses-6.1/c++/cursesw.h	2017-11-21 00:37:23.000000000 +0000
-+++ ncurses-6.1-patched/c++/cursesw.h	2018-06-30 01:04:49.776175335 +0000
++++ ncurses-6.1-patched/c++/cursesw.h	2019-10-14 16:43:40.077204480 +0000
 @@ -34,7 +34,9 @@
  // $Id: cursesw.h,v 1.53 2017/11/21 00:37:23 tom Exp $
  
@@ -11,4 +114,176 @@ diff -r -u -w ncurses-6.1/c++/cursesw.h ncurses-6.1-patched/c++/cursesw.h
  }
  
  #include <etip.h>
-Only in ncurses-6.1-patched/c++: cursesw.h~
+diff -r -u -w ncurses-6.1/c++/cursslk.cc ncurses-6.1-patched/c++/cursslk.cc
+--- ncurses-6.1/c++/cursslk.cc	2012-02-23 10:41:56.000000000 +0000
++++ ncurses-6.1-patched/c++/cursslk.cc	2019-10-14 18:34:49.591925160 +0000
+@@ -31,6 +31,13 @@
+  *   Author: Juergen Pfeifer, 1997                                          *
+  ****************************************************************************/
+ 
++#if defined(__sgi) && defined(__GNUC__)
++#include <cstdio>
++#include <cstdarg>
++#include <wctype.h>
++#include <internal/wchar_core.h>
++#endif
++
+ #include "internal.h"
+ #include "cursslk.h"
+ #include "cursesapp.h"
+Only in ncurses-6.1-patched/c++: demo
+Only in ncurses-6.1-patched/c++: etip.h
+diff -r -u -w ncurses-6.1/c++/internal.h ncurses-6.1-patched/c++/internal.h
+--- ncurses-6.1/c++/internal.h	2012-02-23 10:41:56.000000000 +0000
++++ ncurses-6.1-patched/c++/internal.h	2019-10-14 18:35:56.526170320 +0000
+@@ -36,6 +36,13 @@
+ #ifndef NCURSES_CPLUS_INTERNAL_H
+ #define NCURSES_CPLUS_INTERNAL_H 1
+ 
++#if defined(__sgi) && defined(__GNUC__)
++#include <cstdio>
++#include <cstdarg>
++#include <wctype.h>
++#include <internal/wchar_core.h>
++#endif
++
+ #include <ncurses_cfg.h>
+ 
+ #if USE_RCS_IDS
+Only in ncurses-6.1-patched: config.log
+Only in ncurses-6.1-patched: config.status
+Only in ncurses-6.1-patched: edit_man.sh
+Only in ncurses-6.1-patched/form: Makefile
+Only in ncurses-6.1-patched: headers.sh
+Only in ncurses-6.1-patched/include: MKterm.h.awk
+Only in ncurses-6.1-patched/include: Makefile
+Only in ncurses-6.1-patched/include: config.h
+Only in ncurses-6.1-patched/include: curses.h
+Only in ncurses-6.1-patched/include: curses.head
+Only in ncurses-6.1-patched/include: eti.h
+Only in ncurses-6.1-patched/include: form.h
+Only in ncurses-6.1-patched/include: hashsize.h
+Only in ncurses-6.1-patched/include: menu.h
+Only in ncurses-6.1-patched/include: mf_common.h
+Only in ncurses-6.1-patched/include: ncurses_cfg.h
+Only in ncurses-6.1-patched/include: ncurses_def.h
+Only in ncurses-6.1-patched/include: ncurses_dll.h
+Only in ncurses-6.1-patched/include: panel.h
+Only in ncurses-6.1-patched/include: parametrized.h
+Only in ncurses-6.1-patched/include: term.h
+Only in ncurses-6.1-patched/include: termcap.h
+Only in ncurses-6.1-patched/include: unctrl.h
+Only in ncurses-6.1-patched: lib
+Only in ncurses-6.1-patched/man: Makefile
+Only in ncurses-6.1-patched/man: ncurses6-config.1
+Only in ncurses-6.1-patched/man: terminfo.5
+Only in ncurses-6.1-patched/menu: Makefile
+Only in ncurses-6.1-patched/misc: Makefile
+Only in ncurses-6.1-patched/misc: ncurses-config
+Only in ncurses-6.1-patched/misc: run_tic.sed
+Only in ncurses-6.1-patched/misc: run_tic.sh
+Only in ncurses-6.1-patched/misc: terminfo.tmp
+Only in ncurses-6.1-patched/ncurses: Makefile
+Only in ncurses-6.1-patched/ncurses: codes.c
+Only in ncurses-6.1-patched/ncurses: comp_captab.c
+Only in ncurses-6.1-patched/ncurses: expanded.c
+Only in ncurses-6.1-patched/ncurses: fallback.c
+Only in ncurses-6.1-patched/ncurses: init_keytry.h
+Only in ncurses-6.1-patched/ncurses: keys.list
+Only in ncurses-6.1-patched/ncurses: lib_gen.c
+Only in ncurses-6.1-patched/ncurses: lib_keyname.c
+Only in ncurses-6.1-patched/ncurses: link_test.c
+Only in ncurses-6.1-patched/ncurses: make_hash
+Only in ncurses-6.1-patched/ncurses: make_keys
+Only in ncurses-6.1-patched/ncurses: names.c
+Only in ncurses-6.1-patched/ncurses: report_offsets
+Only in ncurses-6.1-patched/ncurses: unctrl.c
+Only in ncurses-6.1-patched: obj_g
+Only in ncurses-6.1-patched: obj_s
+Only in ncurses-6.1-patched: objects
+Only in ncurses-6.1-patched/panel: Makefile
+Only in ncurses-6.1-patched/progs: Makefile
+Only in ncurses-6.1-patched/progs: clear
+Only in ncurses-6.1-patched/progs: infocmp
+Only in ncurses-6.1-patched/progs: tabs
+Only in ncurses-6.1-patched/progs: termsort.c
+Only in ncurses-6.1-patched/progs: tic
+Only in ncurses-6.1-patched/progs: toe
+Only in ncurses-6.1-patched/progs: tput
+Only in ncurses-6.1-patched/progs: transform.h
+Only in ncurses-6.1-patched/progs: tset
+Only in ncurses-6.1-patched/test: Makefile
+Only in ncurses-6.1-patched/test: background
+Only in ncurses-6.1-patched/test: blue
+Only in ncurses-6.1-patched/test: bs
+Only in ncurses-6.1-patched/test: cardfile
+Only in ncurses-6.1-patched/test: chgat
+Only in ncurses-6.1-patched/test: clip_printw
+Only in ncurses-6.1-patched/test: color_set
+Only in ncurses-6.1-patched/test: demo_altkeys
+Only in ncurses-6.1-patched/test: demo_defkey
+Only in ncurses-6.1-patched/test: demo_forms
+Only in ncurses-6.1-patched/test: demo_keyok
+Only in ncurses-6.1-patched/test: demo_menus
+Only in ncurses-6.1-patched/test: demo_new_pair
+Only in ncurses-6.1-patched/test: demo_panels
+Only in ncurses-6.1-patched/test: demo_termcap
+Only in ncurses-6.1-patched/test: demo_terminfo
+Only in ncurses-6.1-patched/test: ditto
+Only in ncurses-6.1-patched/test: dots
+Only in ncurses-6.1-patched/test: dots_curses
+Only in ncurses-6.1-patched/test: dots_mvcur
+Only in ncurses-6.1-patched/test: dots_termcap
+Only in ncurses-6.1-patched/test: dots_xcurses
+Only in ncurses-6.1-patched/test: echochar
+Only in ncurses-6.1-patched/test: extended_color
+Only in ncurses-6.1-patched/test: filter
+Only in ncurses-6.1-patched/test: firework
+Only in ncurses-6.1-patched/test: firstlast
+Only in ncurses-6.1-patched/test: foldkeys
+Only in ncurses-6.1-patched/test: form_driver_w
+Only in ncurses-6.1-patched/test: gdc
+Only in ncurses-6.1-patched/test: hanoi
+Only in ncurses-6.1-patched/test: hashtest
+Only in ncurses-6.1-patched/test: inch_wide
+Only in ncurses-6.1-patched/test: inchs
+Only in ncurses-6.1-patched/test: ins_wide
+Only in ncurses-6.1-patched/test: insdelln
+Only in ncurses-6.1-patched/test: inserts
+Only in ncurses-6.1-patched/test: key_names
+Only in ncurses-6.1-patched/test: keynames
+Only in ncurses-6.1-patched/test: knight
+Only in ncurses-6.1-patched/test: list_keys
+Only in ncurses-6.1-patched/test: lrtest
+Only in ncurses-6.1-patched/test: movewindow
+Only in ncurses-6.1-patched/test: ncurses
+Only in ncurses-6.1-patched/test: newdemo
+Only in ncurses-6.1-patched/test: padview
+Only in ncurses-6.1-patched/test: picsmap
+Only in ncurses-6.1-patched/test: railroad
+Only in ncurses-6.1-patched/test: rain
+Only in ncurses-6.1-patched/test: redraw
+Only in ncurses-6.1-patched/test: savescreen
+Only in ncurses-6.1-patched/test: sp_tinfo
+Only in ncurses-6.1-patched/test: tclock
+Only in ncurses-6.1-patched/test: test_add_wchstr
+Only in ncurses-6.1-patched/test: test_addchstr
+Only in ncurses-6.1-patched/test: test_addstr
+Only in ncurses-6.1-patched/test: test_addwstr
+Only in ncurses-6.1-patched/test: test_arrays
+Only in ncurses-6.1-patched/test: test_get_wstr
+Only in ncurses-6.1-patched/test: test_getstr
+Only in ncurses-6.1-patched/test: test_instr
+Only in ncurses-6.1-patched/test: test_inwstr
+Only in ncurses-6.1-patched/test: test_opaque
+Only in ncurses-6.1-patched/test: test_setupterm
+Only in ncurses-6.1-patched/test: test_sgr
+Only in ncurses-6.1-patched/test: test_termattrs
+Only in ncurses-6.1-patched/test: test_vid_puts
+Only in ncurses-6.1-patched/test: test_vidputs
+Only in ncurses-6.1-patched/test: testaddch
+Only in ncurses-6.1-patched/test: testcurs
+Only in ncurses-6.1-patched/test: testscanw
+Only in ncurses-6.1-patched/test: view
+Only in ncurses-6.1-patched/test: worm
+Only in ncurses-6.1-patched/test: xmas

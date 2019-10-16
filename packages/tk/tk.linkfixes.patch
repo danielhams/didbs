@@ -1,0 +1,15 @@
+diff -r -u -w tk8.6.9/unix/tcl.m4 tk8.6.9-patched/unix/tcl.m4
+--- tk8.6.9/unix/tcl.m4	2018-11-17 22:33:44.000000000 +0000
++++ tk8.6.9-patched/unix/tcl.m4	2019-10-15 10:51:43.785102840 +0000
+@@ -1375,7 +1375,11 @@
+ 	    ;;
+ 	IRIX64-6.*)
+ 	    SHLIB_CFLAGS=""
++	    AS_IF([test "$GCC" = yes], [
++	        SHLIB_LD="ld -shared"
++	    ], [
+ 	    SHLIB_LD="ld -n32 -shared -rdata_shared"
++	    ])
+ 	    SHLIB_SUFFIX=".so"
+ 	    DL_OBJS="tclLoadDl.o"
+ 	    DL_LIBS=""

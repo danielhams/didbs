@@ -1,7 +1,6 @@
-Only in expect5.45.4-patched: autom4te.cache
-diff -u -r -w expect5.45.4/configure expect5.45.4-patched/configure
+diff -r -u -w expect5.45.4/configure expect5.45.4-patched/configure
 --- expect5.45.4/configure	2018-02-04 10:43:58.000000000 +0000
-+++ expect5.45.4-patched/configure	2019-05-25 18:56:57.434966080 +0000
++++ expect5.45.4-patched/configure	2019-10-15 11:19:16.888605360 +0000
 @@ -730,7 +730,6 @@
  docdir
  oldincludedir
@@ -65,9 +64,9 @@ diff -u -r -w expect5.45.4/configure expect5.45.4-patched/configure
  	CFLAGS_WARNING="-Wall"
  
  else
-diff -u -r -w expect5.45.4/tclconfig/tcl.m4 expect5.45.4-patched/tclconfig/tcl.m4
+diff -r -u -w expect5.45.4/tclconfig/tcl.m4 expect5.45.4-patched/tclconfig/tcl.m4
 --- expect5.45.4/tclconfig/tcl.m4	2018-02-04 13:55:43.000000000 +0000
-+++ expect5.45.4-patched/tclconfig/tcl.m4	2019-05-25 18:56:23.953032080 +0000
++++ expect5.45.4-patched/tclconfig/tcl.m4	2019-10-15 11:19:58.268854920 +0000
 @@ -1135,10 +1135,10 @@
      ECHO_VERSION='`echo ${PACKAGE_VERSION}`'
      TCL_LIB_VERSIONS_OK=ok
@@ -81,10 +80,21 @@ diff -u -r -w expect5.45.4/tclconfig/tcl.m4 expect5.45.4-patched/tclconfig/tcl.m
  	CFLAGS_WARNING="-Wall"
      ], [CFLAGS_WARNING=""])
  dnl FIXME: Replace AC_CHECK_PROG with AC_CHECK_TOOL once cross compiling is fixed.
-Only in expect5.45.4-patched/testsuite: autom4te.cache
-diff -u -r -w expect5.45.4/testsuite/configure expect5.45.4-patched/testsuite/configure
+@@ -1502,7 +1502,11 @@
+ 	    ;;
+ 	IRIX64-6.*)
+ 	    SHLIB_CFLAGS=""
++	    AS_IF([test "$GCC" = yes], [
++	        SHLIB_LD="ld -shared"
++	    ], [
+ 	    SHLIB_LD="ld -n32 -shared -rdata_shared"
++	    ])
+ 	    SHLIB_SUFFIX=".so"
+ 	    AS_IF([test $doRpath = yes], [
+ 		CC_SEARCH_FLAGS='-Wl,-rpath,${LIB_RUNTIME_DIR}'
+diff -r -u -w expect5.45.4/testsuite/configure expect5.45.4-patched/testsuite/configure
 --- expect5.45.4/testsuite/configure	2018-02-04 10:43:58.000000000 +0000
-+++ expect5.45.4-patched/testsuite/configure	2019-05-25 18:56:54.790131680 +0000
++++ expect5.45.4-patched/testsuite/configure	2019-10-15 11:19:16.918674480 +0000
 @@ -682,7 +682,6 @@
  docdir
  oldincludedir

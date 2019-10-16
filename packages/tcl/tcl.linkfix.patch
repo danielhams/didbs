@@ -1,7 +1,34 @@
-diff -u -r -w tcl8.6.9/pkgs/sqlite3.25.3/tclconfig/tcl.m4 tcl8.6.9-patched/pkgs/sqlite3.25.3/tclconfig/tcl.m4
+diff -r -u -w tcl8.6.9/pkgs/itcl4.1.2/tclconfig/tcl.m4 tcl8.6.9-patched/pkgs/itcl4.1.2/tclconfig/tcl.m4
+--- tcl8.6.9/pkgs/itcl4.1.2/tclconfig/tcl.m4	2018-11-01 15:59:24.000000000 +0000
++++ tcl8.6.9-patched/pkgs/itcl4.1.2/tclconfig/tcl.m4	2019-10-15 10:19:24.159032680 +0000
+@@ -1599,7 +1599,11 @@
+ 	    ;;
+ 	IRIX64-6.*)
+ 	    SHLIB_CFLAGS=""
++	    AS_IF([test "$GCC" = yes], [
++	        SHLIB_LD="ld -shared"
++	    ], [
+ 	    SHLIB_LD="ld -n32 -shared -rdata_shared"
++	    ])
+ 	    SHLIB_SUFFIX=".so"
+ 	    AS_IF([test $doRpath = yes], [
+ 		CC_SEARCH_FLAGS='-Wl,-rpath,${LIB_RUNTIME_DIR}'
+diff -r -u -w tcl8.6.9/pkgs/sqlite3.25.3/tclconfig/tcl.m4 tcl8.6.9-patched/pkgs/sqlite3.25.3/tclconfig/tcl.m4
 --- tcl8.6.9/pkgs/sqlite3.25.3/tclconfig/tcl.m4	2018-11-16 19:01:50.000000000 +0000
-+++ tcl8.6.9-patched/pkgs/sqlite3.25.3/tclconfig/tcl.m4	2019-01-26 12:12:22.464402800 +0000
-@@ -3197,8 +3197,8 @@
++++ tcl8.6.9-patched/pkgs/sqlite3.25.3/tclconfig/tcl.m4	2019-10-15 10:21:03.513160880 +0000
+@@ -1599,7 +1599,11 @@
+ 	    ;;
+ 	IRIX64-6.*)
+ 	    SHLIB_CFLAGS=""
++	    AS_IF([test "$GCC" = yes], [
++	        SHLIB_LD="ld -shared"
++	    ], [
+ 	    SHLIB_LD="ld -n32 -shared -rdata_shared"
++	    ])
+ 	    SHLIB_SUFFIX=".so"
+ 	    AS_IF([test $doRpath = yes], [
+ 		CC_SEARCH_FLAGS='-Wl,-rpath,${LIB_RUNTIME_DIR}'
+@@ -3197,8 +3201,8 @@
  	])
  	MAKE_STUB_LIB="\${STLIB_LD} -nodefaultlib -out:\[$]@ \$(PKG_STUB_OBJECTS)"
      else
@@ -12,3 +39,108 @@ diff -u -r -w tcl8.6.9/pkgs/sqlite3.25.3/tclconfig/tcl.m4 tcl8.6.9-patched/pkgs/
  	MAKE_STUB_LIB="\${STLIB_LD} \[$]@ \$(PKG_STUB_OBJECTS)"
      fi
  
+diff -r -u -w tcl8.6.9/pkgs/tdbc1.1.0/tclconfig/tcl.m4 tcl8.6.9-patched/pkgs/tdbc1.1.0/tclconfig/tcl.m4
+--- tcl8.6.9/pkgs/tdbc1.1.0/tclconfig/tcl.m4	2018-11-01 16:02:25.000000000 +0000
++++ tcl8.6.9-patched/pkgs/tdbc1.1.0/tclconfig/tcl.m4	2019-10-15 10:20:22.570145080 +0000
+@@ -1599,7 +1599,11 @@
+ 	    ;;
+ 	IRIX64-6.*)
+ 	    SHLIB_CFLAGS=""
++	    AS_IF([test "$GCC" = yes], [
++	        SHLIB_LD="ld -shared"
++	    ], [
+ 	    SHLIB_LD="ld -n32 -shared -rdata_shared"
++	    ])
+ 	    SHLIB_SUFFIX=".so"
+ 	    AS_IF([test $doRpath = yes], [
+ 		CC_SEARCH_FLAGS='-Wl,-rpath,${LIB_RUNTIME_DIR}'
+diff -r -u -w tcl8.6.9/pkgs/tdbcmysql1.1.0/tclconfig/tcl.m4 tcl8.6.9-patched/pkgs/tdbcmysql1.1.0/tclconfig/tcl.m4
+--- tcl8.6.9/pkgs/tdbcmysql1.1.0/tclconfig/tcl.m4	2018-11-01 16:08:20.000000000 +0000
++++ tcl8.6.9-patched/pkgs/tdbcmysql1.1.0/tclconfig/tcl.m4	2019-10-15 10:19:47.195971200 +0000
+@@ -1599,7 +1599,11 @@
+ 	    ;;
+ 	IRIX64-6.*)
+ 	    SHLIB_CFLAGS=""
++	    AS_IF([test "$GCC" = yes], [
++	        SHLIB_LD="ld -shared"
++	    ], [
+ 	    SHLIB_LD="ld -n32 -shared -rdata_shared"
++	    ])
+ 	    SHLIB_SUFFIX=".so"
+ 	    AS_IF([test $doRpath = yes], [
+ 		CC_SEARCH_FLAGS='-Wl,-rpath,${LIB_RUNTIME_DIR}'
+diff -r -u -w tcl8.6.9/pkgs/tdbcodbc1.1.0/tclconfig/tcl.m4 tcl8.6.9-patched/pkgs/tdbcodbc1.1.0/tclconfig/tcl.m4
+--- tcl8.6.9/pkgs/tdbcodbc1.1.0/tclconfig/tcl.m4	2018-11-01 16:09:16.000000000 +0000
++++ tcl8.6.9-patched/pkgs/tdbcodbc1.1.0/tclconfig/tcl.m4	2019-10-15 10:20:04.490157000 +0000
+@@ -1599,7 +1599,11 @@
+ 	    ;;
+ 	IRIX64-6.*)
+ 	    SHLIB_CFLAGS=""
++	    AS_IF([test "$GCC" = yes], [
++	        SHLIB_LD="ld -shared"
++	    ], [
+ 	    SHLIB_LD="ld -n32 -shared -rdata_shared"
++	    ])
+ 	    SHLIB_SUFFIX=".so"
+ 	    AS_IF([test $doRpath = yes], [
+ 		CC_SEARCH_FLAGS='-Wl,-rpath,${LIB_RUNTIME_DIR}'
+diff -r -u -w tcl8.6.9/pkgs/tdbcpostgres1.1.0/tclconfig/tcl.m4 tcl8.6.9-patched/pkgs/tdbcpostgres1.1.0/tclconfig/tcl.m4
+--- tcl8.6.9/pkgs/tdbcpostgres1.1.0/tclconfig/tcl.m4	2018-11-01 16:09:45.000000000 +0000
++++ tcl8.6.9-patched/pkgs/tdbcpostgres1.1.0/tclconfig/tcl.m4	2019-10-15 10:21:21.057813040 +0000
+@@ -1599,7 +1599,11 @@
+ 	    ;;
+ 	IRIX64-6.*)
+ 	    SHLIB_CFLAGS=""
++	    AS_IF([test "$GCC" = yes], [
++	        SHLIB_LD="ld -shared"
++	    ], [
+ 	    SHLIB_LD="ld -n32 -shared -rdata_shared"
++	    ])
+ 	    SHLIB_SUFFIX=".so"
+ 	    AS_IF([test $doRpath = yes], [
+ 		CC_SEARCH_FLAGS='-Wl,-rpath,${LIB_RUNTIME_DIR}'
+diff -r -u -w tcl8.6.9/pkgs/tdbcsqlite3-1.1.0/tclconfig/tcl.m4 tcl8.6.9-patched/pkgs/tdbcsqlite3-1.1.0/tclconfig/tcl.m4
+--- tcl8.6.9/pkgs/tdbcsqlite3-1.1.0/tclconfig/tcl.m4	2018-11-01 16:10:23.000000000 +0000
++++ tcl8.6.9-patched/pkgs/tdbcsqlite3-1.1.0/tclconfig/tcl.m4	2019-10-15 10:20:43.793547640 +0000
+@@ -1599,7 +1599,11 @@
+ 	    ;;
+ 	IRIX64-6.*)
+ 	    SHLIB_CFLAGS=""
++	    AS_IF([test "$GCC" = yes], [
++	        SHLIB_LD="ld -shared"
++	    ], [
+ 	    SHLIB_LD="ld -n32 -shared -rdata_shared"
++	    ])
+ 	    SHLIB_SUFFIX=".so"
+ 	    AS_IF([test $doRpath = yes], [
+ 		CC_SEARCH_FLAGS='-Wl,-rpath,${LIB_RUNTIME_DIR}'
+diff -r -u -w tcl8.6.9/pkgs/thread2.8.4/tclconfig/tcl.m4 tcl8.6.9-patched/pkgs/thread2.8.4/tclconfig/tcl.m4
+--- tcl8.6.9/pkgs/thread2.8.4/tclconfig/tcl.m4	2018-11-01 16:11:01.000000000 +0000
++++ tcl8.6.9-patched/pkgs/thread2.8.4/tclconfig/tcl.m4	2019-10-15 10:18:48.205778200 +0000
+@@ -1599,7 +1599,11 @@
+ 	    ;;
+ 	IRIX64-6.*)
+ 	    SHLIB_CFLAGS=""
++	    AS_IF([test "$GCC" = yes], [
++	        SHLIB_LD="ld -shared"
++	    ], [
+ 	    SHLIB_LD="ld -n32 -shared -rdata_shared"
++	    ])
+ 	    SHLIB_SUFFIX=".so"
+ 	    AS_IF([test $doRpath = yes], [
+ 		CC_SEARCH_FLAGS='-Wl,-rpath,${LIB_RUNTIME_DIR}'
+diff -r -u -w tcl8.6.9/unix/tcl.m4 tcl8.6.9-patched/unix/tcl.m4
+--- tcl8.6.9/unix/tcl.m4	2018-11-16 19:01:52.000000000 +0000
++++ tcl8.6.9-patched/unix/tcl.m4	2019-10-15 10:17:17.097151520 +0000
+@@ -1375,7 +1375,11 @@
+ 	    ;;
+ 	IRIX64-6.*)
+ 	    SHLIB_CFLAGS=""
++	    AS_IF([test "$GCC" = yes], [
++	        SHLIB_LD="ld -shared"
++	    ], [
+ 	    SHLIB_LD="ld -n32 -shared -rdata_shared"
++	    ])
+ 	    SHLIB_SUFFIX=".so"
+ 	    DL_OBJS="tclLoadDl.o"
+ 	    DL_LIBS=""

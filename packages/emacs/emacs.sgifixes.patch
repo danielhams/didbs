@@ -1,0 +1,15 @@
+diff -r -u -w emacs-23.3/lib-src/fakemail.c emacs-23.3-patched/lib-src/fakemail.c
+--- emacs-23.3/lib-src/fakemail.c	2011-11-26 03:20:20.000000000 +0000
++++ emacs-23.3-patched/lib-src/fakemail.c	2019-10-14 21:12:28.625647000 +0000
+@@ -23,6 +23,11 @@
+ 
+ #define _XOPEN_SOURCE 500	/* for cuserid */
+ 
++#if defined(__sgi)
++#include <stdio.h>
++#include <unistd.h>
++#endif
++
+ #ifdef HAVE_CONFIG_H
+ #include <config.h>
+ #endif

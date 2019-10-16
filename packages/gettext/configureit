@@ -11,5 +11,10 @@ cd $BUILDDIR || exit -1
 #autoreconf
 mkdir ../build-gettext
 cd ../build-gettext
-$BUILDDIR/configure ac_cv_header_stdbool_h=no ac_cv_type__Bool=no --prefix=$INSTALLDIR --libdir=$INSTALLDIR/$DIDBS_LIBDIR --disable-openmp || exit -1
+if [ "ne$CC" == "negcc" ]; then
+    $BUILDDIR/configure --prefix=$INSTALLDIR --libdir=$INSTALLDIR/$DIDBS_LIBDIR --disable-openmp || exit -1
+else
+    $BUILDDIR/configure ac_cv_header_stdbool_h=no ac_cv_type__Bool=no --prefix=$INSTALLDIR --libdir=$INSTALLDIR/$DIDBS_LIBDIR --disable-openmp || exit -1
+fi
+
 exit 0

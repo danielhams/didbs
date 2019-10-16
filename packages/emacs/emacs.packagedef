@@ -3,6 +3,8 @@ packageFile=emacs-23.3b.tar.gz
 packageChecksum=f2bfd8eab7e3b34a0f7f09acc0667e71
 packageExtraction=tarxfsystemhelper.sh
 packageDir=emacs-23.3
+packagePatch=emacs.sgifixes.patch
+
 expectedToolList=
 dependenciesList=make,tar,gzip,diffutils,grep,ncurses,libxpm,libjpeg,libpng,libtiff,libpng
 envModifs=setupenv.sh
@@ -10,3 +12,4 @@ configureRecipe=configureit
 buildRecipe=buildit
 installRecipe=installit
 passesChecksIndicator=1
+disabled=0

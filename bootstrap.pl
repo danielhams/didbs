@@ -479,12 +479,12 @@ else
     }
 
     if( $didbselfwidth eq "n32" ) {
-	$didbsarchcflags .= "-n32 ";
-	$didbsarchldflags .= "-n32 ";
+#	$didbsarchcflags .= "-n32 ";
+#	$didbsarchldflags .= "-n32 ";
 	$didbslibdir = "lib32";
     } elsif ( $didbselfwidth eq "n64" ) {
-	$didbsarchcflags .= "-64 ";
-	$didbsarchldflags .= "-64 ";
+#	$didbsarchcflags .= "-64 ";
+#	$didbsarchldflags .= "-64 ";
 	$didbslibdir = "lib64";
 	didbsprint "Error: 64 bit compile not yet supported\n";
 	exit(1);

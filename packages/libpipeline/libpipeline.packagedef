@@ -2,7 +2,7 @@ packageSource=http://download.savannah.nongnu.org/releases/libpipeline/libpipeli
 packageFile=libpipeline-1.5.1.tar.gz
 packageChecksum=4c8fe6cd85422baafd6e060f896c61bc
 packageDir=libpipeline-1.5.1
-#packagePatch=
+packagePatch=libpipeline.sgifixes.patch
 
 packageExtraction=tarxfsystemhelper.sh
 expectedToolList=

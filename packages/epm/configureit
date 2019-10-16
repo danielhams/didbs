@@ -12,5 +12,5 @@ cd $BUILDDIR || exit -1
 #mkdir -p ../build-epm
 #cd ../build-epm
 cp README.md README || exit
-$BUILDDIR/configure --prefix=$INSTALLDIR --libdir=$INSTALLDIR/$DIDBS_LIBDIR || exit -1
+ac_cv_path_STRIP="/usr/bin/strip" $BUILDDIR/configure --prefix=$INSTALLDIR --libdir=$INSTALLDIR/$DIDBS_LIBDIR || exit -1
 exit 0

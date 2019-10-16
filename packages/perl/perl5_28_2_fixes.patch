@@ -1,6 +1,18 @@
-diff -u -r -w perl-5.28.2/cpan/Test-Simple/t/Test2/behavior/ipc_wait_timeout.t perl-5.28.2-patched/cpan/Test-Simple/t/Test2/behavior/ipc_wait_timeout.t
---- perl-5.28.2/cpan/Test-Simple/t/Test2/behavior/ipc_wait_timeout.t	2018-11-01 22:07:37.000000000 +0000
-+++ perl-5.28.2-patched/cpan/Test-Simple/t/Test2/behavior/ipc_wait_timeout.t	2019-05-03 08:25:42.647339040 +0000
+diff -r -u -w perl-5.28.2/cflags.SH perl-5.28.2-patched/cflags.SH
+--- perl-5.28.2/cflags.SH	Thu Nov  1 22:07:21 2018
++++ perl-5.28.2-patched/cflags.SH	Sun Oct 13 13:39:54 2019
+@@ -178,7 +178,7 @@
+ # -std=c89 before -ansi
+ # -pedantic* before -Werror=d-a-s
+ #
+-*)  for opt in -std=c89 -ansi $pedantic \
++*)  for opt in -std=c99 -ansi $pedantic \
+ 		-Werror=declaration-after-statement \
+ 	        -Werror=pointer-arith \
+ 		-Wextra -W \
+diff -r -u -w perl-5.28.2/cpan/Test-Simple/t/Test2/behavior/ipc_wait_timeout.t perl-5.28.2-patched/cpan/Test-Simple/t/Test2/behavior/ipc_wait_timeout.t
+--- perl-5.28.2/cpan/Test-Simple/t/Test2/behavior/ipc_wait_timeout.t	Thu Nov  1 22:07:37 2018
++++ perl-5.28.2-patched/cpan/Test-Simple/t/Test2/behavior/ipc_wait_timeout.t	Sun Oct 13 13:40:03 2019
 @@ -8,7 +8,7 @@
  END { $? = 0 if $ENV{HARNESS_ACTIVE} }
  
@@ -32,14 +44,26 @@ diff -u -r -w perl-5.28.2/cpan/Test-Simple/t/Test2/behavior/ipc_wait_timeout.t p
 +    close($tpiper);
 +    note "All closed";
  }
-diff -u -r -w perl-5.28.2/perl.h perl-5.28.2-patched/perl.h
---- perl-5.28.2/perl.h	2018-11-01 22:07:55.000000000 +0000
-+++ perl-5.28.2-patched/perl.h	2019-05-03 08:25:05.513499320 +0000
+diff -r -u -w perl-5.28.2/dist/Storable/stacksize perl-5.28.2-patched/dist/Storable/stacksize
+--- perl-5.28.2/dist/Storable/stacksize	Tue Apr  2 21:36:35 2019
++++ perl-5.28.2-patched/dist/Storable/stacksize	Sun Oct 13 13:41:25 2019
+@@ -71,7 +71,7 @@
+     }
+     $PERL = "\"$PERL\"" if $PERL =~ / /;
+     if ($ldlib and $ldlib ne 'PATH') {
+-        $PERL = "$ldlib=$path $PERL";
++        $PERL = "$ldlib=$path:\$$ldlib $PERL";
+     }
+ }
+ 
+diff -r -u -w perl-5.28.2/perl.h perl-5.28.2-patched/perl.h
+--- perl-5.28.2/perl.h	Thu Nov  1 22:07:55 2018
++++ perl-5.28.2-patched/perl.h	Sun Oct 13 13:40:12 2019
 @@ -11,6 +11,13 @@
  #ifndef H_PERL
  #define H_PERL 1
  
-+#if defined(__sgi)
++#if defined(__sgi) && !defined(__GNUC__)
 +/*
 + * Stop the inclusion of an annoying header file under SGI
 + */
@@ -74,9 +98,35 @@ diff -u -r -w perl-5.28.2/perl.h perl-5.28.2-patched/perl.h
  /* On BSD-derived systems, <sys/param.h> defines BSD to a year-month
     value something like 199306.  This may be useful if no more-specific
     feature test is available.
-diff -u -r -w perl-5.28.2/t/thread_it.pl perl-5.28.2-patched/t/thread_it.pl
---- perl-5.28.2/t/thread_it.pl	2018-11-01 22:08:03.000000000 +0000
-+++ perl-5.28.2-patched/t/thread_it.pl	2019-05-03 08:25:10.329038720 +0000
+@@ -2005,7 +2023,11 @@
+ #       endif
+ #   endif
+ #   ifndef Perl_isinf
+-#       if defined(HAS_ISINF)
++#       if defined(HAS_ISINF) && defined(__sgi)
++#           define Perl_isinf(x) (sizeof(x) == sizeof(double) ? _isinf(x) \
++               : sizeof(x) == sizeof(float) ? _isinff(x) \
++               : _isinfl(x))
++#       elif defined(HAS_ISINF)
+ #           define Perl_isinf(x) isinf(x)
+ #       elif defined(DBL_MAX) && !defined(NAN_COMPARE_BROKEN)
+ #           define Perl_isinf(x) ((x) > DBL_MAX || (x) < -DBL_MAX)
+@@ -3836,7 +3858,11 @@
+ #define U_I(what) ((unsigned int)U_32(what))
+ #define U_L(what) U_32(what)
+ 
+-#ifdef HAS_SIGNBIT
++#if defined(HAS_SIGNBIT) && defined(__sgi)
++#  define Perl_signbit(x) (sizeof(x) == sizeof(double) ? _signbit(x) \
++               : sizeof(x) == sizeof(float) ? _signbitf(x) \
++               : _signbitl(x))
++#elif defined(HAS_SIGNBIT)
+ #  define Perl_signbit signbit
+ #endif
+ 
+diff -r -u -w perl-5.28.2/t/thread_it.pl perl-5.28.2-patched/t/thread_it.pl
+--- perl-5.28.2/t/thread_it.pl	Thu Nov  1 22:08:03 2018
++++ perl-5.28.2-patched/t/thread_it.pl	Sun Oct 13 13:40:14 2019
 @@ -36,6 +36,7 @@
                              stack_size => $^O eq 'hpux'   ? 524288 :
                                            $^O eq 'darwin' ? 2000000:

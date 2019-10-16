@@ -1,15 +1,15 @@
-diff -u -r -w openssl-1.1.1a/.travis-create-release.sh openssl-1.1.1a-patched/.travis-create-release.sh
+diff -r -u -w openssl-1.1.1a/.travis-create-release.sh openssl-1.1.1a-patched/.travis-create-release.sh
 --- openssl-1.1.1a/.travis-create-release.sh	2018-11-20 13:35:37.000000000 +0000
-+++ openssl-1.1.1a-patched/.travis-create-release.sh	2019-02-03 14:36:39.081625320 +0000
++++ openssl-1.1.1a-patched/.travis-create-release.sh	2019-02-03 14:15:06.675909600 +0000
 @@ -1,4 +1,4 @@
 -#! /bin/sh
 +#!/usr/bin/env bash
  
  # $1 is expected to be $TRAVIS_OS_NAME
  
-diff -u -r -w openssl-1.1.1a/CHANGES openssl-1.1.1a-patched/CHANGES
+diff -r -u -w openssl-1.1.1a/CHANGES openssl-1.1.1a-patched/CHANGES
 --- openssl-1.1.1a/CHANGES	2018-11-20 13:35:37.000000000 +0000
-+++ openssl-1.1.1a-patched/CHANGES	2019-02-03 14:36:39.136536120 +0000
++++ openssl-1.1.1a-patched/CHANGES	2019-02-03 14:15:06.730164560 +0000
 @@ -9351,7 +9351,7 @@
       [This change does not apply to 0.9.7.]
  
@@ -19,13 +19,23 @@ diff -u -r -w openssl-1.1.1a/CHANGES openssl-1.1.1a-patched/CHANGES
       For compatibility with Ultrix, avoid shell functions (introduced
       in the bctest version that searches along $PATH).
       [Bodo Moeller]
-diff -u -r -w openssl-1.1.1a/Configurations/10-main.conf openssl-1.1.1a-patched/Configurations/10-main.conf
+diff -r -u -w openssl-1.1.1a/Configurations/10-main.conf openssl-1.1.1a-patched/Configurations/10-main.conf
 --- openssl-1.1.1a/Configurations/10-main.conf	2018-11-20 13:35:37.000000000 +0000
-+++ openssl-1.1.1a-patched/Configurations/10-main.conf	2019-02-03 14:36:39.145102760 +0000
-@@ -390,6 +390,16 @@
++++ openssl-1.1.1a-patched/Configurations/10-main.conf	2019-02-03 14:15:25.826997640 +0000
+@@ -374,7 +374,7 @@
+         CC               => "gcc",
+         CFLAGS           => picker(debug   => "-g -O0",
+                                    release => "-O3"),
+         LDFLAGS          => "-static-libgcc",
+-        cflags           => "-mabi=n32",
++        cflags           => "-mabi=n32 -Wl,--unresolved-symbols=ignore-all",
+         bn_ops           => "RC4_CHAR SIXTY_FOUR_BIT",
+         perlasm_scheme   => "n32",
+@@ -389,6 +389,16 @@
+         bn_ops           => "RC4_CHAR SIXTY_FOUR_BIT",
          perlasm_scheme   => "n32",
          multilib         => "32",
-     },
++    },
 +    "irix-mips4-cc" => {
 +        inherit_from     => [ "irix-common", asm("mips64_asm") ],
 +        cc               => "c99",
@@ -35,13 +45,12 @@ diff -u -r -w openssl-1.1.1a/Configurations/10-main.conf openssl-1.1.1a-patched/
 +        bn_ops           => "RC4_CHAR SIXTY_FOUR_BIT",
 +        perlasm_scheme   => "n32",
 +        multilib         => "32",
-+    },
+     },
      # N64 ABI builds.
      "irix64-mips4-gcc" => {
-         inherit_from     => [ "irix-common", asm("mips64_asm") ],
-diff -u -r -w openssl-1.1.1a/Configurations/unix-Makefile.tmpl openssl-1.1.1a-patched/Configurations/unix-Makefile.tmpl
+diff -r -u -w openssl-1.1.1a/Configurations/unix-Makefile.tmpl openssl-1.1.1a-patched/Configurations/unix-Makefile.tmpl
 --- openssl-1.1.1a/Configurations/unix-Makefile.tmpl	2018-11-20 13:35:37.000000000 +0000
-+++ openssl-1.1.1a-patched/Configurations/unix-Makefile.tmpl	2019-02-03 14:36:39.150767080 +0000
++++ openssl-1.1.1a-patched/Configurations/unix-Makefile.tmpl	2019-02-03 14:15:06.744200880 +0000
 @@ -280,7 +280,7 @@
                            '$(CNF_CXXFLAGS)', '$(CXXFLAGS)') -}
  LIB_LDFLAGS={- join(' ', $target{shared_ldflag} || (),
@@ -60,18 +69,18 @@ diff -u -r -w openssl-1.1.1a/Configurations/unix-Makefile.tmpl openssl-1.1.1a-pa
  DSO_EX_LIBS=$(CNF_EX_LIBS) $(EX_LIBS)
  BIN_CPPFLAGS={- join(' ', $target{bin_cppflags} || (),
                            @{$config{bin_cppflags}},
-diff -u -r -w openssl-1.1.1a/config openssl-1.1.1a-patched/config
+diff -r -u -w openssl-1.1.1a/config openssl-1.1.1a-patched/config
 --- openssl-1.1.1a/config	2018-11-20 13:35:37.000000000 +0000
-+++ openssl-1.1.1a-patched/config	2019-02-03 14:36:39.154662680 +0000
++++ openssl-1.1.1a-patched/config	2019-02-03 14:15:06.747889520 +0000
 @@ -1,4 +1,4 @@
 -#!/bin/sh
 +#!/usr/bin/env bash
  # Copyright 1998-2018 The OpenSSL Project Authors. All Rights Reserved.
  #
  # Licensed under the OpenSSL license (the "License").  You may not use
-diff -u -r -w openssl-1.1.1a/crypto/sha/asm/sha256-586.pl openssl-1.1.1a-patched/crypto/sha/asm/sha256-586.pl
+diff -r -u -w openssl-1.1.1a/crypto/sha/asm/sha256-586.pl openssl-1.1.1a-patched/crypto/sha/asm/sha256-586.pl
 --- openssl-1.1.1a/crypto/sha/asm/sha256-586.pl	2018-11-20 13:35:38.000000000 +0000
-+++ openssl-1.1.1a-patched/crypto/sha/asm/sha256-586.pl	2019-02-03 14:36:39.155710440 +0000
++++ openssl-1.1.1a-patched/crypto/sha/asm/sha256-586.pl	2019-02-03 14:15:06.749156160 +0000
 @@ -1,1296 +0,0 @@
 -#! /usr/bin/env perl
 -# Copyright 2007-2018 The OpenSSL Project Authors. All Rights Reserved.
@@ -1369,27 +1378,27 @@ diff -u -r -w openssl-1.1.1a/crypto/sha/asm/sha256-586.pl openssl-1.1.1a-patched
 -&asm_finish();
 -
 -close STDOUT;
-diff -u -r -w openssl-1.1.1a/demos/certs/apps/mkacerts.sh openssl-1.1.1a-patched/demos/certs/apps/mkacerts.sh
+diff -r -u -w openssl-1.1.1a/demos/certs/apps/mkacerts.sh openssl-1.1.1a-patched/demos/certs/apps/mkacerts.sh
 --- openssl-1.1.1a/demos/certs/apps/mkacerts.sh	2018-11-20 13:35:39.000000000 +0000
-+++ openssl-1.1.1a-patched/demos/certs/apps/mkacerts.sh	2019-02-03 14:36:39.162128760 +0000
++++ openssl-1.1.1a-patched/demos/certs/apps/mkacerts.sh	2019-02-03 14:15:06.755638800 +0000
 @@ -1,4 +1,4 @@
 -#!/bin/sh
 +#!/usr/bin/env bash
  
  # Recreate the demo certificates in the apps directory.
  
-diff -u -r -w openssl-1.1.1a/demos/certs/mkcerts.sh openssl-1.1.1a-patched/demos/certs/mkcerts.sh
+diff -r -u -w openssl-1.1.1a/demos/certs/mkcerts.sh openssl-1.1.1a-patched/demos/certs/mkcerts.sh
 --- openssl-1.1.1a/demos/certs/mkcerts.sh	2018-11-20 13:35:39.000000000 +0000
-+++ openssl-1.1.1a-patched/demos/certs/mkcerts.sh	2019-02-03 14:36:39.165135880 +0000
++++ openssl-1.1.1a-patched/demos/certs/mkcerts.sh	2019-02-03 14:15:06.759055920 +0000
 @@ -1,4 +1,4 @@
 -#!/bin/sh
 +#!/usr/bin/env bash
  
  OPENSSL=../../apps/openssl
  OPENSSL_CONF=../../apps/openssl.cnf
-diff -u -r -w openssl-1.1.1a/doc/man3/OPENSSL_ia32cap.pod openssl-1.1.1a-patched/doc/man3/OPENSSL_ia32cap.pod
+diff -r -u -w openssl-1.1.1a/doc/man3/OPENSSL_ia32cap.pod openssl-1.1.1a-patched/doc/man3/OPENSSL_ia32cap.pod
 --- openssl-1.1.1a/doc/man3/OPENSSL_ia32cap.pod	2018-11-20 13:35:39.000000000 +0000
-+++ openssl-1.1.1a-patched/doc/man3/OPENSSL_ia32cap.pod	2019-02-03 14:36:39.166963480 +0000
++++ openssl-1.1.1a-patched/doc/man3/OPENSSL_ia32cap.pod	2019-02-03 14:15:06.761038720 +0000
 @@ -145,7 +145,7 @@
  in question. Till the limitation is lifted, it's possible to work around
  the problem by making build procedure use following script:
@@ -1399,9 +1408,9 @@ diff -u -r -w openssl-1.1.1a/doc/man3/OPENSSL_ia32cap.pod openssl-1.1.1a-patched
     exec clang -no-integrated-as "$@"
  
  instead of real clang. In which case it doesn't matter which clang
-diff -u -r -w openssl-1.1.1a/doc/man3/SSL_CTX_load_verify_locations.pod openssl-1.1.1a-patched/doc/man3/SSL_CTX_load_verify_locations.pod
+diff -r -u -w openssl-1.1.1a/doc/man3/SSL_CTX_load_verify_locations.pod openssl-1.1.1a-patched/doc/man3/SSL_CTX_load_verify_locations.pod
 --- openssl-1.1.1a/doc/man3/SSL_CTX_load_verify_locations.pod	2018-11-20 13:35:39.000000000 +0000
-+++ openssl-1.1.1a-patched/doc/man3/SSL_CTX_load_verify_locations.pod	2019-02-03 14:36:39.169391960 +0000
++++ openssl-1.1.1a-patched/doc/man3/SSL_CTX_load_verify_locations.pod	2019-02-03 14:15:06.763700320 +0000
 @@ -105,7 +105,7 @@
  Generate a CA certificate file with descriptive text from the CA certificates
  ca1.pem ca2.pem ca3.pem:
@@ -1411,18 +1420,18 @@ diff -u -r -w openssl-1.1.1a/doc/man3/SSL_CTX_load_verify_locations.pod openssl-
   rm CAfile.pem
   for i in ca1.pem ca2.pem ca3.pem ; do
       openssl x509 -in $i -text >> CAfile.pem
-diff -u -r -w openssl-1.1.1a/test/certs/setup.sh openssl-1.1.1a-patched/test/certs/setup.sh
+diff -r -u -w openssl-1.1.1a/test/certs/setup.sh openssl-1.1.1a-patched/test/certs/setup.sh
 --- openssl-1.1.1a/test/certs/setup.sh	2018-11-20 13:35:40.000000000 +0000
-+++ openssl-1.1.1a-patched/test/certs/setup.sh	2019-02-03 14:36:39.172941240 +0000
++++ openssl-1.1.1a-patched/test/certs/setup.sh	2019-02-03 14:15:06.766694080 +0000
 @@ -1,4 +1,4 @@
 -#! /bin/sh
 +#!/usr/bin/env bash
  
  # Primary root: root-cert
  # root cert variants: CA:false, key2, DN2
-diff -u -r -w openssl-1.1.1a/test/ct_test.c openssl-1.1.1a-patched/test/ct_test.c
+diff -r -u -w openssl-1.1.1a/test/ct_test.c openssl-1.1.1a-patched/test/ct_test.c
 --- openssl-1.1.1a/test/ct_test.c	2018-11-20 13:35:40.000000000 +0000
-+++ openssl-1.1.1a-patched/test/ct_test.c	2019-02-03 14:38:25.590612960 +0000
++++ openssl-1.1.1a-patched/test/ct_test.c	2019-02-03 14:15:06.769997440 +0000
 @@ -434,9 +434,7 @@
      return result;
  }
@@ -1443,9 +1452,9 @@ diff -u -r -w openssl-1.1.1a/test/ct_test.c openssl-1.1.1a-patched/test/ct_test.
      SETUP_CT_TEST_FIXTURE();
      if (fixture == NULL)
          return 0;
-diff -u -r -w openssl-1.1.1a/test/recipes/01-test_symbol_presence.t openssl-1.1.1a-patched/test/recipes/01-test_symbol_presence.t
+diff -r -u -w openssl-1.1.1a/test/recipes/01-test_symbol_presence.t openssl-1.1.1a-patched/test/recipes/01-test_symbol_presence.t
 --- openssl-1.1.1a/test/recipes/01-test_symbol_presence.t	2018-11-20 13:35:41.000000000 +0000
-+++ openssl-1.1.1a-patched/test/recipes/01-test_symbol_presence.t	2019-02-03 14:36:39.174865320 +0000
++++ openssl-1.1.1a-patched/test/recipes/01-test_symbol_presence.t	2019-02-03 14:15:06.771928080 +0000
 @@ -57,7 +57,7 @@
          note "Number of lines in \@def_lines before massaging: ", scalar @def_lines;
  
@@ -1455,63 +1464,63 @@ diff -u -r -w openssl-1.1.1a/test/recipes/01-test_symbol_presence.t openssl-1.1.
  
          # Massage the mkdef.pl output to only contain global symbols
          # The output we got is in Unix .map format, which has a global
-diff -u -r -w openssl-1.1.1a/test/recipes/95-test_external_krb5_data/krb5.sh openssl-1.1.1a-patched/test/recipes/95-test_external_krb5_data/krb5.sh
+diff -r -u -w openssl-1.1.1a/test/recipes/95-test_external_krb5_data/krb5.sh openssl-1.1.1a-patched/test/recipes/95-test_external_krb5_data/krb5.sh
 --- openssl-1.1.1a/test/recipes/95-test_external_krb5_data/krb5.sh	2018-11-20 13:35:41.000000000 +0000
-+++ openssl-1.1.1a-patched/test/recipes/95-test_external_krb5_data/krb5.sh	2019-02-03 14:36:39.176478040 +0000
++++ openssl-1.1.1a-patched/test/recipes/95-test_external_krb5_data/krb5.sh	2019-02-03 14:15:06.773548160 +0000
 @@ -1,4 +1,4 @@
 -#!/bin/sh -ex
 +#!/usr/bin/env bash -ex
  #
  # Copyright 2017 The OpenSSL Project Authors. All Rights Reserved.
  #
-diff -u -r -w openssl-1.1.1a/test/recipes/95-test_external_pyca_data/cryptography.sh openssl-1.1.1a-patched/test/recipes/95-test_external_pyca_data/cryptography.sh
+diff -r -u -w openssl-1.1.1a/test/recipes/95-test_external_pyca_data/cryptography.sh openssl-1.1.1a-patched/test/recipes/95-test_external_pyca_data/cryptography.sh
 --- openssl-1.1.1a/test/recipes/95-test_external_pyca_data/cryptography.sh	2018-11-20 13:35:41.000000000 +0000
-+++ openssl-1.1.1a-patched/test/recipes/95-test_external_pyca_data/cryptography.sh	2019-02-03 14:36:39.178015000 +0000
++++ openssl-1.1.1a-patched/test/recipes/95-test_external_pyca_data/cryptography.sh	2019-02-03 14:15:06.775132000 +0000
 @@ -1,4 +1,4 @@
 -#!/bin/sh
 +#!/usr/bin/env bash
  #
  # Copyright 2017 The OpenSSL Project Authors. All Rights Reserved.
  # Copyright (c) 2017, Oracle and/or its affiliates.  All rights reserved.
-diff -u -r -w openssl-1.1.1a/test/smime-certs/mksmime-certs.sh openssl-1.1.1a-patched/test/smime-certs/mksmime-certs.sh
+diff -r -u -w openssl-1.1.1a/test/smime-certs/mksmime-certs.sh openssl-1.1.1a-patched/test/smime-certs/mksmime-certs.sh
 --- openssl-1.1.1a/test/smime-certs/mksmime-certs.sh	2018-11-20 13:35:41.000000000 +0000
-+++ openssl-1.1.1a-patched/test/smime-certs/mksmime-certs.sh	2019-02-03 14:36:39.179518040 +0000
++++ openssl-1.1.1a-patched/test/smime-certs/mksmime-certs.sh	2019-02-03 14:15:06.776778400 +0000
 @@ -1,4 +1,4 @@
 -#!/bin/sh
 +#!/usr/bin/env bash
  # Copyright 2013-2016 The OpenSSL Project Authors. All Rights Reserved.
  #
  # Licensed under the OpenSSL license (the "License").  You may not use
-diff -u -r -w openssl-1.1.1a/util/check-malloc-errs openssl-1.1.1a-patched/util/check-malloc-errs
+diff -r -u -w openssl-1.1.1a/util/check-malloc-errs openssl-1.1.1a-patched/util/check-malloc-errs
 --- openssl-1.1.1a/util/check-malloc-errs	2018-11-20 13:35:42.000000000 +0000
-+++ openssl-1.1.1a-patched/util/check-malloc-errs	2019-02-03 14:36:39.180799080 +0000
++++ openssl-1.1.1a-patched/util/check-malloc-errs	2019-02-03 14:15:06.778210240 +0000
 @@ -1,4 +1,4 @@
 -#! /bin/sh
 +#!/usr/bin/env bash
  # Copyright 2018 The OpenSSL Project Authors. All Rights Reserved.
  #
  # Licensed under the OpenSSL license (the "License").  You may not use
-diff -u -r -w openssl-1.1.1a/util/openssl-format-source openssl-1.1.1a-patched/util/openssl-format-source
+diff -r -u -w openssl-1.1.1a/util/openssl-format-source openssl-1.1.1a-patched/util/openssl-format-source
 --- openssl-1.1.1a/util/openssl-format-source	2018-11-20 13:35:42.000000000 +0000
-+++ openssl-1.1.1a-patched/util/openssl-format-source	2019-02-03 14:36:39.182397720 +0000
++++ openssl-1.1.1a-patched/util/openssl-format-source	2019-02-03 14:15:06.780086640 +0000
 @@ -1,4 +1,4 @@
 -#!/bin/sh
 +#!/usr/bin/env bash
  #
  # Copyright 2015-2016 The OpenSSL Project Authors. All Rights Reserved.
  #
-diff -u -r -w openssl-1.1.1a/util/opensslwrap.sh openssl-1.1.1a-patched/util/opensslwrap.sh
+diff -r -u -w openssl-1.1.1a/util/opensslwrap.sh openssl-1.1.1a-patched/util/opensslwrap.sh
 --- openssl-1.1.1a/util/opensslwrap.sh	2018-11-20 13:35:42.000000000 +0000
-+++ openssl-1.1.1a-patched/util/opensslwrap.sh	2019-02-03 14:36:39.183713880 +0000
++++ openssl-1.1.1a-patched/util/opensslwrap.sh	2019-02-03 14:15:06.781519120 +0000
 @@ -1,4 +1,4 @@
 -#!/bin/sh
 +#!/usr/bin/env bash
  
  HERE="`echo $0 | sed -e 's|[^/]*$||'`"
  OPENSSL="${HERE}../apps/openssl"
-diff -u -r -w openssl-1.1.1a/util/shlib_wrap.sh.in openssl-1.1.1a-patched/util/shlib_wrap.sh.in
+diff -r -u -w openssl-1.1.1a/util/shlib_wrap.sh.in openssl-1.1.1a-patched/util/shlib_wrap.sh.in
 --- openssl-1.1.1a/util/shlib_wrap.sh.in	2018-11-20 13:35:42.000000000 +0000
-+++ openssl-1.1.1a-patched/util/shlib_wrap.sh.in	2019-02-03 14:36:39.185703000 +0000
++++ openssl-1.1.1a-patched/util/shlib_wrap.sh.in	2019-02-03 14:15:06.783333120 +0000
 @@ -1,4 +1,4 @@
 -#!/bin/sh
 +#!/usr/bin/env bash

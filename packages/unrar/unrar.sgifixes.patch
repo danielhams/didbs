@@ -1,6 +1,6 @@
 diff -r -u -w unrar/makefile unrar-patched/makefile
 --- unrar/makefile	2017-11-22 06:53:39.000000000 +0000
-+++ unrar-patched/makefile	2018-09-03 18:45:35.032526320 +0000
++++ unrar-patched/makefile	2019-10-14 23:13:57.613515760 +0000
 @@ -2,14 +2,14 @@
  # Makefile for UNIX - unrar
  
@@ -43,9 +43,23 @@ diff -r -u -w unrar/makefile unrar-patched/makefile
  
  # AIX using xlC (IBM VisualAge C++ 5.0)
  #CXX=xlC
+diff -r -u -w unrar/rar.hpp unrar-patched/rar.hpp
+--- unrar/rar.hpp	2018-06-24 16:10:31.000000000 +0000
++++ unrar-patched/rar.hpp	2019-10-14 23:14:28.479315320 +0000
+@@ -1,6 +1,10 @@
+ #ifndef _RAR_RARCOMMON_
+ #define _RAR_RARCOMMON_
+ 
++#if defined(__sgi)
++#include <cstdlib>
++#endif
++
+ #include "raros.hpp"
+ #include "rartypes.hpp"
+ #include "os.hpp"
 diff -r -u -w unrar/rartypes.hpp unrar-patched/rartypes.hpp
 --- unrar/rartypes.hpp	2018-06-24 16:10:31.000000000 +0000
-+++ unrar-patched/rartypes.hpp	2018-09-03 18:45:35.035511600 +0000
++++ unrar-patched/rartypes.hpp	2019-10-14 23:13:57.615224240 +0000
 @@ -1,7 +1,9 @@
  #ifndef _RAR_TYPES_
  #define _RAR_TYPES_

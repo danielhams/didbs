@@ -7,10 +7,25 @@ echo $BUILDDIR
 echo $INSTALLDIR
 echo $EXTRAARGS
 . ./setupenv.sh
-cd $BUILDDIR/pkgs/sqlite3.25.3 || exit -1
-autoreconf || exit -1
 cd $BUILDDIR/unix || exit -1
 autoreconf || exit -1
+cd $BUILDDIR/pkgs/thread2.8.4 || exit -1
+autoreconf || exit -1
+cd $BUILDDIR/pkgs/itcl4.1.2 || exit -1
+autoreconf || exit -1
+cd $BUILDDIR/pkgs/tdbcmysql1.1.0 || exit -1
+autoreconf || exit -1
+cd $BUILDDIR/pkgs/tdbcodbc1.1.0 || exit -1
+autoreconf || exit -1
+cd $BUILDDIR/pkgs/tdbc1.1.0 || exit -1
+autoreconf || exit -1
+cd $BUILDDIR/pkgs/tdbcsqlite3-1.1.0 || exit -1
+autoreconf || exit -1
+cd $BUILDDIR/pkgs/sqlite3.25.3 || exit -1
+autoreconf || exit -1
+cd $BUILDDIR/pkgs/tdbcpostgres1.1.0 || exit -1
+autoreconf || exit -1
+cd $BUILDDIR/unix || exit -1
 export tcl_cv_cc_visibility_hidden=no
 ./configure tcl_cv_cc_visibility_hidden=no --prefix=$INSTALLDIR --libdir=$INSTALLDIR/$DIDBS_LIBDIR --disable-silent-rules --with-system-sqlite || exit -1
 exit 0

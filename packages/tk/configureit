@@ -7,9 +7,7 @@ echo $BUILDDIR
 echo $INSTALLDIR
 echo $EXTRAARGS
 . ./setupenv.sh
-#cd $BUILDDIR/pkgs/sqlite3.25.3 || exit -1
-#autoreconf || exit -1
 cd $BUILDDIR/unix || exit -1
-#autoreconf || exit -1
+autoreconf || exit -1
 ./configure --prefix=$INSTALLDIR --libdir=$INSTALLDIR/$DIDBS_LIBDIR --disable-silent-rules --with-system-sqlite || exit -1
 exit 0
