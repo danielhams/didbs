@@ -14,4 +14,5 @@ configureRecipe=configureit
 buildRecipe=buildit
 installRecipe=installit
 passesChecksIndicator=1
-disabled=1
+disabled=0
+compilers=gcc

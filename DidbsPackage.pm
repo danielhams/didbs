@@ -48,6 +48,7 @@ sub debug
 	didbsprint " installRecipe:        \t=> ".$self->{installRecipe}."\n";
 	didbsprint " passesChecksIndicator:\t=> ".$self->{passesChecksIndicator}."\n";
 	didbsprint " disabled              \t=> ".$self->{disabled}."\n";
+	didbsprint " compilers             \t=> ".$self->{compilers}."\n";
 	didbsprint " sequenceNo:           \t=> ".$self->{sequenceNo}."\n";
     }
 }
@@ -94,6 +95,12 @@ sub readPackageDef
     $self->{installRecipe} = $values{"installRecipe"};
     $self->{passesChecksIndicator} = $values{"passesChecksIndicator"};
     $self->{disabled} = $values{"disabled"};
+    $self->{compilers} = $values{"compilers"};
+
+    if( length($self->{compilers}) == 0 )
+    {
+	die "Package $self->{packageId} has no defined compilers!\n";
+    }
 
     if( length($self->{configureRecipe}) == 0
 	||

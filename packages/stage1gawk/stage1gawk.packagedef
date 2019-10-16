@@ -16,3 +16,4 @@ configureRecipe=configureit
 buildRecipe=buildit
 installRecipe=installit
 passesChecksIndicator=1
+compilers=mipspro,gcc

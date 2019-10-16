@@ -19,3 +19,4 @@ buildRecipe=buildit
 installRecipe=installit
 passesChecksIndicator=1
 lib32lib64fixneeded=1
+compilers=mipspro,gcc

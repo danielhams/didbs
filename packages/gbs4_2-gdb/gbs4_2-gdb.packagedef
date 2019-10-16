@@ -27,3 +27,4 @@ installRecipe=installit
 # Kind of passes, enough for now, anyway
 passesChecksIndicator=1
 disabled=0
+compilers=mipspro,gcc

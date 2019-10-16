@@ -18,3 +18,4 @@ buildRecipe=buildit
 installRecipe=installit
 passesChecksIndicator=1
 disabled=0
+compilers=mipspro,gcc
