@@ -1,9 +1,9 @@
-#!/usr/bin/perl
+#!/usr/didbs/current/bin/perl
 use File::Basename qw/basename/;
 use FindBin;
 use lib ".";
 use lib "..";
-use lib "$FindBin::Bin/../lib";
+#use lib "$FindBin::Bin/../lib";
 
 # Packages specific to the tooling
 use DidbsStageChecker;
@@ -42,13 +42,24 @@ sub doTheChange {
 
     $verbose && didbsprint "Apply bulk transform for package '$pkgid'...\n";
     $verbose && didbsprint "in dir $packageDir with def file $packageDefFile\n";
+    didbsprint "in dir $packageDir with def file $packageDefFile\n";
+    # Example operation
+#    my $cmd = "echo 'compilers=mipspro,gcc' >>$packageDefFile";
+#    didbsprint "Would execute $cmd\n";
+#    system($cmd) && die $_;
 }
 
 my $scriptLocation = "..";
-my $packageDefsDir = "../packages";
+
+# For stage0
+#my $packageDefsDir = "../packages/stage0";
+#$ENV{"DIDBS_STAGE"} = "STAGE0";
+
+# For stage1 + regular
+my $packageDefsDir = "../packages/stage0";
 
 my $stageChecker = DidbsStageChecker->new( $scriptLocation,
-					   $packageDir,
+					   $packageDefsDir,
 					   "/tmp/builddir",
 					   "/tmp/installdir" );
 $stageChecker->modifyPathForCurrentStage();
