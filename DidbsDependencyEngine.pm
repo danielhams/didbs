@@ -9,11 +9,12 @@ sub new
     $self->{v} = $verbose;
     my $scriptLocation = shift;
     my $packageDefsDir = shift;
+    my $didbsCompiler = shift;
 
     $self->{scriptLocation} = $scriptLocation;
     $self->{packageDefsDir} = $packageDefsDir;
 
-    $self->findPackages();
+    $self->findPackages($didbsCompiler);
 
     return $self;
 }
@@ -21,6 +22,7 @@ sub new
 sub findPackages
 {
     my $self = shift;
+    my $didbsCompiler = shift;
     my $packageLocation = "$self->{packageDefsDir}";
     if( ! -e $packageLocation )
     {
@@ -53,7 +55,7 @@ sub findPackages
 	$dpkg->readPackageDef($self->{scriptLocation},
 	    $packageLocation);
 	$dpkg->debug();
-	if( ! $dpkg->{disabled} )
+	if( (!$dpkg->{disabled}) && index($dpkg->{compilers}, $didbsCompiler) != -1 )
 	{
 	    push(@knownPackages, \$dpkg);
 	}

@@ -548,7 +548,8 @@ my $packageDefsDir = $stageChecker->getStageAdjustedPackageDefDir();
 
 my $pkgDependencyEngine = DidbsDependencyEngine->new($verbose,
 						     $scriptLocation,
-						     $packageDefsDir);
+						     $packageDefsDir,
+						     $didbscompiler);
 
 my $foundPackagesRef = $pkgDependencyEngine->listPackages();
 my $p2pRef = $pkgDependencyEngine->getPackageMap();
