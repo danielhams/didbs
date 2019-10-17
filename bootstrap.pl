@@ -496,6 +496,11 @@ else
 
     $ENV{"DIDBS_CC"}=$ENV{"DIDBS_GCC_CC"};
     $ENV{"DIDBS_CXX"}=$ENV{"DIDBS_GCC_CXX"};
+
+    # Add in additional paths needed for GCC tooling
+    $ENV{"PATH"}=$ENV{"DIDBS_GCC_PATH"}.":".$ENV{"PATH"};
+    $ENV{"LD_LIBRARYN32_PATH"}=$ENV{"DIDBS_GCC_LD_LIBRARYN32_PATH"}.":".$ENV{"LD_LIBRARYN32_PATH"};
+    $ENV{"LD_LIBRARYN64_PATH"}=$ENV{"DIDBS_GCC_LD_LIBRARYN64_PATH"}.":".$ENV{"LD_LIBRARYN64_PATH"};
 }
 
 $ENV{"DIDBS_ARCH_CFLAGS"} = $didbsarchcflags;
