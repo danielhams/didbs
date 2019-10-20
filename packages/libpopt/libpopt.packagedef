@@ -6,7 +6,7 @@ packageDir=popt-1.16
 
 packageExtraction=tarxfsystemhelper.sh
 expectedToolList=
-dependenciesList=make,tar,gzip,gbs9_1-gcc9
+dependenciesList=make,tar,gzip,gbs9_1-gcc9,libdicl
 envModifs=setupenv.sh
 configureRecipe=configureit
 buildRecipe=buildit

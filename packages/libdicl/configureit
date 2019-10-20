@@ -8,11 +8,5 @@ echo $INSTALLDIR
 echo $EXTRAARGS
 . ./setupenv.sh
 cd $BUILDDIR || exit -1
-mkdir ../build-libdicl
-cd ../build-libdicl
-# Ugly git clone to use head
-git clone https://github.com/danielhams/dicl.git
-cd dicl/libdicl
-./bootstrap || exit -1
-./configure --prefix=$INSTALLDIR --libdir=$INSTALLDIR/$DIDBS_LIBDIR || exit -1
+$BUILDDIR/configure --prefix=$INSTALLDIR --libdir=$INSTALLDIR/$DIDBS_LIBDIR || exit -1
 exit 0

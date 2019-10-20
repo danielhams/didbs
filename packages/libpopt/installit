@@ -11,8 +11,7 @@ cd $BUILDDIR || exit -1
 cd ../build-popt
 make install || exit -1
 # Argh, it installs the pkgconfig file in the wrong place...
-cd $RPM_INSTALL_DIR || exit -1
-mkdir -p lib32 || exit -1
+cd $INSTALLDIR || exit -1
 cp -r lib/pkgconfig lib32/ || exit -1
 rm -rf ./lib || exit -1
 exit 0
