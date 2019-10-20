@@ -50,3 +50,6 @@ core
 
 # auto-generated dependencies files
 deps.*
+
+# user env overrides
+overrideenv.vars

@@ -105,6 +105,35 @@ sub getdefaultenv
     return %values;
 }
 
+sub getoverrideenv
+{
+    my $scriptdir = shift;
+    my $overridefile = $scriptdir."overrideenv.vars";
+    if( -e $overridefile ) {
+	open CFG, "<".$scriptdir."overrideenv.vars" || die $!;
+	my @envvars = <CFG>;
+	close CFG;
+
+	my %values;
+	foreach (@envvars) {
+	    chomp;
+	    s|#.+||;
+	    s|@(.+?)@|$1|g;
+            # this eats values with spaces in there....
+#	    s|\s||;
+	    next if $_ eq "";
+	    my $firstEqualPos = index($_,"=");
+	    my $key = substr($_, 0, $firstEqualPos);
+	    my $val = substr($_, $firstEqualPos+1);
+#	    print "Found $key->$val\n";
+	    $values{$key} = $val;
+	}
+#	exit -1;
+	return %values;
+    }
+    return {};
+}
+
 sub usage
 {
     my $error = shift;
@@ -423,6 +452,14 @@ my $didbsenvhash=DidbsPackageHasher::calculateEnvHash(
     $didbselfwidth,
     $didbsisa,
     $didbscompiler );
+
+my(%envvars) = getoverrideenv($DIR);
+foreach $var (keys %envvars)
+{
+    my $val = $envvars{$var};
+    $verbose && didbsprint " override of $var=$val\n";
+    $ENV{$var} = $val;
+}
 
 # And set up the necessary env vars computed from
 # the elfwidth,isa and compiler

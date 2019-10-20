@@ -37,8 +37,8 @@ Suggested approach:
 * (Setup paths to include the bin and lib32 of the above)
 * cd ~; git clone https://github.com/danielhams/didbs.git
 * cd ~/didbs
-* nedit defaultenv.vars
-* Set the DIDBS_JOBS to CPU+1, or just one if RAM is < 512Mb, save, exit
+* echo "DIDBS_JOBS=N" >overrideenv.vars
+* For above, set the DIDBS_JOBS to CPU+1, or just one if RAM is < 512Mb
 * ./bootstrap.pl -p /usr/didbs/0_1_package -b /usr/didbs/0_*_*_n32_mips3_mp_build -i /usr/didbs/0_*_*_n32_mips3_mp -e n32 -a mips3 -c mipspro # (replace * - this sets up paths)
 * ./bootstrap.pl # (This builds the stage1 then release packages)
 ```
