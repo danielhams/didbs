@@ -1,6 +1,94 @@
+diff -N -r -u -w rpm-4.15.0/lib/rpmfi.c rpm-4.15.0-patched/lib/rpmfi.c
+--- rpm-4.15.0/lib/rpmfi.c	2019-06-26 15:17:31.413985000 +0000
++++ rpm-4.15.0-patched/lib/rpmfi.c	2019-10-20 23:15:26.772450000 +0000
+@@ -1357,6 +1357,21 @@
+ 
+ /* Get file data from header */
+ /* Requires totalfc to be set and label err: to goto on error */
++#if defined(__sgi)
++#define _hgfi(_h, _tag, _td, _flags, _data) \
++    if (headerGet((_h), (_tag), (_td), (_flags))) { \
++	if (rpmtdCount(_td) != totalfc) { \
++	    rpmlog(RPMLOG_ERR, _("Wrong number of entries for tag %s: %u found but %u expected.\n"), rpmTagGetName(_tag), rpmtdCount(_td), totalfc); \
++	    goto err; \
++	} \
++	if (rpmTagGetTagType(_tag) != RPM_STRING_ARRAY_TYPE && rpmTagGetTagType(_tag) != RPM_I18NSTRING_TYPE && \
++	    (_td)->size < totalfc * sizeof(*(_data))) {		\
++	    rpmlog(RPMLOG_ERR, _("Malformed data for tag %s: %u bytes found but %u expected.\n"), rpmTagGetName(_tag), (_td)->size, totalfc * sizeof(*(_data))); \
++	    goto err;				\
++	} \
++	_data = ((_td)->data); \
++    }
++#else
+ #define _hgfi(_h, _tag, _td, _flags, _data) \
+     if (headerGet((_h), (_tag), (_td), (_flags))) { \
+ 	if (rpmtdCount(_td) != totalfc) { \
+@@ -1370,6 +1385,7 @@
+ 	} \
+ 	_data = ((_td)->data); \
+     }
++#endif
+ /* Get file data from header without checking number of entries */
+ #define _hgfinc(_h, _tag, _td, _flags, _data) \
+     if (headerGet((_h), (_tag), (_td), (_flags))) {\
+diff -N -r -u -w rpm-4.15.0/lib/rpmrc.c rpm-4.15.0-patched/lib/rpmrc.c
+--- rpm-4.15.0/lib/rpmrc.c	2019-06-26 15:17:31.416985000 +0000
++++ rpm-4.15.0-patched/lib/rpmrc.c	2019-10-20 23:15:26.778908080 +0000
+@@ -1041,6 +1041,10 @@
+ 	    strcpy(un.machine, __power_pc() ? "ppc" : "rs6000");
+ 	    sprintf(un.sysname,"aix%s.%s", un.version, un.release);
+ 	}
++	else if (rstreq(un.sysname, "IRIX")) {
++	    /*make un.sysname look like irix6.5 for example*/
++	    sprintf(un.sysname, "irix%s", strpbrk(un.release, "123456789"));
++	}
+ 	else if (rstreq(un.sysname, "Darwin")) { 
+ #if defined(__ppc__)
+ 	    strcpy(un.machine, "ppc");
+@@ -1048,7 +1052,7 @@
+ 	    strcpy(un.machine, "i386");
+ #elif defined(__x86_64__)
+ 	    strcpy(un.machine, "x86_64");
+-#else
++#elif !defined(__sgi)
+ 	    #warning "No architecture defined! Automatic detection may not work!"
+ #endif 
+ 	}
+diff -N -r -u -w rpm-4.15.0/lib/rpmscript.c rpm-4.15.0-patched/lib/rpmscript.c
+--- rpm-4.15.0/lib/rpmscript.c	2019-06-26 15:17:31.416985000 +0000
++++ rpm-4.15.0-patched/lib/rpmscript.c	2019-10-20 23:15:26.782116800 +0000
+@@ -370,8 +370,13 @@
+ 	   sname, (unsigned)pid, (unsigned)reaped, status);
+ 
+     if (reaped < 0) {
++#if defined(__sgi)
++	rpmlog(lvl, _("%s scriptlet failed, waitpid(%ld) rc %ld: %s\n"),
++		 sname, pid, reaped, strerror(errno));
++#else
+ 	rpmlog(lvl, _("%s scriptlet failed, waitpid(%d) rc %d: %s\n"),
+ 		 sname, pid, reaped, strerror(errno));
++#endif
+     } else if (!WIFEXITED(status) || WEXITSTATUS(status)) {
+       	if (WIFSIGNALED(status)) {
+ 	    rpmlog(lvl, _("%s scriptlet failed, signal %d\n"),
+diff -N -r -u -w rpm-4.15.0/lib/transaction.c rpm-4.15.0-patched/lib/transaction.c
+--- rpm-4.15.0/lib/transaction.c	2019-09-09 08:56:53.270788000 +0000
++++ rpm-4.15.0-patched/lib/transaction.c	2019-10-20 23:15:26.788421840 +0000
+@@ -1311,7 +1311,11 @@
+ 
+     /* The ordering doesn't matter here */
+     /* XXX Only added packages need be checked. */
++#if defined(__sgi)
++    rpmlog(RPMLOG_DEBUG, "sanity checking %llu elements\n", npkgs);
++#else
+     rpmlog(RPMLOG_DEBUG, "sanity checking %lu elements\n", npkgs);
++#endif
+     pi = rpmtsiInit(ts);
+     while ((p = rpmtsiNext(pi, TR_ADDED)) != NULL) {
+ 
 diff -N -r -u -w rpm-4.15.0/misc/fts.c rpm-4.15.0-patched/misc/fts.c
 --- rpm-4.15.0/misc/fts.c	2019-06-26 15:17:31.420985000 +0000
-+++ rpm-4.15.0-patched/misc/fts.c	2019-10-04 09:12:11.801166480 +0000
++++ rpm-4.15.0-patched/misc/fts.c	2019-10-20 23:15:26.792901600 +0000
 @@ -51,6 +51,12 @@
  #else
  
@@ -16,7 +104,7 @@ diff -N -r -u -w rpm-4.15.0/misc/fts.c rpm-4.15.0-patched/misc/fts.c
  #   define __errno_location() 	(&errno)
 diff -N -r -u -w rpm-4.15.0/python/header-py.c rpm-4.15.0-patched/python/header-py.c
 --- rpm-4.15.0/python/header-py.c	2019-09-26 10:44:40.739644000 +0000
-+++ rpm-4.15.0-patched/python/header-py.c	2019-10-04 10:48:16.540557800 +0000
++++ rpm-4.15.0-patched/python/header-py.c	2019-10-20 23:15:26.796630160 +0000
 @@ -1,3 +1,10 @@
 +#if defined(__sgi)
 +#include <unistd.h>
@@ -30,7 +118,7 @@ diff -N -r -u -w rpm-4.15.0/python/header-py.c rpm-4.15.0-patched/python/header-
  #include <rpm/rpmlib.h>		/* rpmvercmp */
 diff -N -r -u -w rpm-4.15.0/python/rpmarchive-py.c rpm-4.15.0-patched/python/rpmarchive-py.c
 --- rpm-4.15.0/python/rpmarchive-py.c	2019-06-26 15:17:31.443985000 +0000
-+++ rpm-4.15.0-patched/python/rpmarchive-py.c	2019-10-04 10:48:36.626249320 +0000
++++ rpm-4.15.0-patched/python/rpmarchive-py.c	2019-10-20 23:15:26.798860640 +0000
 @@ -1,3 +1,10 @@
 +#if defined(__sgi)
 +#include <unistd.h>
@@ -44,7 +132,7 @@ diff -N -r -u -w rpm-4.15.0/python/rpmarchive-py.c rpm-4.15.0-patched/python/rpm
  #include <rpm/rpmtypes.h>
 diff -N -r -u -w rpm-4.15.0/python/rpmds-py.c rpm-4.15.0-patched/python/rpmds-py.c
 --- rpm-4.15.0/python/rpmds-py.c	2019-09-26 10:44:40.739644000 +0000
-+++ rpm-4.15.0-patched/python/rpmds-py.c	2019-10-04 10:48:54.921881160 +0000
++++ rpm-4.15.0-patched/python/rpmds-py.c	2019-10-20 23:15:26.801348240 +0000
 @@ -1,3 +1,10 @@
 +#if defined(__sgi)
 +#include <unistd.h>
@@ -58,7 +146,7 @@ diff -N -r -u -w rpm-4.15.0/python/rpmds-py.c rpm-4.15.0-patched/python/rpmds-py
  #include <rpm/rpmtypes.h>
 diff -N -r -u -w rpm-4.15.0/python/rpmfd-py.c rpm-4.15.0-patched/python/rpmfd-py.c
 --- rpm-4.15.0/python/rpmfd-py.c	2019-09-26 10:44:40.739644000 +0000
-+++ rpm-4.15.0-patched/python/rpmfd-py.c	2019-10-04 10:49:09.218152480 +0000
++++ rpm-4.15.0-patched/python/rpmfd-py.c	2019-10-20 23:15:26.803751280 +0000
 @@ -1,3 +1,9 @@
 +#if defined(__sgi)
 +#include <unistd.h>
@@ -71,7 +159,7 @@ diff -N -r -u -w rpm-4.15.0/python/rpmfd-py.c rpm-4.15.0-patched/python/rpmfd-py
  #include <rpm/rpmstring.h>
 diff -N -r -u -w rpm-4.15.0/python/rpmfi-py.c rpm-4.15.0-patched/python/rpmfi-py.c
 --- rpm-4.15.0/python/rpmfi-py.c	2019-09-26 10:44:40.739644000 +0000
-+++ rpm-4.15.0-patched/python/rpmfi-py.c	2019-10-04 10:49:22.065080680 +0000
++++ rpm-4.15.0-patched/python/rpmfi-py.c	2019-10-20 23:15:26.806360480 +0000
 @@ -1,3 +1,10 @@
 +#if defined(__sgi)
 +#include <unistd.h>
@@ -85,7 +173,7 @@ diff -N -r -u -w rpm-4.15.0/python/rpmfi-py.c rpm-4.15.0-patched/python/rpmfi-py
  #include <rpm/rpmtypes.h>
 diff -N -r -u -w rpm-4.15.0/python/rpmfiles-py.c rpm-4.15.0-patched/python/rpmfiles-py.c
 --- rpm-4.15.0/python/rpmfiles-py.c	2019-09-26 10:44:40.739644000 +0000
-+++ rpm-4.15.0-patched/python/rpmfiles-py.c	2019-10-04 10:49:38.048790680 +0000
++++ rpm-4.15.0-patched/python/rpmfiles-py.c	2019-10-20 23:15:26.809411680 +0000
 @@ -1,3 +1,10 @@
 +#if defined(__sgi)
 +#include <unistd.h>
@@ -99,7 +187,7 @@ diff -N -r -u -w rpm-4.15.0/python/rpmfiles-py.c rpm-4.15.0-patched/python/rpmfi
  #include <rpm/rpmtypes.h>
 diff -N -r -u -w rpm-4.15.0/python/rpmii-py.c rpm-4.15.0-patched/python/rpmii-py.c
 --- rpm-4.15.0/python/rpmii-py.c	2019-09-26 10:44:40.739644000 +0000
-+++ rpm-4.15.0-patched/python/rpmii-py.c	2019-10-04 10:50:25.479077360 +0000
++++ rpm-4.15.0-patched/python/rpmii-py.c	2019-10-20 23:15:26.811303840 +0000
 @@ -1,3 +1,10 @@
 +#if defined(__sgi)
 +#include <unistd.h>
@@ -113,7 +201,7 @@ diff -N -r -u -w rpm-4.15.0/python/rpmii-py.c rpm-4.15.0-patched/python/rpmii-py
  #include <rpm/rpmdb.h>
 diff -N -r -u -w rpm-4.15.0/python/rpmkeyring-py.c rpm-4.15.0-patched/python/rpmkeyring-py.c
 --- rpm-4.15.0/python/rpmkeyring-py.c	2019-06-26 15:17:31.444985000 +0000
-+++ rpm-4.15.0-patched/python/rpmkeyring-py.c	2019-10-04 10:49:53.344407440 +0000
++++ rpm-4.15.0-patched/python/rpmkeyring-py.c	2019-10-20 23:15:26.813513680 +0000
 @@ -1,3 +1,10 @@
 +#if defined(__sgi)
 +#include <unistd.h>
@@ -127,7 +215,7 @@ diff -N -r -u -w rpm-4.15.0/python/rpmkeyring-py.c rpm-4.15.0-patched/python/rpm
  #include "rpmkeyring-py.h"
 diff -N -r -u -w rpm-4.15.0/python/rpmmacro-py.c rpm-4.15.0-patched/python/rpmmacro-py.c
 --- rpm-4.15.0/python/rpmmacro-py.c	2019-06-26 15:17:31.444985000 +0000
-+++ rpm-4.15.0-patched/python/rpmmacro-py.c	2019-10-04 10:50:51.333886240 +0000
++++ rpm-4.15.0-patched/python/rpmmacro-py.c	2019-10-20 23:15:26.815207920 +0000
 @@ -1,3 +1,10 @@
 +#if defined(__sgi)
 +#include <unistd.h>
@@ -141,7 +229,7 @@ diff -N -r -u -w rpm-4.15.0/python/rpmmacro-py.c rpm-4.15.0-patched/python/rpmma
  #include <rpm/rpmmacro.h>
 diff -N -r -u -w rpm-4.15.0/python/rpmmi-py.c rpm-4.15.0-patched/python/rpmmi-py.c
 --- rpm-4.15.0/python/rpmmi-py.c	2019-09-26 10:44:40.740644000 +0000
-+++ rpm-4.15.0-patched/python/rpmmi-py.c	2019-10-04 10:50:05.847363520 +0000
++++ rpm-4.15.0-patched/python/rpmmi-py.c	2019-10-20 23:15:26.817361840 +0000
 @@ -1,3 +1,10 @@
 +#if defined(__sgi)
 +#include <unistd.h>
@@ -155,7 +243,7 @@ diff -N -r -u -w rpm-4.15.0/python/rpmmi-py.c rpm-4.15.0-patched/python/rpmmi-py
  #include <rpm/rpmdb.h>
 diff -N -r -u -w rpm-4.15.0/python/rpmmodule.c rpm-4.15.0-patched/python/rpmmodule.c
 --- rpm-4.15.0/python/rpmmodule.c	2019-09-26 10:44:40.740644000 +0000
-+++ rpm-4.15.0-patched/python/rpmmodule.c	2019-10-04 10:47:34.100825240 +0000
++++ rpm-4.15.0-patched/python/rpmmodule.c	2019-10-20 23:15:26.820779440 +0000
 @@ -1,3 +1,10 @@
 +#if defined(__sgi)
 +#include <unistd.h>
@@ -169,7 +257,7 @@ diff -N -r -u -w rpm-4.15.0/python/rpmmodule.c rpm-4.15.0-patched/python/rpmmodu
  #include <rpm/rpmlib.h>		/* rpmMachineScore, rpmReadConfigFiles */
 diff -N -r -u -w rpm-4.15.0/python/rpmps-py.c rpm-4.15.0-patched/python/rpmps-py.c
 --- rpm-4.15.0/python/rpmps-py.c	2019-06-26 15:17:31.444985000 +0000
-+++ rpm-4.15.0-patched/python/rpmps-py.c	2019-10-04 10:50:38.834188120 +0000
++++ rpm-4.15.0-patched/python/rpmps-py.c	2019-10-20 23:15:26.822782640 +0000
 @@ -1,3 +1,10 @@
 +#if defined(__sgi)
 +#include <unistd.h>
@@ -183,7 +271,7 @@ diff -N -r -u -w rpm-4.15.0/python/rpmps-py.c rpm-4.15.0-patched/python/rpmps-py
  #include "rpmps-py.h"
 diff -N -r -u -w rpm-4.15.0/python/rpmstrpool-py.c rpm-4.15.0-patched/python/rpmstrpool-py.c
 --- rpm-4.15.0/python/rpmstrpool-py.c	2019-06-26 15:17:31.444985000 +0000
-+++ rpm-4.15.0-patched/python/rpmstrpool-py.c	2019-10-04 10:51:03.653041840 +0000
++++ rpm-4.15.0-patched/python/rpmstrpool-py.c	2019-10-20 23:15:26.824766400 +0000
 @@ -1,3 +1,10 @@
 +#if defined(__sgi)
 +#include <unistd.h>
@@ -197,7 +285,7 @@ diff -N -r -u -w rpm-4.15.0/python/rpmstrpool-py.c rpm-4.15.0-patched/python/rpm
  #include "rpmstrpool-py.h"
 diff -N -r -u -w rpm-4.15.0/python/rpmtd-py.c rpm-4.15.0-patched/python/rpmtd-py.c
 --- rpm-4.15.0/python/rpmtd-py.c	2019-06-26 15:17:31.444985000 +0000
-+++ rpm-4.15.0-patched/python/rpmtd-py.c	2019-10-04 10:51:15.229705520 +0000
++++ rpm-4.15.0-patched/python/rpmtd-py.c	2019-10-20 23:15:26.826403120 +0000
 @@ -1,3 +1,10 @@
 +#if defined(__sgi)
 +#include <unistd.h>
@@ -211,7 +299,7 @@ diff -N -r -u -w rpm-4.15.0/python/rpmtd-py.c rpm-4.15.0-patched/python/rpmtd-py
   */
 diff -N -r -u -w rpm-4.15.0/python/rpmte-py.c rpm-4.15.0-patched/python/rpmte-py.c
 --- rpm-4.15.0/python/rpmte-py.c	2019-06-26 15:17:31.444985000 +0000
-+++ rpm-4.15.0-patched/python/rpmte-py.c	2019-10-04 10:51:27.329502720 +0000
++++ rpm-4.15.0-patched/python/rpmte-py.c	2019-10-20 23:15:26.828771920 +0000
 @@ -1,3 +1,10 @@
 +#if defined(__sgi)
 +#include <unistd.h>
@@ -225,7 +313,7 @@ diff -N -r -u -w rpm-4.15.0/python/rpmte-py.c rpm-4.15.0-patched/python/rpmte-py
  #include "header-py.h"	/* XXX tagNumFromPyObject */
 diff -N -r -u -w rpm-4.15.0/python/rpmts-py.c rpm-4.15.0-patched/python/rpmts-py.c
 --- rpm-4.15.0/python/rpmts-py.c	2019-09-26 10:44:40.740644000 +0000
-+++ rpm-4.15.0-patched/python/rpmts-py.c	2019-10-04 10:51:37.868881440 +0000
++++ rpm-4.15.0-patched/python/rpmts-py.c	2019-10-20 23:15:26.833248880 +0000
 @@ -1,3 +1,10 @@
 +#if defined(__sgi)
 +#include <unistd.h>
@@ -239,7 +327,7 @@ diff -N -r -u -w rpm-4.15.0/python/rpmts-py.c rpm-4.15.0-patched/python/rpmts-py
  #include <fcntl.h>
 diff -N -r -u -w rpm-4.15.0/python/spec-py.c rpm-4.15.0-patched/python/spec-py.c
 --- rpm-4.15.0/python/spec-py.c	2019-06-26 15:17:31.445985000 +0000
-+++ rpm-4.15.0-patched/python/spec-py.c	2019-10-04 10:51:49.566464160 +0000
++++ rpm-4.15.0-patched/python/spec-py.c	2019-10-20 23:15:26.835696160 +0000
 @@ -1,3 +1,10 @@
 +#if defined(__sgi)
 +#include <unistd.h>
@@ -253,7 +341,7 @@ diff -N -r -u -w rpm-4.15.0/python/spec-py.c rpm-4.15.0-patched/python/spec-py.c
  #include "rpmts-py.h"
 diff -N -r -u -w rpm-4.15.0/rpmio/macro.c rpm-4.15.0-patched/rpmio/macro.c
 --- rpm-4.15.0/rpmio/macro.c	2019-09-09 08:56:53.374788000 +0000
-+++ rpm-4.15.0-patched/rpmio/macro.c	2019-10-04 09:12:11.808104000 +0000
++++ rpm-4.15.0-patched/rpmio/macro.c	2019-10-20 23:15:26.841531600 +0000
 @@ -512,7 +512,11 @@
  #endif
      /* Fallback to sysconf() if the above isn't supported or didn't work */
@@ -266,16 +354,46 @@ diff -N -r -u -w rpm-4.15.0/rpmio/macro.c rpm-4.15.0-patched/rpmio/macro.c
      /* If all else fails, there's always the one we're running on... */
      if (ncpus < 1)
  	ncpus = 1;
+diff -N -r -u -w rpm-4.15.0/rpmio/rpmfileutil.c rpm-4.15.0-patched/rpmio/rpmfileutil.c
+--- rpm-4.15.0/rpmio/rpmfileutil.c	2019-06-26 15:17:31.447985000 +0000
++++ rpm-4.15.0-patched/rpmio/rpmfileutil.c	2019-10-20 23:15:26.844292640 +0000
+@@ -127,7 +127,11 @@
+ 	    rc = mkdir(d, mode);
+ 	    if (rc)
+ 		goto exit;
++#if defined(__sgi)
++	    rpmlog(RPMLOG_DEBUG, "created directory(s) %s mode 0%lo\n", path, mode);
++#else
+ 	    rpmlog(RPMLOG_DEBUG, "created directory(s) %s mode 0%o\n", path, mode);
++#endif
+ 	    if (!(uid == (uid_t) -1 && gid == (gid_t) -1)) {
+ 		rc = chown(d, uid, gid);
+ 		if (rc)
+diff -N -r -u -w rpm-4.15.0/rpmio/rpmsq.c rpm-4.15.0-patched/rpmio/rpmsq.c
+--- rpm-4.15.0/rpmio/rpmsq.c	2019-06-26 15:17:31.450985000 +0000
++++ rpm-4.15.0-patched/rpmio/rpmsq.c	2019-10-20 23:15:26.846397920 +0000
+@@ -34,7 +34,11 @@
+     } else {
+ 	int lvl = (signum == SIGPIPE) ? RPMLOG_DEBUG : RPMLOG_WARNING;
+ 	rpmlog(lvl,
++#if defined(__sgi)
++		_("exiting on signal %d from pid %ld\n"), signum, info->si_pid);
++#else
+ 		_("exiting on signal %d from pid %d\n"), signum, info->si_pid);
++#endif
+     }
+     /* exit 128 + signum for compatibility with bash(1) */
+     exit(128 + signum);
 diff -N -r -u -w rpm-4.15.0/system.h rpm-4.15.0-patched/system.h
 --- rpm-4.15.0/system.h	2019-06-26 15:17:31.455985000 +0000
-+++ rpm-4.15.0-patched/system.h	2019-10-04 09:12:11.810278080 +0000
-@@ -106,6 +106,9 @@
- # define xsetprogname(pn)
-   extern const char *__progname;
- # define xgetprogname(pn) __progname
++++ rpm-4.15.0-patched/system.h	2019-10-20 23:22:17.352985080 +0000
+@@ -102,6 +102,9 @@
+ # include <stdlib.h> /* Make sure this header is included */
+ # define xsetprogname(pn) setprogname(pn)
+ # define xgetprogname(pn) getprogname(pn)
 +#elif defined(__sgi)
 +# define xsetprogname(pn)
-+# define xgetprogname(pn) getprogname
- #else
- # error "Did not find any sutable implementation of xsetprogname/xgetprogname"
- #endif
++# define xgetprogname(pn) getprogname(pn)
+ #elif defined(HAVE___PROGNAME) /* glibc and others */
+ # define xsetprogname(pn)
+   extern const char *__progname;
