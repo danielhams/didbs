@@ -1,0 +1,24 @@
+diff -r -u -w xli-2005-02-27/Makefile.std xli-2005-02-27-patched/Makefile.std
+--- xli-2005-02-27/Makefile.std	2005-02-28 00:42:39.000000000 +0000
++++ xli-2005-02-27-patched/Makefile.std	2019-10-21 11:11:40.272833800 +0000
+@@ -8,6 +8,8 @@
+ 
+ MISC_DEFINES=
+ 
++DIDBS_LIBDIR=LIBDIRREPLACEME
++DIDBS_INCDIR=INCDIRREPLACEME
+ SYSPATHFILE=/usr/lib/X11/Xli
+ INSTALLDIR=/usr/bin/X11
+ SHELL= /bin/sh
+@@ -18,8 +19,8 @@
+ LN= ln -s
+ RM= rm -f
+ MV= mv -f
+-LIBS= -lX11 -lm
+-CFLAGS= -O -DSYSPATHFILE=\"$(SYSPATHFILE)\" $(OPTIONALFLAGS) $(EXTRAFLAGS)
++LIBS= -L$(DIDBS_LIBDIR) -lX11 -lXext -lm -ljpeg -lpng
++CFLAGS= -I$(DIDBS_INCDIR) -mips3 -O -DSYSPATHFILE=\"$(SYSPATHFILE)\" $(OPTIONALFLAGS) $(EXTRAFLAGS)
+ GCCFLAGS= -fstrength-reduce -finline-functions
+ 
+ MISC= Makefile.std Imakefile README ABOUTGAMMA \
+Only in xli-2005-02-27-patched: Makefile.std.orig

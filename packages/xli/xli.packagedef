@@ -1,9 +1,10 @@
 packageSource=ftp://ftp.netbsd.org/pub/pkgsrc/distfiles/xli-2005-02-27.tar.gz
 packageFile=xli-2005-02-27.tar.gz
 packageChecksum=db470da53500017fd6969457c12c98f7
-packageExtraction=tarxfsystemhelper.sh
 packageDir=xli-2005-02-27
-#packagePatch=
+packagePatch=xli.sgifixes.patch
+
+packageExtraction=tarxfsystemhelper.sh
 expectedToolList=
 dependenciesList=make,tar,gzip,zlib
 envModifs=setupenv.sh
@@ -11,5 +12,5 @@ configureRecipe=configureit
 buildRecipe=buildit
 installRecipe=installit
 passesChecksIndicator=1
-disabled=1
+disabled=0
 compilers=mipspro,gcc

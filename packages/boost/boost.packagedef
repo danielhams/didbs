@@ -1,0 +1,16 @@
+packageSource=https://dl.bintray.com/boostorg/release/1.69.0/source/boost_1_69_0.tar.gz
+packageFile=boost_1_69_0.tar.gz
+packageChecksum=b50944c0c13f81ce2c006802a1186f5a
+packageDir=boost_1_69_0
+packagePatch=boost1_69_0.sgifixes.patch
+
+packageExtraction=tarxfsystemhelper.sh
+expectedToolList=
+dependenciesList=make,tar,gzip,gbs9_1-gcc9,python2
+envModifs=setupenv.sh
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=1
+disabled=0
+compilers=gcc

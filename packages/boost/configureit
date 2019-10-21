@@ -1,0 +1,17 @@
+#!/bin/sh
+
+BUILDDIR=$1
+INSTALLDIR=$2
+EXTRAARGS=$3
+echo $BUILDDIR
+echo $INSTALLDIR
+echo $EXTRAARGS
+. ./setupenv.sh
+cd $BUILDDIR || exit -1
+cd tools/build
+# We rely on an install of the boost build tool b2 for the build of boost
+# itself
+./bootstrap.sh --with-toolset=gcc || exit -1
+./b2 install --prefix=$INSTALLDIR || exit -1
+#./bootstrap.sh --with-toolset=gcc --prefix=$INSTALLDIR --libdir=$INSTALLDIR/$DIDBS_LIBDIR || exit -1
+exit 0

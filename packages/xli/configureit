@@ -8,23 +8,21 @@ echo $INSTALLDIR
 echo $EXTRAARGS
 . ./setupenv.sh
 
-# Ugly dance because xli extracts directly in the directory you
-# run the tar xf
-#mkdir -p /tmp/xlitmp/xli.1.16
-#export EXTRACTIONDIR=`dirname $BUILDDIR`
-#mv $EXTRACTIONDIR/* /tmp/xlitmp/xli.1.16
-#mkdir -p $BUILDDIR || exit 1
-#mv /tmp/xlitmp/xli.1.16/* $BUILDDIR/ || exit 1
-#rm -rf /tmp/xlitmp || exit 1
-
 # Ugly copy of pre-made Makefile
 # that kind of simulates xmkmf -n32 $DIDBS_ARCH_CFLAGS || exit 1
-cp $EXTRAARGS/packages/xli/xli.replacementMakefile $BUILDDIR/Makefile || exit 1
+#cp $EXTRAARGS/packages/xli/xli.replacementMakefile $BUILDDIR/Makefile || exit 1
 
 # replace <!--INSTALLDIR--> with the actual installdir
-perl -p -i -e "s{REALINSTALLDIR}{$INSTALLDIR}g" $BUILDDIR/Makefile || exit 1
+#perl -p -i -e "s{REALINSTALLDIR}{$INSTALLDIR}g" $BUILDDIR/Makefile || exit 1
+
+# Fix the incdir,libdir
+perl -p -i -e "s{INCDIRREPLACEME}{$INSTALLDIR/include}g" $BUILDDIR/Makefile.std || exit 1
+perl -p -i -e "s{LIBDIRREPLACEME}{$INSTALLDIR/$DIDBS_LIBDIR}g" $BUILDDIR/Makefile.std || exit 1
 
 # replace mips4 with the actual isa
-perl -p -i -e "s{mips4}{$DIDBS_ISA}g" $BUILDDIR/Makefile || exit 1
+#perl -p -i -e "s{mips4}{$DIDBS_ISA}g" $BUILDDIR/Makefile || exit 1
+# Set the required ISA and optimisation level
+# (makefile should already have "-mips3 -O"
+perl -p -i -e "s{-mips3 -O}{$XLI_ISA $XLI_OPT}g" $BUILDDIR/Makefile.std || exit 1
 
 exit 0

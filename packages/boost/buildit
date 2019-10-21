@@ -1,0 +1,12 @@
+#!/bin/sh
+
+BUILDDIR=$1
+INSTALLDIR=$2
+EXTRAARGS=$3
+echo $BUILDDIR
+echo $INSTALLDIR
+echo $EXTRAARGS
+. ./setupenv.sh
+cd $BUILDDIR || exit -1
+b2 -j $DIDBS_JOBS --link=shared --threading=multi --with-thread --with-system --with-chrono --with-program_options --with-atomic --with-container --with-filesystem --prefix=$INSTALLDIR --libdir=$INSTALLDIR/$DIDBS_LIBDIR stage || exit -1
+exit 0
