@@ -1,6 +1,6 @@
 packageSource=https://github.com/danielhams/dicl/releases/download/0.1.5/libdicl-0.1.5.tar.gz
 packageFile=libdicl-0.1.5.tar.gz
-packageChecksum=6eacd50f075daa82262e02a80668c3fb
+packageChecksum=913e9b32257694b6d585431b0b886165
 packageDir=libdicl-0.1.5
 #packagePatch=
 
