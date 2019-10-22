@@ -1,0 +1,19 @@
+#!/bin/sh
+
+BUILDDIR=$1
+INSTALLDIR=$2
+EXTRAARGS=$3
+echo $BUILDDIR
+echo $INSTALLDIR
+echo $EXTRAARGS
+. ./setupenv.sh
+cd $BUILDDIR || exit -1
+# No autoconf for lua
+#$BUILDDIR/configure --disable-nls --prefix=$INSTALLDIR --libdir=$INSTALLDIR/$DIDBS_LIBDIR || exit -1
+
+# Build a pkgconfig file
+cp $EXTRAARGS/packages/lua/pkgconfig-template ./lua.pc || exit -1
+perl -pi -e "s|DIDBS_INSTALLDIR|$INSTALLDIR|g" lua.pc || exit -1
+perl -pi -e "s|DIDBS_LIBDIR|$DIDBS_LIBDIR|g" lua.pc || exit -1
+
+exit 0

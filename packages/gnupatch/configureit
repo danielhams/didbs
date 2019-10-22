@@ -1,0 +1,12 @@
+#!/bin/sh
+
+BUILDDIR=$1
+INSTALLDIR=$2
+EXTRAARGS=$3
+echo $BUILDDIR
+echo $INSTALLDIR
+echo $EXTRAARGS
+. ./setupenv.sh
+cd $BUILDDIR || exit -1
+gl_cv_cc_visibility=no ./configure --prefix=$INSTALLDIR --libdir=$INSTALLDIR/$DIDBS_LIBDIR || exit -1
+exit 0

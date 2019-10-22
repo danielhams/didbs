@@ -1,6 +1,6 @@
 diff -N -r -u -w rpm-4.15.0/lib/rpmfi.c rpm-4.15.0-patched/lib/rpmfi.c
 --- rpm-4.15.0/lib/rpmfi.c	2019-06-26 15:17:31.413985000 +0000
-+++ rpm-4.15.0-patched/lib/rpmfi.c	2019-10-20 23:15:26.772450000 +0000
++++ rpm-4.15.0-patched/lib/rpmfi.c	2019-10-22 15:02:11.020550720 +0000
 @@ -1357,6 +1357,21 @@
  
  /* Get file data from header */
@@ -33,19 +33,20 @@ diff -N -r -u -w rpm-4.15.0/lib/rpmfi.c rpm-4.15.0-patched/lib/rpmfi.c
      if (headerGet((_h), (_tag), (_td), (_flags))) {\
 diff -N -r -u -w rpm-4.15.0/lib/rpmrc.c rpm-4.15.0-patched/lib/rpmrc.c
 --- rpm-4.15.0/lib/rpmrc.c	2019-06-26 15:17:31.416985000 +0000
-+++ rpm-4.15.0-patched/lib/rpmrc.c	2019-10-20 23:15:26.778908080 +0000
-@@ -1041,6 +1041,10 @@
++++ rpm-4.15.0-patched/lib/rpmrc.c	2019-10-22 15:02:26.984365680 +0000
+@@ -1041,6 +1041,11 @@
  	    strcpy(un.machine, __power_pc() ? "ppc" : "rs6000");
  	    sprintf(un.sysname,"aix%s.%s", un.version, un.release);
  	}
 +	else if (rstreq(un.sysname, "IRIX")) {
++	    strcpy(un.machine, "mips");
 +	    /*make un.sysname look like irix6.5 for example*/
 +	    sprintf(un.sysname, "irix%s", strpbrk(un.release, "123456789"));
 +	}
  	else if (rstreq(un.sysname, "Darwin")) { 
  #if defined(__ppc__)
  	    strcpy(un.machine, "ppc");
-@@ -1048,7 +1052,7 @@
+@@ -1048,7 +1053,7 @@
  	    strcpy(un.machine, "i386");
  #elif defined(__x86_64__)
  	    strcpy(un.machine, "x86_64");
@@ -56,7 +57,7 @@ diff -N -r -u -w rpm-4.15.0/lib/rpmrc.c rpm-4.15.0-patched/lib/rpmrc.c
  	}
 diff -N -r -u -w rpm-4.15.0/lib/rpmscript.c rpm-4.15.0-patched/lib/rpmscript.c
 --- rpm-4.15.0/lib/rpmscript.c	2019-06-26 15:17:31.416985000 +0000
-+++ rpm-4.15.0-patched/lib/rpmscript.c	2019-10-20 23:15:26.782116800 +0000
++++ rpm-4.15.0-patched/lib/rpmscript.c	2019-10-22 15:02:11.026110240 +0000
 @@ -370,8 +370,13 @@
  	   sname, (unsigned)pid, (unsigned)reaped, status);
  
@@ -73,7 +74,7 @@ diff -N -r -u -w rpm-4.15.0/lib/rpmscript.c rpm-4.15.0-patched/lib/rpmscript.c
  	    rpmlog(lvl, _("%s scriptlet failed, signal %d\n"),
 diff -N -r -u -w rpm-4.15.0/lib/transaction.c rpm-4.15.0-patched/lib/transaction.c
 --- rpm-4.15.0/lib/transaction.c	2019-09-09 08:56:53.270788000 +0000
-+++ rpm-4.15.0-patched/lib/transaction.c	2019-10-20 23:15:26.788421840 +0000
++++ rpm-4.15.0-patched/lib/transaction.c	2019-10-22 15:02:11.029497120 +0000
 @@ -1311,7 +1311,11 @@
  
      /* The ordering doesn't matter here */
@@ -86,9 +87,32 @@ diff -N -r -u -w rpm-4.15.0/lib/transaction.c rpm-4.15.0-patched/lib/transaction
      pi = rpmtsiInit(ts);
      while ((p = rpmtsiNext(pi, TR_ADDED)) != NULL) {
  
+diff -N -r -u -w rpm-4.15.0/luaext/lrexlib.c rpm-4.15.0-patched/luaext/lrexlib.c
+--- rpm-4.15.0/luaext/lrexlib.c	2019-06-26 15:17:31.419985000 +0000
++++ rpm-4.15.0-patched/luaext/lrexlib.c	2019-10-22 15:02:11.031308000 +0000
+@@ -7,6 +7,10 @@
+ #include <stdlib.h>
+ #include <string.h>
+ 
++#if defined(__sgi)
++#include <regex.h>
++#endif
++
+ #include "lua.h"
+ #include "lauxlib.h"
+ #include "lrexlib.h"
+@@ -31,7 +35,7 @@
+   int res;
+   regex_t *pr = (regex_t *)lua_newuserdata(L, sizeof(regex_t));
+   pattern = luaL_checklstring(L, 1, &l);
+-#ifdef REG_BASIC
++#if defined(REG_BASIC) && !defined(__sgi)
+   pr->re_endp = pattern + lua_strlen(L, 1);
+   res = regcomp(pr, pattern, REG_EXTENDED | REG_PEND);
+ #else
 diff -N -r -u -w rpm-4.15.0/misc/fts.c rpm-4.15.0-patched/misc/fts.c
 --- rpm-4.15.0/misc/fts.c	2019-06-26 15:17:31.420985000 +0000
-+++ rpm-4.15.0-patched/misc/fts.c	2019-10-20 23:15:26.792901600 +0000
++++ rpm-4.15.0-patched/misc/fts.c	2019-10-22 15:02:11.033672560 +0000
 @@ -51,6 +51,12 @@
  #else
  
@@ -104,7 +128,7 @@ diff -N -r -u -w rpm-4.15.0/misc/fts.c rpm-4.15.0-patched/misc/fts.c
  #   define __errno_location() 	(&errno)
 diff -N -r -u -w rpm-4.15.0/python/header-py.c rpm-4.15.0-patched/python/header-py.c
 --- rpm-4.15.0/python/header-py.c	2019-09-26 10:44:40.739644000 +0000
-+++ rpm-4.15.0-patched/python/header-py.c	2019-10-20 23:15:26.796630160 +0000
++++ rpm-4.15.0-patched/python/header-py.c	2019-10-22 15:02:11.035944480 +0000
 @@ -1,3 +1,10 @@
 +#if defined(__sgi)
 +#include <unistd.h>
@@ -118,7 +142,7 @@ diff -N -r -u -w rpm-4.15.0/python/header-py.c rpm-4.15.0-patched/python/header-
  #include <rpm/rpmlib.h>		/* rpmvercmp */
 diff -N -r -u -w rpm-4.15.0/python/rpmarchive-py.c rpm-4.15.0-patched/python/rpmarchive-py.c
 --- rpm-4.15.0/python/rpmarchive-py.c	2019-06-26 15:17:31.443985000 +0000
-+++ rpm-4.15.0-patched/python/rpmarchive-py.c	2019-10-20 23:15:26.798860640 +0000
++++ rpm-4.15.0-patched/python/rpmarchive-py.c	2019-10-22 15:02:11.037519760 +0000
 @@ -1,3 +1,10 @@
 +#if defined(__sgi)
 +#include <unistd.h>
@@ -132,7 +156,7 @@ diff -N -r -u -w rpm-4.15.0/python/rpmarchive-py.c rpm-4.15.0-patched/python/rpm
  #include <rpm/rpmtypes.h>
 diff -N -r -u -w rpm-4.15.0/python/rpmds-py.c rpm-4.15.0-patched/python/rpmds-py.c
 --- rpm-4.15.0/python/rpmds-py.c	2019-09-26 10:44:40.739644000 +0000
-+++ rpm-4.15.0-patched/python/rpmds-py.c	2019-10-20 23:15:26.801348240 +0000
++++ rpm-4.15.0-patched/python/rpmds-py.c	2019-10-22 15:02:11.039187120 +0000
 @@ -1,3 +1,10 @@
 +#if defined(__sgi)
 +#include <unistd.h>
@@ -146,7 +170,7 @@ diff -N -r -u -w rpm-4.15.0/python/rpmds-py.c rpm-4.15.0-patched/python/rpmds-py
  #include <rpm/rpmtypes.h>
 diff -N -r -u -w rpm-4.15.0/python/rpmfd-py.c rpm-4.15.0-patched/python/rpmfd-py.c
 --- rpm-4.15.0/python/rpmfd-py.c	2019-09-26 10:44:40.739644000 +0000
-+++ rpm-4.15.0-patched/python/rpmfd-py.c	2019-10-20 23:15:26.803751280 +0000
++++ rpm-4.15.0-patched/python/rpmfd-py.c	2019-10-22 15:02:11.040823840 +0000
 @@ -1,3 +1,9 @@
 +#if defined(__sgi)
 +#include <unistd.h>
@@ -159,7 +183,7 @@ diff -N -r -u -w rpm-4.15.0/python/rpmfd-py.c rpm-4.15.0-patched/python/rpmfd-py
  #include <rpm/rpmstring.h>
 diff -N -r -u -w rpm-4.15.0/python/rpmfi-py.c rpm-4.15.0-patched/python/rpmfi-py.c
 --- rpm-4.15.0/python/rpmfi-py.c	2019-09-26 10:44:40.739644000 +0000
-+++ rpm-4.15.0-patched/python/rpmfi-py.c	2019-10-20 23:15:26.806360480 +0000
++++ rpm-4.15.0-patched/python/rpmfi-py.c	2019-10-22 15:02:11.042498400 +0000
 @@ -1,3 +1,10 @@
 +#if defined(__sgi)
 +#include <unistd.h>
@@ -173,7 +197,7 @@ diff -N -r -u -w rpm-4.15.0/python/rpmfi-py.c rpm-4.15.0-patched/python/rpmfi-py
  #include <rpm/rpmtypes.h>
 diff -N -r -u -w rpm-4.15.0/python/rpmfiles-py.c rpm-4.15.0-patched/python/rpmfiles-py.c
 --- rpm-4.15.0/python/rpmfiles-py.c	2019-09-26 10:44:40.739644000 +0000
-+++ rpm-4.15.0-patched/python/rpmfiles-py.c	2019-10-20 23:15:26.809411680 +0000
++++ rpm-4.15.0-patched/python/rpmfiles-py.c	2019-10-22 15:02:11.044328640 +0000
 @@ -1,3 +1,10 @@
 +#if defined(__sgi)
 +#include <unistd.h>
@@ -187,7 +211,7 @@ diff -N -r -u -w rpm-4.15.0/python/rpmfiles-py.c rpm-4.15.0-patched/python/rpmfi
  #include <rpm/rpmtypes.h>
 diff -N -r -u -w rpm-4.15.0/python/rpmii-py.c rpm-4.15.0-patched/python/rpmii-py.c
 --- rpm-4.15.0/python/rpmii-py.c	2019-09-26 10:44:40.739644000 +0000
-+++ rpm-4.15.0-patched/python/rpmii-py.c	2019-10-20 23:15:26.811303840 +0000
++++ rpm-4.15.0-patched/python/rpmii-py.c	2019-10-22 15:02:11.045759120 +0000
 @@ -1,3 +1,10 @@
 +#if defined(__sgi)
 +#include <unistd.h>
@@ -201,7 +225,7 @@ diff -N -r -u -w rpm-4.15.0/python/rpmii-py.c rpm-4.15.0-patched/python/rpmii-py
  #include <rpm/rpmdb.h>
 diff -N -r -u -w rpm-4.15.0/python/rpmkeyring-py.c rpm-4.15.0-patched/python/rpmkeyring-py.c
 --- rpm-4.15.0/python/rpmkeyring-py.c	2019-06-26 15:17:31.444985000 +0000
-+++ rpm-4.15.0-patched/python/rpmkeyring-py.c	2019-10-20 23:15:26.813513680 +0000
++++ rpm-4.15.0-patched/python/rpmkeyring-py.c	2019-10-22 15:02:11.047197680 +0000
 @@ -1,3 +1,10 @@
 +#if defined(__sgi)
 +#include <unistd.h>
@@ -215,7 +239,7 @@ diff -N -r -u -w rpm-4.15.0/python/rpmkeyring-py.c rpm-4.15.0-patched/python/rpm
  #include "rpmkeyring-py.h"
 diff -N -r -u -w rpm-4.15.0/python/rpmmacro-py.c rpm-4.15.0-patched/python/rpmmacro-py.c
 --- rpm-4.15.0/python/rpmmacro-py.c	2019-06-26 15:17:31.444985000 +0000
-+++ rpm-4.15.0-patched/python/rpmmacro-py.c	2019-10-20 23:15:26.815207920 +0000
++++ rpm-4.15.0-patched/python/rpmmacro-py.c	2019-10-22 15:02:11.048577600 +0000
 @@ -1,3 +1,10 @@
 +#if defined(__sgi)
 +#include <unistd.h>
@@ -229,7 +253,7 @@ diff -N -r -u -w rpm-4.15.0/python/rpmmacro-py.c rpm-4.15.0-patched/python/rpmma
  #include <rpm/rpmmacro.h>
 diff -N -r -u -w rpm-4.15.0/python/rpmmi-py.c rpm-4.15.0-patched/python/rpmmi-py.c
 --- rpm-4.15.0/python/rpmmi-py.c	2019-09-26 10:44:40.740644000 +0000
-+++ rpm-4.15.0-patched/python/rpmmi-py.c	2019-10-20 23:15:26.817361840 +0000
++++ rpm-4.15.0-patched/python/rpmmi-py.c	2019-10-22 15:02:11.050071600 +0000
 @@ -1,3 +1,10 @@
 +#if defined(__sgi)
 +#include <unistd.h>
@@ -243,7 +267,7 @@ diff -N -r -u -w rpm-4.15.0/python/rpmmi-py.c rpm-4.15.0-patched/python/rpmmi-py
  #include <rpm/rpmdb.h>
 diff -N -r -u -w rpm-4.15.0/python/rpmmodule.c rpm-4.15.0-patched/python/rpmmodule.c
 --- rpm-4.15.0/python/rpmmodule.c	2019-09-26 10:44:40.740644000 +0000
-+++ rpm-4.15.0-patched/python/rpmmodule.c	2019-10-20 23:15:26.820779440 +0000
++++ rpm-4.15.0-patched/python/rpmmodule.c	2019-10-22 15:02:11.052012080 +0000
 @@ -1,3 +1,10 @@
 +#if defined(__sgi)
 +#include <unistd.h>
@@ -257,7 +281,7 @@ diff -N -r -u -w rpm-4.15.0/python/rpmmodule.c rpm-4.15.0-patched/python/rpmmodu
  #include <rpm/rpmlib.h>		/* rpmMachineScore, rpmReadConfigFiles */
 diff -N -r -u -w rpm-4.15.0/python/rpmps-py.c rpm-4.15.0-patched/python/rpmps-py.c
 --- rpm-4.15.0/python/rpmps-py.c	2019-06-26 15:17:31.444985000 +0000
-+++ rpm-4.15.0-patched/python/rpmps-py.c	2019-10-20 23:15:26.822782640 +0000
++++ rpm-4.15.0-patched/python/rpmps-py.c	2019-10-22 15:02:11.053412640 +0000
 @@ -1,3 +1,10 @@
 +#if defined(__sgi)
 +#include <unistd.h>
@@ -271,7 +295,7 @@ diff -N -r -u -w rpm-4.15.0/python/rpmps-py.c rpm-4.15.0-patched/python/rpmps-py
  #include "rpmps-py.h"
 diff -N -r -u -w rpm-4.15.0/python/rpmstrpool-py.c rpm-4.15.0-patched/python/rpmstrpool-py.c
 --- rpm-4.15.0/python/rpmstrpool-py.c	2019-06-26 15:17:31.444985000 +0000
-+++ rpm-4.15.0-patched/python/rpmstrpool-py.c	2019-10-20 23:15:26.824766400 +0000
++++ rpm-4.15.0-patched/python/rpmstrpool-py.c	2019-10-22 15:02:11.054807520 +0000
 @@ -1,3 +1,10 @@
 +#if defined(__sgi)
 +#include <unistd.h>
@@ -285,7 +309,7 @@ diff -N -r -u -w rpm-4.15.0/python/rpmstrpool-py.c rpm-4.15.0-patched/python/rpm
  #include "rpmstrpool-py.h"
 diff -N -r -u -w rpm-4.15.0/python/rpmtd-py.c rpm-4.15.0-patched/python/rpmtd-py.c
 --- rpm-4.15.0/python/rpmtd-py.c	2019-06-26 15:17:31.444985000 +0000
-+++ rpm-4.15.0-patched/python/rpmtd-py.c	2019-10-20 23:15:26.826403120 +0000
++++ rpm-4.15.0-patched/python/rpmtd-py.c	2019-10-22 15:02:11.056140000 +0000
 @@ -1,3 +1,10 @@
 +#if defined(__sgi)
 +#include <unistd.h>
@@ -299,7 +323,7 @@ diff -N -r -u -w rpm-4.15.0/python/rpmtd-py.c rpm-4.15.0-patched/python/rpmtd-py
   */
 diff -N -r -u -w rpm-4.15.0/python/rpmte-py.c rpm-4.15.0-patched/python/rpmte-py.c
 --- rpm-4.15.0/python/rpmte-py.c	2019-06-26 15:17:31.444985000 +0000
-+++ rpm-4.15.0-patched/python/rpmte-py.c	2019-10-20 23:15:26.828771920 +0000
++++ rpm-4.15.0-patched/python/rpmte-py.c	2019-10-22 15:02:11.057895280 +0000
 @@ -1,3 +1,10 @@
 +#if defined(__sgi)
 +#include <unistd.h>
@@ -313,7 +337,7 @@ diff -N -r -u -w rpm-4.15.0/python/rpmte-py.c rpm-4.15.0-patched/python/rpmte-py
  #include "header-py.h"	/* XXX tagNumFromPyObject */
 diff -N -r -u -w rpm-4.15.0/python/rpmts-py.c rpm-4.15.0-patched/python/rpmts-py.c
 --- rpm-4.15.0/python/rpmts-py.c	2019-09-26 10:44:40.740644000 +0000
-+++ rpm-4.15.0-patched/python/rpmts-py.c	2019-10-20 23:15:26.833248880 +0000
++++ rpm-4.15.0-patched/python/rpmts-py.c	2019-10-22 15:02:11.060580720 +0000
 @@ -1,3 +1,10 @@
 +#if defined(__sgi)
 +#include <unistd.h>
@@ -327,7 +351,7 @@ diff -N -r -u -w rpm-4.15.0/python/rpmts-py.c rpm-4.15.0-patched/python/rpmts-py
  #include <fcntl.h>
 diff -N -r -u -w rpm-4.15.0/python/spec-py.c rpm-4.15.0-patched/python/spec-py.c
 --- rpm-4.15.0/python/spec-py.c	2019-06-26 15:17:31.445985000 +0000
-+++ rpm-4.15.0-patched/python/spec-py.c	2019-10-20 23:15:26.835696160 +0000
++++ rpm-4.15.0-patched/python/spec-py.c	2019-10-22 15:02:11.062080960 +0000
 @@ -1,3 +1,10 @@
 +#if defined(__sgi)
 +#include <unistd.h>
@@ -341,7 +365,7 @@ diff -N -r -u -w rpm-4.15.0/python/spec-py.c rpm-4.15.0-patched/python/spec-py.c
  #include "rpmts-py.h"
 diff -N -r -u -w rpm-4.15.0/rpmio/macro.c rpm-4.15.0-patched/rpmio/macro.c
 --- rpm-4.15.0/rpmio/macro.c	2019-09-09 08:56:53.374788000 +0000
-+++ rpm-4.15.0-patched/rpmio/macro.c	2019-10-20 23:15:26.841531600 +0000
++++ rpm-4.15.0-patched/rpmio/macro.c	2019-10-22 15:02:11.064995600 +0000
 @@ -512,7 +512,11 @@
  #endif
      /* Fallback to sysconf() if the above isn't supported or didn't work */
@@ -356,7 +380,7 @@ diff -N -r -u -w rpm-4.15.0/rpmio/macro.c rpm-4.15.0-patched/rpmio/macro.c
  	ncpus = 1;
 diff -N -r -u -w rpm-4.15.0/rpmio/rpmfileutil.c rpm-4.15.0-patched/rpmio/rpmfileutil.c
 --- rpm-4.15.0/rpmio/rpmfileutil.c	2019-06-26 15:17:31.447985000 +0000
-+++ rpm-4.15.0-patched/rpmio/rpmfileutil.c	2019-10-20 23:15:26.844292640 +0000
++++ rpm-4.15.0-patched/rpmio/rpmfileutil.c	2019-10-22 15:02:11.066685280 +0000
 @@ -127,7 +127,11 @@
  	    rc = mkdir(d, mode);
  	    if (rc)
@@ -371,7 +395,7 @@ diff -N -r -u -w rpm-4.15.0/rpmio/rpmfileutil.c rpm-4.15.0-patched/rpmio/rpmfile
  		if (rc)
 diff -N -r -u -w rpm-4.15.0/rpmio/rpmsq.c rpm-4.15.0-patched/rpmio/rpmsq.c
 --- rpm-4.15.0/rpmio/rpmsq.c	2019-06-26 15:17:31.450985000 +0000
-+++ rpm-4.15.0-patched/rpmio/rpmsq.c	2019-10-20 23:15:26.846397920 +0000
++++ rpm-4.15.0-patched/rpmio/rpmsq.c	2019-10-22 15:02:11.068178720 +0000
 @@ -34,7 +34,11 @@
      } else {
  	int lvl = (signum == SIGPIPE) ? RPMLOG_DEBUG : RPMLOG_WARNING;
@@ -384,9 +408,241 @@ diff -N -r -u -w rpm-4.15.0/rpmio/rpmsq.c rpm-4.15.0-patched/rpmio/rpmsq.c
      }
      /* exit 128 + signum for compatibility with bash(1) */
      exit(128 + signum);
+diff -N -r -u -w rpm-4.15.0/scripts/brp-compress rpm-4.15.0-patched/scripts/brp-compress
+--- rpm-4.15.0/scripts/brp-compress	2019-09-09 08:56:53.375788000 +0000
++++ rpm-4.15.0-patched/scripts/brp-compress	2019-10-22 15:02:11.069696880 +0000
+@@ -1,4 +1,4 @@
+-#!/bin/sh
++#!/usr/bin/env sh
+ 
+ # If using normal root, avoid changing anything.
+ if [ -z "$RPM_BUILD_ROOT" ] || [ "$RPM_BUILD_ROOT" = "/" ]; then
+diff -N -r -u -w rpm-4.15.0/scripts/brp-java-gcjcompile rpm-4.15.0-patched/scripts/brp-java-gcjcompile
+--- rpm-4.15.0/scripts/brp-java-gcjcompile	2019-09-09 08:56:53.375788000 +0000
++++ rpm-4.15.0-patched/scripts/brp-java-gcjcompile	2019-10-22 15:02:11.070943360 +0000
+@@ -1,4 +1,4 @@
+-#!/bin/sh
++#!/usr/bin/env sh
+ 
+ # If using normal root, avoid changing anything.
+ [ -z "$RPM_BUILD_ROOT" ] || [ "$RPM_BUILD_ROOT" = "/" ] && exit 0
+diff -N -r -u -w rpm-4.15.0/scripts/brp-python-hardlink rpm-4.15.0-patched/scripts/brp-python-hardlink
+--- rpm-4.15.0/scripts/brp-python-hardlink	2019-09-09 08:56:53.375788000 +0000
++++ rpm-4.15.0-patched/scripts/brp-python-hardlink	2019-10-22 15:02:11.072231440 +0000
+@@ -1,4 +1,4 @@
+-#!/bin/sh
++#!/usr/bin/env sh
+ 
+ # If using normal root, avoid changing anything.
+ if [ -z "$RPM_BUILD_ROOT" ] || [ "$RPM_BUILD_ROOT" = "/" ]; then
+diff -N -r -u -w rpm-4.15.0/scripts/brp-strip rpm-4.15.0-patched/scripts/brp-strip
+--- rpm-4.15.0/scripts/brp-strip	2019-09-09 08:56:53.375788000 +0000
++++ rpm-4.15.0-patched/scripts/brp-strip	2019-10-22 15:02:11.073531680 +0000
+@@ -1,4 +1,4 @@
+-#!/bin/sh
++#!/usr/bin/env sh
+ # If using normal root, avoid changing anything.
+ if [ -z "$RPM_BUILD_ROOT" ] || [ "$RPM_BUILD_ROOT" = "/" ]; then
+ 	exit 0
+diff -N -r -u -w rpm-4.15.0/scripts/brp-strip-comment-note rpm-4.15.0-patched/scripts/brp-strip-comment-note
+--- rpm-4.15.0/scripts/brp-strip-comment-note	2019-09-09 08:56:53.375788000 +0000
++++ rpm-4.15.0-patched/scripts/brp-strip-comment-note	2019-10-22 15:02:11.074775440 +0000
+@@ -1,4 +1,4 @@
+-#!/bin/sh
++#!/usr/bin/env sh
+ # If using normal root, avoid changing anything.
+ if [ -z "$RPM_BUILD_ROOT" ] || [ "$RPM_BUILD_ROOT" = "/" ]; then
+ 	exit 0
+diff -N -r -u -w rpm-4.15.0/scripts/brp-strip-shared rpm-4.15.0-patched/scripts/brp-strip-shared
+--- rpm-4.15.0/scripts/brp-strip-shared	2019-09-09 08:56:53.376788000 +0000
++++ rpm-4.15.0-patched/scripts/brp-strip-shared	2019-10-22 15:02:11.076046720 +0000
+@@ -1,4 +1,4 @@
+-#!/bin/sh
++#!/usr/bin/env sh
+ # Conectiva brp - strip shared libraries. Based on Red Hat's brp-strip.
+ # Thu Apr 20 - Guilherme Manika <gwm@conectiva.com.br>
+ #              Created file
+diff -N -r -u -w rpm-4.15.0/scripts/brp-strip-static-archive rpm-4.15.0-patched/scripts/brp-strip-static-archive
+--- rpm-4.15.0/scripts/brp-strip-static-archive	2019-09-09 08:56:53.376788000 +0000
++++ rpm-4.15.0-patched/scripts/brp-strip-static-archive	2019-10-22 15:02:11.077277840 +0000
+@@ -1,4 +1,4 @@
+-#!/bin/sh
++#!/usr/bin/env sh
+ 
+ if [ -z "$RPM_BUILD_ROOT" ] || [ "$RPM_BUILD_ROOT" = "/" ]; then
+ 	exit 0
+diff -N -r -u -w rpm-4.15.0/scripts/check-buildroot rpm-4.15.0-patched/scripts/check-buildroot
+--- rpm-4.15.0/scripts/check-buildroot	2019-09-09 08:56:53.376788000 +0000
++++ rpm-4.15.0-patched/scripts/check-buildroot	2019-10-22 15:02:11.078589040 +0000
+@@ -1,4 +1,4 @@
+-#! /bin/sh
++#! /usr/bin/env sh
+ 
+ # Copyright (C) 2004 Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
+ #  
+diff -N -r -u -w rpm-4.15.0/scripts/check-files rpm-4.15.0-patched/scripts/check-files
+--- rpm-4.15.0/scripts/check-files	2019-06-26 15:17:31.452985000 +0000
++++ rpm-4.15.0-patched/scripts/check-files	2019-10-22 15:02:11.079830960 +0000
+@@ -1,4 +1,4 @@
+-#!/bin/sh
++#!/usr/bin/env sh
+ #
+ # Gets file list on standard input and RPM_BUILD_ROOT as first parameter
+ # and searches for omitted files (not counting directories).
+diff -N -r -u -w rpm-4.15.0/scripts/check-rpaths rpm-4.15.0-patched/scripts/check-rpaths
+--- rpm-4.15.0/scripts/check-rpaths	2019-09-09 08:56:53.376788000 +0000
++++ rpm-4.15.0-patched/scripts/check-rpaths	2019-10-22 15:02:11.081049760 +0000
+@@ -1,4 +1,4 @@
+-#! /bin/sh
++#! /usr/bin/env sh
+ 
+ # Copyright (C) 2004 Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
+ #  
+diff -N -r -u -w rpm-4.15.0/scripts/debuginfo.prov rpm-4.15.0-patched/scripts/debuginfo.prov
+--- rpm-4.15.0/scripts/debuginfo.prov	2019-06-26 15:17:31.452985000 +0000
++++ rpm-4.15.0-patched/scripts/debuginfo.prov	2019-10-22 15:02:11.082252160 +0000
+@@ -1,4 +1,4 @@
+-#!/bin/sh
++#!/usr/bin/env sh
+ 
+ while read instfile; do
+   case "$instfile" in
+diff -N -r -u -w rpm-4.15.0/scripts/desktop-file.prov rpm-4.15.0-patched/scripts/desktop-file.prov
+--- rpm-4.15.0/scripts/desktop-file.prov	2019-06-26 15:17:31.452985000 +0000
++++ rpm-4.15.0-patched/scripts/desktop-file.prov	2019-10-22 15:02:11.083502640 +0000
+@@ -1,4 +1,4 @@
+-#!/bin/sh
++#!/usr/bin/env sh
+ #
+ # Transform desktop mimetype info into RPM mimehandler(type) provides
+ #
+diff -N -r -u -w rpm-4.15.0/scripts/find-provides rpm-4.15.0-patched/scripts/find-provides
+--- rpm-4.15.0/scripts/find-provides	2019-06-26 15:17:31.453985000 +0000
++++ rpm-4.15.0-patched/scripts/find-provides	2019-10-22 15:02:11.084745360 +0000
+@@ -1,3 +1,3 @@
+-#!/bin/sh
++#!/usr/bin/env sh
+ 
+ /usr/lib/rpm/rpmdeps --define="_use_internal_dependency_generator 1" --provides
+diff -N -r -u -w rpm-4.15.0/scripts/find-provides.php rpm-4.15.0-patched/scripts/find-provides.php
+--- rpm-4.15.0/scripts/find-provides.php	2019-06-26 15:17:31.453985000 +0000
++++ rpm-4.15.0-patched/scripts/find-provides.php	2019-10-22 15:02:11.085953360 +0000
+@@ -1,4 +1,4 @@
+-#!/bin/sh
++#!/usr/bin/env sh
+ if [ $# -lt 1 ]; then
+ 	echo "You have to specify input file"
+ 	exit 1
+diff -N -r -u -w rpm-4.15.0/scripts/find-requires rpm-4.15.0-patched/scripts/find-requires
+--- rpm-4.15.0/scripts/find-requires	2019-06-26 15:17:31.453985000 +0000
++++ rpm-4.15.0-patched/scripts/find-requires	2019-10-22 15:02:11.087151200 +0000
+@@ -1,3 +1,3 @@
+-#!/bin/sh
++#!/usr/bin/env sh
+ 
+ /usr/lib/rpm/rpmdeps --define="_use_internal_dependency_generator 1" --requires
+diff -N -r -u -w rpm-4.15.0/scripts/find-requires.php rpm-4.15.0-patched/scripts/find-requires.php
+--- rpm-4.15.0/scripts/find-requires.php	2019-06-26 15:17:31.453985000 +0000
++++ rpm-4.15.0-patched/scripts/find-requires.php	2019-10-22 15:02:11.088421840 +0000
+@@ -1,4 +1,4 @@
+-#!/bin/sh
++#!/usr/bin/env sh
+ #####################################################################
+ #                                                                   #
+ # Check system dependences between php-pear modules                 #
+diff -N -r -u -w rpm-4.15.0/scripts/gendiff rpm-4.15.0-patched/scripts/gendiff
+--- rpm-4.15.0/scripts/gendiff	2019-09-09 08:56:53.377788000 +0000
++++ rpm-4.15.0-patched/scripts/gendiff	2019-10-22 15:02:11.089691840 +0000
+@@ -1,4 +1,4 @@
+-#!/bin/sh
++#!/usr/bin/env sh
+ 
+ [ -z "$1" ] || [ -z "$2" ] && {
+ # usage
+diff -N -r -u -w rpm-4.15.0/scripts/libtooldeps.sh rpm-4.15.0-patched/scripts/libtooldeps.sh
+--- rpm-4.15.0/scripts/libtooldeps.sh	2019-06-26 15:17:31.453985000 +0000
++++ rpm-4.15.0-patched/scripts/libtooldeps.sh	2019-10-22 15:02:11.090882240 +0000
+@@ -1,4 +1,4 @@
+-#!/bin/sh
++#!/usr/bin/env sh
+ 
+ [ $# -ge 2 ] || {
+     cat > /dev/null
+diff -N -r -u -w rpm-4.15.0/scripts/metainfo.prov rpm-4.15.0-patched/scripts/metainfo.prov
+--- rpm-4.15.0/scripts/metainfo.prov	2019-06-26 15:17:31.453985000 +0000
++++ rpm-4.15.0-patched/scripts/metainfo.prov	2019-10-22 15:02:11.092068720 +0000
+@@ -1,4 +1,4 @@
+-#!/bin/sh
++#!/usr/bin/env sh
+ #
+ # Transform appdata/metainfo xml file into RPM metainfo(filename) provides
+ #
+diff -N -r -u -w rpm-4.15.0/scripts/ocaml-find-provides.sh rpm-4.15.0-patched/scripts/ocaml-find-provides.sh
+--- rpm-4.15.0/scripts/ocaml-find-provides.sh	2019-06-26 15:17:31.453985000 +0000
++++ rpm-4.15.0-patched/scripts/ocaml-find-provides.sh	2019-10-22 15:02:11.093310400 +0000
+@@ -1,4 +1,4 @@
+-#!/bin/sh -
++#!/usr/bin/env sh -
+ # OCaml-specific "find-provides" for RPM.
+ # By Richard W.M. Jones <rjones@redhat.com>
+ # $Id: ocaml-find-provides.sh,v 1.2 2007/09/06 11:49:59 rjones Exp $
+diff -N -r -u -w rpm-4.15.0/scripts/ocaml-find-requires.sh rpm-4.15.0-patched/scripts/ocaml-find-requires.sh
+--- rpm-4.15.0/scripts/ocaml-find-requires.sh	2019-06-26 15:17:31.453985000 +0000
++++ rpm-4.15.0-patched/scripts/ocaml-find-requires.sh	2019-10-22 15:02:11.094593600 +0000
+@@ -1,4 +1,4 @@
+-#!/bin/sh -
++#!/usr/bin/env sh -
+ # OCaml-specific "find-requires" for RPM.
+ # By Richard W.M. Jones <rjones@redhat.com>
+ # $Id: ocaml-find-requires.sh,v 1.5 2009/10/04 22:34:51 rjones Exp $
+diff -N -r -u -w rpm-4.15.0/scripts/rpm.daily rpm-4.15.0-patched/scripts/rpm.daily
+--- rpm-4.15.0/scripts/rpm.daily	2019-06-26 15:17:31.454985000 +0000
++++ rpm-4.15.0-patched/scripts/rpm.daily	2019-10-22 15:02:11.095804960 +0000
+@@ -1,4 +1,4 @@
+-#!/bin/sh
++#!/usr/bin/env sh
+ 
+ tmpfile=`/bin/mktemp /var/log/rpmpkgs.XXXXXXXXX` || exit 1
+ /bin/rpm -qa --qf '%{name}-%{version}-%{release}.%{arch}.rpm\n' 2>&1 \
+diff -N -r -u -w rpm-4.15.0/scripts/rpm2cpio.sh rpm-4.15.0-patched/scripts/rpm2cpio.sh
+--- rpm-4.15.0/scripts/rpm2cpio.sh	2019-09-09 08:56:53.377788000 +0000
++++ rpm-4.15.0-patched/scripts/rpm2cpio.sh	2019-10-22 15:02:11.097003280 +0000
+@@ -1,4 +1,4 @@
+-#!/bin/sh -efu
++#!/usr/bin/env sh -efu
+ 
+ fatal() {
+ 	echo "$*" >&2
+diff -N -r -u -w rpm-4.15.0/scripts/script.req rpm-4.15.0-patched/scripts/script.req
+--- rpm-4.15.0/scripts/script.req	2019-06-26 15:17:31.454985000 +0000
++++ rpm-4.15.0-patched/scripts/script.req	2019-10-22 15:02:11.098234560 +0000
+@@ -1,4 +1,4 @@
+-#!/bin/sh
++#!/usr/bin/env sh
+ 
+ # TODO: handle "#!/usr/bin/env foo" somehow
+ while read filename; do
+diff -N -r -u -w rpm-4.15.0/scripts/tgpg rpm-4.15.0-patched/scripts/tgpg
+--- rpm-4.15.0/scripts/tgpg	2019-09-09 08:56:53.377788000 +0000
++++ rpm-4.15.0-patched/scripts/tgpg	2019-10-22 15:02:11.099431280 +0000
+@@ -1,4 +1,4 @@
+-#!/bin/sh
++#!/usr/bin/env sh
+ 
+ 
+ for pkg in $*
+diff -N -r -u -w rpm-4.15.0/scripts/vpkg-provides.sh rpm-4.15.0-patched/scripts/vpkg-provides.sh
+--- rpm-4.15.0/scripts/vpkg-provides.sh	2019-06-26 15:17:31.454985000 +0000
++++ rpm-4.15.0-patched/scripts/vpkg-provides.sh	2019-10-22 15:02:11.100899040 +0000
+@@ -1,4 +1,4 @@
+-#!/bin/sh
++#!/usr/bin/env sh
+ 
+ #
+ # Original Author: Tim Mooney (mooney@plains.NoDak.edu)
 diff -N -r -u -w rpm-4.15.0/system.h rpm-4.15.0-patched/system.h
 --- rpm-4.15.0/system.h	2019-06-26 15:17:31.455985000 +0000
-+++ rpm-4.15.0-patched/system.h	2019-10-20 23:22:17.352985080 +0000
++++ rpm-4.15.0-patched/system.h	2019-10-22 15:02:11.102215840 +0000
 @@ -102,6 +102,9 @@
  # include <stdlib.h> /* Make sure this header is included */
  # define xsetprogname(pn) setprogname(pn)

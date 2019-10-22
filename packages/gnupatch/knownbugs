@@ -1,0 +1,14 @@
+One of the symlink tests fails - probably due to non-posix compliance:
+
+FAIL: symlinks
+
+============================================================================
+Testsuite summary for GNU patch 2.7.6
+============================================================================
+# TOTAL: 44
+# PASS:  41
+# SKIP:  0
+# XFAIL: 2
+# FAIL:  1
+# XPASS: 0
+# ERROR: 0

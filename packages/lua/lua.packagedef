@@ -1,0 +1,16 @@
+packageSource=https://www.lua.org/ftp/lua-5.3.5.tar.gz
+packageFile=lua-5.3.5.tar.gz
+packageDir=lua-5.3.5
+packageChecksum=4f4b4f323fd3514a68e0ab3da8ce3455
+packagePatch=lua.sgifixes.patch
+
+packageExtraction=tarxfsystemhelper.sh
+expectedToolList=
+dependenciesList=make,tar,gzip,gbs9_1-gcc9,libdicl
+envModifs=setupenv.sh
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=1
+disabled=0
+compilers=gcc

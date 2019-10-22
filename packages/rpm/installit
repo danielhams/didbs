@@ -10,4 +10,14 @@ echo $EXTRAARGS
 cd $BUILDDIR || exit -1
 cd ../build-rpm
 make install || exit -1
+# Copy over the vpkg-provides.sh and find-provides
+export DIDBSRPMSCRIPTS="$INSTALLDIR/lib/rpm"
+mkdir -p $DIDBSRPMSCRIPTS
+cp $BUILDDIR/scripts/vpkg-provides.sh $DIDBSRPMSCRIPTS
+
+# And some ugly find/replace to get rid of the /usr/lib/rpm assumptions
+perl -pi -e "s|\/usr\/lib\/rpm|$INSTALLDIR/lib/rpm|g" $DIDBSRPMSCRIPTS/*
+
+touch $DIDBSRPMSCRIPTS/os-base-header.spec
+
 exit 0

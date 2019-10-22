@@ -12,6 +12,8 @@ mkdir ../build-rpm
 cd ../build-rpm
 # Without python for now, it installs in a horrible parallel
 # lib dir
-#ac_cv_func_getline=yes $BUILDDIR/configure --disable-nls --with-crypto=openssl --without-lua --prefix=$RPM_INSTALL_DIR --libdir=$RPM_INSTALL_DIR/$DIDBS_LIBDIR --enable-python || exit -1
-ac_cv_func_getline=yes $BUILDDIR/configure --disable-nls --with-crypto=openssl --without-lua --with-python --prefix=$INSTALLDIR --libdir=$INSTALLDIR/$DIDBS_LIBDIR || exit -1
+#ac_cv_func_getline=yes $BUILDDIR/configure --disable-nls --with-crypto=openssl --without-lua --prefix=$RPM_INSTALL_DIR --libdir=$RPM_INSTALL_DIR/$DIDBS_LIBDIR || exit -1
+## Last good compile
+#ac_cv_func_getline=yes $BUILDDIR/configure --disable-nls --with-crypto=openssl --without-lua --with-python --prefix=$INSTALLDIR --libdir=$INSTALLDIR/$DIDBS_LIBDIR || exit -1
+ac_cv_func_getline=yes $BUILDDIR/configure --disable-nls --with-crypto=openssl --with-lua --with-python --disable-openmp --prefix=$INSTALLDIR --libdir=$INSTALLDIR/$DIDBS_LIBDIR || exit -1
 exit 0
