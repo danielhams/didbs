@@ -1,0 +1,16 @@
+packageSource=ftp://sourceware.org/pub/elfutils/0.177/elfutils-0.177.tar.bz2
+packageFile=elfutils-0.177.tar.bz2
+packageDir=elfutils-0.177
+packageChecksum=0b583722f911e1632544718d502aab87
+packagePatch=elfutils.sgifixes.patch
+
+packageExtraction=tarxfsystemhelper.sh
+expectedToolList=
+dependenciesList=make,tar,gzip,zlib,gbs9_1-gcc9,libdicl
+envModifs=setupenv.sh
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=0
+disabled=1
+compilers=gcc

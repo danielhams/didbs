@@ -1,0 +1,224 @@
+diff -N -r -u -w elfutils-0.177/lib/color.c elfutils-0.177-he/lib/color.c
+--- elfutils-0.177/lib/color.c	2019-08-14 11:12:33.000000000 +0000
++++ elfutils-0.177-he/lib/color.c	2019-10-23 12:36:09.149855800 +0000
+@@ -124,6 +124,9 @@
+ 	      }
+ 	  if (i == nvalues)
+ 	    {
++#if defined(__sgi)
++	      const char * program_invocation_short_name = getprogname();
++#endif
+ 	      error (0, 0, dgettext ("elfutils", "\
+ %s: invalid argument '%s' for '--color'\n\
+ valid arguments are:\n\
+diff -N -r -u -w elfutils-0.177/lib/system.h elfutils-0.177-he/lib/system.h
+--- elfutils-0.177/lib/system.h	2019-08-14 11:12:33.000000000 +0000
++++ elfutils-0.177-he/lib/system.h	2019-10-23 12:36:09.151528520 +0000
+@@ -34,7 +34,12 @@
+ #include <stddef.h>
+ #include <stdint.h>
+ #include <sys/param.h>
++#if defined(__sgi)
++#define __LITTLE_ENDIAN 1234
++#define __BYTE_ORDER 1234
++#else
+ #include <endian.h>
++#endif
+ #include <byteswap.h>
+ #include <unistd.h>
+ 
+diff -N -r -u -w elfutils-0.177/lib/xstrndup.c elfutils-0.177-he/lib/xstrndup.c
+--- elfutils-0.177/lib/xstrndup.c	2019-08-14 11:12:33.000000000 +0000
++++ elfutils-0.177-he/lib/xstrndup.c	2019-10-23 12:36:09.152967320 +0000
+@@ -35,6 +35,10 @@
+ #include "libeu.h"
+ #include "system.h"
+ 
++#if defined(__sgi)
++extern size_t strnlen(const char *, size_t );
++#endif
++
+ /* Return a newly allocated copy of STRING.  */
+ char *
+ xstrndup (const char *string, size_t n)
+diff -N -r -u -w elfutils-0.177/libdw/dwarf_begin_elf.c elfutils-0.177-he/libdw/dwarf_begin_elf.c
+--- elfutils-0.177/libdw/dwarf_begin_elf.c	2019-08-14 11:12:33.000000000 +0000
++++ elfutils-0.177-he/libdw/dwarf_begin_elf.c	2019-10-23 12:59:42.920875640 +0000
+@@ -40,7 +40,16 @@
+ #include <sys/types.h>
+ #include <sys/stat.h>
+ #include <fcntl.h>
++#if defined(__sgi)
++#define __LITTLE_ENDIAN 1234
++#define __BIG_ENDIAN 4321
++#define __BYTE_ORDER 1234
++#define LITTLE_ENDIAN 1234
++#define BIG_ENDIAN 4321
++#define BYTE_ORDER 1234
++#else
+ #include <endian.h>
++#endif
+ 
+ #include "libelfP.h"
+ #include "libdwP.h"
+diff -N -r -u -w elfutils-0.177/libdw/memory-access.h elfutils-0.177-he/libdw/memory-access.h
+--- elfutils-0.177/libdw/memory-access.h	2019-08-14 11:12:33.000000000 +0000
++++ elfutils-0.177-he/libdw/memory-access.h	2019-10-23 12:59:23.032845080 +0000
+@@ -30,7 +30,16 @@
+ #define _MEMORY_ACCESS_H 1
+ 
+ #include <byteswap.h>
++#if defined(__sgi)
++#define __LITTLE_ENDIAN 1234
++#define __BIG_ENDIAN 4321
++#define __BYTE_ORDER 1234
++#define LITTLE_ENDIAN 1234
++#define BIG_ENDIAN 4321
++#define BYTE_ORDER 1234
++#else
+ #include <endian.h>
++#endif
+ #include <limits.h>
+ #include <stdint.h>
+ 
+diff -N -r -u -w elfutils-0.177/libelf/common.h elfutils-0.177-he/libelf/common.h
+--- elfutils-0.177/libelf/common.h	2019-08-14 11:12:33.000000000 +0000
++++ elfutils-0.177-he/libelf/common.h	2019-10-23 12:36:09.154699960 +0000
+@@ -31,8 +31,13 @@
+ #define _COMMON_H       1
+ 
+ #include <ar.h>
+-#include <byteswap.h>
++#if defined(__sgi)
++#define __LITTLE_ENDIAN 1234
++#define __BYTE_ORDER 1234
++#else
+ #include <endian.h>
++#endif
++#include <byteswap.h>
+ #include <stdlib.h>
+ #include <string.h>
+ 
+diff -N -r -u -w elfutils-0.177/libelf/elf.h elfutils-0.177-he/libelf/elf.h
+--- elfutils-0.177/libelf/elf.h	2019-08-14 11:12:33.000000000 +0000
++++ elfutils-0.177-he/libelf/elf.h	2019-10-23 12:36:09.161943160 +0000
+@@ -19,10 +19,13 @@
+ #ifndef _ELF_H
+ #define	_ELF_H 1
+ 
++#if !defined(__sgi)
+ #include <features.h>
+ 
+ __BEGIN_DECLS
+ 
++#endif
++
+ /* Standard ELF types.  */
+ 
+ #include <stdint.h>
+@@ -4007,6 +4010,8 @@
+ #define R_NDS32_TLS_TPOFF	102
+ #define R_NDS32_TLS_DESC	119
+ 
++#if !defined(__sgi)
+ __END_DECLS
++#endif
+ 
+ #endif	/* elf.h */
+diff -N -r -u -w elfutils-0.177/libelf/elf32_checksum.c elfutils-0.177-he/libelf/elf32_checksum.c
+--- elfutils-0.177/libelf/elf32_checksum.c	2019-08-14 11:12:33.000000000 +0000
++++ elfutils-0.177-he/libelf/elf32_checksum.c	2019-10-23 12:43:56.790697560 +0000
+@@ -32,7 +32,16 @@
+ #endif
+ 
+ #include <assert.h>
++#if defined(__sgi)
++#define __LITTLE_ENDIAN 1234
++#define __BIG_ENDIAN 4321
++#define __BYTE_ORDER 1234
++#define LITTLE_ENDIAN 1234
++#define BIG_ENDIAN 4321
++#define BYTE_ORDER 1234
++#else
+ #include <endian.h>
++#endif
+ #include <stdbool.h>
+ #include <stddef.h>
+ #include <string.h>
+diff -N -r -u -w elfutils-0.177/libelf/elf32_updatenull.c elfutils-0.177-he/libelf/elf32_updatenull.c
+--- elfutils-0.177/libelf/elf32_updatenull.c	2019-08-14 11:12:33.000000000 +0000
++++ elfutils-0.177-he/libelf/elf32_updatenull.c	2019-10-23 12:42:36.081093840 +0000
+@@ -32,7 +32,16 @@
+ #endif
+ 
+ #include <assert.h>
++#if defined(__sgi)
++#define __LITTLE_ENDIAN 1234
++#define __BIG_ENDIAN 4321
++#define __BYTE_ORDER 1234
++#define LITTLE_ENDIAN 1234
++#define BIG_ENDIAN 4321
++#define BYTE_ORDER 1234
++#else
+ #include <endian.h>
++#endif
+ #include <libelf.h>
+ #include <stdbool.h>
+ #include <string.h>
+diff -N -r -u -w elfutils-0.177/libelf/elf32_xlatetof.c elfutils-0.177-he/libelf/elf32_xlatetof.c
+--- elfutils-0.177/libelf/elf32_xlatetof.c	2019-08-14 11:12:33.000000000 +0000
++++ elfutils-0.177-he/libelf/elf32_xlatetof.c	2019-10-23 12:37:40.519617080 +0000
+@@ -32,7 +32,13 @@
+ #endif
+ 
+ #include <assert.h>
++#if defined(__sgi)
++#define __LITTLE_ENDIAN 1234
++#define __BIG_ENDIAN 4321
++#define __BYTE_ORDER 1234
++#else
+ #include <endian.h>
++#endif
+ #include <string.h>
+ 
+ #include "libelfP.h"
+diff -N -r -u -w elfutils-0.177/libelf/elf32_xlatetom.c elfutils-0.177-he/libelf/elf32_xlatetom.c
+--- elfutils-0.177/libelf/elf32_xlatetom.c	2019-08-14 11:12:33.000000000 +0000
++++ elfutils-0.177-he/libelf/elf32_xlatetom.c	2019-10-23 12:39:03.551866640 +0000
+@@ -32,7 +32,16 @@
+ #endif
+ 
+ #include <assert.h>
++#if defined(__sgi)
++#define __LITTLE_ENDIAN 1234
++#define __BIG_ENDIAN 4321
++#define __BYTE_ORDER 1234
++#define LITTLE_ENDIAN 1234
++#define BIG_ENDIAN 4321
++#define BYTE_ORDER 1234
++#else
+ #include <endian.h>
++#endif
+ #include <string.h>
+ 
+ #include "libelfP.h"
+diff -N -r -u -w elfutils-0.177/libelf/elf_getarsym.c elfutils-0.177-he/libelf/elf_getarsym.c
+--- elfutils-0.177/libelf/elf_getarsym.c	2019-08-14 11:12:33.000000000 +0000
++++ elfutils-0.177-he/libelf/elf_getarsym.c	2019-10-23 12:41:29.067380680 +0000
+@@ -33,7 +33,16 @@
+ 
+ #include <assert.h>
+ #include <byteswap.h>
++#if defined(__sgi)
++#define __LITTLE_ENDIAN 1234
++#define __BIG_ENDIAN 4321
++#define __BYTE_ORDER 1234
++#define LITTLE_ENDIAN 1234
++#define BIG_ENDIAN 4321
++#define BYTE_ORDER 1234
++#else
+ #include <endian.h>
++#endif
+ #include <errno.h>
+ #include <stdbool.h>
+ #include <stdint.h>

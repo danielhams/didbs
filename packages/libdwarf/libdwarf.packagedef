@@ -1,0 +1,16 @@
+packageSource=https://www.prevanders.net/libdwarf-20191002.tar.gz
+packageFile=libdwarf-20191002.tar.gz
+packageDir=libdwarf-20191002
+packageChecksum=b083886b71615a0d36e1b21eade05ec4
+packagePatch=libdwarf.sgifixes.patch
+
+packageExtraction=tarxfsystemhelper.sh
+expectedToolList=
+dependenciesList=make,tar,gzip,zlib,gbs9_1-gcc9
+envModifs=setupenv.sh
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=1
+disabled=0
+compilers=gcc
