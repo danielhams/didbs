@@ -64,4 +64,27 @@ gcc8 actual -> /usr/didbs/0_*_*_n32_mips3_mp/gbs8_1
 gcc9 actual -> /usr/didbs/0_*_*_n32_mips3_mp/gbs9_1
 ```
 
-If you have issues with headers, it's maybe a mismatch of version and you may need to regenerate the GCC "fixed" headers.
+## Troubleshooting
+
+Getting a bunch of errors? If you have issues with headers, it's maybe a mismatch of version and you may need to regenerate the GCC "fixed" headers. If you are building on IRIX 6.5.22 you need to rebuild the headers for GCC since didbs was built on a 6.5.30 system. Once the headers are updated builds are fine on 6.5.22.
+
+Info here: https://gcc.gnu.org/onlinedocs/gcc/Fixed-Headers.html
+
+To find the mkheaders script a command like this (from /usr/didbs/current) will located them:
+
+```
+/usr/didbs/current $ find . -name mkheaders
+./gbs4_2/libexec/gcc/mips-sgi-irix6.5/4.8.2/install-tools/mkheaders
+./gbs5_0/libexec/gcc/mips-sgi-irix6.5/5.4.0/install-tools/mkheaders
+./gbs8_1/libexec/gcc/mips-sgi-irix6.5/8.2.0/install-tools/mkheaders
+./gbs9_1/libexec/gcc/mips-sgi-irix6.5/9.2.0/install-tools/mkheaders
+/usr/didbs/current $ 
+
+```
+Now move into the gcc version you want to update and run the mkheaders script from the install-tools directory. Once it's done go building.
+
+
+eof
+
+
+
