@@ -8,7 +8,7 @@ Be aware - this build process will create the exact same content that may be fou
 
 ## Needs
 
-* Irix 6.5.X (6.5.30 tested)
+* Irix 6.5.X (6.5.30, 6.5.22 (see troubleshooting below) tested)
 * Mips4 CPU (mips3 is a supported _target_ - but to build you need mips4)
 * Mipspro 7.4.4m
 * System perl (/usr/bin/perl)
@@ -82,6 +82,24 @@ To find the mkheaders script a command like this (from /usr/didbs/current) will 
 
 ```
 Now move into the gcc version you want to update and run the mkheaders script from the install-tools directory. Once it's done go building.
+
+## How to Do Stuff
+
+### Enable extra goodies in didbs.
+* go to the package directory of the target goodie (in this sample say `sudo`)
+* edit the sudo.packagedef file
+* change disabled=1 to 0 (it should be a 1 to indicate not to build on bootstrap)
+* save file
+* back in the main didbs repo directory a `./boostrap.pl --dryrun` should indicate it will be built
+
+```
+2019-10-25 00:43:23.676 Checking status of package sudo...
+2019-10-25 00:43:23.678 This package (sudo) is marked untested, please do the tests.
+2019-10-25 00:43:23.679   Package needs building...
+```
+
+* execute the `bootstrap.pl` command to build and install your new package.
+
 
 
 eof
