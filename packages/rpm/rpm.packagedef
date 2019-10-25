@@ -8,7 +8,7 @@ packageExtraction=tarxfsystemhelper.sh
 expectedToolList=
 # No python3 for now
 #dependenciesList=make,tar,bzip,gbs9_1-gcc9,libpopt,python3,astronfile,zlib,openssl,berkeley-db
-dependenciesList=make,tar,bzip,gbs9_1-gcc9,libpopt,python2,astronfile,zlib,openssl,berkeley-db,lua,libdwarf
+dependenciesList=make,tar,bzip,gbs9_1-gcc9,libpopt,python2,astronfile,zlib,openssl,berkeley-db,lua,libdwarf,elfutils
 envModifs=setupenv.sh
 configureRecipe=configureit
 buildRecipe=buildit

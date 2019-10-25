@@ -3,14 +3,16 @@ CC=$DIDBS_CC
 CXX=$DIDBS_CXX
 CPPFLAGS="$DIDBS_MP_CPPFLAGS -I$INSTALLDIR/include -I$INSTALLDIR/include/libdicl-0.1"
 if [ "ne$DIDBS_CC" == "negcc" ]; then
-    CFLAGS="$DIDBS_ARCH_CFLAGS $DIDBS_GCC_OPT_SWITCH -Wno-error"
+#    CFLAGS="$DIDBS_ARCH_CFLAGS -g -Og -Wno-error"
+    CFLAGS="$DIDBS_ARCH_CFLAGS -g -O2 -Wno-error"
+#    CFLAGS="$DIDBS_ARCH_CFLAGS $DIDBS_GCC_OPT_SWITCH -Wno-error"
     LDFLAGS="$DIDBS_ARCH_LDFLAGS -L$INSTALLDIR/$DIDBS_LIBDIR"
 else
     CFLAGS="$DIDBS_ARCH_CFLAGS $DIDBS_O2_NOIPA_CFLAGS $DIDBS_NOWARN_CFLAGS"
     LDFLAGS="$DIDBS_ARCH_LDFLAGS $DIDBS_NOIPA_LDFLAGS $DIDBS_NOWARN_LDFLAGS -L$INSTALLDIR/$DIDBS_LIBDIR"
 fi
-#LIBS="-ldicl-0.1 -lc -llzma -lpthread"
-CFLAGS="$CFLAGS -ldicl-0.1 -lintl -lc -llzma -lpthread"
+#LIBS="-ldicl-0.1 -lc -llzma -lpthread -lgen"
+LDFLAGS="$LDFLAGS -ldicl-0.1 -lintl -lc -llzma -lpthread -lgen"
 CXXFLAGS="$CFLAGS"
 PERL="$INSTALLDIR/bin/perl"
 TEST_SHELL="$INSTALLDIR/bin/bash"

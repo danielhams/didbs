@@ -11,5 +11,5 @@ cd $BUILDDIR || exit -1
 #autoreconf
 mkdir ../build-elfutils
 cd ../build-elfutils
-$BUILDDIR/configure --disable-nls --prefix=$INSTALLDIR --libdir=$INSTALLDIR/$DIDBS_LIBDIR || exit -1
+$BUILDDIR/configure --disable-nls --enable-install-elfh --prefix=$INSTALLDIR --libdir=$INSTALLDIR/$DIDBS_LIBDIR || exit -1
 exit 0
