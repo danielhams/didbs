@@ -3,6 +3,7 @@ No order other than alphanum, and no emails.
 
 dexter1
 gijoe
+hal
 jupo
 massiverobot
 michelbuca745
