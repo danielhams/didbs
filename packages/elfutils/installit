@@ -9,5 +9,5 @@ echo $EXTRAARGS
 . ./setupenv.sh
 cd $BUILDDIR || exit -1
 cd ../build-elfutils
-make -j 3 install || exit -1
+make -j $DIDBS_JOBS install || exit -1
 exit 0

@@ -1,7 +1,7 @@
-packageSource=https://github.com/danielhams/dicl/releases/download/0.1.11/libdicl-0.1.11.tar.gz
-packageFile=libdicl-0.1.11.tar.gz
-packageChecksum=40172fc24cf7a55b680ef3e76e23e677
-packageDir=libdicl-0.1.11
+packageSource=https://github.com/danielhams/dicl/releases/download/0.1.12/libdicl-0.1.12.tar.gz
+packageFile=libdicl-0.1.12.tar.gz
+packageChecksum=fc1cc04433ef021937464ade086f4d3d
+packageDir=libdicl-0.1.12
 #packagePatch=
 
 packageExtraction=tarxfsystemhelper.sh
