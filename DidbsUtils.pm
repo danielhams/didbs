@@ -41,7 +41,8 @@ sub sumfile
 {
     my $scriptLocation=shift;
     my $filename=shift;
-    $dsum = "$scriptLocation/mips4tools/md5sum";
+    # This should use the md5sum from /usr/didbs/current/bin
+    $dsum = "md5sum";
 
     my $digest = `$dsum $filename`;
     chomp($digest);

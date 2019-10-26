@@ -10,6 +10,7 @@ echo $EXTRAARGS
 cd $BUILDDIR || exit -1
 cd build-cacerts
 export INSTALLDIR
+mkdir -p $INSTALLDIR/sbin || exit 1
 install -vm755 ../make-ca.sh-20170514 $INSTALLDIR/sbin/make-ca.sh || exit 1
 $INSTALLDIR/sbin/make-ca.sh || exit 1
 

@@ -6,6 +6,7 @@ EXTRAARGS=$3
 echo $BUILDDIR
 echo $INSTALLDIR
 echo $EXTRAARGS
+exit 1
 . ./setupenv.sh
 MIPS4_PATCH="binutils2_23.didbsfixes_mips4default.patch"
 cp $MIPS4_PATCH $BUILDDIR/.. || exit 1

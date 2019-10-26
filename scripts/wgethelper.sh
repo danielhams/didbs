@@ -7,8 +7,9 @@ echo $SCRIPTLOCATION;
 echo $DESTDIR;
 echo $SOURCEURL;
 cd $DESTDIR || exit -1;
-# Don't check certificates, we don't have any CAs
-# This is "good enough" for now (since we are checking the md5sum anyway)
-$SCRIPTLOCATION/mips4tools/wget --no-check-certificate $SOURCEURL || exit -1;
+# We can use the "/usr/didbs/current/bin/wget" now,
+# which includes recent cacerts, so now it will properly check.
+# No more statically linked wget skipping certs.
+wget $SOURCEURL || exit -1;
 
 exit 0;

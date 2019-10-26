@@ -1,6 +1,6 @@
 diff -r -u -w make-4.2.1/dir.c make-4.2.1-patched/dir.c
 --- make-4.2.1/dir.c	2016-05-31 08:17:26.000000000 +0000
-+++ make-4.2.1-patched/dir.c	2019-06-15 17:33:37.290185960 +0000
++++ make-4.2.1-patched/dir.c	2019-10-26 13:53:37.147348080 +0000
 @@ -1299,15 +1299,40 @@
  }
  #endif
@@ -46,7 +46,7 @@ diff -r -u -w make-4.2.1/dir.c make-4.2.1-patched/dir.c
  void
 diff -r -u -w make-4.2.1/posixos.c make-4.2.1-patched/posixos.c
 --- make-4.2.1/posixos.c	2016-05-21 21:21:52.000000000 +0000
-+++ make-4.2.1-patched/posixos.c	2019-06-15 20:58:07.715241920 +0000
++++ make-4.2.1-patched/posixos.c	2019-10-26 13:53:37.164251920 +0000
 @@ -55,10 +55,33 @@
    if (job_rfd >= 0)
      CLOSE_ON_EXEC (job_rfd);
@@ -232,7 +232,7 @@ diff -r -u -w make-4.2.1/posixos.c make-4.2.1-patched/posixos.c
  
 diff -r -u -w make-4.2.1/tests/run_make_tests.pl make-4.2.1-patched/tests/run_make_tests.pl
 --- make-4.2.1/tests/run_make_tests.pl	2016-04-04 06:38:37.000000000 +0000
-+++ make-4.2.1-patched/tests/run_make_tests.pl	2019-06-15 17:33:37.296680600 +0000
++++ make-4.2.1-patched/tests/run_make_tests.pl	2019-10-26 13:53:37.167471600 +0000
 @@ -58,6 +58,9 @@
    *CORE::GLOBAL::rmdir = \&vms_rmdir;
  }
@@ -243,3 +243,15 @@ diff -r -u -w make-4.2.1/tests/run_make_tests.pl make-4.2.1-patched/tests/run_ma
  require "test_driver.pl";
  require "config-flags.pm";
  
+diff -r -u -w make-4.2.1/tests/test_driver.pl make-4.2.1-patched/tests/test_driver.pl
+--- make-4.2.1/tests/test_driver.pl	2016-02-28 17:48:44.000000000 +0000
++++ make-4.2.1-patched/tests/test_driver.pl	2019-10-26 14:30:51.745418400 +0000
+@@ -136,6 +136,8 @@
+   foreach (# UNIX-specific things
+            'TZ', 'TMPDIR', 'HOME', 'USER', 'LOGNAME', 'PATH',
+            'LD_LIBRARY_PATH',
++           'LD_LIBRARYN32_PATH',
++           'LD_LIBRARYN64_PATH',
+            # Purify things
+            'PURIFYOPTIONS',
+            # Windows NT-specific stuff

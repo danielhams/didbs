@@ -1,0 +1,16 @@
+packageSource=https://github.com/danielhams/dicl/releases/download/0.1.12/libdicl-0.1.12.tar.gz
+packageFile=libdicl-0.1.12.tar.gz
+packageChecksum=fc1cc04433ef021937464ade086f4d3d
+packageDir=libdicl-0.1.12
+#packagePatch=
+
+packageExtraction=tarxfsystemhelper.sh
+expectedToolList=
+dependenciesList=
+envModifs=setupenv.sh
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=1
+disabled=0
+compilers=mipspro,gcc

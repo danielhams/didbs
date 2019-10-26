@@ -5,7 +5,8 @@ if [ "ne$CC" == "negcc" ]; then
 else
     CFLAGS="$DIDBS_ARCH_CFLAGS -O1"
 fi
-LDFLAGS="$DIDBS_ARCH_LDFLAGS"
+CFLAGS="$CFLAGS -I$INSTALLDIR/include/libdicl-0.1"
+LDFLAGS="$DIDBS_ARCH_LDFLAGS -L$INSTALLDIR/$DIDBS_LIBDIR -ldicl-0.1"
 PATH=$INSTALLDIR/bin:$EXTRAARGS/bin:$PATH
 export CC CFLAGS LDFLAGS PATH
 if [ "ne$DIDBS_LIBDIR" == "nelib32" ]; then

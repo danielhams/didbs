@@ -6,7 +6,7 @@ packagePatch=cacerts.didbsfix.patch
 
 packageExtraction=donothing.sh
 expectedToolList=
-dependenciesList=openssl,wget-static
+dependenciesList=openssl
 envModifs=setupenv.sh
 configureRecipe=configureit
 buildRecipe=buildit

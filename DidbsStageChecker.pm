@@ -2,7 +2,7 @@ package DidbsStageChecker;
 
 use DidbsUtils;
 
-use constant PACKAGESTAGE => qw(STAGE0 BUILD);
+use constant PACKAGESTAGE => qw(BUILD);
 
 sub new
 {
@@ -38,84 +38,24 @@ sub getStageAdjustedPackageDir
 sub getStageAdjustedBuildDir
 {
     my $self = shift;
-    if( $self->{stageString} eq STAGE0 )
-    {
-	return "$self->{buildDir}/stage0/build";
-    }
-    else
-    {
-	return $self->{buildDir};
-    }
+    return $self->{buildDir};
 }
 
 sub getStageAdjustedInstallDir
 {
     my $self = shift;
-    if( $self->{stageString} eq STAGE0 )
-    {
-	return "$self->{buildDir}/stage0/install";
-    }
-    else
-    {
-	return $self->{installDir};
-    }
+    return $self->{installDir};
 }
 
 sub getStageAdjustedPackageDefDir()
 {
     my $self = shift;
-    if( $self->{stageString} eq STAGE0 )
-    {
-	return "$self->{scriptLocation}/packages/stage0";
-    }
-    else
-    {
-	return "$self->{scriptLocation}/packages";
-    }
-}
-
-sub getPathToStage0Root
-{
-    my $self = shift;
-    if( $self->{stageString} eq STAGE0 )
-    {
-	return "";
-    }
-    else
-    {
-	return "$self->{buildDir}/stage0/install";
-    }
+    return "$self->{scriptLocation}/packages";
 }
 
 sub calcMissingStage
 {
-    # We rely on a previous didbs release now for stage0 binaries
-    return undef;
-
-    ## Old code just in case this becomes useful....
-    my $self = shift;
-    
-    didbsprint "Checking if there is a missing stage...\n";
-
-    my $currentStage = $ENV{"DIDBS_STAGE"};
-    
-    my $stage0finishedfile = "$self->{buildDir}/stage0/stage.finished";
-    didbsprint "Looking for stage finished file at $stage0finishedfile\n";
-    my $stage0missing = !(-e $stage0finishedfile);
-
-    didbsprint "currentStage=$currentStage\n";
-    didbsprint "stage0missing=$stage0missing\n";
-#    exit;
-
-    if( defined($currentStage) )
-    {
-	return undef;
-    }
-    elsif( $stage0missing && $currentStage ne STAGE0 )
-    {
-	return STAGE0;
-    }
-
+    # We rely on a previous didbs release now for "stage0" binaries
     return undef;
 }
 
@@ -124,48 +64,6 @@ sub stagesMissing
     my $self = shift;
 
     return defined($self->{missingStageString});
-}
-
-sub callMissingStage
-{
-    my $self = shift;
-
-    my $stageMissing = $self->{missingStageString};
-
-    didbsprint "Attempting to call missing stage $stageMissing ...\n";
-
-    if( $stageMissing eq STAGE0 )
-    {
-	$ENV{"DIDBS_STAGE"} = "STAGE0";
-    }
-    else
-    {
-	didbsprint "Unknown stage that is missing!\n";
-	exit -1;
-    }
-
-    my $cmd = "$self->{scriptLocation}/bootstrap.pl";
-
-    if($verbose)
-    {
-	didbsprint "Relaunching didbs as $cmd\n";
-    }
-
-    system($cmd) == 0 || die $!;
-
-    didbsprint "Stage $stageMissing completed.\n";
-
-    $cmd = "touch $self->{buildDir}/".
-	lc($self->{missingStageString}).
-	"/stage.finished";
-    didbsprint "Touching stage complete file - $cmd\n";
-    system($cmd) == 0 || die $!;
-    ## Now remove the build directory (but not the binaries)
-    $cmd = "rm -rf $self->{buildDir}/".
-	lc($self->{missingStageString}).
-	"/build";
-    didbsprint "Cleaning up build dirs with '$cmd'\n";
-    system($cmd) == 0 || die $!;
 }
 
 sub prependEnvVarPath
@@ -178,7 +76,6 @@ sub prependEnvVarPath
     $ENV{$envVarName} = $extraPath . ":" . $prevValue;
     my $newValue = $ENV{$envVarName};
 
-    
     didbsprint "Reset $envVarName from $prevValue to $newValue\n";
 }
 

@@ -11,7 +11,6 @@ sub new
     my $packageDir = shift;
     my $buildDir = shift;
     my $installDir = shift;
-    my $pathToStage0Root = shift;
     my $didbsPackage = shift;
 
     $self->{scriptLocation} = $scriptLocation;
@@ -20,7 +19,6 @@ sub new
     $self->{packageDir} = $packageDir;
     $self->{buildDir} = $buildDir;
     $self->{installDir} = $installDir;
-    $self->{pathToStage0Root} = $pathToStage0Root;
     $self->{didbsPackage} = $didbsPackage;
 
     return $self;
@@ -36,7 +34,6 @@ sub debug
     didbsprint "packageDir $self->{packageDir}\n";
     didbsprint "buildDir $self->{buildDir}\n";
     didbsprint "installDir $self->{installDir}\n";
-    didbsprint "pathToStage0Root $self->{pathToStage0Root}\n";
     didbsprint "didbsPackage $self->{didbsPackage}\n";
 }
 

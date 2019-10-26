@@ -1,9 +1,3 @@
-#packageSource=ftp://ftp.mirrorservice.org/sites/sourceware.org/pub/gcc/releases/gcc-9.1.0/gcc-9.1.0.tar.gz
-#packageFile=gcc-9.1.0.tar.gz
-#packageChecksum=21cda7bbe39c95d0e81694433608a7be
-#packageDir=gcc-9.1.0
-packagePatch=gcc9_1_0.sgidevfixes.patch
-
 packageSource=ftp://ftp.mirrorservice.org/sites/sourceware.org/pub/gcc/releases/gcc-9.2.0/gcc-9.2.0.tar.gz
 packageFile=gcc-9.2.0.tar.gz
 packageChecksum=e03739b042a14376d727ddcfd05a9bc3
@@ -12,7 +6,7 @@ packagePatch=gcc9_2_0.sgidevfixes.patch
 
 packageExtraction=tarxfsystemhelper.sh
 expectedToolList=
-dependenciesList=gbs9_1-binutils
+dependenciesList=gmp,mpfr,mpc,libffi,libisl,gbs9_1-binutils
 envModifs=setupenv.sh
 configureRecipe=configureit
 buildRecipe=buildit

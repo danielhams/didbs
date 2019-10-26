@@ -11,7 +11,6 @@ sub new
     my $packageDir = shift;
     my $buildDir = shift;
     my $installDir = shift;
-    my $pathToStage0Root = shift;
     my $didbsPackage = shift;
     my $didbsExtractor = shift;
     my $didbsPatcher = shift;
@@ -23,7 +22,6 @@ sub new
     $self->{packageDir} = $packageDir;
     $self->{buildDir} = $buildDir;
     $self->{installDir} = $installDir;
-    $self->{pathToStage0Root} = $pathToStage0Root;
     $self->{didbsPackage} = $didbsPackage;
     $self->{didbsExtractor} = $didbsExtractor;
     $self->{didbsPatcher} = $didbsPatcher;
@@ -44,7 +42,6 @@ sub installit
     my $extraargs;
     if( begins_with($packageId,"stage1") )
     {
-#	$extraargs=$self->{pathToStage0Root};
 	$extraargs="/usr/didbs/current";
     }
     else

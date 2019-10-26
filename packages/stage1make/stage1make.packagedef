@@ -18,7 +18,7 @@ packagePatch=make.fixes.patch.4.2.1
 
 packageExtraction=guntarsystemhelper.sh
 expectedToolList=
-dependenciesList=
+dependenciesList=stage1libdicl
 envModifs=setupenv.sh
 configureRecipe=configureit
 buildRecipe=buildit

@@ -23,7 +23,7 @@ STDERR->autoflush(1);
 STDOUT->autoflush(1);
 
 my $argc = ($#ARGV + 1);
-my $version = "0.1.6";
+my $version = "0.1.7";
 
 (my $configfile = basename($0)) =~ s/^(.*?)(?:\..*)?$/$1.conf/;
 my $scriptLocation = $FindBin::Bin;
@@ -51,7 +51,6 @@ my $didbsisa = "mips3";
 my $didbscompiler = "mipspro";
 my $verbose = 0;
 my $clean = 0;
-my $clean_all = 0;
 my $stoponuntested = 0;
 my $dryrun = 0;
 my $buildpackage = undef;
@@ -148,8 +147,7 @@ Maintenance Options: (# = not yet working)
 \t-a mips3/mips4     \t--isa mips3/mips4      (mips3)
 \t-c mipspro/gcc     \t--compiler mipspro/gcc (mipspro)
 \t-v                 \t--verbose
-\t                   \t--clean                (non-stage0 builds)
-\t                   \t--clean-all            (builds + installs)
+\t                   \t--clean                (builds + installs)
 \t                   \t--stoponuntested
 \t                   \t--dryrun
 #\t                   \t--build PACKAGENAME
@@ -245,7 +243,6 @@ GetOptions(\%options,
 	   "compiler|c=s" => \$didbscompiler,
            "verbose|v" => \$verbose,
            "clean" => \$clean,
-           "clean-all" => \$clean_all,
            "stoponuntested" => \$stoponuntested,
            "dryrun" => \$dryrun,
 	   "build=s" => \$buildpackage,
@@ -318,40 +315,7 @@ sub prompt_before_delete
     }
 }
 
-sub prompt_before_delete_non_stage0
-{
-    my( $dirtodelete ) = @_;
-    didbsprint "About to delete $dirtodelete/*.installed and related directories\n";
-    if( prompt_yn("Are you sure") )
-    {
-	system("rm -rf $dirtodelete/*.installed");
-	my $cmd = "find $dirtodelete/* -type d -prune|grep -v stage0";
-	my @dirstodelete = `$cmd`;
-	chomp(@dirstodelete);
-	foreach $subdirtodelete (@dirstodelete)
-	{
-	    my $sbcmd = "rm -rf $subdirtodelete";
-#	    didbsprint "About to remove subdir with $sbcmd\n";
-	    system($sbcmd);
-	}
-	exit 0;
-    }
-    else
-    {
-	exit 0;
-    }
-}
-
 if( $clean )
-{
-    didbsprint "This will delete all non-stage0 content...\n";
-    # For now leave the packages there
-    prompt_before_delete_non_stage0($buildDir);
-    prompt_before_delete($installDir);
-    exit 0;
-}
-
-if( $clean_all )
 {
     didbsprint "This will delete all content...\n";
     # For now leave the packages there
@@ -555,25 +519,16 @@ if( $verbose ) {
     didbsprint "env hash      = '$didbsenvhash'\n";
 }
 
-# Check if the stage0 (stage1?) builds
+# Check if we need to modify paths for stage1 builds
 # are already complete
 my $stageChecker = DidbsStageChecker->new( $scriptLocation,
 					   $packageDir,
 					   $buildDir,
 					   $installDir );
 
-if( !defined($buildshellpackage) && $stageChecker->stagesMissing() )
-{
-    $verbose && didbsprint "Needed stages are missing..\n";
-    $stageChecker->callMissingStage();
-    exit 0;
-}
-else
-{
-    # Only do this once per run of the script to keep things sane
-    $verbose && didbsprint "Modifying current path for this stage..\n";
-    $stageChecker->modifyPathForCurrentStage();
-}
+# Only do this once per run of the script to keep things sane
+$verbose && didbsprint "Modifying current path for this stage..\n";
+$stageChecker->modifyPathForCurrentStage();
 
 my $origpath = $ENV{"PATH"};
 $ENV{"PATH"} = "$installDir/bin:$origpath";
@@ -583,7 +538,7 @@ $ENV{"DIDBS_INSTALL_DIR"} = $installDir;
 $ENV{"DIDBS_ISA"} = $didbsisa;
 $ENV{"DIDBS_ISA_SWITCH"} = "-$didbsisa";
 
-didbsprint "Modify the above in defaultenv.vars\n";
+didbsprint "Override the above by created a new file - overrideenv.vars\n";
 print"\n";
 
 my $packageDefsDir = $stageChecker->getStageAdjustedPackageDefDir();
@@ -601,12 +556,9 @@ my %pkgidToPackageMap = %{$p2pRef};
 my $sapd = $stageChecker->getStageAdjustedPackageDir();
 my $sabd = $stageChecker->getStageAdjustedBuildDir();
 my $said = $stageChecker->getStageAdjustedInstallDir();
-my $pathToStage0Root = $stageChecker->getPathToStage0Root();
-$ENV{"STAGE0ROOT"}=$pathToStage0Root;
 
 #didbsprint "packageDefsDir=$packageDefsDir\n";
 #didbsprint "sapd=$sapd\n";
-#didbsprint "pathToStage0Root=$pathToStage0Root\n";
 
 # Fast quit for buildshell
 if( $buildshellpackage )
@@ -624,7 +576,6 @@ if( $buildshellpackage )
 					      $packageDir,
 					      $sabd,
 					      $said,
-					      $pathToStage0Root,
 					      $bsPackage );
 
     if( $verbose )
@@ -663,7 +614,6 @@ foreach $pkg (@{$foundPackagesRef})
 		  $sapd,
 		  $sabd,
 		  $said,
-		  $pathToStage0Root,
 		  \$pkgDependencyEngine,
 		  \%foundPackageStates );
 }
@@ -690,7 +640,6 @@ sub checkPackage
 	$packageDir,
 	$buildDir,
 	$installDir,
-	$pathToStage0Root,
 	$pkgDependencyEngineRef,
 	$foundPackageStatesRef ) = @_;
 
@@ -787,7 +736,6 @@ sub checkPackage
 							 $packageDir,
 							 $buildDir,
 							 $installDir,
-							 $pathToStage0Root,
 							 $curpkg,
 							 $curpkgextractor,
 							 $curpkgpatcher );
@@ -808,7 +756,6 @@ sub checkPackage
 					       $packageDir,
 					       $buildDir,
 					       $installDir,
-					       $pathToStage0Root,
 					       $curpkg,
 					       $curpkgextractor,
 					       $curpkgpatcher,
@@ -840,7 +787,6 @@ sub checkPackage
 						   $packageDir,
 						   $buildDir,
 						   $installDir,
-						   $pathToStage0Root,
 						   $curpkg,
 						   $curpkgextractor,
 						   $curpkgpatcher,
