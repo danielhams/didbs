@@ -12,7 +12,7 @@ mkdir ../build-rpm
 cd ../build-rpm
 
 ## Last good compile (without openmp)
-ac_cv_func_getline=yes $BUILDDIR/configure --disable-nls --with-crypto=openssl --with-lua --with-python --disable-openmp --prefix=$INSTALLDIR --libdir=$INSTALLDIR/$DIDBS_LIBDIR || exit -1
+ac_cv_func_getline=yes $BUILDDIR/configure --disable-nls --with-crypto=openssl --with-lua --with-python --disable-openmp --prefix=$INSTALLDIR --libdir=$INSTALLDIR/$DIDBS_LIBDIR --with-rundir=$INSTALLDIR/var/run || exit -1
 # Use of OpenMP causes core dumps during tear down
 #ac_cv_func_getline=yes $BUILDDIR/configure --disable-nls --with-crypto=openssl --with-lua --with-python --prefix=$INSTALLDIR --libdir=$INSTALLDIR/$DIDBS_LIBDIR || exit -1
 exit 0
