@@ -1,6 +1,5 @@
 CC=$DIDBS_CC
 CPPFLAGS="-I$INSTALLDIR/include"
-
 if [ "ne$DIDBS_CC" == "negcc" ]; then
     CFLAGS="$DIDBS_ARCH_CFLAGS $DIDBS_GCC_OPT_SWITCH"
 #    CFLAGS="$DIDBS_ARCH_CFLAGS -g -O2"
