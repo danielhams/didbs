@@ -23,5 +23,5 @@ perl -pi -e "$REWRITE_REGEXP" config.gcc
 cd $BUILDDIR/..
 mkdir build-gcc
 cd build-gcc
-$BUILDDIR/configure --prefix=$GBS4_2_INSTALL_DIR --libdir=$GBS4_2_INSTALL_DIR/$DIDBS_LIBDIR --disable-silent-rules --disable-nls --disable-multilib --enable-obsolete --enable-languages=c,c++ --disable-bootstrap --enable-shared --enable-static --enable-threads=posix --enable-lto --with-gmp=$INSTALLDIR --with-mpfr=$INSTALLDIR --with-system-zlib --enable-checking=release --with-bugurl=$SGUG_URL || exit -1
+$BUILDDIR/configure --prefix=$GCC4_INSTALL_DIR --libdir=$GCC4_INSTALL_DIR/$DIDBS_LIBDIR --disable-silent-rules --disable-nls --disable-multilib --enable-obsolete --enable-languages=c,c++ --disable-bootstrap --enable-shared --enable-static --enable-threads=posix --enable-lto --with-gmp=$INSTALLDIR --with-mpfr=$INSTALLDIR --with-system-zlib --enable-checking=release --program-suffix=-4 --with-bugurl=$SGUG_URL || exit -1
 exit 0

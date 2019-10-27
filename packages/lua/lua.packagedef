@@ -6,7 +6,7 @@ packagePatch=lua.sgifixes.patch
 
 packageExtraction=tarxfsystemhelper.sh
 expectedToolList=
-dependenciesList=stage1libdicl,make,tar,gzip,gbs9_1-gcc9
+dependenciesList=stage1libdicl,make,tar,gzip,gcc9
 envModifs=setupenv.sh
 configureRecipe=configureit
 buildRecipe=buildit

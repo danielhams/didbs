@@ -6,11 +6,11 @@ packagePatch=gcc8_2_0.sgidevfixes.patch
 
 packageExtraction=tarxfsystemhelper.sh
 expectedToolList=
-dependenciesList=gbs9_1-gcc9
+dependenciesList=gcc9
 envModifs=setupenv.sh
 configureRecipe=configureit
 buildRecipe=buildit
 installRecipe=installit
 passesChecksIndicator=1
-disabled=0
+disabled=1
 compilers=mipspro,gcc

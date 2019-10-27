@@ -10,5 +10,5 @@ echo $EXTRAARGS
 cd $BUILDDIR || exit -1
 mkdir ../build-pu
 cd ../build-pu
-$BUILDDIR/configure gl_cv_func_getopt_posix=no --prefix=$GBS9_INSTALL_DIR --libdir=$GBS9_INSTALL_DIR/$DIDBS_LIBDIR --without-python --with-gnu-ld || exit -1
+$BUILDDIR/configure gl_cv_func_getopt_posix=no --prefix=$INSTALLDIR --libdir=$INSTALLDIR/$DIDBS_LIBDIR --without-python --with-gnu-ld || exit -1
 exit 0

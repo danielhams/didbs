@@ -6,7 +6,7 @@ packagePatch=gcc9_2_0.sgidevfixes.patch
 
 packageExtraction=tarxfsystemhelper.sh
 expectedToolList=
-dependenciesList=gmp,mpfr,mpc,libffi,libisl,gbs9_1-binutils
+dependenciesList=gmp,mpfr,mpc,libffi,libisl,binutils
 envModifs=setupenv.sh
 configureRecipe=configureit
 buildRecipe=buildit

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 BUILDDIR=$1
 INSTALLDIR=$2
@@ -8,6 +8,6 @@ echo $INSTALLDIR
 echo $EXTRAARGS
 . ./setupenv.sh
 cd $BUILDDIR || exit -1
-cd ../build-bu
-make -j $DIDS_JOBS || exit -1
+cd ../build-gdb
+make -j $DIDBS_JOBS || exit -1
 exit 0

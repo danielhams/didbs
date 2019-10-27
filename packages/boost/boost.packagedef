@@ -6,7 +6,7 @@ packagePatch=boost1_69_0.sgifixes.patch
 
 packageExtraction=tarxfsystemhelper.sh
 expectedToolList=
-dependenciesList=make,tar,gzip,gbs9_1-gcc9,python2
+dependenciesList=make,tar,gzip,gcc9,python2
 envModifs=setupenv.sh
 configureRecipe=configureit
 buildRecipe=buildit
