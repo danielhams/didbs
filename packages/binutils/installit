@@ -6,8 +6,24 @@ EXTRAARGS=$3
 echo $BUILDDIR
 echo $INSTALLDIR
 echo $EXTRAARGS
+# Ensure we don't have any existing hard links
+# before we install
+rm -f $INSTALLDIR/bin/ld
+rm -f $INSTALLDIR/bin/gld
+rm -f $INSTALLDIR/bin/as
+rm -f $INSTALLDIR/bin/gas
 . ./setupenv.sh
 cd $BUILDDIR || exit -1
 cd ../build-bu
 make install || exit -1
+cd $INSTALLDIR/bin
+ln ld gld || exit -1
+ln as gas || exit -1
+if [ "ne$DIDBS_CC" == "negcc" ]; then
+    echo "Didbs gcc release - leaving 'as' and 'ld' in ploace"
+else
+    # Remove the as and ld entries
+    rm -f as
+    rm -f ld
+fi
 exit 0
