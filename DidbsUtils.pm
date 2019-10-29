@@ -90,14 +90,14 @@ sub compatibledidbscurrent
 	$verbose && didbsprint "Matched $dirMajVer $dirGenVer $dirMinVer $dirRest\n";
 	if( $dirRest == "_n32_mips3_mp" ) {
 	    $verbose && didbsprint "Elf width, ISA + compiler OK\n";
-	    # Version check min is 0.1.6 (starting from 0.1.6)
+	    # Version check min is 0.1.7 (starting from 0.1.7)
 	    # due to the need for a particular didbs perl version.
 	    # max is current script minus one
 	    if( ($dirMajVer > 0)
 		||
 		($dirGenVer > 1)
 		||
-		($dirMinVer >= 6 ) ) {
+		($dirMinVer >= 7 ) ) {
 #		didbsprint "Min version check ok\n";
 		# Check the version is less or the same
 		if( ($dirMajVer < $scriptMajVer)
@@ -127,13 +127,7 @@ sub compatibledidbscurrent
     $verbose && didbsprint "Checking for needed gccs..";
     my $gccsAreOk=0;
     if(
-	-e '/usr/didbs/current/gbs4_2/bin/gcc'
-	&&
-	-e '/usr/didbs/current/gbs5_0/bin/gcc'
-	&&
-	-e '/usr/didbs/current/gbs8_1/bin/gcc'
-	&&
-	-e '/usr/didbs/current/gbs9_1/bin/gcc'
+	-e '/usr/didbs/current/bin/gcc'
 	) {
 	$gccsAreOk=1;
     }
