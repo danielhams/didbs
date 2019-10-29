@@ -14,6 +14,7 @@ rm -f $INSTALLDIR/bin/as
 rm -f $INSTALLDIR/bin/gas
 rm -f $INSTALLDIR/bin/ar
 rm -f $INSTALLDIR/bin/gar
+rm -f $INSTALLDIR/bin/ranlib
 . ./setupenv.sh
 cd $BUILDDIR || exit -1
 cd ../build-bu
@@ -22,12 +23,14 @@ cd $INSTALLDIR/bin
 ln ld gld || exit -1
 ln as gas || exit -1
 ln ar gar || exit -1
+ln ranlib granlib || exit -1
 if [ "ne$DIDBS_CC" == "negcc" ]; then
-    echo "Didbs gcc release - leaving 'as','ld','ar' in ploace"
+    echo "Didbs gcc release - leaving 'ar','as','ld','ranlib' in ploace"
 else
-    # Remove the ar,as,ld entries
+    # Remove the ar,as,ld,ranlib entries
     rm -f ar
     rm -f as
     rm -f ld
+    rm -f ranlib
 fi
 exit 0
