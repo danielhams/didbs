@@ -12,6 +12,8 @@ rm -f $INSTALLDIR/bin/ld
 rm -f $INSTALLDIR/bin/gld
 rm -f $INSTALLDIR/bin/as
 rm -f $INSTALLDIR/bin/gas
+rm -f $INSTALLDIR/bin/ar
+rm -f $INSTALLDIR/bin/gar
 . ./setupenv.sh
 cd $BUILDDIR || exit -1
 cd ../build-bu
@@ -19,10 +21,12 @@ make install || exit -1
 cd $INSTALLDIR/bin
 ln ld gld || exit -1
 ln as gas || exit -1
+ln ar gar || exit -1
 if [ "ne$DIDBS_CC" == "negcc" ]; then
-    echo "Didbs gcc release - leaving 'as' and 'ld' in ploace"
+    echo "Didbs gcc release - leaving 'as','ld','ar' in ploace"
 else
-    # Remove the as and ld entries
+    # Remove the ar,as,ld entries
+    rm -f ar
     rm -f as
     rm -f ld
 fi
