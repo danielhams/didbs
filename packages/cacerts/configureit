@@ -13,7 +13,7 @@ cd build-cacerts
 wget "http://anduin.linuxfromscratch.org/BLFS/other/certdata.txt"
 SUM=`sha256sum certdata.txt|cut -d " " -f 1`
 echo "SUM=$SUM"
-if [[ "ne$SUM" != "nee124a13fbdf9113f5299906cd90d5b2d65f63faac81b9bf739718b5d60cfc0d4" ]]; then
+if [[ "ne$SUM" != "nec31803239ac18e4f248e08648b726c8e7c92b9d4cec7b54e9f6fa4e94becf034" ]]; then
     echo "SHASUM of cert data failed! Refusing to continue"
     exit 1
 fi

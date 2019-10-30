@@ -6,7 +6,7 @@ packagePatch=paxutils.sgifixups.patch
 
 packageExtraction=tarxfsystemhelper.sh
 expectedToolList=
-dependenciesList=make,tar,gzip,diffutils,readline,ncurses,gcc9
+dependenciesList=make,tar,gzip,diffutils,readline,ncurses,gcc9,elfutils
 envModifs=setupenv.sh
 configureRecipe=configureit
 buildRecipe=buildit
