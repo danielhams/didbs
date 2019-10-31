@@ -266,12 +266,12 @@ if( !defined($packageDir) || !defined($buildDir) || !defined($installDir)
     usage(true);
 }
 
-my $compatibleDidbsCurrent = compatibledidbscurrent($verbose,$version);
+my $compatibleDidbsCurrent = compatibledidbscurrent($verbose,$didbscompiler,$version);
 if( !$compatibleDidbsCurrent )
 {
     print <<EOINCOMPATIBLEDIDBSCURRENT
 ERROR
-Starting with 0.1.6alpha, running bootstrap requires an existing compatible
+For didbs 0.1.7, running bootstrap requires an existing compatible
 didbs release behind a symbolic link at /usr/didbs/current.
 Unable to continue.
 EOINCOMPATIBLEDIDBSCURRENT

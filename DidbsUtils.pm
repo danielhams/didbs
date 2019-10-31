@@ -70,6 +70,7 @@ sub compatibledidbscurrent
 {
     my $retVal=1;
     my $verbose=shift;
+    my $didbscompiler=shift;
     my $version=shift;
     my($scriptMajVer,$scriptGenVer,$scriptMinVer) =
 	    $version =~ m/(\d)\.(\d)\.(\d)(.*)/;
@@ -88,8 +89,9 @@ sub compatibledidbscurrent
 	my($dirMajVer,$dirGenVer,$dirMinVer,$dirRest) =
 	    $dirBehindLink =~ m/(\d)_(\d)_(\d)[^_]*(_.+)/;
 	$verbose && didbsprint "Matched $dirMajVer $dirGenVer $dirMinVer $dirRest\n";
-	if( rindex($dirRest,"_n32_mips3_") == 0 ) {
-	    $verbose && didbsprint "Elf width, ISA OK\n";
+	my $expectedWidthIsaCompiler = "_n32_mips3_" . $didbscompiler;
+	if( rindex($dirRest,$expectedWidthIsaCompiler) == 0 ) {
+	    $verbose && didbsprint "Elf width, ISA, Compiler OK\n";
 	    # Version check min is 0.1.7 (starting from 0.1.7)
 	    # due to the need for a particular didbs perl version.
 	    # max is current script minus one
