@@ -89,7 +89,8 @@ sub compatibledidbscurrent
 	my($dirMajVer,$dirGenVer,$dirMinVer,$dirRest) =
 	    $dirBehindLink =~ m/(\d)_(\d)_(\d)[^_]*(_.+)/;
 	$verbose && didbsprint "Matched $dirMajVer $dirGenVer $dirMinVer $dirRest\n";
-	my $expectedWidthIsaCompiler = "_n32_mips3_" . $didbscompiler;
+	my $expectedWidthIsaCompiler = "_n32_mips3_" . 
+	    ($didbscompiler eq "gcc" ? "gcc" : "mp");
 	if( rindex($dirRest,$expectedWidthIsaCompiler) == 0 ) {
 	    $verbose && didbsprint "Elf width, ISA, Compiler OK\n";
 	    # Version check min is 0.1.7 (starting from 0.1.7)
