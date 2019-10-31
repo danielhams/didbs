@@ -88,8 +88,8 @@ sub compatibledidbscurrent
 	my($dirMajVer,$dirGenVer,$dirMinVer,$dirRest) =
 	    $dirBehindLink =~ m/(\d)_(\d)_(\d)[^_]*(_.+)/;
 	$verbose && didbsprint "Matched $dirMajVer $dirGenVer $dirMinVer $dirRest\n";
-	if( $dirRest == "_n32_mips3_mp" ) {
-	    $verbose && didbsprint "Elf width, ISA + compiler OK\n";
+	if( rindex($dirRest,"_n32_mips3_") == 0 ) {
+	    $verbose && didbsprint "Elf width, ISA OK\n";
 	    # Version check min is 0.1.7 (starting from 0.1.7)
 	    # due to the need for a particular didbs perl version.
 	    # max is current script minus one
