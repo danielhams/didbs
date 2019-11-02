@@ -1,0 +1,16 @@
+packageSource=https://github.com/arvidn/libtorrent/archive/libtorrent-1_2_2.tar.gz
+packageFile=libtorrent-1_2_2.tar.gz
+packageDir=libtorrent-libtorrent-1_2_2
+packageChecksum=4fe613f9850f64f826637ef52bb31d9a
+packagePatch=libtorrent.sgifixes.patch
+
+packageExtraction=tarxfsystemhelper.sh
+expectedToolList=
+dependenciesList=boost
+envModifs=setupenv.sh
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=1
+disabled=0
+compilers=gcc

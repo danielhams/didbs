@@ -1,0 +1,16 @@
+packageSource=https://some.url.org/stuff/package-N-2.tar.gz
+packageFile=package-N-2.tar.gz
+packageDir=package-N-2
+packageChecksum=sdgetbesghseh
+packagePatch=sampleport.sgifixes.patch
+
+packageExtraction=tarxfsystemhelper.sh
+expectedToolList=
+dependenciesList=otherport1,otherport2
+envModifs=setupenv.sh
+configureRecipe=configureit
+buildRecipe=buildit
+installRecipe=installit
+passesChecksIndicator=1
+disabled=1
+compilers=mipspro,gcc

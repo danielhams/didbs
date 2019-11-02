@@ -1,0 +1,17 @@
+#!/bin/sh
+
+BUILDDIR=$1
+INSTALLDIR=$2
+EXTRAARGS=$3
+echo $BUILDDIR
+echo $INSTALLDIR
+echo $EXTRAARGS
+. ./setupenv.sh
+cd $BUILDDIR || exit -1
+./autotool.sh || exit -1
+mkdir ../build-libtorrent
+cd ../build-libtorrent
+# Don't use / install the example directly
+#$BUILDDIR/configure --with-boost-system=boost_system --enable-examples --prefix=$INSTALLDIR --libdir=$INSTALLDIR/$DIDBS_LIBDIR || exit -1
+$BUILDDIR/configure --with-boost-system=boost_system --prefix=$INSTALLDIR --libdir=$INSTALLDIR/$DIDBS_LIBDIR || exit -1
+exit 0

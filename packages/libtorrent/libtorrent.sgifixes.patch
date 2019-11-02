@@ -1,0 +1,193 @@
+Only in libtorrent-libtorrent-1_2_2-patched: Makefile.in
+Only in libtorrent-libtorrent-1_2_2-patched: aclocal.m4
+Only in libtorrent-libtorrent-1_2_2-patched: autom4te.cache
+Only in libtorrent-libtorrent-1_2_2-patched/bindings: Makefile.in
+Only in libtorrent-libtorrent-1_2_2-patched/bindings/python: Makefile.in
+Only in libtorrent-libtorrent-1_2_2-patched: build-aux
+Only in libtorrent-libtorrent-1_2_2-patched: configure
+diff -r -u -w libtorrent-libtorrent-1_2_2/examples/Makefile.am libtorrent-libtorrent-1_2_2-patched/examples/Makefile.am
+--- libtorrent-libtorrent-1_2_2/examples/Makefile.am	2019-09-24 00:28:43.000000000 +0000
++++ libtorrent-libtorrent-1_2_2-patched/examples/Makefile.am	2019-11-01 14:27:04.733895720 +0000
+@@ -32,5 +32,5 @@
+ 
+ AM_CPPFLAGS = -ftemplate-depth-50 -I$(top_srcdir)/include @DEBUGFLAGS@ @OPENSSL_INCLUDES@
+ 
+-AM_LDFLAGS = @BOOST_SYSTEM_LIB@ @OPENSSL_LDFLAGS@ @OPENSSL_LIBS@
++AM_LDFLAGS = @BOOST_SYSTEM_LIB@ @OPENSSL_LDFLAGS@ @OPENSSL_LIBS@ -liconv
+ 
+Only in libtorrent-libtorrent-1_2_2-patched/examples: Makefile.in
+diff -r -u -w libtorrent-libtorrent-1_2_2/examples/client_test.cpp libtorrent-libtorrent-1_2_2-patched/examples/client_test.cpp
+--- libtorrent-libtorrent-1_2_2/examples/client_test.cpp	2019-09-24 00:28:43.000000000 +0000
++++ libtorrent-libtorrent-1_2_2-patched/examples/client_test.cpp	2019-11-01 16:42:49.822623200 +0000
+@@ -33,6 +33,7 @@
+ #include <cstdio> // for snprintf
+ #include <cstdlib> // for atoi
+ #include <cstring>
++#undef getline
+ #include <utility>
+ #include <deque>
+ #include <fstream>
+diff -r -u -w libtorrent-libtorrent-1_2_2/examples/connection_tester.cpp libtorrent-libtorrent-1_2_2-patched/examples/connection_tester.cpp
+--- libtorrent-libtorrent-1_2_2/examples/connection_tester.cpp	2019-09-24 00:28:43.000000000 +0000
++++ libtorrent-libtorrent-1_2_2-patched/examples/connection_tester.cpp	2019-11-01 14:27:04.738436280 +0000
+@@ -855,7 +855,7 @@
+ 		{
+ 			generate_block(piece, i, j);
+ 			int const left_in_piece = ti.piece_size(i) - j;
+-			iovec_t const b = { reinterpret_cast<char*>(piece)
++			libtorrent::iovec_t const b = { reinterpret_cast<char*>(piece)
+ 				, std::min(left_in_piece, 0x4000)};
+ 			storage_error error;
+ 			st->writev(b, i, j, open_mode::write_only, error);
+Only in libtorrent-libtorrent-1_2_2-patched/include/libtorrent: Makefile.in
+diff -r -u -w libtorrent-libtorrent-1_2_2/include/libtorrent/config.hpp libtorrent-libtorrent-1_2_2-patched/include/libtorrent/config.hpp
+--- libtorrent-libtorrent-1_2_2/include/libtorrent/config.hpp	2019-09-24 00:28:43.000000000 +0000
++++ libtorrent-libtorrent-1_2_2-patched/include/libtorrent/config.hpp	2019-11-01 14:27:04.741745640 +0000
+@@ -313,6 +313,17 @@
+ #define TORRENT_HAVE_MMAP 1
+ #define TORRENT_HAS_SYMLINK 1
+ 
++// ==== IRIX ===
++#elif defined __sgi
++#define TORRENT_IRIX
++#define TORRENT_USE_IFCONF 1
++#define TORRENT_HAS_SALEN 0
++#define TORRENT_HAVE_MMAP 1
++#define TORRENT_HAS_SYMLINK 1
++#define TORRENT_HAS_FALLOCATE 0
++
++#include <netdb.h>
++
+ // ==== BEOS ===
+ #elif defined __BEOS__ || defined __HAIKU__
+ #define TORRENT_BEOS
+Only in libtorrent-libtorrent-1_2_2-patched/m4: libtool.m4
+Only in libtorrent-libtorrent-1_2_2-patched/m4: ltoptions.m4
+Only in libtorrent-libtorrent-1_2_2-patched/m4: ltsugar.m4
+Only in libtorrent-libtorrent-1_2_2-patched/m4: ltversion.m4
+Only in libtorrent-libtorrent-1_2_2-patched/m4: lt~obsolete.m4
+Only in libtorrent-libtorrent-1_2_2-patched/src: Makefile.in
+diff -r -u -w libtorrent-libtorrent-1_2_2/src/block_cache.cpp libtorrent-libtorrent-1_2_2-patched/src/block_cache.cpp
+--- libtorrent-libtorrent-1_2_2/src/block_cache.cpp	2019-09-24 00:28:43.000000000 +0000
++++ libtorrent-libtorrent-1_2_2-patched/src/block_cache.cpp	2019-11-01 14:27:04.748274920 +0000
+@@ -30,6 +30,13 @@
+ 
+ */
+ 
++#if defined(__sgi)
++#undef _NO_XOPEN4
++#undef _ABIAPI
++#include <sys/select.h>
++#include <sys/time.h>
++#endif
++
+ #include "libtorrent/config.hpp"
+ #include "libtorrent/block_cache.hpp"
+ #include "libtorrent/assert.hpp"
+diff -r -u -w libtorrent-libtorrent-1_2_2/src/create_torrent.cpp libtorrent-libtorrent-1_2_2-patched/src/create_torrent.cpp
+--- libtorrent-libtorrent-1_2_2/src/create_torrent.cpp	2019-09-24 00:28:43.000000000 +0000
++++ libtorrent-libtorrent-1_2_2-patched/src/create_torrent.cpp	2019-11-01 14:27:04.751779400 +0000
+@@ -30,6 +30,13 @@
+ 
+ */
+ 
++#if defined(__sgi)
++#undef _NO_XOPEN4
++#undef _ABIAPI
++#include <sys/select.h>
++#include <sys/time.h>
++#endif
++
+ #include "libtorrent/create_torrent.hpp"
+ #include "libtorrent/utf8.hpp"
+ #include "libtorrent/disk_io_thread.hpp"
+diff -r -u -w libtorrent-libtorrent-1_2_2/src/disk_io_thread.cpp libtorrent-libtorrent-1_2_2-patched/src/disk_io_thread.cpp
+--- libtorrent-libtorrent-1_2_2/src/disk_io_thread.cpp	2019-09-24 00:28:43.000000000 +0000
++++ libtorrent-libtorrent-1_2_2-patched/src/disk_io_thread.cpp	2019-11-01 14:27:04.762245160 +0000
+@@ -30,6 +30,13 @@
+ 
+ */
+ 
++#if defined(__sgi)
++#undef _NO_XOPEN4
++#undef _ABIAPI
++#include <sys/select.h>
++#include <sys/time.h>
++#endif
++
+ #include "libtorrent/config.hpp"
+ #include "libtorrent/storage.hpp"
+ #include "libtorrent/disk_io_thread.hpp"
+diff -r -u -w libtorrent-libtorrent-1_2_2/src/file.cpp libtorrent-libtorrent-1_2_2-patched/src/file.cpp
+--- libtorrent-libtorrent-1_2_2/src/file.cpp	2019-09-24 00:28:43.000000000 +0000
++++ libtorrent-libtorrent-1_2_2-patched/src/file.cpp	2019-11-01 14:27:04.767201400 +0000
+@@ -30,6 +30,10 @@
+ 
+ */
+ 
++#if defined(__sgi)
++#include <sys/fcntl.h>
++#endif
++
+ #include "libtorrent/config.hpp"
+ #include "libtorrent/aux_/disable_warnings_push.hpp"
+ #include "libtorrent/span.hpp"
+diff -r -u -w libtorrent-libtorrent-1_2_2/src/path.cpp libtorrent-libtorrent-1_2_2-patched/src/path.cpp
+--- libtorrent-libtorrent-1_2_2/src/path.cpp	2019-09-24 00:28:43.000000000 +0000
++++ libtorrent-libtorrent-1_2_2-patched/src/path.cpp	2019-11-01 17:08:32.230251680 +0000
+@@ -724,7 +724,7 @@
+ #else
+ #define GetCurrentDir_ ::getcwd
+ #endif
+-		auto cwd = GetCurrentDir_(nullptr, 0);
++		auto cwd = GetCurrentDir_(nullptr, 1024);
+ 		if (cwd == nullptr)
+ 			aux::throw_ex<system_error>(error_code(errno, generic_category()));
+ 		auto holder = make_free_holder(cwd);
+diff -r -u -w libtorrent-libtorrent-1_2_2/src/storage.cpp libtorrent-libtorrent-1_2_2-patched/src/storage.cpp
+--- libtorrent-libtorrent-1_2_2/src/storage.cpp	2019-09-24 00:28:43.000000000 +0000
++++ libtorrent-libtorrent-1_2_2-patched/src/storage.cpp	2019-11-01 14:27:04.770812440 +0000
+@@ -30,6 +30,13 @@
+ 
+ */
+ 
++#if defined(__sgi)
++#undef _NO_XOPEN4
++#undef _ABIAPI
++#include <sys/select.h>
++#include <sys/time.h>
++#endif
++
+ #include "libtorrent/config.hpp"
+ #include "libtorrent/error_code.hpp"
+ #include "libtorrent/aux_/storage_utils.hpp"
+diff -r -u -w libtorrent-libtorrent-1_2_2/src/storage_utils.cpp libtorrent-libtorrent-1_2_2-patched/src/storage_utils.cpp
+--- libtorrent-libtorrent-1_2_2/src/storage_utils.cpp	2019-09-24 00:28:43.000000000 +0000
++++ libtorrent-libtorrent-1_2_2-patched/src/storage_utils.cpp	2019-11-01 14:27:04.774418840 +0000
+@@ -30,6 +30,13 @@
+ 
+ */
+ 
++#if defined(__sgi)
++#undef _NO_XOPEN4
++#undef _ABIAPI
++#include <sys/select.h>
++#include <sys/time.h>
++#endif
++
+ #include "libtorrent/aux_/storage_utils.hpp"
+ #include "libtorrent/file_storage.hpp"
+ #include "libtorrent/aux_/alloca.hpp"
+Only in libtorrent-libtorrent-1_2_2-patched/test: Makefile.in
+diff -r -u -w libtorrent-libtorrent-1_2_2/tools/Makefile.am libtorrent-libtorrent-1_2_2-patched/tools/Makefile.am
+--- libtorrent-libtorrent-1_2_2/tools/Makefile.am	2019-09-24 00:28:43.000000000 +0000
++++ libtorrent-libtorrent-1_2_2-patched/tools/Makefile.am	2019-11-01 14:27:04.776205880 +0000
+@@ -24,6 +24,6 @@
+ 
+ AM_CPPFLAGS = -ftemplate-depth-50 -I$(top_srcdir)/include @DEBUGFLAGS@
+ 
+-AM_LDFLAGS = @BOOST_SYSTEM_LIB@
++AM_LDFLAGS = @BOOST_SYSTEM_LIB@ -liconv
+ #AM_LDFLAGS = $(LDFLAGS) @BOOST_SYSTEM_LIB@ @OPENSSL_LDFLAGS@ @OPENSSL_LIBS@
+ #AM_LDFLAGS = @OPENSSL_LDFLAGS@
+Only in libtorrent-libtorrent-1_2_2-patched/tools: Makefile.in
