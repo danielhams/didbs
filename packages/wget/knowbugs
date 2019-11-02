@@ -1,0 +1,1 @@
+To execute the test suite it needs HTTP::Daemon installing. I suggest using the perl cpan module as it will auto-install the dependencies.
