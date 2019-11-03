@@ -1,14 +1,8 @@
-#packageSource=http://mirrorservice.org/pub/OpenBSD/OpenSSH/portable/openssh-7.7p1.tar.gz
-#packageFile=openssh-7.7p1.tar.gz
-#packageChecksum=68ba883aff6958297432e5877e9a0fe2
-#packageDir=openssh-7.7p1
-#packagePatch=openssh.fixforopenssl110.patch
-
-packageSource=http://mirrorservice.org/pub/OpenBSD/OpenSSH/portable/openssh-7.9p1.tar.gz
-packageFile=openssh-7.9p1.tar.gz
-packageChecksum=c6af50b7a474d04726a5aa747a5dce8f
-packageDir=openssh-7.9p1
-packagePatch=openssh7_9.sgifixes.patch
+packageSource=http://mirrorservice.org/pub/OpenBSD/OpenSSH/portable/openssh-8.1p1.tar.gz
+packageFile=openssh-8.1p1.tar.gz
+packageChecksum=513694343631a99841e815306806edf0
+packageDir=openssh-8.1p1
+packagePatch=openssh.sgifixes.patch
 
 packageExtraction=tarxfsystemhelper.sh
 expectedToolList=
@@ -18,4 +12,5 @@ configureRecipe=configureit
 buildRecipe=buildit
 installRecipe=installit
 passesChecksIndicator=1
+disabled=0
 compilers=mipspro,gcc

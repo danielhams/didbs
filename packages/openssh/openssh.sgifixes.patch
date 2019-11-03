@@ -1,6 +1,6 @@
-diff -u -r -w openssh-7.9p1/sshkey.c openssh-7.9p1-patched/sshkey.c
---- openssh-7.9p1/sshkey.c	2018-10-17 01:01:20.000000000 +0000
-+++ openssh-7.9p1-patched/sshkey.c	2019-02-03 16:17:36.501088960 +0000
+diff -u -r -w openssh-8.1p1/sshkey.c openssh-8.1p1-patched/sshkey.c
+--- openssh-8.1p1/sshkey.c	2018-10-17 01:01:20.000000000 +0000
++++ openssh-8.1p1-patched/sshkey.c	2019-02-03 16:17:36.501088960 +0000
 @@ -73,6 +73,10 @@
  #define DEFAULT_CIPHERNAME	"aes256-ctr"
  #define	DEFAULT_ROUNDS		16
