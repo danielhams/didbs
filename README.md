@@ -73,16 +73,15 @@ Now move into the gcc version you want to update and run the mkheaders script fr
 
 ## How to Do Stuff
 
-### Enable extra goodies in didbs.
-* go to the package directory of the target goodie (in this sample say `sudo`)
-* edit the sudo.packagedef file
+### Enable extra goodies in didbs (some may not work)
+* go to the package directory of the target goodie (in this sample say `frotz`)
+* edit the frotz.packagedef file
 * change disabled=1 to 0 (it should be a 1 to indicate not to build on bootstrap)
 * save file
 * back in the main didbs repo directory a `./boostrap.pl --dryrun` should indicate it will be built
 
 ```
-2019-10-25 00:43:23.676 Checking status of package sudo...
-2019-10-25 00:43:23.678 This package (sudo) is marked untested, please do the tests.
+2019-10-25 00:43:23.676 Checking status of package frotz...
 2019-10-25 00:43:23.679   Package needs building...
 ```
 
