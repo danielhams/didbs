@@ -13,7 +13,5 @@ cd $BUILDDIR || exit -1
 # Rewrite installation lib directory
 LIBDIR_REGEXP="s|INSTALLDIR\)/lib|INSTALLDIR\)/$DIDBS_LIBDIR|g"
 perl -pi -e "$LIBDIR_REGEXP" Makefile || exit -1
-MIPSVER_REGEXP="s| \-o | -n32 $DIDBS_ISA_SWITCH -o |g"
-perl -pi -e "$MIPSVER_REGEXP" Makefile || exit -1
 
 exit 0
