@@ -13,8 +13,12 @@ cd build-cacerts
 wget "http://anduin.linuxfromscratch.org/BLFS/other/certdata.txt"
 SUM=`sha256sum certdata.txt|cut -d " " -f 1`
 echo "SUM=$SUM"
-if [[ "ne$SUM" != "ne61fb51c9a3f7ea22902c310dd32942101e44627440561dbeb8f69add1e9646a1" ]]; then
+# CARE - DONT FORGET TO LEAVE an "ne" on the front when
+# you update the sha256sum below!
+if [[ "ne$SUM" != "ne5db3f552712f7afecd7a719a216845b713e44fc3a74ac53a4804bfae06d24b21" ]]; then
     echo "SHASUM of cert data failed! Refusing to continue"
+    echo "Update the packages/cacerts/configureit script taking care"
+    echo "to leave 'ne' on the front of the replaced sha256sum."
     exit 1
 fi
 
