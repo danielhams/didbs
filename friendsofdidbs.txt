@@ -8,4 +8,5 @@ jupo
 massiverobot
 michelbuca745
 onre
+thor
 unxmaal
