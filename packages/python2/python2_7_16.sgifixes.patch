@@ -1,6 +1,6 @@
 diff -u -r -w Python-2.7.16/Include/Python.h Python-2.7.16-patched/Include/Python.h
 --- Python-2.7.16/Include/Python.h	2019-03-02 18:17:42.000000000 +0000
-+++ Python-2.7.16-patched/Include/Python.h	2019-07-19 23:58:09.706983400 +0000
++++ Python-2.7.16-patched/Include/Python.h	2019-11-05 11:31:51.868311720 +0000
 @@ -26,9 +26,9 @@
  #error "Python's source code assumes C's unsigned char is an 8-bit type."
  #endif
@@ -27,7 +27,7 @@ diff -u -r -w Python-2.7.16/Include/Python.h Python-2.7.16-patched/Include/Pytho
  #ifdef HAVE_CRYPT_H
 diff -u -r -w Python-2.7.16/Lib/distutils/ccompiler.py Python-2.7.16-patched/Lib/distutils/ccompiler.py
 --- Python-2.7.16/Lib/distutils/ccompiler.py	2019-03-02 18:17:42.000000000 +0000
-+++ Python-2.7.16-patched/Lib/distutils/ccompiler.py	2019-07-19 23:58:09.714803640 +0000
++++ Python-2.7.16-patched/Lib/distutils/ccompiler.py	2019-11-05 11:31:55.141987280 +0000
 @@ -671,6 +671,7 @@
                          runtime_library_dirs=None, export_symbols=None,
                          debug=0, extra_preargs=None, extra_postargs=None,
@@ -46,7 +46,7 @@ diff -u -r -w Python-2.7.16/Lib/distutils/ccompiler.py Python-2.7.16-patched/Lib
                    libraries, library_dirs, runtime_library_dirs,
 diff -u -r -w Python-2.7.16/Lib/distutils/sysconfig.py Python-2.7.16-patched/Lib/distutils/sysconfig.py
 --- Python-2.7.16/Lib/distutils/sysconfig.py	2019-03-02 18:17:42.000000000 +0000
-+++ Python-2.7.16-patched/Lib/distutils/sysconfig.py	2019-07-19 23:58:09.718764200 +0000
++++ Python-2.7.16-patched/Lib/distutils/sysconfig.py	2019-11-05 11:31:55.876006440 +0000
 @@ -197,11 +197,11 @@
              ldshared = ldshared + ' ' + os.environ['LDFLAGS']
          if 'CFLAGS' in os.environ:
@@ -71,7 +71,7 @@ diff -u -r -w Python-2.7.16/Lib/distutils/sysconfig.py Python-2.7.16-patched/Lib
              compiler=cc_cmd,
 diff -u -r -w Python-2.7.16/Lib/distutils/unixccompiler.py Python-2.7.16-patched/Lib/distutils/unixccompiler.py
 --- Python-2.7.16/Lib/distutils/unixccompiler.py	2019-03-02 18:17:42.000000000 +0000
-+++ Python-2.7.16-patched/Lib/distutils/unixccompiler.py	2019-07-19 23:58:09.722502760 +0000
++++ Python-2.7.16-patched/Lib/distutils/unixccompiler.py	2019-11-05 11:32:36.334467400 +0000
 @@ -59,8 +59,8 @@
                     'compiler'     : ["cc"],
                     'compiler_so'  : ["cc"],
@@ -123,9 +123,20 @@ diff -u -r -w Python-2.7.16/Lib/distutils/unixccompiler.py Python-2.7.16-patched
                  self.spawn(linker + ld_args)
              except DistutilsExecError, msg:
                  raise LinkError, msg
+@@ -236,7 +242,9 @@
+             if self._is_gcc(compiler):
+                 return ["-Wl,+s", "-L" + dir]
+             return ["+s", "-L" + dir]
+-        elif sys.platform[:7] == "irix646" or sys.platform[:6] == "osf1V5":
++        elif sys.platform[:6] == "osf1V5":
++            return ["-rpath", dir]
++        elif sys.platform[:4] == "irix":
+             return ["-rpath", dir]
+         elif self._is_gcc(compiler):
+             return "-Wl,-R" + dir
 diff -u -r -w Python-2.7.16/Lib/multiprocessing/__init__.py Python-2.7.16-patched/Lib/multiprocessing/__init__.py
 --- Python-2.7.16/Lib/multiprocessing/__init__.py	2019-03-02 18:17:42.000000000 +0000
-+++ Python-2.7.16-patched/Lib/multiprocessing/__init__.py	2019-07-19 23:58:09.725817000 +0000
++++ Python-2.7.16-patched/Lib/multiprocessing/__init__.py	2019-11-05 11:31:57.578518280 +0000
 @@ -124,6 +124,12 @@
                  num = int(p.read())
          except ValueError:
@@ -141,7 +152,7 @@ diff -u -r -w Python-2.7.16/Lib/multiprocessing/__init__.py Python-2.7.16-patche
              num = os.sysconf('SC_NPROCESSORS_ONLN')
 diff -u -r -w Python-2.7.16/Modules/mathmodule.c Python-2.7.16-patched/Modules/mathmodule.c
 --- Python-2.7.16/Modules/mathmodule.c	2019-03-02 18:17:42.000000000 +0000
-+++ Python-2.7.16-patched/Modules/mathmodule.c	2019-07-19 23:58:34.843299080 +0000
++++ Python-2.7.16-patched/Modules/mathmodule.c	2019-11-05 11:31:59.002359520 +0000
 @@ -52,6 +52,8 @@
     returned.
   */
@@ -153,7 +164,7 @@ diff -u -r -w Python-2.7.16/Modules/mathmodule.c Python-2.7.16-patched/Modules/m
  
 diff -u -r -w Python-2.7.16/Modules/socketmodule.c Python-2.7.16-patched/Modules/socketmodule.c
 --- Python-2.7.16/Modules/socketmodule.c	2019-03-02 18:17:42.000000000 +0000
-+++ Python-2.7.16-patched/Modules/socketmodule.c	2019-07-19 23:58:25.589370120 +0000
++++ Python-2.7.16-patched/Modules/socketmodule.c	2019-11-05 11:31:59.103737200 +0000
 @@ -81,6 +81,10 @@
  
  */
@@ -167,7 +178,7 @@ diff -u -r -w Python-2.7.16/Modules/socketmodule.c Python-2.7.16-patched/Modules
  /* for getaddrinfo thread safety test on old versions of OS X */
 diff -u -r -w Python-2.7.16/configure Python-2.7.16-patched/configure
 --- Python-2.7.16/configure	2019-03-02 18:17:42.000000000 +0000
-+++ Python-2.7.16-patched/configure	2019-07-19 23:58:09.778516440 +0000
++++ Python-2.7.16-patched/configure	2019-11-05 11:31:59.123802080 +0000
 @@ -3313,7 +3313,7 @@
  	cygwin*) MACHDEP="cygwin";;
  	darwin*) MACHDEP="darwin";;
@@ -248,7 +259,7 @@ diff -u -r -w Python-2.7.16/configure Python-2.7.16-patched/configure
  
 diff -u -r -w Python-2.7.16/configure.ac Python-2.7.16-patched/configure.ac
 --- Python-2.7.16/configure.ac	2019-03-02 18:17:42.000000000 +0000
-+++ Python-2.7.16-patched/configure.ac	2019-07-19 23:58:46.437726920 +0000
++++ Python-2.7.16-patched/configure.ac	2019-11-05 11:31:59.223231760 +0000
 @@ -366,7 +366,7 @@
  	cygwin*) MACHDEP="cygwin";;
  	darwin*) MACHDEP="darwin";;
