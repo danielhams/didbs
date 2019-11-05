@@ -8,5 +8,10 @@ echo $INSTALLDIR
 echo $EXTRAARGS
 . ./setupenv.sh
 cd $BUILDDIR || exit -1
-./configure ac_cv_header_stdbool_h=no ac_cv_type__Bool=no --prefix=$INSTALLDIR --libdir=$INSTALLDIR/$DIDBS_LIBDIR --disable-silent-rules || exit -1
+if [ "ne$CC" == "negcc" ]; then
+    ./configure --prefix=$INSTALLDIR --libdir=$INSTALLDIR/$DIDBS_LIBDIR --disable-silent-rules || exit -1
+else
+    ./configure ac_cv_header_stdbool_h=no ac_cv_type__Bool=no --prefix=$INSTALLDIR --libdir=$INSTALLDIR/$DIDBS_LIBDIR --disable-silent-rules || exit -1
+fi
+
 exit 0
