@@ -6,7 +6,7 @@ packagePatch=epm.didbsfixes.patch
 
 packageExtraction=tarxfsystemhelper.sh
 expectedToolList=
-dependenciesList=make,tar,gzip
+dependenciesList=make,tar,gzip,rpm
 envModifs=setupenv.sh
 configureRecipe=configureit
 buildRecipe=buildit
