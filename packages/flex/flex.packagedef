@@ -2,7 +2,7 @@ packageSource=https://github.com/westes/flex/files/981163/flex-2.6.4.tar.gz
 packageFile=flex-2.6.4.tar.gz
 packageChecksum=2882e3179748cc9f9c23ec593d6adc8d
 packageDir=flex-2.6.4
-#packagePatch=
+packagePatch=flex.sgifixes.patch
 
 packageExtraction=tarxfsystemhelper.sh
 expectedToolList=
