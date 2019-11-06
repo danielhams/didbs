@@ -1,6 +1,6 @@
 diff -r -u -w openssl-1.1.1d/Configurations/10-main.conf openssl-1.1.1d-patched/Configurations/10-main.conf
 --- openssl-1.1.1d/Configurations/10-main.conf	2019-09-10 14:13:07.000000000 +0000
-+++ openssl-1.1.1d-patched/Configurations/10-main.conf	2019-11-02 18:12:44.060883720 +0000
++++ openssl-1.1.1d-patched/Configurations/10-main.conf	2019-11-06 15:08:48.415055160 +0000
 @@ -375,7 +375,7 @@
          CFLAGS           => picker(debug   => "-g -O0",
                                     release => "-O3"),
@@ -10,10 +10,21 @@ diff -r -u -w openssl-1.1.1d/Configurations/10-main.conf openssl-1.1.1d-patched/
          bn_ops           => "RC4_CHAR SIXTY_FOUR_BIT",
          perlasm_scheme   => "n32",
          multilib         => "32",
-@@ -389,6 +389,16 @@
+@@ -389,6 +389,27 @@
          bn_ops           => "RC4_CHAR SIXTY_FOUR_BIT",
          perlasm_scheme   => "n32",
          multilib         => "32",
++    },
++    "irix-mips4-gcc" => {
++        inherit_from     => [ "irix-common", asm("mips64_asm") ],
++        CC               => "gcc",
++        CFLAGS           => picker(debug   => "-g -O0",
++                                   release => "-O3"),
++        LDFLAGS          => "-static-libgcc",
++        cflags           => "-mabi=n32 -mips4 -Wl,--unresolved-symbols=ignore-all",
++        bn_ops           => "RC4_CHAR SIXTY_FOUR_BIT",
++        perlasm_scheme   => "n32",
++        multilib         => "32",
 +    },
 +    "irix-mips4-cc" => {
 +        inherit_from     => [ "irix-common", asm("mips64_asm") ],
@@ -29,7 +40,7 @@ diff -r -u -w openssl-1.1.1d/Configurations/10-main.conf openssl-1.1.1d-patched/
      "irix64-mips4-gcc" => {
 diff -r -u -w openssl-1.1.1d/Configurations/unix-Makefile.tmpl openssl-1.1.1d-patched/Configurations/unix-Makefile.tmpl
 --- openssl-1.1.1d/Configurations/unix-Makefile.tmpl	2019-09-10 14:13:07.000000000 +0000
-+++ openssl-1.1.1d-patched/Configurations/unix-Makefile.tmpl	2019-11-02 18:13:31.101876000 +0000
++++ openssl-1.1.1d-patched/Configurations/unix-Makefile.tmpl	2019-11-06 15:04:33.401617440 +0000
 @@ -379,7 +379,7 @@
                            '$(CNF_CXXFLAGS)', '$(CXXFLAGS)') -}
  LIB_LDFLAGS={- join(' ', $target{shared_ldflag} || (),
@@ -50,7 +61,7 @@ diff -r -u -w openssl-1.1.1d/Configurations/unix-Makefile.tmpl openssl-1.1.1d-pa
                            (map { '-D'.$_ } @{$config{bin_defines} || ()}),
 diff -r -u -w openssl-1.1.1d/config openssl-1.1.1d-patched/config
 --- openssl-1.1.1d/config	2019-09-10 14:13:07.000000000 +0000
-+++ openssl-1.1.1d-patched/config	2019-11-02 18:13:42.391602600 +0000
++++ openssl-1.1.1d-patched/config	2019-11-06 15:04:33.409094960 +0000
 @@ -1,4 +1,4 @@
 -#!/bin/sh
 +#!/usr/bin/env sh
@@ -59,7 +70,7 @@ diff -r -u -w openssl-1.1.1d/config openssl-1.1.1d-patched/config
  # Licensed under the OpenSSL license (the "License").  You may not use
 diff -r -u -w openssl-1.1.1d/demos/certs/apps/mkacerts.sh openssl-1.1.1d-patched/demos/certs/apps/mkacerts.sh
 --- openssl-1.1.1d/demos/certs/apps/mkacerts.sh	2019-09-10 14:13:07.000000000 +0000
-+++ openssl-1.1.1d-patched/demos/certs/apps/mkacerts.sh	2019-11-02 18:14:05.575146960 +0000
++++ openssl-1.1.1d-patched/demos/certs/apps/mkacerts.sh	2019-11-06 15:04:33.411792160 +0000
 @@ -1,4 +1,4 @@
 -#!/bin/sh
 +#!/usr/bin/env sh
@@ -68,7 +79,7 @@ diff -r -u -w openssl-1.1.1d/demos/certs/apps/mkacerts.sh openssl-1.1.1d-patched
  
 diff -r -u -w openssl-1.1.1d/test/certs/setup.sh openssl-1.1.1d-patched/test/certs/setup.sh
 --- openssl-1.1.1d/test/certs/setup.sh	2019-09-10 14:13:07.000000000 +0000
-+++ openssl-1.1.1d-patched/test/certs/setup.sh	2019-11-02 18:14:30.315869880 +0000
++++ openssl-1.1.1d-patched/test/certs/setup.sh	2019-11-06 15:04:33.414767360 +0000
 @@ -1,4 +1,4 @@
 -#! /bin/sh
 +#! /usr/bin/env sh
@@ -77,7 +88,7 @@ diff -r -u -w openssl-1.1.1d/test/certs/setup.sh openssl-1.1.1d-patched/test/cer
  # root cert variants: CA:false, key2, DN2
 diff -r -u -w openssl-1.1.1d/test/ct_test.c openssl-1.1.1d-patched/test/ct_test.c
 --- openssl-1.1.1d/test/ct_test.c	2019-09-10 14:13:07.000000000 +0000
-+++ openssl-1.1.1d-patched/test/ct_test.c	2019-11-02 18:15:33.296885760 +0000
++++ openssl-1.1.1d-patched/test/ct_test.c	2019-11-06 15:04:33.417208480 +0000
 @@ -415,9 +415,7 @@
      return result;
  }
@@ -100,7 +111,7 @@ diff -r -u -w openssl-1.1.1d/test/ct_test.c openssl-1.1.1d-patched/test/ct_test.
          return 0;
 diff -r -u -w openssl-1.1.1d/test/recipes/01-test_symbol_presence.t openssl-1.1.1d-patched/test/recipes/01-test_symbol_presence.t
 --- openssl-1.1.1d/test/recipes/01-test_symbol_presence.t	2019-09-10 14:13:07.000000000 +0000
-+++ openssl-1.1.1d-patched/test/recipes/01-test_symbol_presence.t	2019-11-02 18:16:58.079838040 +0000
++++ openssl-1.1.1d-patched/test/recipes/01-test_symbol_presence.t	2019-11-06 15:04:33.419120880 +0000
 @@ -57,7 +57,7 @@
          note "Number of lines in \@def_lines before massaging: ", scalar @def_lines;
  
@@ -112,7 +123,7 @@ diff -r -u -w openssl-1.1.1d/test/recipes/01-test_symbol_presence.t openssl-1.1.
          # The output we got is in Unix .map format, which has a global
 diff -r -u -w openssl-1.1.1d/test/recipes/95-test_external_krb5_data/krb5.sh openssl-1.1.1d-patched/test/recipes/95-test_external_krb5_data/krb5.sh
 --- openssl-1.1.1d/test/recipes/95-test_external_krb5_data/krb5.sh	2019-09-10 14:13:07.000000000 +0000
-+++ openssl-1.1.1d-patched/test/recipes/95-test_external_krb5_data/krb5.sh	2019-11-02 18:17:14.021179000 +0000
++++ openssl-1.1.1d-patched/test/recipes/95-test_external_krb5_data/krb5.sh	2019-11-06 15:04:33.421040720 +0000
 @@ -1,4 +1,4 @@
 -#!/bin/sh -ex
 +#!/usr/bin/env sh -ex
@@ -121,7 +132,7 @@ diff -r -u -w openssl-1.1.1d/test/recipes/95-test_external_krb5_data/krb5.sh ope
  #
 diff -r -u -w openssl-1.1.1d/test/recipes/95-test_external_pyca_data/cryptography.sh openssl-1.1.1d-patched/test/recipes/95-test_external_pyca_data/cryptography.sh
 --- openssl-1.1.1d/test/recipes/95-test_external_pyca_data/cryptography.sh	2019-09-10 14:13:07.000000000 +0000
-+++ openssl-1.1.1d-patched/test/recipes/95-test_external_pyca_data/cryptography.sh	2019-11-02 18:17:30.773192480 +0000
++++ openssl-1.1.1d-patched/test/recipes/95-test_external_pyca_data/cryptography.sh	2019-11-06 15:04:33.422494000 +0000
 @@ -1,4 +1,4 @@
 -#!/bin/sh
 +#!/usr/bin/env sh
@@ -130,7 +141,7 @@ diff -r -u -w openssl-1.1.1d/test/recipes/95-test_external_pyca_data/cryptograph
  # Copyright (c) 2017, Oracle and/or its affiliates.  All rights reserved.
 diff -r -u -w openssl-1.1.1d/test/smime-certs/mksmime-certs.sh openssl-1.1.1d-patched/test/smime-certs/mksmime-certs.sh
 --- openssl-1.1.1d/test/smime-certs/mksmime-certs.sh	2019-09-10 14:13:07.000000000 +0000
-+++ openssl-1.1.1d-patched/test/smime-certs/mksmime-certs.sh	2019-11-02 18:17:52.069534200 +0000
++++ openssl-1.1.1d-patched/test/smime-certs/mksmime-certs.sh	2019-11-06 15:04:33.454634480 +0000
 @@ -1,4 +1,4 @@
 -#!/bin/sh
 +#!/usr/bin/env sh
@@ -139,7 +150,7 @@ diff -r -u -w openssl-1.1.1d/test/smime-certs/mksmime-certs.sh openssl-1.1.1d-pa
  # Licensed under the OpenSSL license (the "License").  You may not use
 diff -r -u -w openssl-1.1.1d/util/check-malloc-errs openssl-1.1.1d-patched/util/check-malloc-errs
 --- openssl-1.1.1d/util/check-malloc-errs	2019-09-10 14:13:07.000000000 +0000
-+++ openssl-1.1.1d-patched/util/check-malloc-errs	2019-11-02 18:18:03.759784120 +0000
++++ openssl-1.1.1d-patched/util/check-malloc-errs	2019-11-06 15:04:33.456392240 +0000
 @@ -1,4 +1,4 @@
 -#! /bin/sh
 +#! /usr/bin/env sh
@@ -148,7 +159,7 @@ diff -r -u -w openssl-1.1.1d/util/check-malloc-errs openssl-1.1.1d-patched/util/
  # Licensed under the OpenSSL license (the "License").  You may not use
 diff -r -u -w openssl-1.1.1d/util/openssl-format-source openssl-1.1.1d-patched/util/openssl-format-source
 --- openssl-1.1.1d/util/openssl-format-source	2019-09-10 14:13:07.000000000 +0000
-+++ openssl-1.1.1d-patched/util/openssl-format-source	2019-11-02 18:18:12.165230040 +0000
++++ openssl-1.1.1d-patched/util/openssl-format-source	2019-11-06 15:04:33.457967600 +0000
 @@ -1,4 +1,4 @@
 -#!/bin/sh
 +#!/usr/bin/env sh
@@ -157,7 +168,7 @@ diff -r -u -w openssl-1.1.1d/util/openssl-format-source openssl-1.1.1d-patched/u
  #
 diff -r -u -w openssl-1.1.1d/util/opensslwrap.sh openssl-1.1.1d-patched/util/opensslwrap.sh
 --- openssl-1.1.1d/util/opensslwrap.sh	2019-09-10 14:13:07.000000000 +0000
-+++ openssl-1.1.1d-patched/util/opensslwrap.sh	2019-11-02 18:18:21.505980640 +0000
++++ openssl-1.1.1d-patched/util/opensslwrap.sh	2019-11-06 15:04:33.459344800 +0000
 @@ -1,4 +1,4 @@
 -#!/bin/sh
 +#!/usr/bin/env sh
@@ -166,7 +177,7 @@ diff -r -u -w openssl-1.1.1d/util/opensslwrap.sh openssl-1.1.1d-patched/util/ope
  OPENSSL="${HERE}../apps/openssl"
 diff -r -u -w openssl-1.1.1d/util/shlib_wrap.sh.in openssl-1.1.1d-patched/util/shlib_wrap.sh.in
 --- openssl-1.1.1d/util/shlib_wrap.sh.in	2019-09-10 14:13:07.000000000 +0000
-+++ openssl-1.1.1d-patched/util/shlib_wrap.sh.in	2019-11-02 18:18:36.403173880 +0000
++++ openssl-1.1.1d-patched/util/shlib_wrap.sh.in	2019-11-06 15:04:33.462009280 +0000
 @@ -1,4 +1,4 @@
 -#!/bin/sh
 +#!/usr/bin/env sh
