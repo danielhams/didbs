@@ -71,6 +71,12 @@ To find the mkheaders script a command like this (from /usr/didbs/current) will 
 ```
 Now move into the gcc version you want to update and run the mkheaders script from the install-tools directory. Once it's done go building.
 
+### Solutions To Problems
+
+The currently known list of issues when building didbs can be found under the github "issues" section. Hopefully with workarounds for the problems found.
+
+You might be able to get pointers/help from the SGUG discord - or post in the SGUG development forums.
+
 ## How to Do Stuff
 
 ### Enable extra goodies in didbs (some may not work)
