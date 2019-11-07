@@ -73,7 +73,14 @@ sub prependEnvVarPath
     my $extraPath = shift;
 
     my $prevValue = $ENV{$envVarName};
-    $ENV{$envVarName} = $extraPath . ":" . $prevValue;
+    if( !defined($prevValue) )
+	{
+	    $ENV{$envVarName} = $extraPath;
+	}
+	else
+	{
+	    $ENV{$envVarName} = $extraPath . ":" . $prevValue;
+	}
     my $newValue = $ENV{$envVarName};
 
     didbsprint "Reset $envVarName from $prevValue to $newValue\n";
@@ -83,14 +90,14 @@ sub modifyPathForCurrentStage
 {
     my $self = shift;
     my $envRef = shift;
-    didbsprint "Would attempt to call modify path for stage '$self->{stageString}' ...\n";
+    didbsprint "Modifying path for stage '$self->{stageString}' ...\n";
 
     my $extraBinPath = $self->getStageAdjustedInstallDir() . "/bin";
     $self->prependEnvVarPath("PATH", $extraBinPath);
     my $extraLibPath;
     my $extraPkgConfigPath;
 
-    if( $ENV{DIDBS_LIBDIR} eq "lib32" ) {
+    if( $ENV{"DIDBS_LIBDIR"} eq "lib32" ) {
 	$extraLibPath = $self->getStageAdjustedInstallDir() . "/lib32";
 	$self->prependEnvVarPath("LD_LIBRARYN32_PATH", $extraLibPath);
 	$extraPkgConfigPath = $self->getStageAdjustedInstallDir() . "/lib32/pkgconfig";

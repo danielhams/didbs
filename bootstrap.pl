@@ -23,7 +23,7 @@ STDERR->autoflush(1);
 STDOUT->autoflush(1);
 
 my $argc = ($#ARGV + 1);
-my $version = "0.1.7";
+my $version = "0.1.8alpha";
 
 (my $configfile = basename($0)) =~ s/^(.*?)(?:\..*)?$/$1.conf/;
 my $scriptLocation = $FindBin::Bin;
@@ -266,13 +266,15 @@ if( !defined($packageDir) || !defined($buildDir) || !defined($installDir)
     usage(true);
 }
 
-my $compatibleDidbsCurrent = compatibledidbscurrent($verbose,$didbscompiler,$version);
+my $compatibleDidbsCurrent = checkdidbscompatiblesetup($verbose,$didbscompiler,$version);
 if( !$compatibleDidbsCurrent )
 {
     print <<EOINCOMPATIBLEDIDBSCURRENT
 ERROR
-For didbs 0.1.7, running bootstrap requires an existing compatible
-didbs release behind a symbolic link at /usr/didbs/current.
+For didbs $version, running bootstrap requires:
+(1) systune ncargs 131072
+(2) An existing compatible didbs release behind a symbolic link
+    at /usr/didbs/current.
 Unable to continue.
 EOINCOMPATIBLEDIDBSCURRENT
 ;
@@ -497,11 +499,6 @@ else
 
     $ENV{"DIDBS_CC"}=$ENV{"DIDBS_GCC_CC"};
     $ENV{"DIDBS_CXX"}=$ENV{"DIDBS_GCC_CXX"};
-
-    # Add in additional paths needed for GCC tooling
-    $ENV{"PATH"}=$ENV{"DIDBS_GCC_PATH"}.":".$ENV{"PATH"};
-    $ENV{"LD_LIBRARYN32_PATH"}=$ENV{"DIDBS_GCC_LD_LIBRARYN32_PATH"}.":".$ENV{"LD_LIBRARYN32_PATH"};
-    $ENV{"LD_LIBRARYN64_PATH"}=$ENV{"DIDBS_GCC_LD_LIBRARYN64_PATH"}.":".$ENV{"LD_LIBRARYN64_PATH"};
 }
 
 $ENV{"DIDBS_ARCH_CFLAGS"} = $didbsarchcflags;
@@ -528,12 +525,15 @@ my $stageChecker = DidbsStageChecker->new( $scriptLocation,
 
 # Only do this once per run of the script to keep things sane
 $verbose && didbsprint "Modifying current path for this stage..\n";
+# Special case - getting the /usr/didbs/current/libXX/pkgconfig into
+# the PKG_CONFIG_PATH
+$ENV{"PKG_CONFIG_PATH"} = "/usr/didbs/current/$didbslibdir/pkgconfig";
 $stageChecker->modifyPathForCurrentStage();
 
 my $origpath = $ENV{"PATH"};
 $ENV{"PATH"} = "$installDir/bin:$origpath";
 my $origPkgCpath = $ENV{"PKG_CONFIG_PATH"};
-$ENV{"PKG_CONFIG_PATH"} = "$pkgConfigPath/lib/pkgconfig:$origPkgCpath";
+$ENV{"PKG_CONFIG_PATH"} = "$installDir/$didbslibdir/pkgconfig:$origPkgCpath";
 $ENV{"DIDBS_INSTALL_DIR"} = $installDir;
 $ENV{"DIDBS_ISA"} = $didbsisa;
 $ENV{"DIDBS_ISA_SWITCH"} = "-$didbsisa";

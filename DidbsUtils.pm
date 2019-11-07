@@ -7,7 +7,7 @@ use Cwd 'abs_path';
 use Time::HiRes qw(gettimeofday);
 
 @ISA = ('Exporter');
-@EXPORT=('mkdirp','sumfile','begins_with','didbsprint','compatibledidbscurrent');
+@EXPORT=('mkdirp','sumfile','begins_with','didbsprint','checkdidbscompatiblesetup');
 
 use File::Basename;
 
@@ -59,19 +59,33 @@ sub begins_with
     return substr($_[0], 0, length($_[1])) eq $_[1];
 }
 
-# Verify that an existing didbs versions is installed and available
+# Verify that:
+
+# systune ncargs = 131072
+
+# and
+
+# We have an existing didbs versions is installed and available
 # as /usr/didbs/current
 # So we verify that
 # (1) /usr/didbs/current _is_ a symbolic link
 # (2) That the underlying directory is version >= 0.1.3 < current version
 # (3) That it is an "n32" and "mips3" installation
 # (4) That all the gccs we expect are present (makes sure it is didbs)
-sub compatibledidbscurrent
+sub checkdidbscompatiblesetup
 {
     my $retVal=1;
     my $verbose=shift;
     my $didbscompiler=shift;
     my $version=shift;
+    my $ncargsval = `systune ncargs |cut -d \" \" -f 4`;
+    $verbose && print "systune ncargs=$ncargsval\n";
+    my $ncargsok = ($ncargsval == 131072);
+    $retVal = $retVal && $ncargsok;
+    if( !ncargsok ) {
+	print "Failed systune ncargs check\n";
+	return $retval;;
+    }
     my($scriptMajVer,$scriptGenVer,$scriptMinVer) =
 	    $version =~ m/(\d)\.(\d)\.(\d)(.*)/;
     $verbose && didbsprint "Checking for /usr/didbs/current symbolic link..";
