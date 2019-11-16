@@ -1,6 +1,6 @@
 diff -N -r -u -w elfutils-0.177/Makefile.am elfutils-0.177-patched/Makefile.am
 --- elfutils-0.177/Makefile.am	2019-08-14 11:12:33.000000000 +0000
-+++ elfutils-0.177-patched/Makefile.am	2019-10-24 20:01:17.957349040 +0000
++++ elfutils-0.177-patched/Makefile.am	2019-11-16 13:33:27.662629600 +0000
 @@ -29,6 +29,8 @@
  # Add doc back when we have some real content.
  SUBDIRS = config m4 lib libelf libebl libdwelf libdwfl libdw libcpu libasm \
@@ -12,7 +12,7 @@ diff -N -r -u -w elfutils-0.177/Makefile.am elfutils-0.177-patched/Makefile.am
  	     COPYING COPYING-GPLV2 COPYING-LGPLV3
 diff -N -r -u -w elfutils-0.177/Makefile.in elfutils-0.177-patched/Makefile.in
 --- elfutils-0.177/Makefile.in	2019-08-14 11:12:36.000000000 +0000
-+++ elfutils-0.177-patched/Makefile.in	2019-10-24 20:01:27.958968960 +0000
++++ elfutils-0.177-patched/Makefile.in	2019-11-16 13:33:27.665138160 +0000
 @@ -364,7 +364,6 @@
  prefix = @prefix@
  program_transform_name = @program_transform_name@
@@ -32,7 +32,7 @@ diff -N -r -u -w elfutils-0.177/Makefile.in elfutils-0.177-patched/Makefile.in
  
 diff -N -r -u -w elfutils-0.177/autom4te.cache/output.0 elfutils-0.177-patched/autom4te.cache/output.0
 --- elfutils-0.177/autom4te.cache/output.0	1970-01-01 00:00:00.000000000 +0000
-+++ elfutils-0.177-patched/autom4te.cache/output.0	2019-10-24 09:54:18.983627400 +0000
++++ elfutils-0.177-patched/autom4te.cache/output.0	2019-11-16 13:33:27.687053760 +0000
 @@ -0,0 +1,9382 @@
 +@%:@! /bin/sh
 +@%:@ Guess values for system-dependent variables and create Makefiles.
@@ -9418,7 +9418,7 @@ diff -N -r -u -w elfutils-0.177/autom4te.cache/output.0 elfutils-0.177-patched/a
 +fi
 diff -N -r -u -w elfutils-0.177/autom4te.cache/requests elfutils-0.177-patched/autom4te.cache/requests
 --- elfutils-0.177/autom4te.cache/requests	1970-01-01 00:00:00.000000000 +0000
-+++ elfutils-0.177-patched/autom4te.cache/requests	2019-10-24 20:01:27.509452840 +0000
++++ elfutils-0.177-patched/autom4te.cache/requests	2019-11-16 13:33:27.688568480 +0000
 @@ -0,0 +1,80 @@
 +# This file was generated.
 +# It contains the lists of macros which have been traced.
@@ -9502,7 +9502,7 @@ diff -N -r -u -w elfutils-0.177/autom4te.cache/requests elfutils-0.177-patched/a
 +
 diff -N -r -u -w elfutils-0.177/autom4te.cache/traces.0 elfutils-0.177-patched/autom4te.cache/traces.0
 --- elfutils-0.177/autom4te.cache/traces.0	1970-01-01 00:00:00.000000000 +0000
-+++ elfutils-0.177-patched/autom4te.cache/traces.0	2019-10-24 09:54:18.994818840 +0000
++++ elfutils-0.177-patched/autom4te.cache/traces.0	2019-11-16 13:33:27.692325600 +0000
 @@ -0,0 +1,899 @@
 +m4trace:aclocal.m4:793: -1- AC_SUBST([am__quote])
 +m4trace:aclocal.m4:793: -1- AC_SUBST_TRACE([am__quote])
@@ -10405,7 +10405,7 @@ diff -N -r -u -w elfutils-0.177/autom4te.cache/traces.0 elfutils-0.177-patched/a
 +m4trace:configure.ac:642: -1- AC_SUBST_TRACE([MKDIR_P])
 diff -N -r -u -w elfutils-0.177/backends/Makefile.in elfutils-0.177-patched/backends/Makefile.in
 --- elfutils-0.177/backends/Makefile.in	2019-08-14 11:12:36.000000000 +0000
-+++ elfutils-0.177-patched/backends/Makefile.in	2019-10-24 20:01:28.762345800 +0000
++++ elfutils-0.177-patched/backends/Makefile.in	2019-11-16 13:33:27.695326080 +0000
 @@ -477,7 +477,6 @@
  prefix = @prefix@
  program_transform_name = @program_transform_name@
@@ -10416,7 +10416,7 @@ diff -N -r -u -w elfutils-0.177/backends/Makefile.in elfutils-0.177-patched/back
  srcdir = @srcdir@
 diff -N -r -u -w elfutils-0.177/config/Makefile.in elfutils-0.177-patched/config/Makefile.in
 --- elfutils-0.177/config/Makefile.in	2019-08-14 11:12:36.000000000 +0000
-+++ elfutils-0.177-patched/config/Makefile.in	2019-10-24 20:01:29.077506680 +0000
++++ elfutils-0.177-patched/config/Makefile.in	2019-11-16 13:33:27.697251840 +0000
 @@ -152,7 +152,7 @@
  am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) $(LISP)
  am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/libdw.pc.in \
@@ -10436,7 +10436,7 @@ diff -N -r -u -w elfutils-0.177/config/Makefile.in elfutils-0.177-patched/config
  srcdir = @srcdir@
 diff -N -r -u -w elfutils-0.177/lib/Makefile.in elfutils-0.177-patched/lib/Makefile.in
 --- elfutils-0.177/lib/Makefile.in	2019-08-14 11:12:37.000000000 +0000
-+++ elfutils-0.177-patched/lib/Makefile.in	2019-10-24 20:01:29.537037720 +0000
++++ elfutils-0.177-patched/lib/Makefile.in	2019-11-16 13:33:27.699185440 +0000
 @@ -301,7 +301,6 @@
  prefix = @prefix@
  program_transform_name = @program_transform_name@
@@ -10447,7 +10447,7 @@ diff -N -r -u -w elfutils-0.177/lib/Makefile.in elfutils-0.177-patched/lib/Makef
  srcdir = @srcdir@
 diff -N -r -u -w elfutils-0.177/lib/color.c elfutils-0.177-patched/lib/color.c
 --- elfutils-0.177/lib/color.c	2019-08-14 11:12:33.000000000 +0000
-+++ elfutils-0.177-patched/lib/color.c	2019-10-24 09:54:19.015106360 +0000
++++ elfutils-0.177-patched/lib/color.c	2019-11-16 13:33:27.700583840 +0000
 @@ -124,6 +124,9 @@
  	      }
  	  if (i == nvalues)
@@ -10460,7 +10460,7 @@ diff -N -r -u -w elfutils-0.177/lib/color.c elfutils-0.177-patched/lib/color.c
  valid arguments are:\n\
 diff -N -r -u -w elfutils-0.177/lib/system.h elfutils-0.177-patched/lib/system.h
 --- elfutils-0.177/lib/system.h	2019-08-14 11:12:33.000000000 +0000
-+++ elfutils-0.177-patched/lib/system.h	2019-10-24 09:54:19.017902280 +0000
++++ elfutils-0.177-patched/lib/system.h	2019-11-16 13:33:27.701935760 +0000
 @@ -1,3 +1,4 @@
 +
  /* Declarations for common convenience functions.
@@ -10468,7 +10468,7 @@ diff -N -r -u -w elfutils-0.177/lib/system.h elfutils-0.177-patched/lib/system.h
     This file is part of elfutils.
 diff -N -r -u -w elfutils-0.177/lib/xstrndup.c elfutils-0.177-patched/lib/xstrndup.c
 --- elfutils-0.177/lib/xstrndup.c	2019-08-14 11:12:33.000000000 +0000
-+++ elfutils-0.177-patched/lib/xstrndup.c	2019-10-24 09:54:19.020461400 +0000
++++ elfutils-0.177-patched/lib/xstrndup.c	2019-11-16 13:33:27.703215280 +0000
 @@ -35,6 +35,10 @@
  #include "libeu.h"
  #include "system.h"
@@ -10482,7 +10482,7 @@ diff -N -r -u -w elfutils-0.177/lib/xstrndup.c elfutils-0.177-patched/lib/xstrnd
  xstrndup (const char *string, size_t n)
 diff -N -r -u -w elfutils-0.177/libasm/Makefile.in elfutils-0.177-patched/libasm/Makefile.in
 --- elfutils-0.177/libasm/Makefile.in	2019-08-14 11:12:37.000000000 +0000
-+++ elfutils-0.177-patched/libasm/Makefile.in	2019-10-24 20:01:30.115952160 +0000
++++ elfutils-0.177-patched/libasm/Makefile.in	2019-11-16 13:33:27.705511280 +0000
 @@ -366,7 +366,6 @@
  prefix = @prefix@
  program_transform_name = @program_transform_name@
@@ -10493,7 +10493,7 @@ diff -N -r -u -w elfutils-0.177/libasm/Makefile.in elfutils-0.177-patched/libasm
  srcdir = @srcdir@
 diff -N -r -u -w elfutils-0.177/libasm/asm_align.c elfutils-0.177-patched/libasm/asm_align.c
 --- elfutils-0.177/libasm/asm_align.c	2019-08-14 11:12:33.000000000 +0000
-+++ elfutils-0.177-patched/libasm/asm_align.c	2019-10-24 20:05:16.057704640 +0000
++++ elfutils-0.177-patched/libasm/asm_align.c	2019-11-16 13:33:27.706903600 +0000
 @@ -31,6 +31,12 @@
  # include <config.h>
  #endif
@@ -10509,7 +10509,7 @@ diff -N -r -u -w elfutils-0.177/libasm/asm_align.c elfutils-0.177-patched/libasm
  
 diff -N -r -u -w elfutils-0.177/libasm/asm_begin.c elfutils-0.177-patched/libasm/asm_begin.c
 --- elfutils-0.177/libasm/asm_begin.c	2019-08-14 11:12:33.000000000 +0000
-+++ elfutils-0.177-patched/libasm/asm_begin.c	2019-10-24 20:03:51.901665760 +0000
++++ elfutils-0.177-patched/libasm/asm_begin.c	2019-11-16 13:33:27.708305680 +0000
 @@ -31,10 +31,17 @@
  # include <config.h>
  #endif
@@ -10542,7 +10542,7 @@ diff -N -r -u -w elfutils-0.177/libasm/asm_begin.c elfutils-0.177-patched/libasm
    return result;
 diff -N -r -u -w elfutils-0.177/libasm/unlocked-io.h elfutils-0.177-patched/libasm/unlocked-io.h
 --- elfutils-0.177/libasm/unlocked-io.h	1970-01-01 00:00:00.000000000 +0000
-+++ elfutils-0.177-patched/libasm/unlocked-io.h	2019-10-24 20:04:14.246320720 +0000
++++ elfutils-0.177-patched/libasm/unlocked-io.h	2019-11-16 13:33:27.709335680 +0000
 @@ -0,0 +1,8 @@
 +#ifndef DIDBS_UNLOCKED_IO_H
 +#define DIDBS_UNLOCKED_IO_H
@@ -10554,7 +10554,7 @@ diff -N -r -u -w elfutils-0.177/libasm/unlocked-io.h elfutils-0.177-patched/liba
 +#endif
 diff -N -r -u -w elfutils-0.177/libcpu/Makefile.in elfutils-0.177-patched/libcpu/Makefile.in
 --- elfutils-0.177/libcpu/Makefile.in	2019-08-14 11:12:37.000000000 +0000
-+++ elfutils-0.177-patched/libcpu/Makefile.in	2019-10-24 20:01:30.744317920 +0000
++++ elfutils-0.177-patched/libcpu/Makefile.in	2019-11-16 13:33:27.711248640 +0000
 @@ -336,7 +336,6 @@
  prefix = @prefix@
  program_transform_name = @program_transform_name@
@@ -10565,7 +10565,7 @@ diff -N -r -u -w elfutils-0.177/libcpu/Makefile.in elfutils-0.177-patched/libcpu
  srcdir = @srcdir@
 diff -N -r -u -w elfutils-0.177/libdw/Makefile.in elfutils-0.177-patched/libdw/Makefile.in
 --- elfutils-0.177/libdw/Makefile.in	2019-08-14 11:12:37.000000000 +0000
-+++ elfutils-0.177-patched/libdw/Makefile.in	2019-10-24 20:01:31.439283080 +0000
++++ elfutils-0.177-patched/libdw/Makefile.in	2019-11-16 13:33:27.714199520 +0000
 @@ -488,7 +488,6 @@
  prefix = @prefix@
  program_transform_name = @program_transform_name@
@@ -10576,7 +10576,7 @@ diff -N -r -u -w elfutils-0.177/libdw/Makefile.in elfutils-0.177-patched/libdw/M
  srcdir = @srcdir@
 diff -N -r -u -w elfutils-0.177/libdw/dwarf_end.c elfutils-0.177-patched/libdw/dwarf_end.c
 --- elfutils-0.177/libdw/dwarf_end.c	2019-08-14 11:12:33.000000000 +0000
-+++ elfutils-0.177-patched/libdw/dwarf_end.c	2019-10-24 14:50:10.638952920 +0000
++++ elfutils-0.177-patched/libdw/dwarf_end.c	2019-11-16 13:33:27.715625600 +0000
 @@ -46,6 +46,13 @@
  {
  }
@@ -10593,7 +10593,7 @@ diff -N -r -u -w elfutils-0.177/libdw/dwarf_end.c elfutils-0.177-patched/libdw/d
  cu_free (void *arg)
 diff -N -r -u -w elfutils-0.177/libdwelf/Makefile.in elfutils-0.177-patched/libdwelf/Makefile.in
 --- elfutils-0.177/libdwelf/Makefile.in	2019-08-14 11:12:37.000000000 +0000
-+++ elfutils-0.177-patched/libdwelf/Makefile.in	2019-10-24 20:01:31.951425760 +0000
++++ elfutils-0.177-patched/libdwelf/Makefile.in	2019-11-16 13:33:27.717709280 +0000
 @@ -337,7 +337,6 @@
  prefix = @prefix@
  program_transform_name = @program_transform_name@
@@ -10604,7 +10604,7 @@ diff -N -r -u -w elfutils-0.177/libdwelf/Makefile.in elfutils-0.177-patched/libd
  srcdir = @srcdir@
 diff -N -r -u -w elfutils-0.177/libdwfl/Makefile.am elfutils-0.177-patched/libdwfl/Makefile.am
 --- elfutils-0.177/libdwfl/Makefile.am	2019-08-14 11:12:33.000000000 +0000
-+++ elfutils-0.177-patched/libdwfl/Makefile.am	2019-10-24 09:54:19.047767400 +0000
++++ elfutils-0.177-patched/libdwfl/Makefile.am	2019-11-16 13:33:27.719199760 +0000
 @@ -49,7 +49,6 @@
  		    argp-std.c find-debuginfo.c \
  		    dwfl_build_id_find_elf.c \
@@ -10629,7 +10629,7 @@ diff -N -r -u -w elfutils-0.177/libdwfl/Makefile.am elfutils-0.177-patched/libdw
  endif
 diff -N -r -u -w elfutils-0.177/libdwfl/Makefile.in elfutils-0.177-patched/libdwfl/Makefile.in
 --- elfutils-0.177/libdwfl/Makefile.in	2019-08-14 11:12:37.000000000 +0000
-+++ elfutils-0.177-patched/libdwfl/Makefile.in	2019-10-24 20:01:32.545453680 +0000
++++ elfutils-0.177-patched/libdwfl/Makefile.in	2019-11-16 13:33:27.722401600 +0000
 @@ -90,6 +90,9 @@
  build_triplet = @build@
  host_triplet = @host@
@@ -10776,7 +10776,7 @@ diff -N -r -u -w elfutils-0.177/libdwfl/Makefile.in elfutils-0.177-patched/libdw
  	-rm -f ./$(DEPDIR)/open.Po
 diff -N -r -u -w elfutils-0.177/libdwfl/argp-std.c elfutils-0.177-patched/libdwfl/argp-std.c
 --- elfutils-0.177/libdwfl/argp-std.c	2019-08-14 11:12:33.000000000 +0000
-+++ elfutils-0.177-patched/libdwfl/argp-std.c	2019-10-24 14:45:37.576671040 +0000
++++ elfutils-0.177-patched/libdwfl/argp-std.c	2019-11-16 13:33:27.724558160 +0000
 @@ -51,6 +51,7 @@
    { "executable", 'e', "FILE", 0, N_("Find addresses in FILE"), 0 },
    { "core", OPT_COREFILE, "COREFILE", 0,
@@ -10865,7 +10865,7 @@ diff -N -r -u -w elfutils-0.177/libdwfl/argp-std.c elfutils-0.177-patched/libdwf
  	    if (dwfl->user_core == NULL)
 diff -N -r -u -w elfutils-0.177/libebl/Makefile.in elfutils-0.177-patched/libebl/Makefile.in
 --- elfutils-0.177/libebl/Makefile.in	2019-08-14 11:12:37.000000000 +0000
-+++ elfutils-0.177-patched/libebl/Makefile.in	2019-10-24 20:01:33.089819240 +0000
++++ elfutils-0.177-patched/libebl/Makefile.in	2019-11-16 13:33:27.726921200 +0000
 @@ -381,7 +381,6 @@
  prefix = @prefix@
  program_transform_name = @program_transform_name@
@@ -10876,7 +10876,7 @@ diff -N -r -u -w elfutils-0.177/libebl/Makefile.in elfutils-0.177-patched/libebl
  srcdir = @srcdir@
 diff -N -r -u -w elfutils-0.177/libelf/Makefile.in elfutils-0.177-patched/libelf/Makefile.in
 --- elfutils-0.177/libelf/Makefile.in	2019-08-14 11:12:37.000000000 +0000
-+++ elfutils-0.177-patched/libelf/Makefile.in	2019-10-24 20:01:33.796094400 +0000
++++ elfutils-0.177-patched/libelf/Makefile.in	2019-11-16 13:33:27.729862320 +0000
 @@ -465,7 +465,6 @@
  prefix = @prefix@
  program_transform_name = @program_transform_name@
@@ -10887,7 +10887,7 @@ diff -N -r -u -w elfutils-0.177/libelf/Makefile.in elfutils-0.177-patched/libelf
  srcdir = @srcdir@
 diff -N -r -u -w elfutils-0.177/libelf/common.h elfutils-0.177-patched/libelf/common.h
 --- elfutils-0.177/libelf/common.h	2019-08-14 11:12:33.000000000 +0000
-+++ elfutils-0.177-patched/libelf/common.h	2019-10-24 09:54:19.074384760 +0000
++++ elfutils-0.177-patched/libelf/common.h	2019-11-16 13:33:27.731347520 +0000
 @@ -31,8 +31,8 @@
  #define _COMMON_H       1
  
@@ -10900,7 +10900,7 @@ diff -N -r -u -w elfutils-0.177/libelf/common.h elfutils-0.177-patched/libelf/co
  
 diff -N -r -u -w elfutils-0.177/libelf/elf.h elfutils-0.177-patched/libelf/elf.h
 --- elfutils-0.177/libelf/elf.h	2019-08-14 11:12:33.000000000 +0000
-+++ elfutils-0.177-patched/libelf/elf.h	2019-10-24 09:54:19.093832920 +0000
++++ elfutils-0.177-patched/libelf/elf.h	2019-11-16 13:33:27.738204960 +0000
 @@ -19,10 +19,13 @@
  #ifndef _ELF_H
  #define	_ELF_H 1
@@ -10926,7 +10926,7 @@ diff -N -r -u -w elfutils-0.177/libelf/elf.h elfutils-0.177-patched/libelf/elf.h
  #endif	/* elf.h */
 diff -N -r -u -w elfutils-0.177/libelf/elf32_updatefile.c elfutils-0.177-patched/libelf/elf32_updatefile.c
 --- elfutils-0.177/libelf/elf32_updatefile.c	2019-08-14 11:12:33.000000000 +0000
-+++ elfutils-0.177-patched/libelf/elf32_updatefile.c	2019-10-24 09:54:19.099404280 +0000
++++ elfutils-0.177-patched/libelf/elf32_updatefile.c	2019-11-16 13:33:27.741296400 +0000
 @@ -127,364 +127,10 @@
  internal_function
  __elfw2(LIBELFBITS,updatemmap) (Elf *elf, int change_bo, size_t shnum)
@@ -11296,7 +11296,7 @@ diff -N -r -u -w elfutils-0.177/libelf/elf32_updatefile.c elfutils-0.177-patched
  /* Size of the buffer we use to generate the blocks of fill bytes.  */
 diff -N -r -u -w elfutils-0.177/libelf/elf_update.c elfutils-0.177-patched/libelf/elf_update.c
 --- elfutils-0.177/libelf/elf_update.c	2019-08-14 11:12:33.000000000 +0000
-+++ elfutils-0.177-patched/libelf/elf_update.c	2019-10-24 09:54:19.102981320 +0000
++++ elfutils-0.177-patched/libelf/elf_update.c	2019-11-16 13:33:27.743019120 +0000
 @@ -43,125 +43,10 @@
  static int64_t
  write_file (Elf *elf, int64_t size, int change_bo, size_t shnum)
@@ -11425,9 +11425,27 @@ diff -N -r -u -w elfutils-0.177/libelf/elf_update.c elfutils-0.177-patched/libel
  
  
  int64_t
+diff -N -r -u -w elfutils-0.177/libelf/gelf_getshdr.c elfutils-0.177-patched/libelf/gelf_getshdr.c
+--- elfutils-0.177/libelf/gelf_getshdr.c	2019-08-14 11:12:33.000000000 +0000
++++ elfutils-0.177-patched/libelf/gelf_getshdr.c	2019-11-16 14:35:48.807656080 +0000
+@@ -78,6 +78,14 @@
+       COPY (sh_addralign);
+       COPY (sh_entsize);
+ 
++#if defined(__sgi)
++      if (shdr->sh_entsize == 0)
++	{
++	  __libelf_seterrno (ELF_E_INVALID_OPERAND);
++	  goto out;
++	}
++#endif
++
+       result = dst;
+     }
+   else
 diff -N -r -u -w elfutils-0.177/m4/Makefile.in elfutils-0.177-patched/m4/Makefile.in
 --- elfutils-0.177/m4/Makefile.in	2019-08-14 11:12:37.000000000 +0000
-+++ elfutils-0.177-patched/m4/Makefile.in	2019-10-24 20:01:34.106535840 +0000
++++ elfutils-0.177-patched/m4/Makefile.in	2019-11-16 13:33:27.744799120 +0000
 @@ -246,7 +246,6 @@
  prefix = @prefix@
  program_transform_name = @program_transform_name@
@@ -11438,7 +11456,7 @@ diff -N -r -u -w elfutils-0.177/m4/Makefile.in elfutils-0.177-patched/m4/Makefil
  srcdir = @srcdir@
 diff -N -r -u -w elfutils-0.177/src/Makefile.in elfutils-0.177-patched/src/Makefile.in
 --- elfutils-0.177/src/Makefile.in	2019-08-14 11:12:37.000000000 +0000
-+++ elfutils-0.177-patched/src/Makefile.in	2019-10-24 20:01:34.956681080 +0000
++++ elfutils-0.177-patched/src/Makefile.in	2019-11-16 13:33:27.747230800 +0000
 @@ -418,7 +418,6 @@
  prefix = @prefix@
  program_transform_name = @program_transform_name@
@@ -11449,7 +11467,7 @@ diff -N -r -u -w elfutils-0.177/src/Makefile.in elfutils-0.177-patched/src/Makef
  srcdir = @srcdir@
 diff -N -r -u -w elfutils-0.177/src/addr2line.c elfutils-0.177-patched/src/addr2line.c
 --- elfutils-0.177/src/addr2line.c	2019-08-14 11:12:33.000000000 +0000
-+++ elfutils-0.177-patched/src/addr2line.c	2019-10-24 19:57:41.001900520 +0000
++++ elfutils-0.177-patched/src/addr2line.c	2019-11-16 13:33:27.749322400 +0000
 @@ -20,6 +20,14 @@
  # include <config.h>
  #endif
@@ -11495,7 +11513,7 @@ diff -N -r -u -w elfutils-0.177/src/addr2line.c elfutils-0.177-patched/src/addr2
        size_t len = 0;
 diff -N -r -u -w elfutils-0.177/src/ar.c elfutils-0.177-patched/src/ar.c
 --- elfutils-0.177/src/ar.c	2019-08-14 11:12:33.000000000 +0000
-+++ elfutils-0.177-patched/src/ar.c	2019-10-24 20:21:59.320106400 +0000
++++ elfutils-0.177-patched/src/ar.c	2019-11-16 13:33:27.752054560 +0000
 @@ -20,6 +20,23 @@
  # include <config.h>
  #endif
@@ -11542,7 +11560,7 @@ diff -N -r -u -w elfutils-0.177/src/ar.c elfutils-0.177-patched/src/ar.c
    (void) setlocale (LC_ALL, "");
 diff -N -r -u -w elfutils-0.177/src/elfclassify.c elfutils-0.177-patched/src/elfclassify.c
 --- elfutils-0.177/src/elfclassify.c	2019-08-14 11:12:33.000000000 +0000
-+++ elfutils-0.177-patched/src/elfclassify.c	2019-10-24 20:34:50.276067840 +0000
++++ elfutils-0.177-patched/src/elfclassify.c	2019-11-16 13:33:27.754268160 +0000
 @@ -83,8 +83,12 @@
    if (verbose > 1)
      fprintf (stderr, "debug: processing file: %s\n", current_path);
@@ -11558,7 +11576,7 @@ diff -N -r -u -w elfutils-0.177/src/elfclassify.c elfutils-0.177-patched/src/elf
        if (!flag_only_regular_files || errno != ELOOP)
 diff -N -r -u -w elfutils-0.177/src/elfcmp.c elfutils-0.177-patched/src/elfcmp.c
 --- elfutils-0.177/src/elfcmp.c	2019-08-14 11:12:33.000000000 +0000
-+++ elfutils-0.177-patched/src/elfcmp.c	2019-10-24 19:59:00.735735040 +0000
++++ elfutils-0.177-patched/src/elfcmp.c	2019-11-16 13:33:27.756438720 +0000
 @@ -20,6 +20,14 @@
  # include <config.h>
  #endif
@@ -11602,7 +11620,7 @@ diff -N -r -u -w elfutils-0.177/src/elfcmp.c elfutils-0.177-patched/src/elfcmp.c
        break;
 diff -N -r -u -w elfutils-0.177/src/elfcompress.c elfutils-0.177-patched/src/elfcompress.c
 --- elfutils-0.177/src/elfcompress.c	2019-08-14 11:12:33.000000000 +0000
-+++ elfutils-0.177-patched/src/elfcompress.c	2019-10-24 20:32:52.971305680 +0000
++++ elfutils-0.177-patched/src/elfcompress.c	2019-11-16 13:33:27.758941760 +0000
 @@ -14,6 +14,9 @@
  
     You should have received a copy of the GNU General Public License
@@ -11615,7 +11633,7 @@ diff -N -r -u -w elfutils-0.177/src/elfcompress.c elfutils-0.177-patched/src/elf
  #include <assert.h>
 diff -N -r -u -w elfutils-0.177/src/elflint.c elfutils-0.177-patched/src/elflint.c
 --- elfutils-0.177/src/elflint.c	2019-08-14 11:12:33.000000000 +0000
-+++ elfutils-0.177-patched/src/elflint.c	2019-10-24 19:54:50.072169600 +0000
++++ elfutils-0.177-patched/src/elflint.c	2019-11-16 13:33:27.764885360 +0000
 @@ -20,6 +20,12 @@
  # include <config.h>
  #endif
@@ -11643,7 +11661,7 @@ diff -N -r -u -w elfutils-0.177/src/elflint.c elfutils-0.177-patched/src/elflint
      default:
 diff -N -r -u -w elfutils-0.177/src/findtextrel.c elfutils-0.177-patched/src/findtextrel.c
 --- elfutils-0.177/src/findtextrel.c	2019-08-14 11:12:33.000000000 +0000
-+++ elfutils-0.177-patched/src/findtextrel.c	2019-10-24 19:56:28.496308560 +0000
++++ elfutils-0.177-patched/src/findtextrel.c	2019-11-16 13:33:27.766824000 +0000
 @@ -20,6 +20,12 @@
  # include <config.h>
  #endif
@@ -11674,7 +11692,7 @@ diff -N -r -u -w elfutils-0.177/src/findtextrel.c elfutils-0.177-patched/src/fin
  
 diff -N -r -u -w elfutils-0.177/src/nm.c elfutils-0.177-patched/src/nm.c
 --- elfutils-0.177/src/nm.c	2019-08-14 11:12:33.000000000 +0000
-+++ elfutils-0.177-patched/src/nm.c	2019-10-24 18:19:47.222258840 +0000
++++ elfutils-0.177-patched/src/nm.c	2019-11-16 13:33:27.769624400 +0000
 @@ -20,6 +20,14 @@
  # include <config.h>
  #endif
@@ -11727,7 +11745,7 @@ diff -N -r -u -w elfutils-0.177/src/nm.c elfutils-0.177-patched/src/nm.c
    (void) setlocale (LC_ALL, "");
 diff -N -r -u -w elfutils-0.177/src/objdump.c elfutils-0.177-patched/src/objdump.c
 --- elfutils-0.177/src/objdump.c	2019-08-14 11:12:33.000000000 +0000
-+++ elfutils-0.177-patched/src/objdump.c	2019-10-24 20:00:22.177182320 +0000
++++ elfutils-0.177-patched/src/objdump.c	2019-11-16 13:33:27.771824960 +0000
 @@ -20,6 +20,14 @@
  # include <config.h>
  #endif
@@ -11779,7 +11797,7 @@ diff -N -r -u -w elfutils-0.177/src/objdump.c elfutils-0.177-patched/src/objdump
        /* We only use this for checking the number of arguments, we don't
 diff -N -r -u -w elfutils-0.177/src/ranlib.c elfutils-0.177-patched/src/ranlib.c
 --- elfutils-0.177/src/ranlib.c	2019-08-14 11:12:33.000000000 +0000
-+++ elfutils-0.177-patched/src/ranlib.c	2019-10-24 20:15:22.897364080 +0000
++++ elfutils-0.177-patched/src/ranlib.c	2019-11-16 13:33:27.773520000 +0000
 @@ -20,6 +20,18 @@
  # include <config.h>
  #endif
@@ -11831,7 +11849,7 @@ diff -N -r -u -w elfutils-0.177/src/ranlib.c elfutils-0.177-patched/src/ranlib.c
    (void) setlocale (LC_ALL, "");
 diff -N -r -u -w elfutils-0.177/src/readelf.c elfutils-0.177-patched/src/readelf.c
 --- elfutils-0.177/src/readelf.c	2019-08-14 11:12:33.000000000 +0000
-+++ elfutils-0.177-patched/src/readelf.c	2019-10-24 16:54:44.443683720 +0000
++++ elfutils-0.177-patched/src/readelf.c	2019-11-16 13:33:27.787624000 +0000
 @@ -19,6 +19,14 @@
  # include <config.h>
  #endif
@@ -11895,7 +11913,7 @@ diff -N -r -u -w elfutils-0.177/src/readelf.c elfutils-0.177-patched/src/readelf
        break;
 diff -N -r -u -w elfutils-0.177/src/size.c elfutils-0.177-patched/src/size.c
 --- elfutils-0.177/src/size.c	2019-08-14 11:12:33.000000000 +0000
-+++ elfutils-0.177-patched/src/size.c	2019-10-24 18:21:07.001291080 +0000
++++ elfutils-0.177-patched/src/size.c	2019-11-16 13:33:27.789917120 +0000
 @@ -20,6 +20,14 @@
  # include <config.h>
  #endif
@@ -11933,7 +11951,7 @@ diff -N -r -u -w elfutils-0.177/src/size.c elfutils-0.177-patched/src/size.c
    setlocale (LC_ALL, "");
 diff -N -r -u -w elfutils-0.177/src/stack.c elfutils-0.177-patched/src/stack.c
 --- elfutils-0.177/src/stack.c	2019-08-14 11:12:33.000000000 +0000
-+++ elfutils-0.177-patched/src/stack.c	2019-10-24 20:26:43.516277200 +0000
++++ elfutils-0.177-patched/src/stack.c	2019-11-16 13:33:27.792267840 +0000
 @@ -16,12 +16,20 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
  
@@ -11956,7 +11974,22 @@ diff -N -r -u -w elfutils-0.177/src/stack.c elfutils-0.177-patched/src/stack.c
  #include <string.h>
  #include <locale.h>
  #include <fcntl.h>
-@@ -569,6 +577,9 @@
+@@ -74,12 +82,14 @@
+ static const char *exec = NULL;
+ static char *debuginfo_path = NULL;
+ 
++#if !defined(__sgi)
+ static const Dwfl_Callbacks proc_callbacks =
+   {
+     .find_elf = dwfl_linux_proc_find_elf,
+     .find_debuginfo = dwfl_standard_find_debuginfo,
+     .debuginfo_path = &debuginfo_path,
+   };
++#endif
+ 
+ static const Dwfl_Callbacks core_callbacks =
+   {
+@@ -569,6 +579,9 @@
  
        if (pid != 0)
  	{
@@ -11966,7 +11999,7 @@ diff -N -r -u -w elfutils-0.177/src/stack.c elfutils-0.177-patched/src/stack.c
  	  dwfl = dwfl_begin (&proc_callbacks);
  	  if (dwfl == NULL)
  	    error (EXIT_BAD, 0, "dwfl_begin: %s", dwfl_errmsg (-1));
-@@ -580,6 +591,7 @@
+@@ -580,6 +593,7 @@
  	  else if (err > 0)
  	    error (EXIT_BAD, err, "dwfl_linux_proc_report pid %lld",
  		   (long long) pid);
@@ -11974,7 +12007,7 @@ diff -N -r -u -w elfutils-0.177/src/stack.c elfutils-0.177-patched/src/stack.c
  	}
  
        if (core != NULL)
-@@ -596,6 +608,10 @@
+@@ -596,6 +610,10 @@
  
        if (pid != 0)
  	{
@@ -11985,7 +12018,7 @@ diff -N -r -u -w elfutils-0.177/src/stack.c elfutils-0.177-patched/src/stack.c
  	  int err = dwfl_linux_proc_attach (dwfl, pid, false);
  	  if (err < 0)
  	    error (EXIT_BAD, 0, "dwfl_linux_proc_attach pid %lld: %s",
-@@ -603,11 +619,14 @@
+@@ -603,11 +621,14 @@
  	  else if (err > 0)
  	    error (EXIT_BAD, err, "dwfl_linux_proc_attach pid %lld",
  		   (long long) pid);
@@ -12000,7 +12033,7 @@ diff -N -r -u -w elfutils-0.177/src/stack.c elfutils-0.177-patched/src/stack.c
  	    error (EXIT_BAD, 0, "dwfl_core_file_attach: %s", dwfl_errmsg (-1));
  	}
  
-@@ -626,9 +645,11 @@
+@@ -626,9 +647,11 @@
  main (int argc, char **argv)
  {
    /* We use no threads here which can interfere with handling a stream.  */
@@ -12014,7 +12047,7 @@ diff -N -r -u -w elfutils-0.177/src/stack.c elfutils-0.177-patched/src/stack.c
    (void) setlocale (LC_ALL, "");
 diff -N -r -u -w elfutils-0.177/src/strings.c elfutils-0.177-patched/src/strings.c
 --- elfutils-0.177/src/strings.c	2019-08-14 11:12:33.000000000 +0000
-+++ elfutils-0.177-patched/src/strings.c	2019-10-24 20:17:39.430829440 +0000
++++ elfutils-0.177-patched/src/strings.c	2019-11-16 13:33:27.794328160 +0000
 @@ -20,6 +20,18 @@
  # include <config.h>
  #endif
@@ -12067,7 +12100,7 @@ diff -N -r -u -w elfutils-0.177/src/strings.c elfutils-0.177-patched/src/strings
    if (unlikely (elfmap == MAP_FAILED))
 diff -N -r -u -w elfutils-0.177/src/strip.c elfutils-0.177-patched/src/strip.c
 --- elfutils-0.177/src/strip.c	2019-08-14 11:12:33.000000000 +0000
-+++ elfutils-0.177-patched/src/strip.c	2019-10-24 19:53:07.790299280 +0000
++++ elfutils-0.177-patched/src/strip.c	2019-11-16 13:33:27.798352960 +0000
 @@ -20,6 +20,17 @@
  # include <config.h>
  #endif
@@ -12108,7 +12141,7 @@ diff -N -r -u -w elfutils-0.177/src/strip.c elfutils-0.177-patched/src/strip.c
    setlocale (LC_ALL, "");
 diff -N -r -u -w elfutils-0.177/src/unlocked-io.h elfutils-0.177-patched/src/unlocked-io.h
 --- elfutils-0.177/src/unlocked-io.h	1970-01-01 00:00:00.000000000 +0000
-+++ elfutils-0.177-patched/src/unlocked-io.h	2019-10-24 16:57:27.117211600 +0000
++++ elfutils-0.177-patched/src/unlocked-io.h	2019-11-16 13:33:27.799466880 +0000
 @@ -0,0 +1,8 @@
 +#ifndef DIDBS_UNLOCKED_IO_H
 +#define DIDBS_UNLOCKED_IO_H
@@ -12120,7 +12153,7 @@ diff -N -r -u -w elfutils-0.177/src/unlocked-io.h elfutils-0.177-patched/src/unl
 +#endif
 diff -N -r -u -w elfutils-0.177/src/unstrip.c elfutils-0.177-patched/src/unstrip.c
 --- elfutils-0.177/src/unstrip.c	2019-08-14 11:12:33.000000000 +0000
-+++ elfutils-0.177-patched/src/unstrip.c	2019-10-24 20:23:53.346702640 +0000
++++ elfutils-0.177-patched/src/unstrip.c	2019-11-16 13:33:27.803274560 +0000
 @@ -28,6 +28,14 @@
  # include <config.h>
  #endif
@@ -12170,7 +12203,7 @@ diff -N -r -u -w elfutils-0.177/src/unstrip.c elfutils-0.177-patched/src/unstrip
    setlocale (LC_ALL, "");
 diff -N -r -u -w elfutils-0.177/tests/Makefile.in elfutils-0.177-patched/tests/Makefile.in
 --- elfutils-0.177/tests/Makefile.in	2019-08-14 11:12:37.000000000 +0000
-+++ elfutils-0.177-patched/tests/Makefile.in	2019-10-24 20:01:38.908813800 +0000
++++ elfutils-0.177-patched/tests/Makefile.in	2019-11-16 13:33:27.810426880 +0000
 @@ -1129,7 +1129,6 @@
  prefix = @prefix@
  program_transform_name = @program_transform_name@

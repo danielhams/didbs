@@ -15,7 +15,7 @@ SUM=`sha256sum certdata.txt|cut -d " " -f 1`
 echo "SUM=$SUM"
 # CARE - DONT FORGET TO LEAVE an "ne" on the front when
 # you update the sha256sum below!
-if [[ "ne$SUM" != "ne9292c23f15df7e8d57f187ad9f272d3cbb8e70bf9c3df854c552beb653aaf70b" ]]; then
+if [[ "ne$SUM" != "ne8858569dc299b47dde6dd77ae9d54e5a9aa0cd34f203cb916d57aaf3caf74da9" ]]; then
     echo "SHASUM of cert data failed! Refusing to continue"
     echo "Update the packages/cacerts/configureit script taking care"
     echo "to leave 'ne' on the front of the replaced sha256sum."
