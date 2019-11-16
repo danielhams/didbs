@@ -1,6 +1,6 @@
-diff -r -u -w perl-5.28.2/cflags.SH perl-5.28.2-patched/cflags.SH
---- perl-5.28.2/cflags.SH	Thu Nov  1 22:07:21 2018
-+++ perl-5.28.2-patched/cflags.SH	Sun Oct 13 13:39:54 2019
+diff -r -u -w perl-5.30.0/cflags.SH perl-5.30.0-patched/cflags.SH
+--- perl-5.30.0/cflags.SH	2019-05-11 10:50:20.000000000 +0000
++++ perl-5.30.0-patched/cflags.SH	2019-11-11 16:49:08.851965920 +0000
 @@ -178,7 +178,7 @@
  # -std=c89 before -ansi
  # -pedantic* before -Werror=d-a-s
@@ -10,9 +10,9 @@ diff -r -u -w perl-5.28.2/cflags.SH perl-5.28.2-patched/cflags.SH
  		-Werror=declaration-after-statement \
  	        -Werror=pointer-arith \
  		-Wextra -W \
-diff -r -u -w perl-5.28.2/cpan/Test-Simple/t/Test2/behavior/ipc_wait_timeout.t perl-5.28.2-patched/cpan/Test-Simple/t/Test2/behavior/ipc_wait_timeout.t
---- perl-5.28.2/cpan/Test-Simple/t/Test2/behavior/ipc_wait_timeout.t	Thu Nov  1 22:07:37 2018
-+++ perl-5.28.2-patched/cpan/Test-Simple/t/Test2/behavior/ipc_wait_timeout.t	Sun Oct 13 13:40:03 2019
+diff -r -u -w perl-5.30.0/cpan/Test-Simple/t/Test2/behavior/ipc_wait_timeout.t perl-5.30.0-patched/cpan/Test-Simple/t/Test2/behavior/ipc_wait_timeout.t
+--- perl-5.30.0/cpan/Test-Simple/t/Test2/behavior/ipc_wait_timeout.t	2019-05-11 10:50:20.000000000 +0000
++++ perl-5.30.0-patched/cpan/Test-Simple/t/Test2/behavior/ipc_wait_timeout.t	2019-11-11 16:49:08.854122160 +0000
 @@ -8,7 +8,7 @@
  END { $? = 0 if $ENV{HARNESS_ACTIVE} }
  
@@ -22,43 +22,9 @@ diff -r -u -w perl-5.28.2/cpan/Test-Simple/t/Test2/behavior/ipc_wait_timeout.t p
  
  BEGIN { local ($@, $?, $!); eval { require threads } }
  use Test2::Tools::Tiny;
-@@ -46,6 +46,7 @@
-     };
-     is($exit, 255, "Exited 255");
-     like($warnings->[0], qr/Timeout waiting on child processes/, "Warned about timeout");
-+    note "Testing process ending";
-     print $ppipew "end\n";
- 
-     close($ppiper);
-@@ -76,8 +77,12 @@
-     else {
-         note "threads.pm is too old for a thread joining timeout :-(";
-     }
-+    note "Testing thread ending";
-     print $tpipew "end\n";
- 
--    close($tpiper);
-+    note "Beginning close";
-     close($tpipew);
-+    note "Middle close";
-+    close($tpiper);
-+    note "All closed";
- }
-diff -r -u -w perl-5.28.2/dist/Storable/stacksize perl-5.28.2-patched/dist/Storable/stacksize
---- perl-5.28.2/dist/Storable/stacksize	Tue Apr  2 21:36:35 2019
-+++ perl-5.28.2-patched/dist/Storable/stacksize	Sun Oct 13 13:41:25 2019
-@@ -71,7 +71,7 @@
-     }
-     $PERL = "\"$PERL\"" if $PERL =~ / /;
-     if ($ldlib and $ldlib ne 'PATH') {
--        $PERL = "$ldlib=$path $PERL";
-+        $PERL = "$ldlib=$path:\$$ldlib $PERL";
-     }
- }
- 
-diff -r -u -w perl-5.28.2/perl.h perl-5.28.2-patched/perl.h
---- perl-5.28.2/perl.h	Thu Nov  1 22:07:55 2018
-+++ perl-5.28.2-patched/perl.h	Sun Oct 13 13:40:12 2019
+diff -r -u -w perl-5.30.0/perl.h perl-5.30.0-patched/perl.h
+--- perl-5.30.0/perl.h	2019-05-11 10:50:20.000000000 +0000
++++ perl-5.30.0-patched/perl.h	2019-11-11 16:49:38.167124560 +0000
 @@ -11,6 +11,13 @@
  #ifndef H_PERL
  #define H_PERL 1
@@ -73,7 +39,7 @@ diff -r -u -w perl-5.28.2/perl.h perl-5.28.2-patched/perl.h
  #ifdef PERL_FOR_X2P
  /*
   * This file is being used for x2p stuff.
-@@ -798,6 +805,15 @@
+@@ -830,6 +837,15 @@
  
  #include <setjmp.h>
  
@@ -89,7 +55,7 @@ diff -r -u -w perl-5.28.2/perl.h perl-5.28.2-patched/perl.h
  #ifdef I_SYS_PARAM
  #   ifdef PARAM_NEEDS_TYPES
  #	include <sys/types.h>
-@@ -805,6 +821,8 @@
+@@ -837,6 +853,8 @@
  #   include <sys/param.h>
  #endif
  
@@ -98,12 +64,28 @@ diff -r -u -w perl-5.28.2/perl.h perl-5.28.2-patched/perl.h
  /* On BSD-derived systems, <sys/param.h> defines BSD to a year-month
     value something like 199306.  This may be useful if no more-specific
     feature test is available.
-@@ -2005,7 +2023,11 @@
+@@ -1949,10 +1967,12 @@
+ #       endif
+ #   endif
+ #   ifndef Perl_isinf
+-#       if defined(HAS_ISINFL) && !(defined(isinf) && defined(HAS_C99))
++#       if defined(__sgi)
++#           define Perl_isinf(x) (sizeof(x) == sizeof(double) ? _isinf(x) \
++               : sizeof(x) == sizeof(float) ? _isinff(x) \
++               : _isinfl(x))
++#       elif defined(HAS_ISINFL) && !(defined(isinf) && defined(HAS_C99))
+ #           define Perl_isinf(x) isinfl(x)
+-#       elif defined(__sgi) && defined(__c99)  /* XXX Configure test needed */
+-#           define Perl_isinf(x) isinf(x)
+ #       elif defined(LDBL_MAX) && !defined(NAN_COMPARE_BROKEN)
+ #           define Perl_isinf(x) ((x) > LDBL_MAX || (x) < -LDBL_MAX)
+ #       endif
+@@ -2047,7 +2067,11 @@
  #       endif
  #   endif
  #   ifndef Perl_isinf
 -#       if defined(HAS_ISINF)
-+#       if defined(HAS_ISINF) && defined(__sgi)
++#       if defined(__sgi)
 +#           define Perl_isinf(x) (sizeof(x) == sizeof(double) ? _isinf(x) \
 +               : sizeof(x) == sizeof(float) ? _isinff(x) \
 +               : _isinfl(x))
@@ -111,7 +93,7 @@ diff -r -u -w perl-5.28.2/perl.h perl-5.28.2-patched/perl.h
  #           define Perl_isinf(x) isinf(x)
  #       elif defined(DBL_MAX) && !defined(NAN_COMPARE_BROKEN)
  #           define Perl_isinf(x) ((x) > DBL_MAX || (x) < -DBL_MAX)
-@@ -3836,7 +3858,11 @@
+@@ -3878,7 +3902,11 @@
  #define U_I(what) ((unsigned int)U_32(what))
  #define U_L(what) U_32(what)
  
@@ -121,12 +103,12 @@ diff -r -u -w perl-5.28.2/perl.h perl-5.28.2-patched/perl.h
 +               : sizeof(x) == sizeof(float) ? _signbitf(x) \
 +               : _signbitl(x))
 +#elif defined(HAS_SIGNBIT)
- #  define Perl_signbit signbit
- #endif
- 
-diff -r -u -w perl-5.28.2/t/thread_it.pl perl-5.28.2-patched/t/thread_it.pl
---- perl-5.28.2/t/thread_it.pl	Thu Nov  1 22:08:03 2018
-+++ perl-5.28.2-patched/t/thread_it.pl	Sun Oct 13 13:40:14 2019
+ #  ifndef Perl_signbit
+ #    define Perl_signbit signbit
+ #  endif
+diff -r -u -w perl-5.30.0/t/thread_it.pl perl-5.30.0-patched/t/thread_it.pl
+--- perl-5.30.0/t/thread_it.pl	2019-05-11 10:50:20.000000000 +0000
++++ perl-5.30.0-patched/t/thread_it.pl	2019-11-11 16:49:08.866789280 +0000
 @@ -36,6 +36,7 @@
                              stack_size => $^O eq 'hpux'   ? 524288 :
                                            $^O eq 'darwin' ? 2000000:
