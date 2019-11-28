@@ -26,3 +26,6 @@ else
     PKG_CONFIG_PATH="$INSTALLDIR/lib64/pkgconfig"
     export LD_LIBRARYN64_PATH PKG_CONFIG_PATH
 fi
+
+RPM_HOST_TRIPLET="mips-sgi-irix6.5"
+export RPM_HOST_TRIPLET

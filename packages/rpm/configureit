@@ -11,8 +11,8 @@ cd $BUILDDIR || exit -1
 mkdir ../build-rpm
 cd ../build-rpm
 
-## Last good compile (without openmp)
-ac_cv_func_getline=yes $BUILDDIR/configure --disable-nls --with-crypto=openssl --with-lua --disable-openmp --prefix=$INSTALLDIR --libdir=$INSTALLDIR/$DIDBS_LIBDIR --with-rundir=$INSTALLDIR/var/run || exit -1
 # Use of OpenMP causes core dumps during tear down
-#ac_cv_func_getline=yes $BUILDDIR/configure --disable-nls --with-crypto=openssl --with-lua --prefix=$INSTALLDIR --libdir=$INSTALLDIR/$DIDBS_LIBDIR || exit -1
+## Last good compile (without openmp)
+ac_cv_func_getline=yes $BUILDDIR/configure --disable-nls --with-crypto=openssl --with-lua --disable-openmp --prefix=$INSTALLDIR --libdir=$INSTALLDIR/$DIDBS_LIBDIR --with-rundir=$INSTALLDIR/var/run --build=$RPM_HOST_TRIPLET --host=$RPM_HOST_TRIPLET || exit -1
+
 exit 0
