@@ -1,9 +1,11 @@
 packageSource=http://ftp.gnu.org/gnu/libtool/libtool-2.4.6.tar.xz
 packageFile=libtool-2.4.6.tar.xz
 packageChecksum=1bfb9b923f2c1339b4d2ce1807064aa5
-packageExtraction=tarxfsystemhelper.sh
 packageDir=libtool-2.4.6
-#packagePatch=
+packagePatch=libtool.sgifixes.patch
+
+packageExtraction=tarxfsystemhelper.sh
+
 expectedToolList=
 dependenciesList=make,tar,xz,coreutils,autoconf,automake
 envModifs=setupenv.sh
