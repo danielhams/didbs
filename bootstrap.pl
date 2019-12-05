@@ -272,7 +272,7 @@ if( !$compatibleDidbsCurrent )
     print <<EOINCOMPATIBLEDIDBSCURRENT
 ERROR
 For didbs $version, running bootstrap requires:
-(1) systune ncargs 131072
+(1) systune ncargs 131072 (or greater)
 (2) An existing compatible didbs release behind a symbolic link
     at /usr/didbs/current.
 Unable to continue.
