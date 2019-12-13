@@ -1,0 +1,22 @@
+diff -r -u -w bzip2-1.0.6/Makefile bzip2-1.0.6-patched/Makefile
+--- bzip2-1.0.6/Makefile	Fri Sep 10 23:46:02 2010
++++ bzip2-1.0.6-patched/Makefile	Sat Jun 16 14:39:58 2018
+@@ -15,13 +15,13 @@
+ SHELL=/bin/sh
+ 
+ # To assist in cross-compiling
+-CC=gcc
++#CC=c99
+ AR=ar
+ RANLIB=ranlib
+-LDFLAGS=
++#LDFLAGS=
+ 
+-BIGFILES=-D_FILE_OFFSET_BITS=64
+-CFLAGS=-Wall -Winline -O2 -g $(BIGFILES)
++#BIGFILES=-D_FILE_OFFSET_BITS=64
++#CFLAGS=-Wall -O2 $(BIGFILES)
+ 
+ # Where you want it installed when you do 'make install'
+ PREFIX=/usr/local
+Only in bzip2-1.0.6-patched: Makefile~

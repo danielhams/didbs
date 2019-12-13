@@ -6,7 +6,7 @@ packagePatch=elfutils.sgifixes.patch
 
 packageExtraction=tarxfsystemhelper.sh
 expectedToolList=
-dependenciesList=stage1libdicl,make,tar,gzip,zlib,gcc9,libdwarf
+dependenciesList=stage1libdicl,make,tar,gzip,zlib,gcc9,bzip_so,libdwarf
 envModifs=setupenv.sh
 configureRecipe=configureit
 buildRecipe=buildit
