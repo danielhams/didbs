@@ -61,7 +61,7 @@ sub begins_with
 
 # Verify that:
 
-# systune ncargs = 131072
+# systune ncargs >= 131072
 
 # and
 
@@ -80,7 +80,7 @@ sub checkdidbscompatiblesetup
     my $version=shift;
     my $ncargsval = `systune ncargs |cut -d \" \" -f 4`;
     $verbose && print "systune ncargs=$ncargsval\n";
-    my $ncargsok = ($ncargsval == 131072);
+    my $ncargsok = ($ncargsval >= 131072);
     $retVal = $retVal && $ncargsok;
     if( !ncargsok ) {
 	print "Failed systune ncargs check\n";
