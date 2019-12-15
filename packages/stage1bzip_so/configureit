@@ -1,0 +1,18 @@
+#!/bin/sh
+
+BUILDDIR=$1
+INSTALLDIR=$2
+EXTRAARGS=$3
+. ./setupenv.sh
+echo $BUILDDIR
+echo $INSTALLDIR
+echo $EXTRAARGS
+# no configure for bzip
+# but we must re-write the Makefile to use the correct
+# DIDBS_LIBDIR
+cd $BUILDDIR
+REPLACE_STRING="s|FIX\)\/lib|FIX\)\/$DIDBS_LIBDIR|g"
+#echo "Replacing with $REPLACE_STRING"
+perl -pi -e $REPLACE_STRING Makefile-libbz2_so || exit 1
+
+exit 0
