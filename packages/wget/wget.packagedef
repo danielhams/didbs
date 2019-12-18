@@ -6,7 +6,7 @@ packagePatch=wget.sgifixes.patch
 
 packageExtraction=guntarsystemhelper.sh
 expectedToolList=
-dependenciesList=make,pkgconfig,openssl,cacerts,libuuid
+dependenciesList=make,pkgconfig,openssl,cacerts,libuuid,libunistring
 envModifs=setupenv.sh
 configureRecipe=configureit
 buildRecipe=buildit
