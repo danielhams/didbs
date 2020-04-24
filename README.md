@@ -1,5 +1,7 @@
 # didbs
 
+# Note: This project has been retired by myself and is left available for those who might find it useful.
+
 ## Irix Development Bootstrapper
 
 A perl script and some minimal supporting tools to allow bootstrapping of some recent open source tools on Irix 6.5.X, mips4.
@@ -18,7 +20,7 @@ Be aware - this build process will create the exact same content that may be fou
 * Beefy CPU if you want to build everything (2*600mhz min)
 * A previously extracted didbs release appropriate for your build >= 0.1.7-n32-m3gcc (n32, mips3, MIPSpro or gcc depending on taste)
 
-If you are looking for an already built didbs release - didbs releases are posted on the SGUG (Silicon Graphics User Group) forums in the development section [here](https://forums.sgi.sh/).
+If you are looking for an already built didbs release - check out the github "releases" section. The most recent release along with artifacts for the last MIPSPro compiled version are available there.
 
 Suggested approach:
 
